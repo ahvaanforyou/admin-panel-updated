@@ -1,0 +1,239 @@
+// =============================================================================
+// src/App.jsx — Master Router & Application Shell
+// =============================================================================
+import React, { useState } from 'react';
+import { useAuth } from './context/AuthContext';
+import LoginPage from './pages/auth/LoginPage';
+import AdminLayout from './components/layout/AdminLayout';
+import DashboardPage from './pages/dashboard/DashboardPage';
+import ClientsPage from './pages/clients/ClientsPage';
+import FinancePage from './pages/finance/FinancePage';
+import TasksPage from './pages/tasks/TasksPage';
+import InvitationsPage from './pages/invitations/InvitationsPage';
+
+// Modals & Drawers
+import AddClientModal from './pages/clients/AddClientModal';
+import ClientDetailsDrawer from './pages/clients/ClientDetailsDrawer';
+import EditClientDrawer from './pages/clients/EditClientDrawer';
+import ClientPaymentDrawer from './pages/finance/ClientPaymentDrawer';
+import MemberPayoutDrawer from './pages/finance/MemberPayoutDrawer';
+import AddPaymentModal from './pages/finance/AddPaymentModal';
+import AddPayoutModal from './pages/finance/AddPayoutModal';
+import AddExpenseModal from './pages/finance/AddExpenseModal';
+import EditExpenseModal from './pages/finance/EditExpenseModal';
+import AddTaskModal from './pages/tasks/AddTaskModal';
+import EditTaskModal from './pages/tasks/EditTaskModal';
+import AddTemplateModal from './pages/invitations/AddTemplateModal';
+import EditTemplateModal from './pages/invitations/EditTemplateModal';
+
+export default function App() {
+  const { isAuthenticated } = useAuth();
+
+  // Active Navigation Tab: Persisted in localStorage so refreshing stays on the same page
+  const [currentTab, setCurrentTabState] = useState(() => {
+    return localStorage.getItem('ahvaan_active_tab') || 'dashboard';
+  });
+
+  const handleSetCurrentTab = (tab) => {
+    localStorage.setItem('ahvaan_active_tab', tab);
+    setCurrentTabState(tab);
+  };
+
+  // Modal / Drawer visibility states
+  const [isAddClientOpen, setIsAddClientOpen] = useState(false);
+  const [isAddPaymentOpen, setIsAddPaymentOpen] = useState(false);
+  const [isAddPayoutOpen, setIsAddPayoutOpen] = useState(false);
+  const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+  const [isEditExpenseOpen, setIsEditExpenseOpen] = useState(false);
+  const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
+  const [isAddTemplateOpen, setIsAddTemplateOpen] = useState(false);
+
+  // Selected entities
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedClientForPayments, setSelectedClientForPayments] = useState(null);
+  const [selectedMemberForPayouts, setSelectedMemberForPayouts] = useState(null);
+  const [clientForEdit, setClientForEdit] = useState(null);
+  const [clientForPayment, setClientForPayment] = useState(null);
+  const [expenseForEdit, setExpenseForEdit] = useState(null);
+  const [taskForEdit, setTaskForEdit] = useState(null);
+  const [templateForEdit, setTemplateForEdit] = useState(null);
+  const [defaultTaskMember, setDefaultTaskMember] = useState(null);
+
+  // If not authenticated, always show LoginPage
+  if (!isAuthenticated) {
+    return <LoginPage />;
+  }
+
+  return (
+    <>
+      <AdminLayout
+        currentTab={currentTab}
+        setCurrentTab={handleSetCurrentTab}
+      >
+        {currentTab === 'dashboard' && (
+          <DashboardPage
+            onNavigateTab={handleSetCurrentTab}
+            onOpenAddClient={() => setIsAddClientOpen(true)}
+            onOpenAddTask={(member) => {
+              setDefaultTaskMember(typeof member === 'string' ? member : null);
+              setIsAddTaskOpen(true);
+            }}
+            onSelectClient={(c) => setSelectedClient(c)}
+          />
+        )}
+
+        {currentTab === 'clients' && (
+          <ClientsPage
+            onOpenAddClient={() => setIsAddClientOpen(true)}
+            onSelectClient={(c) => setSelectedClient(c)}
+            onEditClient={(c) => setClientForEdit(c)}
+            onOpenAddPayment={(c) => {
+              setClientForPayment(c);
+              setIsAddPaymentOpen(true);
+            }}
+          />
+        )}
+
+        {currentTab === 'finance' && (
+          <FinancePage
+            onOpenAddPayment={(c) => {
+              setClientForPayment(c || null);
+              setIsAddPaymentOpen(true);
+            }}
+            onOpenAddPayout={() => setIsAddPayoutOpen(true)}
+            onOpenAddExpense={() => setIsAddExpenseOpen(true)}
+            onSelectClient={(c) => setSelectedClientForPayments(c)}
+            onEditClient={(c) => setClientForEdit(c)}
+            onEditExpense={(exp) => {
+              setExpenseForEdit(exp);
+              setIsEditExpenseOpen(true);
+            }}
+            onSelectMember={(m) => setSelectedMemberForPayouts(m)}
+          />
+        )}
+
+        {currentTab === 'tasks' && (
+          <TasksPage
+            onOpenAddTask={(member) => {
+              setDefaultTaskMember(typeof member === 'string' ? member : null);
+              setIsAddTaskOpen(true);
+            }}
+            onEditTask={(t) => setTaskForEdit(t)}
+          />
+        )}
+
+        {currentTab === 'invitations' && (
+          <InvitationsPage
+            onOpenAddTemplate={() => setIsAddTemplateOpen(true)}
+            onEditTemplate={(tpl) => setTemplateForEdit(tpl)}
+          />
+        )}
+      </AdminLayout>
+
+      {/* ── Global Modals & Slide-over Drawers (Mounted at Root DOM Level for z-index purity) ── */}
+      <AddClientModal
+        isOpen={isAddClientOpen}
+        onClose={() => setIsAddClientOpen(false)}
+      />
+
+      <ClientDetailsDrawer
+        isOpen={!!selectedClient}
+        onClose={() => setSelectedClient(null)}
+        client={selectedClient}
+        onOpenAddPayment={(c) => {
+          setClientForPayment(c);
+          setIsAddPaymentOpen(true);
+        }}
+        onEditClient={(c) => {
+          setSelectedClient(null);
+          setClientForEdit(c);
+        }}
+      />
+
+      {/* Dedicated Client Payment History Drawer matching media_1791193886346.png */}
+      <ClientPaymentDrawer
+        isOpen={!!selectedClientForPayments}
+        onClose={() => setSelectedClientForPayments(null)}
+        client={selectedClientForPayments}
+        onOpenAddPayment={(c) => {
+          setClientForPayment(c);
+          setIsAddPaymentOpen(true);
+        }}
+        onEditClient={(c) => {
+          setSelectedClientForPayments(null);
+          setClientForEdit(c);
+        }}
+      />
+
+      {/* Dedicated Team Member Payout History Drawer matching media_1791193787803.png */}
+      <MemberPayoutDrawer
+        isOpen={!!selectedMemberForPayouts}
+        onClose={() => setSelectedMemberForPayouts(null)}
+        member={selectedMemberForPayouts}
+        onOpenAddPayout={() => {
+          setIsAddPayoutOpen(true);
+        }}
+      />
+
+      <EditClientDrawer
+        isOpen={!!clientForEdit}
+        onClose={() => setClientForEdit(null)}
+        client={clientForEdit}
+      />
+
+      <AddPaymentModal
+        isOpen={isAddPaymentOpen}
+        onClose={() => {
+          setIsAddPaymentOpen(false);
+          setClientForPayment(null);
+        }}
+        defaultClient={clientForPayment}
+      />
+
+      <AddPayoutModal
+        isOpen={isAddPayoutOpen}
+        onClose={() => setIsAddPayoutOpen(false)}
+      />
+
+      <AddExpenseModal
+        isOpen={isAddExpenseOpen}
+        onClose={() => setIsAddExpenseOpen(false)}
+      />
+
+      <EditExpenseModal
+        isOpen={isEditExpenseOpen}
+        onClose={() => {
+          setIsEditExpenseOpen(false);
+          setExpenseForEdit(null);
+        }}
+        expense={expenseForEdit}
+      />
+
+      <AddTaskModal
+        isOpen={isAddTaskOpen}
+        onClose={() => {
+          setIsAddTaskOpen(false);
+          setDefaultTaskMember(null);
+        }}
+        defaultMemberName={defaultTaskMember}
+      />
+
+      <EditTaskModal
+        isOpen={!!taskForEdit}
+        onClose={() => setTaskForEdit(null)}
+        task={taskForEdit}
+      />
+
+      <AddTemplateModal
+        isOpen={isAddTemplateOpen}
+        onClose={() => setIsAddTemplateOpen(false)}
+      />
+
+      <EditTemplateModal
+        isOpen={!!templateForEdit}
+        onClose={() => setTemplateForEdit(null)}
+        template={templateForEdit}
+      />
+    </>
+  );
+}
