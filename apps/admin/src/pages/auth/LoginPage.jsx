@@ -8,8 +8,8 @@ import { CUSTOMIZATION } from '../../config/customization';
 
 export default function LoginPage() {
   const { login, loading, error } = useAuth();
-  const [email, setEmail] = useState('ahvaanforyou@gmail.com');
-  const [password, setPassword] = useState('Admin@123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [validationError, setValidationError] = useState('');
 

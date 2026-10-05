@@ -4,7 +4,9 @@
 // All environment variables are read from ONE place.
 // Add new variables here as your project grows.
 // =============================================================================
+const path = require('path');
 require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 const env = {
   // ── Supabase ──────────────────────────────────────────────────────────────
