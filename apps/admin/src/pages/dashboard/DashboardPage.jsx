@@ -126,6 +126,25 @@ export default function DashboardPage({
     : (monthCompleted.length > 0 ? 100 : 0);
   const completedPctLabel = completedPct >= 0 ? `↑${completedPct}%` : `↓${Math.abs(completedPct)}%`;
 
+  // Dynamic weekly arrays for top KPI Sparklines
+  const getWeeklyCounts = (items, dateKey) => {
+    const w = [0, 0, 0, 0];
+    (items || []).forEach((it) => {
+      const d = new Date(it[dateKey] || it.created_at || Date.now());
+      const day = isNaN(d.getDate()) ? 1 : d.getDate();
+      if (day <= 7) w[0]++;
+      else if (day <= 14) w[1]++;
+      else if (day <= 21) w[2]++;
+      else w[3]++;
+    });
+    return w;
+  };
+
+  const revenueWeekly = [w1, w2, w3, w4];
+  const clientsWeekly = getWeeklyCounts(monthClients, 'created_at');
+  const ordersWeekly = getWeeklyCounts(monthOrders, 'order_date');
+  const completedWeekly = getWeeklyCounts(monthCompleted, 'updated_at');
+
   // 6. Real Tasks Formatting with Date and Priority
   const formatTaskDate = (dStr) => {
     if (!dStr) return 'Oct 05';
