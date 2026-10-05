@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm --prefix apps/admin install && npm --prefix apps/admin run build",
+  "buildCommand": "cd apps/admin && npm install --include=dev && npm run build",
   "outputDirectory": "apps/admin/dist",
   "rewrites": [
     {
