@@ -38,6 +38,12 @@ export const api = {
     return res.data.data;
   },
 
+  // ── High-Speed Instant Bootstrap ───────────────────────────────────────────
+  async getBootstrapData() {
+    const res = await client.get('/dashboard/bootstrap');
+    return res.data.data;
+  },
+
   // ── Dashboard Statistics ──────────────────────────────────────────────────
   async getDashboardStats() {
     try {

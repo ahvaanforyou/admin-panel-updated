@@ -10,7 +10,23 @@ const DataContext = createContext(null);
 export function DataProvider({ children }) {
   const { isAuthenticated } = useAuth();
 
-  const [stats, setStats] = useState({
+  // Cache helpers for instant zero-latency loading
+  const getCached = (key, fallback) => {
+    try {
+      const v = localStorage.getItem(`ahvaan_cache_${key}`);
+      return v ? JSON.parse(v) : fallback;
+    } catch {
+      return fallback;
+    }
+  };
+
+  const setCache = (key, val) => {
+    try {
+      localStorage.setItem(`ahvaan_cache_${key}`, JSON.stringify(val));
+    } catch {}
+  };
+
+  const [stats, setStats] = useState(() => getCached('stats', {
     total_clients: 0,
     total_orders: 0,
     completed_projects: 0,
@@ -19,16 +35,16 @@ export function DataProvider({ children }) {
     savings: 0,
     total_team_payout: 0,
     total_expenses: 0,
-  });
+  }));
 
-  const [clients, setClients] = useState([]);
-  const [tasks, setTasks] = useState([]);
-  const [templates, setTemplates] = useState([]);
-  const [payments, setPayments] = useState([]);
-  const [expenses, setExpenses] = useState([]);
-  const [teamMembers, setTeamMembers] = useState([]);
-  const [payouts, setPayouts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [clients, setClients] = useState(() => getCached('clients', []));
+  const [tasks, setTasks] = useState(() => getCached('tasks', []));
+  const [templates, setTemplates] = useState(() => getCached('templates', []));
+  const [payments, setPayments] = useState(() => getCached('payments', []));
+  const [expenses, setExpenses] = useState(() => getCached('expenses', []));
+  const [teamMembers, setTeamMembers] = useState(() => getCached('teamMembers', []));
+  const [payouts, setPayouts] = useState(() => getCached('payouts', []));
+  const [loading, setLoading] = useState(!localStorage.getItem('ahvaan_cache_clients'));
   const [selectedMonth, setSelectedMonth] = useState('2026-10'); // YYYY-MM
 
   // Synchronize all data from backend / local state
@@ -41,34 +57,70 @@ export function DataProvider({ children }) {
 
     setLoading(true);
     try {
-      const [
-        statsData,
-        clientsData,
-        tasksData,
-        templatesData,
-        paymentsData,
-        expensesData,
-        teamData,
-        payoutsData,
-      ] = await Promise.all([
-        api.getDashboardStats(),
-        api.getClients(),
-        api.getTasks(),
-        api.getTemplates(),
-        api.getPayments(),
-        api.getExpenses(),
-        api.getTeamMembers(),
-        api.getTeamPayouts(),
-      ]);
+      let bData = null;
+      try {
+        bData = await api.getBootstrapData();
+      } catch (e) {
+        console.warn('Bootstrap endpoint fallback:', e);
+      }
 
-      setStats(statsData || {});
-      setClients(clientsData || []);
-      setTasks(tasksData || []);
-      setTemplates(templatesData || []);
-      setPayments(paymentsData || []);
-      setExpenses(expensesData || []);
-      setTeamMembers(teamData || []);
-      setPayouts(payoutsData || []);
+      if (bData) {
+        setStats(bData.stats || {});
+        setClients(bData.clients || []);
+        setTasks(bData.tasks || []);
+        setTemplates(bData.templates || []);
+        setPayments(bData.payments || []);
+        setExpenses(bData.expenses || []);
+        setTeamMembers(bData.teamMembers || []);
+        setPayouts(bData.payouts || []);
+
+        setCache('stats', bData.stats);
+        setCache('clients', bData.clients);
+        setCache('tasks', bData.tasks);
+        setCache('templates', bData.templates);
+        setCache('payments', bData.payments);
+        setCache('expenses', bData.expenses);
+        setCache('teamMembers', bData.teamMembers);
+        setCache('payouts', bData.payouts);
+      } else {
+        const [
+          statsData,
+          clientsData,
+          tasksData,
+          templatesData,
+          paymentsData,
+          expensesData,
+          teamData,
+          payoutsData,
+        ] = await Promise.all([
+          api.getDashboardStats(),
+          api.getClients(),
+          api.getTasks(),
+          api.getTemplates(),
+          api.getPayments(),
+          api.getExpenses(),
+          api.getTeamMembers(),
+          api.getTeamPayouts(),
+        ]);
+
+        setStats(statsData || {});
+        setClients(clientsData || []);
+        setTasks(tasksData || []);
+        setTemplates(templatesData || []);
+        setPayments(paymentsData || []);
+        setExpenses(expensesData || []);
+        setTeamMembers(teamData || []);
+        setPayouts(payoutsData || []);
+
+        setCache('stats', statsData);
+        setCache('clients', clientsData);
+        setCache('tasks', tasksData);
+        setCache('templates', templatesData);
+        setCache('payments', paymentsData);
+        setCache('expenses', expensesData);
+        setCache('teamMembers', teamData);
+        setCache('payouts', payoutsData);
+      }
     } catch (err) {
       console.error("Failed to load admin data:", err);
     } finally {

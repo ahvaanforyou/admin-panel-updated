@@ -31,7 +31,44 @@ export default function DashboardPage({
   onOpenAddTask, 
   onSelectClient 
 }) {
-  const { stats, clients, tasks, payments, selectedMonth } = useData();
+  const { stats, clients, tasks, payments, selectedMonth, loading } = useData();
+
+  const isInitialLoading = loading && (!clients || clients.length === 0) && (!payments || payments.length === 0);
+
+  if (isInitialLoading) {
+    return (
+      <div className="space-y-6 animate-pulse">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className="bg-white rounded-3xl p-5 border border-slate-200/70 h-36 flex flex-col justify-between shadow-xs">
+              <div className="flex items-start justify-between">
+                <div className="w-11 h-11 rounded-2xl bg-slate-100" />
+                <div className="space-y-2 text-right">
+                  <div className="w-16 h-3 bg-slate-100 rounded-md ml-auto" />
+                  <div className="w-12 h-6 bg-slate-200 rounded-md ml-auto" />
+                </div>
+              </div>
+              <div className="w-24 h-3 bg-slate-100 rounded-md" />
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200/70 h-80 flex flex-col justify-between shadow-xs">
+            <div className="w-32 h-5 bg-slate-200 rounded-md mb-4" />
+            <div className="w-full h-56 bg-slate-100 rounded-2xl" />
+          </div>
+          <div className="bg-white rounded-3xl p-6 border border-slate-200/70 h-80 flex flex-col justify-between shadow-xs">
+            <div className="w-28 h-5 bg-slate-200 rounded-md mb-4" />
+            <div className="space-y-3">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="h-14 bg-slate-100 rounded-xl" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Compute month calculations
   const [yearStr, monthStr] = (selectedMonth || '2026-10').split('-');

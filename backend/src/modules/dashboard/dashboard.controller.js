@@ -34,4 +34,12 @@ async function getTeamPayoutSummary(req, res, next) {
   } catch (err) { next(err); }
 }
 
-module.exports = { getStats, getRecentClients, getFinanceSummary, getTeamPayoutSummary };
+async function getBootstrapData(req, res, next) {
+  try {
+    const data = await service.getBootstrapData();
+    res.json({ success: true, data });
+  } catch (err) { next(err); }
+}
+
+module.exports = { getStats, getRecentClients, getFinanceSummary, getTeamPayoutSummary, getBootstrapData };
+

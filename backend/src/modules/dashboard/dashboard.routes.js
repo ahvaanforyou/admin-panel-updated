@@ -7,6 +7,9 @@ const controller = require('./dashboard.controller');
 /** GET /api/dashboard/stats — Total clients, orders, completed projects, revenue */
 router.get('/stats', controller.getStats);
 
+/** GET /api/dashboard/bootstrap — Fast single-trip payload of all dashboard & operational data */
+router.get('/bootstrap', controller.getBootstrapData);
+
 /** GET /api/dashboard/recent-clients — Recent client/order info (?limit=10) */
 router.get('/recent-clients', controller.getRecentClients);
 

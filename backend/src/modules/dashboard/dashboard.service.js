@@ -166,4 +166,50 @@ async function getTeamPayoutSummary({ from, to } = {}) {
   return Object.values(map).sort((a, b) => b.total_payout - a.total_payout);
 }
 
-module.exports = { getStats, getRecentClients, getFinanceSummary, getTeamPayoutSummary };
+/**
+ * getBootstrapData
+ * Concurrently gathers all primary operational data in one round-trip for instant app load.
+ */
+async function getBootstrapData() {
+  const clientsService = require('../clients/clients.service');
+  const tasksService = require('../tasks/tasks.service');
+  const templatesService = require('../templates/templates.service');
+  const paymentsService = require('../payments/payments.service');
+  const expensesService = require('../expenses/expenses.service');
+  const teamMembersService = require('../team-members/team-members.service');
+  const teamFinanceService = require('../team-finance/team-finance.service');
+
+  const [
+    stats,
+    clients,
+    tasks,
+    templates,
+    payments,
+    expenses,
+    teamMembers,
+    payouts,
+  ] = await Promise.all([
+    getStats().catch(() => ({})),
+    clientsService.listClients().catch(() => []),
+    tasksService.listTasks().catch(() => []),
+    templatesService.listTemplates().catch(() => []),
+    paymentsService.listPayments().catch(() => []),
+    expensesService.listExpenses().catch(() => []),
+    teamMembersService.listTeamMembers().catch(() => []),
+    teamFinanceService.listPayouts().catch(() => []),
+  ]);
+
+  return {
+    stats: stats || {},
+    clients: clients || [],
+    tasks: tasks || [],
+    templates: templates || [],
+    payments: payments || [],
+    expenses: expenses || [],
+    teamMembers: teamMembers || [],
+    payouts: payouts || [],
+  };
+}
+
+module.exports = { getStats, getRecentClients, getFinanceSummary, getTeamPayoutSummary, getBootstrapData };
+
