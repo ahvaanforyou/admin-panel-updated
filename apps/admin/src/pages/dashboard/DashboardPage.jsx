@@ -73,22 +73,24 @@ export default function DashboardPage({
     );
   }
 
-  // Compute month calculations
-  const [yearStr, monthStr] = (selectedMonth || '2026-10').split('-');
-  const currYear = Number(yearStr || 2026);
-  const currMonth = Number(monthStr || 10);
+  // Compute month calculations safely
+  const isAllTime = !selectedMonth || selectedMonth === 'All';
+  const effectiveMonth = isAllTime ? '2026-10' : selectedMonth;
+  const [yearStr, monthStr] = effectiveMonth.split('-');
+  const currYear = Number(yearStr) || 2026;
+  const currMonth = Number(monthStr) || 10;
   const prevMonthDate = new Date(currYear, currMonth - 2, 1);
   const prevMonth = `${prevMonthDate.getFullYear()}-${String(prevMonthDate.getMonth() + 1).padStart(2, '0')}`;
   const monthDate = new Date(currYear, currMonth - 1, 1);
-  const currentMonthName = monthDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  const currentMonthName = isAllTime ? 'All Time' : monthDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 
   // 1. Revenue: Filter payments strictly for this month vs previous month
   const monthPayments = (payments || []).filter(p => {
-    const pDate = p.payment_date || p.created_at || '';
-    return pDate.startsWith(selectedMonth);
+    const pDate = String(p.payment_date || p.created_at || '');
+    return isAllTime || pDate.startsWith(selectedMonth);
   });
   const prevMonthPayments = (payments || []).filter(p => {
-    const pDate = p.payment_date || p.created_at || '';
+    const pDate = String(p.payment_date || p.created_at || '');
     return pDate.startsWith(prevMonth);
   });
   const totalMonthRevenue = monthPayments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
@@ -103,7 +105,8 @@ export default function DashboardPage({
   // 2. Weekly breakdown for the bar chart (strictly real payments in selectedMonth)
   let w1 = 0, w2 = 0, w3 = 0, w4 = 0;
   monthPayments.forEach(p => {
-    const day = new Date(p.payment_date || p.created_at).getDate();
+    const d = new Date(p.payment_date || p.created_at || Date.now());
+    const day = isNaN(d.getDate()) ? 1 : d.getDate();
     const amt = Number(p.amount) || 0;
     if (day <= 7) w1 += amt;
     else if (day <= 14) w2 += amt;
@@ -119,10 +122,16 @@ export default function DashboardPage({
   ];
 
   // 3. Clients: Real counts and percentage change
-  const monthClients = (clients || []).filter(c => (c.created_at || '').startsWith(selectedMonth));
-  const prevMonthClients = (clients || []).filter(c => (c.created_at || '').startsWith(prevMonth));
-  const totalClientsCount = (clients || []).filter(c => {
-    const cDate = (c.created_at || '').slice(0, 7);
+  const monthClients = (clients || []).filter(c => {
+    const cDate = String(c.created_at || c.orders?.[0]?.order_date || '');
+    return isAllTime || cDate.startsWith(selectedMonth);
+  });
+  const prevMonthClients = (clients || []).filter(c => {
+    const cDate = String(c.created_at || c.orders?.[0]?.order_date || '');
+    return cDate.startsWith(prevMonth);
+  });
+  const totalClientsCount = isAllTime ? (clients || []).length : (clients || []).filter(c => {
+    const cDate = String(c.created_at || '').slice(0, 7);
     return !cDate || cDate <= selectedMonth;
   }).length;
   const clientDiff = monthClients.length - prevMonthClients.length;

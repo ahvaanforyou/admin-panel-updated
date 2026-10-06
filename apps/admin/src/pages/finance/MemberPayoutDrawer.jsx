@@ -123,6 +123,7 @@ export default function MemberPayoutDrawer({ isOpen, onClose, member, onOpenAddP
   const memberBg = memberName.toLowerCase().includes('chaitu') 
     ? 'bg-slate-900 text-white' 
     : (memberName.toLowerCase().includes('farru') ? 'bg-blue-600 text-white' : 'bg-teal-600 text-white');
+  const memberInitial = member?.initial || memberName.charAt(0);
 
   return (
     <div 

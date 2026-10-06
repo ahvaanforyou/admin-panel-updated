@@ -72,62 +72,72 @@ export default function App() {
         setCurrentTab={handleSetCurrentTab}
       >
         {currentTab === 'dashboard' && (
-          <DashboardPage
-            onNavigateTab={handleSetCurrentTab}
-            onOpenAddClient={() => setIsAddClientOpen(true)}
-            onOpenAddTask={(member) => {
-              setDefaultTaskMember(typeof member === 'string' ? member : null);
-              setIsAddTaskOpen(true);
-            }}
-            onSelectClient={(c) => setSelectedClient(c)}
-          />
+          <ErrorBoundary title="Failed to display Dashboard">
+            <DashboardPage
+              onNavigateTab={handleSetCurrentTab}
+              onOpenAddClient={() => setIsAddClientOpen(true)}
+              onOpenAddTask={(member) => {
+                setDefaultTaskMember(typeof member === 'string' ? member : null);
+                setIsAddTaskOpen(true);
+              }}
+              onSelectClient={(c) => setSelectedClient(c)}
+            />
+          </ErrorBoundary>
         )}
 
         {currentTab === 'clients' && (
-          <ClientsPage
-            onOpenAddClient={() => setIsAddClientOpen(true)}
-            onSelectClient={(c) => setSelectedClient(c)}
-            onEditClient={(c) => setClientForEdit(c)}
-            onOpenAddPayment={(c) => {
-              setClientForPayment(c);
-              setIsAddPaymentOpen(true);
-            }}
-          />
+          <ErrorBoundary title="Failed to display Clients">
+            <ClientsPage
+              onOpenAddClient={() => setIsAddClientOpen(true)}
+              onSelectClient={(c) => setSelectedClient(c)}
+              onEditClient={(c) => setClientForEdit(c)}
+              onOpenAddPayment={(c) => {
+                setClientForPayment(c);
+                setIsAddPaymentOpen(true);
+              }}
+            />
+          </ErrorBoundary>
         )}
 
         {currentTab === 'finance' && (
-          <FinancePage
-            onOpenAddPayment={(c) => {
-              setClientForPayment(c || null);
-              setIsAddPaymentOpen(true);
-            }}
-            onOpenAddPayout={() => setIsAddPayoutOpen(true)}
-            onOpenAddExpense={() => setIsAddExpenseOpen(true)}
-            onSelectClient={(c) => setSelectedClientForPayments(c)}
-            onEditClient={(c) => setClientForEdit(c)}
-            onEditExpense={(exp) => {
-              setExpenseForEdit(exp);
-              setIsEditExpenseOpen(true);
-            }}
-            onSelectMember={(m) => setSelectedMemberForPayouts(m)}
-          />
+          <ErrorBoundary title="Failed to display Finance">
+            <FinancePage
+              onOpenAddPayment={(c) => {
+                setClientForPayment(c || null);
+                setIsAddPaymentOpen(true);
+              }}
+              onOpenAddPayout={() => setIsAddPayoutOpen(true)}
+              onOpenAddExpense={() => setIsAddExpenseOpen(true)}
+              onSelectClient={(c) => setSelectedClientForPayments(c)}
+              onEditClient={(c) => setClientForEdit(c)}
+              onEditExpense={(exp) => {
+                setExpenseForEdit(exp);
+                setIsEditExpenseOpen(true);
+              }}
+              onSelectMember={(m) => setSelectedMemberForPayouts(m)}
+            />
+          </ErrorBoundary>
         )}
 
         {currentTab === 'tasks' && (
-          <TasksPage
-            onOpenAddTask={(member) => {
-              setDefaultTaskMember(typeof member === 'string' ? member : null);
-              setIsAddTaskOpen(true);
-            }}
-            onEditTask={(t) => setTaskForEdit(t)}
-          />
+          <ErrorBoundary title="Failed to display Tasks">
+            <TasksPage
+              onOpenAddTask={(member) => {
+                setDefaultTaskMember(typeof member === 'string' ? member : null);
+                setIsAddTaskOpen(true);
+              }}
+              onEditTask={(t) => setTaskForEdit(t)}
+            />
+          </ErrorBoundary>
         )}
 
         {currentTab === 'invitations' && (
-          <InvitationsPage
-            onOpenAddTemplate={() => setIsAddTemplateOpen(true)}
-            onEditTemplate={(tpl) => setTemplateForEdit(tpl)}
-          />
+          <ErrorBoundary title="Failed to display Invitations">
+            <InvitationsPage
+              onOpenAddTemplate={() => setIsAddTemplateOpen(true)}
+              onEditTemplate={(tpl) => setTemplateForEdit(tpl)}
+            />
+          </ErrorBoundary>
         )}
       </AdminLayout>
 
@@ -171,14 +181,16 @@ export default function App() {
       </ErrorBoundary>
 
       {/* Dedicated Team Member Payout History Drawer matching media_1791193787803.png */}
-      <MemberPayoutDrawer
-        isOpen={!!selectedMemberForPayouts}
-        onClose={() => setSelectedMemberForPayouts(null)}
-        member={selectedMemberForPayouts}
-        onOpenAddPayout={() => {
-          setIsAddPayoutOpen(true);
-        }}
-      />
+      <ErrorBoundary title="Failed to display Team Member Payouts" onClose={() => setSelectedMemberForPayouts(null)}>
+        <MemberPayoutDrawer
+          isOpen={!!selectedMemberForPayouts}
+          onClose={() => setSelectedMemberForPayouts(null)}
+          member={selectedMemberForPayouts}
+          onOpenAddPayout={() => {
+            setIsAddPayoutOpen(true);
+          }}
+        />
+      </ErrorBoundary>
 
       <EditClientDrawer
         isOpen={!!clientForEdit}

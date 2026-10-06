@@ -53,27 +53,32 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
   }, []);
 
   // Compute live amounts dynamically for selectedMonth
-  const [currY, currM] = (selectedMonth || '2026-10').split('-').map(Number);
+  const isAllTime = !selectedMonth || selectedMonth === 'All';
+  const effectiveMonth = isAllTime ? '2026-10' : selectedMonth;
+  const [currY, currM] = effectiveMonth.split('-').map(Number);
   const prevY = currM === 1 ? currY - 1 : currY;
   const prevM = currM === 1 ? 12 : currM - 1;
   const prevMonthStr = `${prevY}-${String(prevM).padStart(2, '0')}`;
 
-  const monthPayments = (payments || []).filter(p => (p.payment_date || p.created_at || '').startsWith(selectedMonth));
-  const prevMonthPayments = (payments || []).filter(p => (p.payment_date || p.created_at || '').startsWith(prevMonthStr));
+  const safePayments = Array.isArray(payments) ? payments : [];
+  const safeClients = Array.isArray(clients) ? clients : [];
 
-  const monthClients = clients.filter(c => {
-    const d = c.created_at || c.orders?.[0]?.order_date || '';
-    return d.startsWith(selectedMonth);
+  const monthPayments = safePayments.filter(p => isAllTime || String(p.payment_date || p.created_at || '').startsWith(selectedMonth));
+  const prevMonthPayments = safePayments.filter(p => String(p.payment_date || p.created_at || '').startsWith(prevMonthStr));
+
+  const monthClients = safeClients.filter(c => {
+    const d = String(c.created_at || c.orders?.[0]?.order_date || '');
+    return isAllTime || d.startsWith(selectedMonth);
   });
-  const prevMonthClients = clients.filter(c => {
-    const d = c.created_at || c.orders?.[0]?.order_date || '';
+  const prevMonthClients = safeClients.filter(c => {
+    const d = String(c.created_at || c.orders?.[0]?.order_date || '');
     return d.startsWith(prevMonthStr);
   });
 
-  const totalClientsCount = monthClients.length > 0 ? monthClients.length : clients.length;
+  const totalClientsCount = monthClients.length > 0 ? monthClients.length : safeClients.length;
   const totalAmountLive = monthClients.length > 0 
     ? monthClients.reduce((acc, c) => acc + (Number(c.orders?.[0]?.total_amount) || 0), 0)
-    : clients.reduce((acc, c) => acc + (Number(c.orders?.[0]?.total_amount) || 0), 0);
+    : safeClients.reduce((acc, c) => acc + (Number(c.orders?.[0]?.total_amount) || 0), 0);
   
   const totalReceivedLive = monthPayments.reduce((acc, p) => acc + (Number(p.amount) || 0), 0);
   const totalPendingLive = Math.max(0, totalAmountLive - totalReceivedLive);
@@ -203,12 +208,12 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
       // Calendar month matching
       let matchesMonth = true;
       if (selectedMonth && selectedMonth !== 'All') {
-        const clientPayments = (payments || []).filter(p => p.order_id === order?.order_id || p.client_id === c.client_id);
-        const hasPaymentInMonth = clientPayments.some(p => (p.payment_date || p.created_at || '').startsWith(selectedMonth));
+        const clientPayments = safePayments.filter(p => p.order_id === order?.order_id || p.client_id === c.client_id);
+        const hasPaymentInMonth = clientPayments.some(p => String(p.payment_date || p.created_at || '').startsWith(selectedMonth));
         const allPayments = (clientPayments.length > 0 ? clientPayments : (order?.payments || [])).slice().sort((a, b) => new Date(b.payment_date || b.created_at) - new Date(a.payment_date || a.created_at));
-        const lastPayDate = allPayments[0]?.payment_date || order?.order_date || c.created_at || '';
+        const lastPayDate = String(allPayments[0]?.payment_date || order?.order_date || c.created_at || '');
         const lastPayMatches = lastPayDate.startsWith(selectedMonth);
-        const orderMatches = (order?.order_date || c.created_at || '').startsWith(selectedMonth);
+        const orderMatches = String(order?.order_date || c.created_at || '').startsWith(selectedMonth);
         matchesMonth = hasPaymentInMonth || lastPayMatches || orderMatches;
       }
 
