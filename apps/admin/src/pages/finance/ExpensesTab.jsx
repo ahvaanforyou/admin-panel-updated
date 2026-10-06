@@ -22,7 +22,8 @@ import {
   Box,
   ChevronLeft,
   ChevronRight,
-  ChevronDown
+  ChevronDown,
+  Receipt
 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 import { formatCurrency } from '../../config/customization';
