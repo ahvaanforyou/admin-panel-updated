@@ -571,7 +571,7 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  {paginatedClients.map((client) => {
+                  {paginatedClients.map((client, i) => {
                     const latestOrder = client.orders?.[0];
                     const templatesList = getClientTemplates(client);
                     const weddingDate =

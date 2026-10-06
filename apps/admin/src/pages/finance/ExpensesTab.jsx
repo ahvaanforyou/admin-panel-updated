@@ -49,108 +49,8 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Preset reference expenses matching media_1791194061474.png
-  const fallbackExpenses = [
-    {
-      expense_id: 'e1',
-      date: '2026-09-28',
-      title: 'Instagram Ads',
-      category: 'Marketing',
-      amount: 2500,
-      payment_method: 'UPI',
-      added_by_name: 'Chaitu',
-      added_by_initial: 'C',
-      added_by_bg: 'bg-blue-600 text-white',
-      iconType: 'ads',
-    },
-    {
-      expense_id: 'e2',
-      date: '2026-09-26',
-      title: 'Canva Pro Subscription',
-      category: 'Tools',
-      amount: 1200,
-      payment_method: 'Card',
-      added_by_name: 'Farru',
-      added_by_initial: 'F',
-      added_by_bg: 'bg-slate-900 text-white',
-      iconType: 'canva',
-    },
-    {
-      expense_id: 'e3',
-      date: '2026-09-24',
-      title: 'Travel (Client Meeting)',
-      category: 'Operations',
-      amount: 4800,
-      payment_method: 'UPI',
-      added_by_name: 'Thanu',
-      added_by_initial: 'T',
-      added_by_bg: 'bg-teal-500 text-white',
-      iconType: 'travel',
-    },
-    {
-      expense_id: 'e4',
-      date: '2026-09-20',
-      title: 'Client Gift',
-      category: 'Gifts & Others',
-      amount: 2000,
-      payment_method: 'UPI',
-      added_by_name: 'Chaitu',
-      added_by_initial: 'C',
-      added_by_bg: 'bg-blue-600 text-white',
-      iconType: 'gift',
-    },
-    {
-      expense_id: 'e5',
-      date: '2026-09-18',
-      title: 'Figma Subscription',
-      category: 'Tools',
-      amount: 1800,
-      payment_method: 'Card',
-      added_by_name: 'Farru',
-      added_by_initial: 'F',
-      added_by_bg: 'bg-slate-900 text-white',
-      iconType: 'figma',
-    },
-    {
-      expense_id: 'e6',
-      date: '2026-09-12',
-      title: 'Team Lunch',
-      category: 'Team',
-      amount: 2300,
-      payment_method: 'UPI',
-      added_by_name: 'Thanu',
-      added_by_initial: 'T',
-      added_by_bg: 'bg-teal-500 text-white',
-      iconType: 'lunch',
-    },
-    {
-      expense_id: 'e7',
-      date: '2026-09-10',
-      title: 'Google Ads',
-      category: 'Marketing',
-      amount: 6000,
-      payment_method: 'Card',
-      added_by_name: 'Farru',
-      added_by_initial: 'F',
-      added_by_bg: 'bg-slate-900 text-white',
-      iconType: 'google',
-    },
-    {
-      expense_id: 'e8',
-      date: '2026-09-05',
-      title: 'Miscellaneous',
-      category: 'Others',
-      amount: 4200,
-      payment_method: 'UPI',
-      added_by_name: 'Chaitu',
-      added_by_initial: 'C',
-      added_by_bg: 'bg-blue-600 text-white',
-      iconType: 'misc',
-    },
-  ];
-
-  // Merge live expenses with reference data
-  const combinedExpenses = (expenses && expenses.length > 0) ? expenses.map(e => {
+  // Map live expenses from DataContext
+  const combinedExpenses = (expenses || []).map(e => {
     const name = e.team_members?.name || e.added_by_name || 'Chaitu';
     const initial = name.charAt(0).toUpperCase();
     const bg = name.toLowerCase().includes('chaitu') 
@@ -162,7 +62,7 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
       added_by_initial: initial,
       added_by_bg: bg,
     };
-  }) : fallbackExpenses;
+  });
 
   // Filter
   const filtered = combinedExpenses.filter((e) => {
@@ -185,9 +85,10 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
     let matchesTime = true;
     const eDate = e.date || '';
     if (selectedTimeFilter === 'This Month') {
-      matchesTime = eDate.startsWith(selectedMonth);
+      matchesTime = selectedMonth === 'All' ? true : eDate.startsWith(selectedMonth);
     } else if (selectedTimeFilter === 'Last Month') {
-      const [y, m] = selectedMonth.split('-').map(Number);
+      const baseMonth = selectedMonth && selectedMonth !== 'All' ? selectedMonth : '2026-10';
+      const [y, m] = baseMonth.split('-').map(Number);
       const prevY = m === 1 ? y - 1 : y;
       const prevM = m === 1 ? 12 : m - 1;
       const prevMonthStr = `${prevY}-${String(prevM).padStart(2, '0')}`;
@@ -228,12 +129,16 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
   };
 
   // Calculate dynamic KPIs based on current month vs previous month
-  const [currY, currM] = selectedMonth.split('-').map(Number);
+  const baseMonth = selectedMonth && selectedMonth !== 'All' ? selectedMonth : '2026-10';
+  const [currY, currM] = baseMonth.split('-').map(Number);
   const prevY = currM === 1 ? currY - 1 : currY;
   const prevM = currM === 1 ? 12 : currM - 1;
   const prevMonthStr = `${prevY}-${String(prevM).padStart(2, '0')}`;
 
-  const currentMonthExpenses = combinedExpenses.filter((e) => (e.date || '').startsWith(selectedMonth));
+  const currentMonthExpenses = combinedExpenses.filter((e) => {
+    if (selectedMonth === 'All') return true;
+    return (e.date || '').startsWith(selectedMonth);
+  });
   const prevMonthExpenses = combinedExpenses.filter((e) => (e.date || '').startsWith(prevMonthStr));
 
   const totalCurrent = currentMonthExpenses.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
@@ -544,7 +449,16 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium">
-              {filtered.map((item, index) => {
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="py-12 text-center text-slate-400">
+                    <Receipt className="w-8 h-8 mx-auto mb-2 text-slate-300 opacity-60" />
+                    <p className="font-medium text-slate-500">No expenses found</p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">Click "+ Add Expense" to record a new business expense.</p>
+                  </td>
+                </tr>
+              ) : (
+                filtered.map((item, index) => {
                 const isMenuOpen = activeMenuId === item.expense_id;
                 const openUpwards = index >= Math.max(1, filtered.length - 2);
                 const isSelected = selectedIds.includes(item.expense_id);
@@ -660,14 +574,14 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
                     </td>
                   </tr>
                 );
-              })}
+              }))}
             </tbody>
           </table>
         </div>
 
-        {/* Pagination matching media_1791194061474.png */}
+        {/* Pagination */}
         <div className="py-3 px-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-          <span>Showing 1-8 of {filtered.length} expenses</span>
+          <span>Showing {filtered.length === 0 ? '0' : `1-${filtered.length}`} of {filtered.length} expenses</span>
           <div className="flex items-center gap-1">
             <button className="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-400 disabled:opacity-40" disabled>
               <ChevronLeft className="w-4 h-4" />
