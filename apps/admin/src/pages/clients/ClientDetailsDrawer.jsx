@@ -50,8 +50,9 @@ const PRESET_EVENTS = [
 export default function ClientDetailsDrawer({ isOpen, onClose, client, onOpenAddPayment, onEditClient }) {
   const { clients, deleteClient, addOrder, templates } = useData();
 
+  const defaultPrice = templates?.[0]?.price ? String(templates[0].price) : '4000';
   const [showAddOrder, setShowAddOrder] = useState(false);
-  const [newOrderAmount, setNewOrderAmount] = useState('25000');
+  const [newOrderAmount, setNewOrderAmount] = useState(defaultPrice);
   const [newOrderSubmissionDate, setNewOrderSubmissionDate] = useState('');
   const [newEventPreset, setNewEventPreset] = useState(PRESET_EVENTS[0]);
   const [newCustomEvent, setNewCustomEvent] = useState('');
@@ -81,28 +82,29 @@ export default function ClientDetailsDrawer({ isOpen, onClose, client, onOpenAdd
   // Get appropriate event icon
   const getEventIcon = (eventName) => {
     const ev = (eventName || '').toLowerCase();
-    if (ev.includes('wedding')) return { icon: InfinityIcon, bg: 'bg-rose-50 text-rose-500' };
-    if (ev.includes('sangeet')) return { icon: Music, bg: 'bg-purple-50 text-purple-600' };
-    if (ev.includes('engagement')) return { icon: CircleDot, bg: 'bg-blue-50 text-blue-600' };
-    if (ev.includes('house')) return { icon: Home, bg: 'bg-amber-50 text-amber-600' };
-    if (ev.includes('baby')) return { icon: Smile, bg: 'bg-emerald-50 text-emerald-600' };
+    if (ev.includes('wedding')) return { icon: InfinityIcon || Sparkles, bg: 'bg-rose-50 text-rose-500' };
+    if (ev.includes('sangeet')) return { icon: Music || Sparkles, bg: 'bg-purple-50 text-purple-600' };
+    if (ev.includes('engagement')) return { icon: CircleDot || Sparkles, bg: 'bg-blue-50 text-blue-600' };
+    if (ev.includes('house')) return { icon: Home || Sparkles, bg: 'bg-amber-50 text-amber-600' };
+    if (ev.includes('baby')) return { icon: Smile || Sparkles, bg: 'bg-emerald-50 text-emerald-600' };
     return { icon: Sparkles, bg: 'bg-pink-50 text-pink-600' };
   };
 
-  const clientOrders = liveClient.orders && liveClient.orders.length > 0 ? liveClient.orders : [
+  const defaultTplPriceNum = Number(defaultPrice) || 4000;
+  const clientOrders = liveClient?.orders && liveClient.orders.length > 0 ? liveClient.orders : [
     {
       order_id: 'default-order',
-      total_amount: 25000,
+      total_amount: defaultTplPriceNum,
       amount_paid: 0,
-      pending_amount: 25000,
-      status: liveClient.status || 'In Progress',
-      order_date: liveClient.created_at,
+      pending_amount: defaultTplPriceNum,
+      status: liveClient?.status || 'In Progress',
+      order_date: liveClient?.created_at,
       order_items: [
         {
           order_item_id: 'default-wedding',
           event_name: 'Wedding Ceremony',
-          event_date: liveClient.created_at,
-          templates: { name: 'Royal Elegance' }
+          event_date: liveClient?.created_at,
+          templates: { name: templates?.[0]?.name || 'Royal Elegance' }
         }
       ]
     }
@@ -140,7 +142,7 @@ export default function ClientDetailsDrawer({ isOpen, onClose, client, onOpenAdd
 
       setOrderSuccess('New order added successfully!');
       setShowAddOrder(false);
-      setNewOrderAmount('25000');
+      setNewOrderAmount(defaultPrice);
       setNewOrderSubmissionDate('');
       setTimeout(() => setOrderSuccess(''), 3000);
     } catch (err) {
@@ -363,11 +365,19 @@ export default function ClientDetailsDrawer({ isOpen, onClose, client, onOpenAdd
 
                     <select
                       value={newTemplateId}
-                      onChange={(e) => setNewTemplateId(e.target.value)}
+                      onChange={(e) => {
+                        setNewTemplateId(e.target.value);
+                        const selTpl = (templates || []).find((t) => t.template_id === e.target.value);
+                        if (selTpl?.price) {
+                          setNewOrderAmount(String(selTpl.price));
+                        }
+                      }}
                       className="text-xs px-3 py-2 rounded-xl border border-slate-200 bg-white font-medium cursor-pointer"
                     >
-                      {templates.map(t => (
-                        <option key={t.template_id} value={t.template_id}>{t.name}</option>
+                      {(templates || []).map(t => (
+                        <option key={t.template_id} value={t.template_id}>
+                          {t.name} {t.price ? `(${formatCurrency(t.price)})` : ''}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -461,7 +471,8 @@ export default function ClientDetailsDrawer({ isOpen, onClose, client, onOpenAdd
                       <div className="space-y-2">
                         {displayItems.map((item, idx) => {
                           const { icon: EventIcon, bg } = getEventIcon(item.event_name);
-                          const tplName = item.templates?.name || item.template_name || 'Royal Elegance';
+                          const IconComponent = EventIcon || Sparkles;
+                          const tplName = (Array.isArray(item.templates) ? item.templates[0]?.name : item.templates?.name) || item.template_name || 'Royal Elegance';
 
                           return (
                             <div
@@ -470,7 +481,7 @@ export default function ClientDetailsDrawer({ isOpen, onClose, client, onOpenAdd
                             >
                               <div className="flex items-center gap-3">
                                 <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${bg}`}>
-                                  <EventIcon className="w-4 h-4" />
+                                  {IconComponent && <IconComponent className="w-4 h-4" />}
                                 </div>
                                 <div>
                                   <p className="font-bold text-slate-900 text-xs">{item.event_name}</p>

@@ -504,14 +504,17 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
                     const pendingAmt = Math.max(0, totalAmt - paidAmt);
                     const lastPaymentDate = order?.payments?.[0]?.payment_date || order?.order_date || client.created_at;
 
-                    const initials = client.name
-                      .split('&')[0]
-                      ?.trim()
-                      .split(' ')
-                      .map((p) => p[0])
-                      .join('')
-                      .toUpperCase()
-                      .slice(0, 2) || 'CL';
+                    const rawClientName = client?.name || 'Client';
+                    const initials = typeof rawClientName === 'string'
+                      ? rawClientName
+                          .split('&')[0]
+                          ?.trim()
+                          .split(' ')
+                          .map((p) => p[0])
+                          .join('')
+                          .toUpperCase()
+                          .slice(0, 2) || 'CL'
+                      : 'CL';
 
                     const avatarBgs = [
                       'bg-amber-100 text-amber-800',

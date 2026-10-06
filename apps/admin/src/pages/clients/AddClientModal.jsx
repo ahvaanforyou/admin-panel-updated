@@ -26,6 +26,7 @@ import {
   Heart
 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
+import { formatCurrency } from '../../config/customization';
 
 // International Country Codes with Flags
 const COUNTRY_CODES = [
@@ -136,6 +137,7 @@ export default function AddClientModal({ isOpen, onClose }) {
 
   // Step 2 Form Data
   const [eventItems, setEventItems] = useState([]);
+  const [customTotalAmount, setCustomTotalAmount] = useState('');
   const [notes, setNotes] = useState('');
   const [showAddEventPicker, setShowAddEventPicker] = useState(false);
 
@@ -168,6 +170,7 @@ export default function AddClientModal({ isOpen, onClose }) {
       setSubmissionDate('');
       setSelectedTypes(['Wedding']);
       setEventItems([]);
+      setCustomTotalAmount('');
       setNotes('');
       setShowAddEventPicker(false);
     }
@@ -273,13 +276,22 @@ export default function AddClientModal({ isOpen, onClose }) {
     setLoading(true);
     try {
       const cleanPhone = phone.trim();
+      // Calculate agreed total: user custom amount or sum of selected templates' prices
+      const defaultCalculatedTotal = eventItems.reduce((sum, item) => {
+        const tpl = (templates || []).find((t) => t.template_id === item.template_id);
+        return sum + (Number(tpl?.price) || 0);
+      }, 0);
+      const effectiveTotalAmount = customTotalAmount !== '' && !isNaN(Number(customTotalAmount))
+        ? Number(customTotalAmount)
+        : defaultCalculatedTotal;
+
       const payload = {
         name: name.trim(),
         email: email.trim() || `${cleanPhone.replace(/\D/g, '')}@ahvaan.com`,
         phone: cleanPhone,
         country_code: selectedCountry.code,
         order: {
-          total_amount: 25000,
+          total_amount: effectiveTotalAmount,
           order_date: new Date().toISOString().slice(0, 10),
           submission_date: submissionDate || mainEventDate || new Date().toISOString().slice(0, 10),
           items: eventItems.map((ev) => ({
@@ -645,7 +657,7 @@ export default function AddClientModal({ isOpen, onClose }) {
                             >
                               {templates.map((tpl) => (
                                 <option key={tpl.template_id} value={tpl.template_id}>
-                                  {tpl.name}
+                                  {tpl.name} {tpl.price ? `(${formatCurrency(tpl.price)})` : ''}
                                 </option>
                               ))}
                             </select>
@@ -726,6 +738,52 @@ export default function AddClientModal({ isOpen, onClose }) {
                 )}
               </div>
             </div>
+
+            {/* Total Agreed Amount Card: Auto-calculated from selected templates with optional override */}
+            {(() => {
+              const autoTotal = eventItems.reduce((sum, item) => {
+                const tpl = (templates || []).find((t) => t.template_id === item.template_id);
+                return sum + (Number(tpl?.price) || 0);
+              }, 0);
+              const displayTotal = customTotalAmount !== '' ? customTotalAmount : autoTotal;
+
+              return (
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-bold text-slate-900">Total Order Amount</p>
+                      <p className="text-[11px] text-slate-500">
+                        Automatically matches selected templates ({formatCurrency(autoTotal)}), or enter custom amount.
+                      </p>
+                    </div>
+                    <div className="w-40 relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 font-bold text-xs">
+                        ₹
+                      </div>
+                      <input
+                        type="number"
+                        min="0"
+                        placeholder={String(autoTotal)}
+                        value={customTotalAmount}
+                        onChange={(e) => setCustomTotalAmount(e.target.value)}
+                        className="w-full text-xs font-bold pl-7 pr-3 py-2 rounded-xl border border-slate-200 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                      />
+                    </div>
+                  </div>
+                  {customTotalAmount !== '' && (
+                    <div className="flex justify-end">
+                      <button
+                        type="button"
+                        onClick={() => setCustomTotalAmount('')}
+                        className="text-[11px] text-blue-600 hover:underline cursor-pointer font-medium"
+                      >
+                        Reset to template sum ({formatCurrency(autoTotal)})
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Additional Notes */}
             <div className="space-y-1.5">

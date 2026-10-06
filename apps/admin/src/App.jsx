@@ -25,6 +25,7 @@ import AddTaskModal from './pages/tasks/AddTaskModal';
 import EditTaskModal from './pages/tasks/EditTaskModal';
 import AddTemplateModal from './pages/invitations/AddTemplateModal';
 import EditTemplateModal from './pages/invitations/EditTemplateModal';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 export default function App() {
   const { isAuthenticated } = useAuth();
@@ -136,34 +137,38 @@ export default function App() {
         onClose={() => setIsAddClientOpen(false)}
       />
 
-      <ClientDetailsDrawer
-        isOpen={!!selectedClient}
-        onClose={() => setSelectedClient(null)}
-        client={selectedClient}
-        onOpenAddPayment={(c) => {
-          setClientForPayment(c);
-          setIsAddPaymentOpen(true);
-        }}
-        onEditClient={(c) => {
-          setSelectedClient(null);
-          setClientForEdit(c);
-        }}
-      />
+      <ErrorBoundary title="Failed to display Client Details" onClose={() => setSelectedClient(null)}>
+        <ClientDetailsDrawer
+          isOpen={!!selectedClient}
+          onClose={() => setSelectedClient(null)}
+          client={selectedClient}
+          onOpenAddPayment={(c) => {
+            setClientForPayment(c);
+            setIsAddPaymentOpen(true);
+          }}
+          onEditClient={(c) => {
+            setSelectedClient(null);
+            setClientForEdit(c);
+          }}
+        />
+      </ErrorBoundary>
 
       {/* Dedicated Client Payment History Drawer matching media_1791193886346.png */}
-      <ClientPaymentDrawer
-        isOpen={!!selectedClientForPayments}
-        onClose={() => setSelectedClientForPayments(null)}
-        client={selectedClientForPayments}
-        onOpenAddPayment={(c) => {
-          setClientForPayment(c);
-          setIsAddPaymentOpen(true);
-        }}
-        onEditClient={(c) => {
-          setSelectedClientForPayments(null);
-          setClientForEdit(c);
-        }}
-      />
+      <ErrorBoundary title="Failed to display Client Payments" onClose={() => setSelectedClientForPayments(null)}>
+        <ClientPaymentDrawer
+          isOpen={!!selectedClientForPayments}
+          onClose={() => setSelectedClientForPayments(null)}
+          client={selectedClientForPayments}
+          onOpenAddPayment={(c) => {
+            setClientForPayment(c);
+            setIsAddPaymentOpen(true);
+          }}
+          onEditClient={(c) => {
+            setSelectedClientForPayments(null);
+            setClientForEdit(c);
+          }}
+        />
+      </ErrorBoundary>
 
       {/* Dedicated Team Member Payout History Drawer matching media_1791193787803.png */}
       <MemberPayoutDrawer

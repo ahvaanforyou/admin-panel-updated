@@ -70,7 +70,7 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
 
   // Add new order inline state
   const [showAddOrder, setShowAddOrder] = useState(false);
-  const [newOrderTotal, setNewOrderTotal] = useState('25000');
+  const [newOrderTotal, setNewOrderTotal] = useState('');
   const [newOrderSubmissionDate, setNewOrderSubmissionDate] = useState('');
   const [newOrderEventPreset, setNewOrderEventPreset] = useState(PRESET_EVENTS[0]);
   const [newOrderCustomEvent, setNewOrderCustomEvent] = useState('');
@@ -91,14 +91,15 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
         setCountryCode(client.country_code || '+91');
         setEmail(client.email || '');
 
+        const defaultTplPrice = templates?.[0]?.price ? String(templates[0].price) : '0';
         const existingOrders = client.orders && client.orders.length > 0 ? client.orders : [
           {
             order_id: null,
             status: client.status || 'In Progress',
-            total_amount: '25000',
+            total_amount: defaultTplPrice,
             submission_date: '',
             amount_paid: 0,
-            pending_amount: 25000,
+            pending_amount: Number(defaultTplPrice) || 0,
             order_items: [
               {
                 order_item_id: null,
@@ -112,25 +113,37 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
         ];
 
         setOrdersList(
-          existingOrders.map((ord) => ({
-            order_id: ord.order_id || null,
-            status: ord.status || 'In Progress',
-            total_amount: ord.total_amount !== undefined ? String(ord.total_amount) : '25000',
-            submission_date: ord.submission_date
-              ? new Date(ord.submission_date).toISOString().slice(0, 10)
-              : '',
-            amount_paid: Number(ord.amount_paid) || 0,
-            pending_amount: ord.pending_amount !== undefined ? Number(ord.pending_amount) : 0,
-            order_items: (ord.order_items || [])
-              .filter((it) => it.status !== 'Cancelled')
-              .map((it) => ({
-                order_item_id: it.order_item_id || null,
-                event_name: it.event_name || 'Wedding Ceremony',
-                status: it.status || 'In Progress',
-                event_date: it.event_date ? new Date(it.event_date).toISOString().slice(0, 10) : '',
-                template_id: it.template_id || templates?.[0]?.template_id || '',
-              }))
-          }))
+          existingOrders.map((ord) => {
+            const calculatedOrderTotal = (ord.order_items || []).reduce((sum, it) => {
+              const tpl = (templates || []).find(t => t.template_id === it.template_id);
+              return sum + (Number(tpl?.price) || 0);
+            }, 0);
+            const effTotal = ord.total_amount !== undefined 
+              ? String(ord.total_amount) 
+              : (calculatedOrderTotal > 0 ? String(calculatedOrderTotal) : '0');
+
+            return {
+              order_id: ord.order_id || null,
+              status: ord.status || 'In Progress',
+              total_amount: effTotal,
+              submission_date: ord.submission_date
+                ? new Date(ord.submission_date).toISOString().slice(0, 10)
+                : '',
+              amount_paid: Number(ord.amount_paid) || 0,
+              pending_amount: ord.pending_amount !== undefined 
+                ? Number(ord.pending_amount) 
+                : Math.max(0, (Number(effTotal) || 0) - (Number(ord.amount_paid) || 0)),
+              order_items: (ord.order_items || [])
+                .filter((it) => it.status !== 'Cancelled')
+                .map((it) => ({
+                  order_item_id: it.order_item_id || null,
+                  event_name: it.event_name || 'Wedding Ceremony',
+                  status: it.status || 'In Progress',
+                  event_date: it.event_date ? new Date(it.event_date).toISOString().slice(0, 10) : '',
+                  template_id: it.template_id || templates?.[0]?.template_id || '',
+                }))
+            };
+          })
         );
 
         setError('');
@@ -290,12 +303,14 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
 
     setLoading(true);
     try {
-      const todayStr = new Date().toISOString().slice(0, 10);
-      const effTemplateId = newOrderTemplateId || templates?.[0]?.template_id;
+      const tplObj = (templates || []).find((t) => t.template_id === effTemplateId);
+      const effOrderTotal = newOrderTotal !== '' && !isNaN(Number(newOrderTotal))
+        ? Number(newOrderTotal)
+        : (Number(tplObj?.price) || 0);
 
       const created = await addOrder({
         client_id: client.client_id,
-        total_amount: Number(newOrderTotal) || 0,
+        total_amount: effOrderTotal,
         order_date: todayStr,
         submission_date: newOrderSubmissionDate || todayStr,
         items: effTemplateId ? [
@@ -312,10 +327,10 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
         {
           order_id: created?.order_id || null,
           status: 'In Progress',
-          total_amount: newOrderTotal,
+          total_amount: String(effOrderTotal),
           submission_date: newOrderSubmissionDate || todayStr,
           amount_paid: 0,
-          pending_amount: Number(newOrderTotal) || 0,
+          pending_amount: effOrderTotal,
           order_items: [
             {
               order_item_id: null,
@@ -328,7 +343,7 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
       ]);
 
       setShowAddOrder(false);
-      setNewOrderTotal('25000');
+      setNewOrderTotal('');
       setNewOrderSubmissionDate('');
       setSuccessMsg('New order added!');
       setTimeout(() => setSuccessMsg(''), 2500);

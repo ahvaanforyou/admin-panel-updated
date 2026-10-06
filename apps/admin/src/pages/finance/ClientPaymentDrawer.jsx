@@ -34,6 +34,17 @@ export default function ClientPaymentDrawer({ isOpen, onClose, client, onOpenAdd
   const [feedbackMsg, setFeedbackMsg] = useState('');
   const menuRef = useRef(null);
 
+  // Optimistic override for instant UI reflection
+  const [localPaymentsOverride, setLocalPaymentsOverride] = useState(null);
+
+  // Reactively track the live client from DataContext
+  const liveClient = (clients || []).find(c => c.client_id === client?.client_id) || client;
+
+  // Clear override when baseDisplayPayments updates from server
+  useEffect(() => {
+    setLocalPaymentsOverride(null);
+  }, [payments, liveClient]);
+
   // Close 3-dots dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(e) {
@@ -47,31 +58,27 @@ export default function ClientPaymentDrawer({ isOpen, onClose, client, onOpenAdd
 
   if (!isOpen || !client) return null;
 
-  // Reactively track the live client from DataContext
-  const liveClient = (clients || []).find(c => c.client_id === client?.client_id) || client;
-  const order = liveClient.orders?.[0];
-  const totalAmount = (liveClient.orders || []).reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0) || Number(order?.total_amount) || 0;
+  const order = liveClient?.orders?.[0];
+  const totalAmount = Array.isArray(liveClient?.orders)
+    ? liveClient.orders.reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0)
+    : Number(order?.total_amount) || 0;
 
   // Payments for this client across all their orders
-  const clientOrderIds = (liveClient.orders || []).map(o => o.order_id).filter(Boolean);
+  const clientOrderIds = Array.isArray(liveClient?.orders)
+    ? liveClient.orders.map(o => o.order_id).filter(Boolean)
+    : [];
   const clientPayments = (payments || []).filter(p => 
     clientOrderIds.includes(p.order_id) || 
-    p.orders?.client_id === liveClient.client_id || 
-    p.client_id === liveClient.client_id
+    p.orders?.client_id === liveClient?.client_id || 
+    p.client_id === liveClient?.client_id
   );
 
-  const fallbackOrderPayments = (liveClient.orders || []).flatMap(o => o.payments || []);
+  const fallbackOrderPayments = Array.isArray(liveClient?.orders)
+    ? liveClient.orders.flatMap(o => o.payments || [])
+    : [];
   const baseDisplayPayments = clientPayments.length > 0 
     ? clientPayments 
     : (fallbackOrderPayments.length > 0 ? fallbackOrderPayments : []);
-
-  // Optimistic override for instant UI reflection
-  const [localPaymentsOverride, setLocalPaymentsOverride] = useState(null);
-
-  // Clear override when baseDisplayPayments updates from server
-  useEffect(() => {
-    setLocalPaymentsOverride(null);
-  }, [payments, liveClient]);
 
   const displayPayments = localPaymentsOverride || baseDisplayPayments;
 
@@ -79,12 +86,15 @@ export default function ClientPaymentDrawer({ isOpen, onClose, client, onOpenAdd
   const pendingAmount = Math.max(0, totalAmount - paidAmount);
 
   // Monogram initials
-  const initials = (client.name || 'PK')
-    .split('&')
-    .map(part => part.trim().charAt(0))
-    .join('')
-    .slice(0, 2)
-    .toUpperCase() || 'PK';
+  const rawClientName = liveClient?.name || client?.name || 'PK';
+  const initials = typeof rawClientName === 'string'
+    ? rawClientName
+        .split('&')
+        .map(part => part.trim().charAt(0))
+        .join('')
+        .slice(0, 2)
+        .toUpperCase() || 'PK'
+    : 'PK';
 
   // Format date parts
   const formatCardDate = (dateStr) => {
@@ -195,8 +205,8 @@ export default function ClientPaymentDrawer({ isOpen, onClose, client, onOpenAdd
               {initials}
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-900">{client.name}</h2>
-              <p className="text-xs text-slate-400 mt-0.5">{client.phone || '+1 415 555 0123'}</p>
+              <h2 className="text-base font-bold text-slate-900">{liveClient?.name || 'Client'}</h2>
+              <p className="text-xs text-slate-400 mt-0.5">{liveClient?.phone || 'No phone provided'}</p>
               <div className="flex items-center gap-1.5 mt-2">
                 {eventsList.map((ev, i) => (
                   <span 
@@ -386,15 +396,15 @@ export default function ClientPaymentDrawer({ isOpen, onClose, client, onOpenAdd
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center gap-2 text-slate-700">
                     <Phone className="w-4 h-4 text-slate-400" />
-                    <span>{client.phone || 'No phone provided'}</span>
+                    <span>{liveClient?.phone || 'No phone provided'}</span>
                   </div>
                   <div className="flex items-center gap-2 text-slate-700">
                     <Mail className="w-4 h-4 text-slate-400" />
-                    <span>{client.email || 'No email provided'}</span>
+                    <span>{liveClient?.email || 'No email provided'}</span>
                   </div>
                   <div className="flex items-center gap-2 text-slate-700">
                     <Calendar className="w-4 h-4 text-slate-400" />
-                    <span>Created: {new Date(client.created_at || Date.now()).toLocaleDateString()}</span>
+                    <span>Created: {new Date(liveClient?.created_at || Date.now()).toLocaleDateString()}</span>
                   </div>
                 </div>
               </div>
@@ -404,7 +414,7 @@ export default function ClientPaymentDrawer({ isOpen, onClose, client, onOpenAdd
                   type="button"
                   onClick={() => {
                     onClose();
-                    onEditClient(client);
+                    onEditClient(liveClient);
                   }}
                   className="w-full py-2.5 px-4 bg-blue-50 text-blue-600 hover:bg-blue-100 font-semibold rounded-xl text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
