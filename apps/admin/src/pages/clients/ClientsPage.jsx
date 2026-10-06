@@ -109,14 +109,14 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
 
   // Dynamic KPI calculations connected to selectedMonth
   const dateRangeOptions = [
-    { label: 'Sep 1, 2026 – Sep 30, 2026', monthKey: '2026-09' },
-    { label: 'Oct 1, 2026 – Oct 31, 2026', monthKey: '2026-10' },
-    { label: 'Nov 1, 2026 – Nov 30, 2026', monthKey: '2026-11' },
-    { label: 'Dec 1, 2026 – Dec 31, 2026', monthKey: '2026-12' },
+    { label: 'September 2026', monthKey: '2026-09' },
+    { label: 'October 2026', monthKey: '2026-10' },
+    { label: 'November 2026', monthKey: '2026-11' },
+    { label: 'December 2026', monthKey: '2026-12' },
     { label: 'All Time', monthKey: 'All' },
   ];
 
-  const currentRangeLabel = dateRangeOptions.find(o => o.monthKey === selectedMonth)?.label || (selectedMonth === 'All' ? 'All Time' : `${selectedMonth}-01 – ${selectedMonth}-31`);
+  const currentRangeLabel = dateRangeOptions.find(o => o.monthKey === selectedMonth)?.label || (selectedMonth === 'All' ? 'All Time' : selectedMonth);
 
   const [currY, currM] = (selectedMonth && selectedMonth !== 'All' ? selectedMonth : '2026-10').split('-').map(Number);
   const prevY = currM === 1 ? currY - 1 : currY;

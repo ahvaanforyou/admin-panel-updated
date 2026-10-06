@@ -448,10 +448,37 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
 
     setLoading(true);
     try {
+      // 1. First update all order items across all orders so DB has latest event statuses
+      for (const ord of ordersList) {
+        for (const ev of ord.order_items) {
+          if (ev.order_item_id) {
+            try {
+              if (changeOrderItemStatus && ev.status) {
+                await changeOrderItemStatus(ev.order_item_id, {
+                  status: ev.status,
+                  completed_at: ev.status === 'Completed' ? new Date().toISOString() : null,
+                });
+              }
+              if (updateOrderItem) {
+                await updateOrderItem(ev.order_item_id, {
+                  event_name: ev.event_name,
+                  event_date: ev.event_date,
+                  template_id: ev.template_id,
+                  status: ev.status || 'In Progress',
+                });
+              }
+            } catch (err) {
+              console.error('Failed to update event item:', err);
+            }
+          }
+        }
+      }
+
+      // 2. Determine derived order and client statuses
       const primaryOrder = ordersList[0];
       const allOrdersCompleted = ordersList.length > 0 && ordersList.every(o => o.status === 'Completed');
 
-      // Update client basic details and primary order info
+      // 3. Update client basic details and primary order info
       await updateClient(client.client_id, {
         name: name.trim(),
         country_code: countryCode,
@@ -461,24 +488,6 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
         total_amount: Number(primaryOrder?.total_amount) || 0,
         submission_date: primaryOrder?.submission_date || undefined,
       });
-
-      // Update order items across all orders
-      for (const ord of ordersList) {
-        for (const ev of ord.order_items) {
-          if (ev.order_item_id && updateOrderItem) {
-            try {
-              await updateOrderItem(ev.order_item_id, {
-                event_name: ev.event_name,
-                event_date: ev.event_date,
-                template_id: ev.template_id,
-                status: ev.status || 'In Progress',
-              });
-            } catch (err) {
-              console.error('Failed to update event item:', err);
-            }
-          }
-        }
-      }
 
       setSuccessMsg('Client & orders updated successfully!');
       setTimeout(() => {

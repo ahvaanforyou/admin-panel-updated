@@ -17,11 +17,12 @@ const addItemSchema = z.object({
 });
 
 const updateItemSchema = z.object({
-  template_id: z.string().uuid().optional(),
-  event_name:  z.string().min(1).optional(),
-  event_date:  dateSchema.optional(),
-  notes:       z.string().optional(),
-  // status and completed_at are handled by the /status endpoint
+  template_id:  z.string().uuid().optional(),
+  event_name:   z.string().min(1).optional(),
+  event_date:   dateSchema.optional(),
+  notes:        z.string().optional(),
+  status:       statusSchema.optional(),
+  completed_at: z.string().datetime({ offset: true }).optional().nullable(),
 }).refine((d) => Object.keys(d).length > 0, { message: 'At least one field required' });
 
 const changeStatusSchema = z.object({

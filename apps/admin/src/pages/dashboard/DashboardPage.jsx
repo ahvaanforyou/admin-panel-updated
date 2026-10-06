@@ -259,13 +259,13 @@ export default function DashboardPage({
   });
 
   const dateRangeOptions = [
-    { label: 'Sep 1, 2026 – Sep 30, 2026', monthKey: '2026-09' },
-    { label: 'Oct 1, 2026 – Oct 31, 2026', monthKey: '2026-10' },
-    { label: 'Nov 1, 2026 – Nov 30, 2026', monthKey: '2026-11' },
-    { label: 'Dec 1, 2026 – Dec 31, 2026', monthKey: '2026-12' },
+    { label: 'September 2026', monthKey: '2026-09' },
+    { label: 'October 2026', monthKey: '2026-10' },
+    { label: 'November 2026', monthKey: '2026-11' },
+    { label: 'December 2026', monthKey: '2026-12' },
     { label: 'All Time', monthKey: 'All' },
   ];
-  const currentRangeLabel = dateRangeOptions.find((o) => o.monthKey === selectedMonth)?.label || 'Oct 1, 2026 – Oct 31, 2026';
+  const currentRangeLabel = dateRangeOptions.find((o) => o.monthKey === selectedMonth)?.label || 'October 2026';
 
   return (
     <div className="space-y-6 animate-in fade-in duration-150">
