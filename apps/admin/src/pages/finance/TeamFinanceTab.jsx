@@ -13,7 +13,7 @@ import { formatCurrency } from '../../config/customization';
 import Sparkline from '../../components/common/Sparkline';
 
 export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
-  const { clients, payouts, expenses, payments, selectedMonth } = useData();
+  const { clients, payouts, expenses, payments, selectedMonth, teamMembers } = useData();
 
   const [activeMenuMemberId, setActiveMenuMemberId] = useState(null);
   const menuRef = useRef(null);
@@ -29,55 +29,52 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
   }, []);
 
   // 1. Total Team Payout & Amount Paid (This Month)
-  const [currY, currM] = (selectedMonth || '2026-10').split('-').map(Number);
+  const isAllTime = !selectedMonth || selectedMonth === 'All';
+  const effectiveMonth = isAllTime ? '2026-10' : selectedMonth;
+  const [currY, currM] = effectiveMonth.split('-').map(Number);
   const prevY = currM === 1 ? currY - 1 : currY;
   const prevM = currM === 1 ? 12 : currM - 1;
   const prevMonthStr = `${prevY}-${String(prevM).padStart(2, '0')}`;
 
   const monthPayouts = (payouts || []).filter(p => {
-    const d = p.date || p.payout_date || p.created_at || '';
-    return d.startsWith(selectedMonth);
+    const d = String(p.date || p.payout_date || '');
+    const c = String(p.created_at || '');
+    return isAllTime || d.startsWith(selectedMonth) || c.startsWith(selectedMonth);
   });
   const prevMonthPayouts = (payouts || []).filter(p => {
-    const d = p.date || p.payout_date || p.created_at || '';
-    return d.startsWith(prevMonthStr);
+    const d = String(p.date || p.payout_date || '');
+    const c = String(p.created_at || '');
+    return d.startsWith(prevMonthStr) || c.startsWith(prevMonthStr);
   });
 
   const totalPayoutMonth = monthPayouts.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
   const prevTotalPayoutMonth = prevMonthPayouts.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
   const totalPayoutAll = (payouts || []).reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
   const displayTotalPayout = totalPayoutAll;
-  const displayAmountPaidThisMonth = totalPayoutMonth;
+  const displayAmountPaidThisMonth = totalPayoutMonth > 0 ? totalPayoutMonth : (isAllTime ? totalPayoutAll : 0);
 
-  // 2. Savings: Formula: received amount - total team payout - total expenses
-  const monthPayments = (payments || []).filter(p => {
-    const d = p.payment_date || p.created_at || '';
-    return d.startsWith(selectedMonth);
-  });
-  const prevPayments = (payments || []).filter(p => {
-    const d = p.payment_date || p.created_at || '';
+  // 2. Savings: Formula requested by user:
+  // "total received amount - total team payout - total expenses"
+  const totalReceivedAll = (payments || []).reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+  const totalExpensesAll = (expenses || []).reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
+  const displaySavings = Math.max(0, totalReceivedAll - totalPayoutAll - totalExpensesAll);
+
+  // Previous month comparison
+  const prevPaymentsReceived = (payments || []).filter(p => {
+    const d = String(p.payment_date || p.created_at || '');
     return d.startsWith(prevMonthStr);
-  });
-
-  const monthReceived = monthPayments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
-  const prevMonthReceived = prevPayments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
-
-  const monthExpenses = (expenses || []).filter(e => {
-    const d = e.date || e.created_at || '';
-    return d.startsWith(selectedMonth);
-  }).reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
-
-  const prevMonthExpenses = (expenses || []).filter(e => {
-    const d = e.date || e.created_at || '';
+  }).reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+  const prevExpensesTotal = (expenses || []).filter(e => {
+    const d = String(e.date || e.created_at || '');
     return d.startsWith(prevMonthStr);
   }).reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
-
-  const displaySavings = Math.max(0, monthReceived - totalPayoutMonth - monthExpenses);
-  const prevSavings = Math.max(0, prevMonthReceived - prevTotalPayoutMonth - prevMonthExpenses);
+  const prevSavings = Math.max(0, prevPaymentsReceived - prevTotalPayoutMonth - prevExpensesTotal);
 
   // 3. Avg. Payout per Member
-  const displayAvgPayout = Math.round(totalPayoutMonth / 3);
-  const prevAvgPayout = Math.round(prevTotalPayoutMonth / 3);
+  const numMembers = (teamMembers && teamMembers.length > 0) ? teamMembers.length : 3;
+  const effectivePayoutForAvg = totalPayoutMonth > 0 ? totalPayoutMonth : totalPayoutAll;
+  const displayAvgPayout = Math.round(effectivePayoutForAvg / numMembers);
+  const prevAvgPayout = Math.round((prevTotalPayoutMonth > 0 ? prevTotalPayoutMonth : totalPayoutAll) / numMembers);
 
   // Real-time dynamic percentages vs last month
   const calcDiff = (curr, prev) => {
@@ -87,14 +84,15 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
   };
 
   const totalPayoutDiff = calcDiff(totalPayoutMonth, prevTotalPayoutMonth);
-  const monthPayoutDiff = calcDiff(totalPayoutMonth, prevTotalPayoutMonth);
+  const monthPayoutDiff = calcDiff(displayAmountPaidThisMonth, prevTotalPayoutMonth);
   const savingsDiff = calcDiff(displaySavings, prevSavings);
   const avgPayoutDiff = calcDiff(displayAvgPayout, prevAvgPayout);
 
   // Weekly payouts for real-time sparklines
   const getPayoutsWeekly = (filterFn) => {
     const w = [0, 0, 0, 0];
-    monthPayouts.forEach(p => {
+    const sourcePayouts = monthPayouts.length > 0 ? monthPayouts : (payouts || []);
+    sourcePayouts.forEach(p => {
       if (filterFn && !filterFn(p)) return;
       const d = new Date(p.date || p.payout_date || p.created_at || Date.now());
       const day = isNaN(d.getDate()) ? 1 : d.getDate();
@@ -109,7 +107,8 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
 
   const getWeeklyPayments = () => {
     const w = [0, 0, 0, 0];
-    monthPayments.forEach(p => {
+    const sourcePayments = payments || [];
+    sourcePayments.forEach(p => {
       const d = new Date(p.payment_date || p.created_at || Date.now());
       const day = isNaN(d.getDate()) ? 1 : d.getDate();
       if (day <= 7) w[0] += Number(p.amount) || 0;
@@ -122,70 +121,109 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
   const paymentsWeekly = getWeeklyPayments();
   const savingsWeekly = [0, 1, 2, 3].map(i => Math.max(0, paymentsWeekly[i] - totalPayoutWeekly[i]));
 
-  // Helper to compute individual member payout for the selected month
-  const getMemberMonthPayout = (memberName, memberId) => {
-    const memberItems = (payouts || []).filter(p => {
-      const matchId = memberId && (p.team_member_id === memberId);
-      const matchName = (p.team_members?.name || '').toLowerCase() === memberName.toLowerCase();
-      const matchDate = (p.date || p.payout_date || p.created_at || '').startsWith(selectedMonth);
-      return (matchId || matchName) && matchDate;
+  // Helper to compute individual member payout
+  // When selectedMonth has payouts for the member, show that month.
+  // When 0 or viewing cards, fallback to all-time payout for that member
+  // so values internally present in database are ALWAYS visible on the user card.
+  const getMemberPayout = (memberName, memberId) => {
+    if (!isAllTime) {
+      const monthItems = (payouts || []).filter(p => {
+        const matchId = memberId && (p.team_member_id === memberId || p.id === memberId);
+        const matchName = (p.team_members?.name || p.member_name || '').toLowerCase() === (memberName || '').toLowerCase();
+        const d = String(p.date || p.payout_date || '');
+        const c = String(p.created_at || '');
+        const dateMatch = d.startsWith(selectedMonth) || c.startsWith(selectedMonth);
+        return (matchId || matchName) && dateMatch;
+      });
+      const monthSum = monthItems.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+      if (monthSum > 0) return monthSum;
+    }
+
+    const allItems = (payouts || []).filter(p => {
+      const matchId = memberId && (p.team_member_id === memberId || p.id === memberId);
+      const matchName = (p.team_members?.name || p.member_name || '').toLowerCase() === (memberName || '').toLowerCase();
+      return matchId || matchName;
     });
-    return memberItems.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+    return allItems.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
   };
 
-  const chaituAmount = getMemberMonthPayout('Chaitu', '437ccc82-fcc5-4966-901b-68d8eec40868');
-  const farruAmount = getMemberMonthPayout('Farru', '780186b7-0207-412e-a8dc-829df203ba16');
-  const thanuAmount = getMemberMonthPayout('Thanu', '28c9dcbc-94eb-4d8c-a15c-19e486249b14');
+  const totalPayoutForCalc = (totalPayoutMonth > 0 ? totalPayoutMonth : totalPayoutAll) || 1;
 
-  const chaituWeekly = getPayoutsWeekly(p => (p.team_members?.name || '').toLowerCase() === 'chaitu' || p.team_member_id === '437ccc82-fcc5-4966-901b-68d8eec40868');
-  const farruWeekly = getPayoutsWeekly(p => (p.team_members?.name || '').toLowerCase() === 'farru' || p.team_member_id === '780186b7-0207-412e-a8dc-829df203ba16');
-  const thanuWeekly = getPayoutsWeekly(p => (p.team_members?.name || '').toLowerCase() === 'thanu' || p.team_member_id === '28c9dcbc-94eb-4d8c-a15c-19e486249b14');
-
-  // 3 Team Member Cards matching Figma with user colors: Black Chaitu, Blue Farru, Teal Thanu
-  const teamMembersData = [
-    {
-      id: 'tm-chaitu',
-      team_member_id: '437ccc82-fcc5-4966-901b-68d8eec40868',
-      name: 'Chaitu',
+  const knownStyles = {
+    chaitu: {
       initial: 'C',
       circleBg: 'bg-slate-900 text-white',
       barColor: 'bg-slate-900',
       barBg: 'bg-slate-200/80',
       badgeClass: 'bg-slate-100 text-slate-900 border border-slate-200',
-      amount: chaituAmount,
-      percentage: totalPayoutMonth > 0 ? Math.round((chaituAmount / totalPayoutMonth) * 100) : 0,
-      sparkline: chaituWeekly,
-      sparkColor: '#0f172a'
+      sparkColor: '#0f172a',
     },
-    {
-      id: 'tm-farru',
-      team_member_id: '780186b7-0207-412e-a8dc-829df203ba16',
-      name: 'Farru',
+    farru: {
       initial: 'F',
       circleBg: 'bg-blue-600 text-white',
       barColor: 'bg-blue-600',
       barBg: 'bg-blue-100/80',
       badgeClass: 'bg-blue-50 text-blue-600 border border-blue-100',
-      amount: farruAmount,
-      percentage: totalPayoutMonth > 0 ? Math.round((farruAmount / totalPayoutMonth) * 100) : 0,
-      sparkline: farruWeekly,
-      sparkColor: '#2563eb'
+      sparkColor: '#2563eb',
     },
-    {
-      id: 'tm-thanu',
-      team_member_id: '28c9dcbc-94eb-4d8c-a15c-19e486249b14',
-      name: 'Thanu',
+    thanu: {
       initial: 'T',
       circleBg: 'bg-teal-600 text-white',
       barColor: 'bg-teal-600',
       barBg: 'bg-teal-100/80',
       badgeClass: 'bg-teal-50 text-teal-700 border border-teal-100',
-      amount: thanuAmount,
-      percentage: totalPayoutMonth > 0 ? Math.round((thanuAmount / totalPayoutMonth) * 100) : 0,
-      sparkline: thanuWeekly,
-      sparkColor: '#0d9488'
+      sparkColor: '#0d9488',
     },
+  };
+
+  const defaultList = [
+    { team_member_id: '437ccc82-fcc5-4966-901b-68d8eec40868', name: 'Chaitu' },
+    { team_member_id: '780186b7-0207-412e-a8dc-829df203ba16', name: 'Farru' },
+    { team_member_id: '28c9dcbc-94eb-4d8c-a15c-19e486249b14', name: 'Thanu' },
   ];
+
+  const sourceMembers = (teamMembers && teamMembers.length > 0) ? teamMembers : defaultList;
+
+  // Ensure Chaitu, Farru, Thanu order
+  const sortedMembers = [...sourceMembers].sort((a, b) => {
+    const order = { chaitu: 1, farru: 2, thanu: 3 };
+    const aKey = (a.name || '').toLowerCase();
+    const bKey = (b.name || '').toLowerCase();
+    return (order[aKey] || 99) - (order[bKey] || 99);
+  });
+
+  const teamMembersData = sortedMembers.map(m => {
+    const key = (m.name || '').toLowerCase();
+    const style = knownStyles[key] || {
+      initial: (m.name || 'M').charAt(0).toUpperCase(),
+      circleBg: 'bg-indigo-600 text-white',
+      barColor: 'bg-indigo-600',
+      barBg: 'bg-indigo-100/80',
+      badgeClass: 'bg-indigo-50 text-indigo-700 border border-indigo-100',
+      sparkColor: '#4f46e5',
+    };
+    const amt = getMemberPayout(m.name, m.team_member_id || m.id);
+    const pct = totalPayoutForCalc > 0 ? Math.round((amt / totalPayoutForCalc) * 100) : 0;
+    const spark = getPayoutsWeekly(p => 
+      (p.team_members?.name || p.member_name || '').toLowerCase() === key ||
+      p.team_member_id === (m.team_member_id || m.id)
+    );
+
+    return {
+      id: m.team_member_id || m.id || `tm-${key}`,
+      team_member_id: m.team_member_id || m.id,
+      name: m.name,
+      initial: style.initial,
+      circleBg: style.circleBg,
+      barColor: style.barColor,
+      barBg: style.barBg,
+      badgeClass: style.badgeClass,
+      amount: amt,
+      percentage: pct,
+      sparkline: spark,
+      sparkColor: style.sparkColor,
+    };
+  });
 
   return (
     <div className="space-y-6">
