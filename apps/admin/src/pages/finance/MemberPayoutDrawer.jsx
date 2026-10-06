@@ -147,6 +147,10 @@ export default function MemberPayoutDrawer({ isOpen, onClose, member, onOpenAddP
     }
   };
 
+  const memberBg = memberName.toLowerCase().includes('chaitu') 
+    ? 'bg-slate-900 text-white' 
+    : (memberName.toLowerCase().includes('farru') ? 'bg-blue-600 text-white' : 'bg-teal-600 text-white');
+
   return (
     <div 
       className="fixed inset-0 z-[100] overflow-hidden bg-slate-900/40 backdrop-blur-xs flex justify-end"
@@ -159,7 +163,7 @@ export default function MemberPayoutDrawer({ isOpen, onClose, member, onOpenAddP
         {/* Header matching media_1791193787803.png */}
         <div className="p-6 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-base shrink-0">
+            <div className={`w-11 h-11 rounded-full ${memberBg} flex items-center justify-center font-bold text-base shrink-0`}>
               {member.initial || memberName.charAt(0)}
             </div>
             <div>

@@ -141,29 +141,35 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
   const farruWeekly = getPayoutsWeekly(p => (p.team_members?.name || '').toLowerCase() === 'farru' || p.team_member_id === '780186b7-0207-412e-a8dc-829df203ba16');
   const thanuWeekly = getPayoutsWeekly(p => (p.team_members?.name || '').toLowerCase() === 'thanu' || p.team_member_id === '28c9dcbc-94eb-4d8c-a15c-19e486249b14');
 
-  // 3 Team Member Cards matching Figma media_1791190034646.png
+  // 3 Team Member Cards matching Figma with user colors: Black Chaitu, Blue Farru, Teal Thanu
   const teamMembersData = [
     {
       id: 'tm-chaitu',
       team_member_id: '437ccc82-fcc5-4966-901b-68d8eec40868',
       name: 'Chaitu',
       initial: 'C',
-      circleBg: 'bg-blue-600 text-white',
+      circleBg: 'bg-slate-900 text-white',
+      barColor: 'bg-slate-900',
+      barBg: 'bg-slate-200/80',
+      badgeClass: 'bg-slate-100 text-slate-900 border border-slate-200',
       amount: chaituAmount,
       percentage: totalPayoutMonth > 0 ? Math.round((chaituAmount / totalPayoutMonth) * 100) : 0,
       sparkline: chaituWeekly,
-      sparkColor: '#2563eb'
+      sparkColor: '#0f172a'
     },
     {
       id: 'tm-farru',
       team_member_id: '780186b7-0207-412e-a8dc-829df203ba16',
       name: 'Farru',
       initial: 'F',
-      circleBg: 'bg-slate-900 text-white',
+      circleBg: 'bg-blue-600 text-white',
+      barColor: 'bg-blue-600',
+      barBg: 'bg-blue-100/80',
+      badgeClass: 'bg-blue-50 text-blue-600 border border-blue-100',
       amount: farruAmount,
       percentage: totalPayoutMonth > 0 ? Math.round((farruAmount / totalPayoutMonth) * 100) : 0,
       sparkline: farruWeekly,
-      sparkColor: '#0f172a'
+      sparkColor: '#2563eb'
     },
     {
       id: 'tm-thanu',
@@ -171,6 +177,9 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
       name: 'Thanu',
       initial: 'T',
       circleBg: 'bg-teal-600 text-white',
+      barColor: 'bg-teal-600',
+      barBg: 'bg-teal-100/80',
+      badgeClass: 'bg-teal-50 text-teal-700 border border-teal-100',
       amount: thanuAmount,
       percentage: totalPayoutMonth > 0 ? Math.round((thanuAmount / totalPayoutMonth) * 100) : 0,
       sparkline: thanuWeekly,
@@ -348,15 +357,15 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
                       {formatCurrency(m.amount)}
                     </p>
                   </div>
-                  <span className="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-600 text-xs font-semibold">
+                  <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${m.badgeClass || 'bg-blue-50 text-blue-600'}`}>
                     {m.percentage}% of total
                   </span>
                 </div>
 
-                {/* Bottom: Blue Progress Bar */}
-                <div className="w-full h-1.5 bg-blue-100/70 rounded-full overflow-hidden">
+                {/* Bottom: Dynamic Progress Bar */}
+                <div className={`w-full h-1.5 rounded-full overflow-hidden ${m.barBg || 'bg-blue-100/70'}`}>
                   <div
-                    className="h-full bg-blue-600 rounded-full transition-all duration-300"
+                    className={`h-full rounded-full transition-all duration-300 ${m.barColor || 'bg-blue-600'}`}
                     style={{ width: `${m.percentage}%` }}
                   />
                 </div>

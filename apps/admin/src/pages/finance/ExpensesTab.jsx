@@ -154,7 +154,9 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
   const combinedExpenses = (expenses && expenses.length > 0) ? expenses.map(e => {
     const name = e.team_members?.name || e.added_by_name || 'Chaitu';
     const initial = name.charAt(0).toUpperCase();
-    const bg = name.toLowerCase().includes('farru') ? 'bg-slate-900 text-white' : (name.toLowerCase().includes('thanu') ? 'bg-teal-500 text-white' : 'bg-blue-600 text-white');
+    const bg = name.toLowerCase().includes('chaitu') 
+      ? 'bg-slate-900 text-white' 
+      : (name.toLowerCase().includes('farru') ? 'bg-blue-600 text-white' : 'bg-teal-600 text-white');
     return {
       ...e,
       added_by_name: name,

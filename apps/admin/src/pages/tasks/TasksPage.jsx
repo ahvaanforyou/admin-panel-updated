@@ -3,7 +3,7 @@
 // =============================================================================
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  Plus, 
+  Sparkles,
   Search, 
   Clock, 
   History, 
@@ -14,10 +14,7 @@ import {
   Pencil, 
   Trash2, 
   Check, 
-  ArrowRight,
-  Filter,
-  CheckCircle,
-  AlertCircle
+  Plus
 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
@@ -29,6 +26,40 @@ const FALLBACK_MEMBERS = [
   { team_member_id: '780186b7-0207-412e-a8dc-829df203ba16', name: 'Farru', role: 'Developer' },
 ];
 
+// User Color Palette: Black for Chaitu, Blue for Farru, Teal for Thanu
+export const getUserTheme = (name = '') => {
+  const n = (name || '').toLowerCase();
+  if (n.includes('chaitu')) {
+    return {
+      name: 'Chaitu',
+      initial: 'C',
+      headerBg: 'bg-slate-900 text-white shadow-xs',
+      badgeBg: 'bg-slate-900 text-white',
+      borderHover: 'hover:border-slate-800',
+      lightBg: 'bg-slate-100 text-slate-900 border border-slate-200',
+    };
+  }
+  if (n.includes('farru')) {
+    return {
+      name: 'Farru',
+      initial: 'F',
+      headerBg: 'bg-blue-600 text-white shadow-xs',
+      badgeBg: 'bg-blue-600 text-white',
+      borderHover: 'hover:border-blue-500',
+      lightBg: 'bg-blue-50 text-blue-700 border border-blue-200',
+    };
+  }
+  // Default: Thanu
+  return {
+    name: 'Thanu',
+    initial: 'T',
+    headerBg: 'bg-teal-600 text-white shadow-xs',
+    badgeBg: 'bg-teal-600 text-white',
+    borderHover: 'hover:border-teal-500',
+    lightBg: 'bg-teal-50 text-teal-700 border border-teal-200',
+  };
+};
+
 export default function TasksPage({ onOpenAddTask, onEditTask }) {
   const { tasks, updateTask, deleteTask, teamMembers } = useData();
 
@@ -38,6 +69,12 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [priorityFilter, setPriorityFilter] = useState('All');
+
+  // Internal reactive task list for instant, butter-smooth optimistic drag & drop
+  const [localTasks, setLocalTasks] = useState(tasks || []);
+  useEffect(() => {
+    setLocalTasks(tasks || []);
+  }, [tasks]);
 
   // Drag and drop state
   const [draggedTaskId, setDraggedTaskId] = useState(null);
@@ -67,8 +104,8 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Use ONLY genuine database tasks — no mock/dummy fallback tasks per user instruction
-  const allTasks = tasks || [];
+  // Use ONLY genuine database tasks
+  const allTasks = localTasks || [];
 
   // KPI Metrics calculated from real tasks
   const overdueCount = allTasks.filter(t => t.status === 'Overdue' || (t.status !== 'Completed' && t.due_at && new Date(t.due_at) < new Date())).length;
@@ -104,6 +141,7 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
   // Status Change
   const handleStatusChange = async (taskId, newStatus) => {
     setActiveMenuId(null);
+    setLocalTasks(prev => prev.map(t => t.task_id === taskId ? { ...t, status: newStatus } : t));
     if (!UUID_REGEX.test(taskId)) return;
     try {
       await updateTask(taskId, { status: newStatus });
@@ -116,6 +154,7 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
   const handleDeleteTask = async (taskId) => {
     setActiveMenuId(null);
     if (!window.confirm('Are you sure you want to delete this task?')) return;
+    setLocalTasks(prev => prev.filter(t => t.task_id !== taskId));
     if (!UUID_REGEX.test(taskId)) return;
     try {
       await deleteTask(taskId);
@@ -124,7 +163,7 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
     }
   };
 
-  // Smooth Drag & Drop Handlers
+  // Smooth Drag & Drop Handlers with Instant Optimistic Placement
   const handleDragStart = (e, taskId) => {
     setDraggedTaskId(taskId);
     e.dataTransfer.setData('text/plain', taskId);
@@ -148,72 +187,133 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
     const taskId = draggedTaskId || e.dataTransfer.getData('text/plain');
     if (!taskId) return;
 
-    if (!UUID_REGEX.test(taskId)) {
-      setDraggedTaskId(null);
-      return;
-    }
-
     const memberObj = allMembers.find(m => m.name.toLowerCase() === targetMemberName.toLowerCase());
     const memberId = memberObj?.team_member_id || memberObj?.id;
 
-    try {
-      await updateTask(taskId, {
-        assigned_to: memberId,
-        assigned_to_name: targetMemberName,
-      });
-    } catch (err) {
-      console.error('Drag and drop assignment failed:', err);
-    } finally {
-      setDraggedTaskId(null);
+    // 1. Instant optimistic update for buttery-smooth movement
+    setLocalTasks(prev => prev.map(t => {
+      if (t.task_id === taskId) {
+        return {
+          ...t,
+          assigned_to: memberId,
+          assigned_to_name: targetMemberName,
+        };
+      }
+      return t;
+    }));
+    setDraggedTaskId(null);
+
+    // 2. Persist to backend asynchronously
+    if (UUID_REGEX.test(taskId)) {
+      try {
+        await updateTask(taskId, {
+          assigned_to: memberId,
+          assigned_to_name: targetMemberName,
+        });
+      } catch (err) {
+        console.error('Drag and drop assignment sync failed:', err);
+      }
     }
   };
 
-  // Helper to determine styling based on status and completion
+  // 1. Color Schemes Based on Priority (Per User Requirement)
   const getCardStyle = (task) => {
     const isCompleted = task.status === 'Completed';
-    const isOverdue = !isCompleted && (task.status === 'Overdue' || (task.due_at && new Date(task.due_at) < new Date()));
+    const prio = (task.priority || 'Medium').toLowerCase();
 
     if (isCompleted) {
       return {
-        cardBg: 'bg-slate-50 border-slate-200/90 opacity-80',
+        cardBg: 'bg-slate-50/90 border-slate-200 border-l-4 border-l-slate-400 opacity-80 shadow-2xs',
         titleCls: 'line-through text-slate-400 font-semibold',
         descCls: 'line-through text-slate-400',
-        badge: 'bg-slate-200 text-slate-700',
-        statusLabel: 'Completed',
+        prioBadge: 'bg-slate-200/80 text-slate-600 border border-slate-300/60',
+        prioLabel: task.priority || 'Medium',
         isCompleted: true,
       };
     }
 
-    if (isOverdue || task.priority === 'Urgent') {
+    if (prio === 'urgent') {
       return {
-        cardBg: 'bg-[#FFF5F5] border-red-100 hover:border-red-200',
+        cardBg: 'bg-[#FFF5F5] border-rose-200 hover:border-rose-300 border-l-4 border-l-rose-500 shadow-2xs hover:shadow-md',
         titleCls: 'font-bold text-slate-900',
         descCls: 'text-slate-600',
-        badge: 'bg-rose-500 text-white',
-        statusLabel: 'Overdue',
+        prioBadge: 'bg-rose-100 text-rose-700 border border-rose-200 font-bold',
+        prioLabel: 'Urgent',
         isCompleted: false,
       };
     }
 
-    if (task.status === 'In Progress') {
+    if (prio === 'high') {
       return {
-        cardBg: 'bg-[#F0FDF4] border-emerald-100 hover:border-emerald-200',
+        cardBg: 'bg-[#FFF8F0] border-orange-200 hover:border-orange-300 border-l-4 border-l-orange-500 shadow-2xs hover:shadow-md',
         titleCls: 'font-bold text-slate-900',
         descCls: 'text-slate-600',
-        badge: 'bg-emerald-500 text-white',
-        statusLabel: 'In Progress',
+        prioBadge: 'bg-orange-100 text-orange-700 border border-orange-200 font-bold',
+        prioLabel: 'High',
         isCompleted: false,
       };
     }
 
+    if (prio === 'low') {
+      return {
+        cardBg: 'bg-[#F0FDF4] border-emerald-200 hover:border-emerald-300 border-l-4 border-l-emerald-500 shadow-2xs hover:shadow-md',
+        titleCls: 'font-bold text-slate-900',
+        descCls: 'text-slate-600',
+        prioBadge: 'bg-emerald-100 text-emerald-700 border border-emerald-200 font-semibold',
+        prioLabel: 'Low',
+        isCompleted: false,
+      };
+    }
+
+    // Default: Medium
     return {
-      cardBg: 'bg-[#F5F8FF] border-blue-100 hover:border-blue-200',
+      cardBg: 'bg-[#FFFDF0] border-amber-200 hover:border-amber-300 border-l-4 border-l-amber-500 shadow-2xs hover:shadow-md',
       titleCls: 'font-bold text-slate-900',
       descCls: 'text-slate-600',
-      badge: 'bg-blue-600 text-white',
-      statusLabel: 'Pending',
+      prioBadge: 'bg-amber-100 text-amber-800 border border-amber-200 font-semibold',
+      prioLabel: 'Medium',
       isCompleted: false,
     };
+  };
+
+  // 2. Color Dots for Status Inside Cards (Per User Requirement)
+  const getStatusDot = (task) => {
+    const isCompleted = task.status === 'Completed';
+    const isOverdue = !isCompleted && (task.status === 'Overdue' || (task.due_at && new Date(task.due_at) < new Date()));
+    const effStatus = isCompleted ? 'Completed' : (isOverdue ? 'Overdue' : (task.status || 'Pending'));
+
+    switch (effStatus) {
+      case 'Completed':
+        return {
+          dotCls: 'bg-emerald-500 shadow-2xs shadow-emerald-500/50',
+          labelCls: 'text-emerald-700 font-semibold',
+          label: 'Completed'
+        };
+      case 'Overdue':
+        return {
+          dotCls: 'bg-rose-500 shadow-2xs shadow-rose-500/50 animate-pulse',
+          labelCls: 'text-rose-700 font-bold',
+          label: 'Overdue'
+        };
+      case 'In Progress':
+        return {
+          dotCls: 'bg-blue-500 shadow-2xs shadow-blue-500/50 animate-pulse',
+          labelCls: 'text-blue-700 font-semibold',
+          label: 'In Progress'
+        };
+      case 'Review':
+        return {
+          dotCls: 'bg-purple-500 shadow-2xs shadow-purple-500/50',
+          labelCls: 'text-purple-700 font-semibold',
+          label: 'Review'
+        };
+      default:
+        return {
+          dotCls: 'bg-amber-400 shadow-2xs shadow-amber-400/50',
+          labelCls: 'text-amber-700 font-semibold',
+          label: 'Pending'
+        };
+    }
   };
 
   return (
@@ -227,13 +327,14 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
           </p>
         </div>
 
+        {/* Add Task button with Sparkles icon & single clean text (No double plus) */}
         <button
           type="button"
           onClick={() => onOpenAddTask && onOpenAddTask()}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors cursor-pointer shrink-0"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-all hover:shadow-md cursor-pointer shrink-0"
         >
-          <Plus className="w-4 h-4" />
-          <span>+ Add Task</span>
+          <Sparkles className="w-4 h-4 text-white" />
+          <span>Add Task</span>
         </button>
       </div>
 
@@ -329,9 +430,11 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
         </div>
       </div>
 
-      {/* ── 3 Column Kanban Board: Thanu | Chaitu | Farru ──────────────────── */}
+      {/* ── 3 Column Kanban Board: Thanu | Chaitu | Farru with User Specific Colors ── */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {columns.map((colName) => {
+          const userTheme = getUserTheme(colName);
+
           // Get tasks assigned to this column
           const colTasks = filteredTasks.filter((t) => {
             const assignedName = (t.assigned_to_name || t.team_members?.name || '').toLowerCase();
@@ -346,20 +449,20 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
               onDragOver={(e) => handleDragOver(e, colName)}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, colName)}
-              className={`flex flex-col rounded-2xl p-4 transition-all duration-200 ${
+              className={`flex flex-col rounded-2xl p-4 transition-all duration-300 ease-out ${
                 isOver 
-                  ? 'bg-blue-50/70 border-2 border-dashed border-blue-500 scale-[1.01]' 
-                  : 'bg-slate-100/60 border border-slate-200/70'
+                  ? 'bg-blue-50/70 border-2 border-dashed border-blue-500 ring-4 ring-blue-500/10 shadow-lg scale-[1.015]' 
+                  : 'bg-slate-100/70 border border-slate-200/80 shadow-xs'
               }`}
             >
-              {/* Column Header */}
+              {/* Column Header with Specific User Avatar Color: Black for Chaitu, Blue for Farru, Teal for Thanu */}
               <div className="flex items-center justify-between mb-4 px-1">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs">
-                    {colName.charAt(0)}
+                <div className="flex items-center gap-2.5">
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${userTheme.headerBg}`}>
+                    {userTheme.initial}
                   </div>
-                  <h3 className="font-bold text-slate-900 text-sm">{colName}</h3>
-                  <span className="ml-1 px-2 py-0.5 rounded-full bg-slate-200/80 text-slate-700 text-xs font-semibold">
+                  <h3 className="font-bold text-slate-900 text-sm tracking-tight">{colName}</h3>
+                  <span className="px-2 py-0.5 rounded-full bg-slate-200/80 text-slate-700 text-xs font-semibold">
                     {colTasks.length}
                   </span>
                 </div>
@@ -374,9 +477,16 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
                 </button>
               </div>
 
-              {/* Tasks List / Column Body */}
-              <div className="space-y-3 flex-1 min-h-[350px]">
-                {colTasks.length === 0 ? (
+              {/* Tasks List / Column Body with Smooth Motion */}
+              <div className="space-y-3 flex-1 min-h-[350px] transition-all duration-200">
+                {/* Drag-over Smooth Placeholder Slot */}
+                {isOver && (
+                  <div className="h-14 rounded-2xl border-2 border-dashed border-blue-400/80 bg-blue-100/50 flex items-center justify-center text-xs font-semibold text-blue-600 transition-all duration-200 animate-pulse">
+                    Move to {colName}
+                  </div>
+                )}
+
+                {colTasks.length === 0 && !isOver ? (
                   <div className="h-full flex flex-col items-center justify-center py-12 px-4 text-center border-2 border-dashed border-slate-200/90 rounded-2xl bg-white/50">
                     <p className="text-xs font-medium text-slate-400">No tasks assigned yet</p>
                     <button
@@ -391,33 +501,35 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
                 ) : (
                   colTasks.map((t) => {
                     const style = getCardStyle(t);
+                    const statusDot = getStatusDot(t);
                     const isPinned = pinnedTaskIds.has(t.task_id);
                     const isMenuOpen = activeMenuId === t.task_id;
+                    const isBeingDragged = draggedTaskId === t.task_id;
 
                     return (
                       <div
                         key={t.task_id}
                         draggable
                         onDragStart={(e) => handleDragStart(e, t.task_id)}
-                        className={`rounded-2xl p-4 border transition-all duration-150 shadow-xs hover:shadow-md cursor-grab active:cursor-grabbing relative ${style.cardBg}`}
+                        className={`rounded-2xl p-4 border transition-all duration-200 ease-out cursor-grab active:cursor-grabbing relative select-none ${
+                          isBeingDragged 
+                            ? 'opacity-30 scale-95 ring-2 ring-blue-400 shadow-2xl rotate-1' 
+                            : 'hover:-translate-y-0.5'
+                        } ${style.cardBg}`}
                       >
-                        {/* Top: Status badge & Priority badge & Pin / Menu */}
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-1.5 flex-wrap">
-                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${style.badge}`}>
-                              {style.statusLabel}
+                        {/* Top: Status COLOR DOT + Priority Badge + Pin & Menu */}
+                        <div className="flex items-center justify-between mb-2.5">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            {/* Color Dot for Status */}
+                            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white/90 border border-slate-200/60 shadow-2xs">
+                              <span className={`w-2 h-2 rounded-full shrink-0 ${statusDot.dotCls}`} />
+                              <span className={`text-[10px] ${statusDot.labelCls}`}>{statusDot.label}</span>
+                            </div>
+
+                            {/* Priority Badge Matching Card Color Scheme */}
+                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${style.prioBadge}`}>
+                              {style.prioLabel}
                             </span>
-                            {/* Clean Color Indicator without text label: Red (High/Urgent), Yellow (Medium), Green (Low) */}
-                            <span 
-                              title={`Priority: ${t.priority || 'Medium'}`}
-                              className={`w-2.5 h-2.5 rounded-full shrink-0 shadow-2xs ring-1 ring-white/80 ${
-                                (t.priority || '').toLowerCase() === 'high' || (t.priority || '').toLowerCase() === 'urgent'
-                                  ? 'bg-rose-500'
-                                  : (t.priority || '').toLowerCase() === 'low'
-                                  ? 'bg-emerald-500'
-                                  : 'bg-amber-400'
-                              }`}
-                            />
                           </div>
 
                           <div className="flex items-center gap-1">
@@ -491,18 +603,19 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
                           </p>
                         )}
 
-                        {/* Due Date & Assignment info */}
-                        <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-200/50">
+                        {/* Due Date & Assigned User Indicator with exact colors */}
+                        <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-200/60">
                           <div className="flex items-center gap-1.5">
                             <Calendar className="w-3 h-3 text-slate-400" />
                             <span>{t.due_at ? new Date(t.due_at).toLocaleDateString('en-US', { month: 'short', day: '2-digit' }) : 'No date'}</span>
                           </div>
 
-                          {t.priority && (
-                            <span className="font-semibold text-[10px] text-slate-500 uppercase">
-                              {t.priority}
+                          <div className="flex items-center gap-1.5">
+                            <span className={`w-4.5 h-4.5 rounded-full flex items-center justify-center text-[9px] font-bold ${userTheme.badgeBg}`}>
+                              {userTheme.initial}
                             </span>
-                          )}
+                            <span className="text-[10px] font-semibold text-slate-600">{colName}</span>
+                          </div>
                         </div>
                       </div>
                     );

@@ -186,8 +186,8 @@ export default function InvitationsPage({ onOpenAddTemplate, onEditTemplate }) {
           onClick={onOpenAddTemplate}
           className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors cursor-pointer shrink-0"
         >
-          <Plus className="w-4 h-4" />
-          <span>+ Add Template</span>
+          <Sparkles className="w-4 h-4 text-white" />
+          <span>Add Template</span>
         </button>
       </div>
 
