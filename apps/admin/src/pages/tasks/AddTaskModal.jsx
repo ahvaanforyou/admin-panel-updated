@@ -163,7 +163,6 @@ export default function AddTaskModal({ isOpen, onClose, defaultMemberName }) {
                 onChange={(e) => setPriority(e.target.value)}
                 className="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 bg-white font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
               >
-                <option value="Urgent">Urgent</option>
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
                 <option value="Low">Low</option>

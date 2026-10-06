@@ -18,11 +18,10 @@ const STATUS_STYLES = {
   "Upcoming": "bg-blue-50 text-blue-700 border-blue-200",
   "Overdue": "bg-red-50 text-red-700 border-red-200",
 
-  // Priority
-  "Urgent": "bg-red-100 text-red-800 border-red-300",
-  "High": "bg-amber-100 text-amber-800 border-amber-300",
-  "Medium": "bg-blue-100 text-blue-800 border-blue-300",
-  "Low": "bg-slate-100 text-slate-700 border-slate-300",
+  // Priority: High (Red), Medium (Orange), Low (Green)
+  "High": "bg-rose-100 text-rose-700 border-rose-200",
+  "Medium": "bg-orange-100 text-orange-700 border-orange-200",
+  "Low": "bg-emerald-100 text-emerald-700 border-emerald-200",
 
   // Template Status
   "Published": "bg-emerald-50 text-emerald-700 border-emerald-200",

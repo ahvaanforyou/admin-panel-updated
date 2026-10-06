@@ -145,10 +145,9 @@ export default function EditTaskModal({ isOpen, onClose, task }) {
                 onChange={(e) => setPriority(e.target.value)}
                 className="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 bg-white"
               >
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
                 <option value="High">High</option>
-                <option value="Urgent">Urgent</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
               </select>
             </div>
 

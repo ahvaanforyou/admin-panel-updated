@@ -6,7 +6,7 @@ import {
   Plus, 
   Search, 
   ExternalLink, 
-  Sparkles, 
+  FileText, 
   MoreVertical, 
   Pencil, 
   Trash2, 
@@ -186,7 +186,7 @@ export default function InvitationsPage({ onOpenAddTemplate, onEditTemplate }) {
           onClick={onOpenAddTemplate}
           className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors cursor-pointer shrink-0"
         >
-          <Sparkles className="w-4 h-4 text-white" />
+          <Plus className="w-4 h-4 text-white" />
           <span>Add Template</span>
         </button>
       </div>
@@ -372,7 +372,7 @@ export default function InvitationsPage({ onOpenAddTemplate, onEditTemplate }) {
                       <td className="py-4 px-4 font-bold text-slate-900">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200/60 flex items-center justify-center text-blue-600 shrink-0">
-                            <Sparkles className="w-4 h-4" />
+                            <FileText className="w-4 h-4" />
                           </div>
                           <div>
                             <p className="font-bold text-slate-900">{tpl.name}</p>

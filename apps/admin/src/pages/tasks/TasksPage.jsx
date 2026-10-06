@@ -3,7 +3,6 @@
 // =============================================================================
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  Sparkles,
   Search, 
   Clock, 
   History, 
@@ -216,7 +215,7 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
     }
   };
 
-  // 1. Color Schemes Based on Priority (Per User Requirement)
+  // 1. Color Schemes Based on Priority: High (Red), Medium (Orange), Low (Green)
   const getCardStyle = (task) => {
     const isCompleted = task.status === 'Completed';
     const prio = (task.priority || 'Medium').toLowerCase();
@@ -232,28 +231,19 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
       };
     }
 
-    if (prio === 'urgent') {
+    // High Priority: Red
+    if (prio === 'high' || prio === 'urgent') {
       return {
         cardBg: 'bg-[#FFF5F5] border-rose-200 hover:border-rose-300 border-l-4 border-l-rose-500 shadow-2xs hover:shadow-md',
         titleCls: 'font-bold text-slate-900',
         descCls: 'text-slate-600',
         prioBadge: 'bg-rose-100 text-rose-700 border border-rose-200 font-bold',
-        prioLabel: 'Urgent',
-        isCompleted: false,
-      };
-    }
-
-    if (prio === 'high') {
-      return {
-        cardBg: 'bg-[#FFF8F0] border-orange-200 hover:border-orange-300 border-l-4 border-l-orange-500 shadow-2xs hover:shadow-md',
-        titleCls: 'font-bold text-slate-900',
-        descCls: 'text-slate-600',
-        prioBadge: 'bg-orange-100 text-orange-700 border border-orange-200 font-bold',
         prioLabel: 'High',
         isCompleted: false,
       };
     }
 
+    // Low Priority: Green
     if (prio === 'low') {
       return {
         cardBg: 'bg-[#F0FDF4] border-emerald-200 hover:border-emerald-300 border-l-4 border-l-emerald-500 shadow-2xs hover:shadow-md',
@@ -265,12 +255,12 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
       };
     }
 
-    // Default: Medium
+    // Medium Priority: Orange
     return {
-      cardBg: 'bg-[#FFFDF0] border-amber-200 hover:border-amber-300 border-l-4 border-l-amber-500 shadow-2xs hover:shadow-md',
+      cardBg: 'bg-[#FFF8F0] border-orange-200 hover:border-orange-300 border-l-4 border-l-orange-500 shadow-2xs hover:shadow-md',
       titleCls: 'font-bold text-slate-900',
       descCls: 'text-slate-600',
-      prioBadge: 'bg-amber-100 text-amber-800 border border-amber-200 font-semibold',
+      prioBadge: 'bg-orange-100 text-orange-700 border border-orange-200 font-semibold',
       prioLabel: 'Medium',
       isCompleted: false,
     };
@@ -327,13 +317,13 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
           </p>
         </div>
 
-        {/* Add Task button with Sparkles icon & single clean text (No double plus) */}
+        {/* Add Task button with Plus icon & single clean text */}
         <button
           type="button"
           onClick={() => onOpenAddTask && onOpenAddTask()}
           className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-all hover:shadow-md cursor-pointer shrink-0"
         >
-          <Sparkles className="w-4 h-4 text-white" />
+          <Plus className="w-4 h-4 text-white" />
           <span>Add Task</span>
         </button>
       </div>
@@ -421,7 +411,6 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
               className="text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="All">All Priorities</option>
-              <option value="Urgent">Urgent</option>
               <option value="High">High</option>
               <option value="Medium">Medium</option>
               <option value="Low">Low</option>

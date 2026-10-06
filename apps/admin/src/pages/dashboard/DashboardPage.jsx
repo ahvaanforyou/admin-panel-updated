@@ -196,14 +196,14 @@ export default function DashboardPage({
 
   const displayTasks = (tasks || []).map((t) => {
     const prio = (t.priority || 'Medium').toLowerCase();
-    let dotColor = 'bg-[#F59E0B]';
-    let pillClass = 'bg-[#FEFCE8] text-[#D97706] border border-[#FEF3C7]';
+    let dotColor = 'bg-[#F97316]';
+    let pillClass = 'bg-[#FFF8F0] text-[#EA580C] border border-[#FFEDD5]';
     let prioLabel = 'Medium';
 
-    if (prio === 'urgent' || prio === 'high') {
+    if (prio === 'high' || prio === 'urgent') {
       dotColor = 'bg-[#EF4444]';
       pillClass = 'bg-[#FEF2F2] text-[#EF4444] border border-[#FEE2E2]';
-      prioLabel = prio === 'urgent' ? 'Urgent' : 'High';
+      prioLabel = 'High';
     } else if (prio === 'low') {
       dotColor = 'bg-[#10B981]';
       pillClass = 'bg-[#ECFDF5] text-[#059669] border border-[#A7F3D0]';
