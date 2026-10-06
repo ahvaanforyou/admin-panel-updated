@@ -42,44 +42,13 @@ export default function MemberPayoutDrawer({ isOpen, onClose, member, onOpenAddP
 
   if (!isOpen || !member) return null;
 
-  // Filter payouts for this member or provide sample matching screenshot
+  // Filter payouts for this member strictly from real payouts
   const memberName = member.name || 'Chaitu';
-  const memberPayouts = (payouts || []).filter(p => {
+  const displayPayouts = (payouts || []).filter(p => {
     if (p.team_member_id === member.id || p.team_member_id === member.team_member_id) return true;
     if ((p.team_members?.name || '').toLowerCase() === memberName.toLowerCase()) return true;
     return false;
   });
-
-  const displayPayouts = memberPayouts.length > 0 ? memberPayouts : [
-    {
-      payout_id: 'py1',
-      amount: 10000,
-      payment_method: 'UPI',
-      notes: 'Website design payout',
-      date: '2026-09-28',
-    },
-    {
-      payout_id: 'py2',
-      amount: 15000,
-      payment_method: 'Bank Transfer',
-      notes: 'Template development',
-      date: '2026-09-18',
-    },
-    {
-      payout_id: 'py3',
-      amount: 5000,
-      payment_method: 'UPI',
-      notes: 'Social media work',
-      date: '2026-09-10',
-    },
-    {
-      payout_id: 'py4',
-      amount: 5000,
-      payment_method: 'Bank Transfer',
-      notes: 'Illustrations and assets',
-      date: '2026-09-05',
-    }
-  ];
 
   const totalReceived = displayPayouts.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
   const percentage = member.percentage || 32;
@@ -217,86 +186,96 @@ export default function MemberPayoutDrawer({ isOpen, onClose, member, onOpenAddP
 
         {/* Payout Cards List */}
         <div className="flex-1 overflow-y-auto px-6 py-2 space-y-3">
-          {displayPayouts.map((p, idx) => {
-            const pId = p.team_finance_id || p.payout_id || p.id || `payout-${idx}`;
-            const cardDate = formatCardDate(p.date || p.payout_date || p.payment_date);
-            const isMenuOpen = activeMenuId === pId;
+          {displayPayouts.length === 0 ? (
+            <div className="py-12 text-center text-slate-400">
+              <Banknote className="w-10 h-10 mx-auto text-slate-300 mb-2 stroke-[1.5]" />
+              <p className="text-sm font-semibold text-slate-600">No payout records found</p>
+              <p className="text-xs text-slate-400 mt-1">
+                Click &ldquo;Add Payout&rdquo; to record a payment for {memberName}.
+              </p>
+            </div>
+          ) : (
+            displayPayouts.map((p, idx) => {
+              const pId = p.team_finance_id || p.payout_id || p.id || `payout-${idx}`;
+              const cardDate = formatCardDate(p.date || p.payout_date || p.payment_date);
+              const isMenuOpen = activeMenuId === pId;
 
-            return (
-              <div 
-                key={pId}
-                className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between hover:border-slate-300 transition-all relative"
-              >
-                {/* Left Date Box */}
-                <div className="flex items-center gap-4">
-                  <div className="w-13 h-14 rounded-xl bg-slate-50 border border-slate-200/70 flex flex-col items-center justify-center shrink-0">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{cardDate.month}</span>
-                    <span className="text-base font-bold text-slate-800 leading-none my-0.5">{cardDate.day}</span>
+              return (
+                <div 
+                  key={pId}
+                  className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between hover:border-slate-300 transition-all relative"
+                >
+                  {/* Left Date Box */}
+                  <div className="flex items-center gap-4">
+                    <div className="w-13 h-14 rounded-xl bg-slate-50 border border-slate-200/70 flex flex-col items-center justify-center shrink-0">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{cardDate.month}</span>
+                      <span className="text-base font-bold text-slate-800 leading-none my-0.5">{cardDate.day}</span>
+                    </div>
+
+                    {/* Middle Info */}
+                    <div>
+                      <p className="text-sm font-bold text-slate-900">{formatCurrency(p.amount)}</p>
+                      <div className="flex items-center gap-1.5 text-xs text-slate-600 mt-0.5">
+                        {getMethodIcon(p.payment_method)}
+                        <span className="font-semibold">{p.payment_method || 'UPI'}</span>
+                      </div>
+                      {p.notes && (
+                        <p className="text-xs text-slate-400 mt-0.5">{p.notes}</p>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Middle Info */}
-                  <div>
-                    <p className="text-sm font-bold text-slate-900">{formatCurrency(p.amount)}</p>
-                    <div className="flex items-center gap-1.5 text-xs text-slate-600 mt-0.5">
-                      {getMethodIcon(p.payment_method)}
-                      <span className="font-semibold">{p.payment_method || 'UPI'}</span>
-                    </div>
-                    {p.notes && (
-                      <p className="text-xs text-slate-400 mt-0.5">{p.notes}</p>
+                  {/* Right Three Dots Menu */}
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveMenuId(isMenuOpen ? null : pId);
+                      }}
+                      className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                    >
+                      <MoreVertical className="w-4 h-4" />
+                    </button>
+
+                    {isMenuOpen && (
+                      <div
+                        ref={menuRef}
+                        className="absolute right-0 mt-1 w-36 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-50 text-xs text-left animate-in fade-in-50 zoom-in-95 duration-100"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => handleStartEdit(p)}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-slate-700 hover:bg-slate-50 transition-colors font-medium cursor-pointer"
+                        >
+                          <Pencil className="w-3.5 h-3.5 text-slate-400" />
+                          <span>Edit Payout</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(pId)}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-rose-600 hover:bg-rose-50 transition-colors font-medium border-t border-slate-100 cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5 text-rose-500" />
+                          <span>Delete Payout</span>
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>
-
-                {/* Right Three Dots Menu */}
-                <div className="relative">
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActiveMenuId(isMenuOpen ? null : pId);
-                    }}
-                    className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
-                  >
-                    <MoreVertical className="w-4 h-4" />
-                  </button>
-
-                  {isMenuOpen && (
-                    <div
-                      ref={menuRef}
-                      className="absolute right-0 mt-1 w-36 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-50 text-xs text-left animate-in fade-in-50 zoom-in-95 duration-100"
-                    >
-                      <button
-                        type="button"
-                        onClick={() => handleStartEdit(p)}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-slate-700 hover:bg-slate-50 transition-colors font-medium cursor-pointer"
-                      >
-                        <Pencil className="w-3.5 h-3.5 text-slate-400" />
-                        <span>Edit Payout</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(pId)}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-rose-600 hover:bg-rose-50 transition-colors font-medium border-t border-slate-100 cursor-pointer"
-                      >
-                        <Trash2 className="w-3.5 h-3.5 text-rose-500" />
-                        <span>Delete Payout</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
 
-        {/* Footer matching media_1791193787803.png */}
+        {/* Footer */}
         <div className="p-6 border-t border-slate-100 flex items-center justify-between">
           <div>
             <p className="text-xs text-slate-400 font-medium">Total Received</p>
             <p className="text-lg font-bold text-slate-900 mt-0.5">{formatCurrency(totalReceived)}</p>
           </div>
           <p className="text-xs font-semibold text-slate-500">
-            {displayPayouts.length} Payouts in September 2026
+            {displayPayouts.length} Payout{displayPayouts.length !== 1 ? 's' : ''} recorded
           </p>
         </div>
 

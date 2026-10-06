@@ -22,8 +22,7 @@ import {
   Box,
   ChevronLeft,
   ChevronRight,
-  ChevronDown,
-  CheckCircle2
+  ChevronDown
 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 import { formatCurrency } from '../../config/customization';
@@ -452,22 +451,6 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
                 <option value="Marketing">Marketing</option>
                 <option value="Tools">Tools</option>
                 <option value="Other">Other</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Status Dropdown */}
-          <div className="relative">
-            <div className="flex items-center gap-1.5 px-3.5 py-2.5 bg-white border border-slate-200/90 rounded-xl text-xs font-medium text-slate-700 shadow-2xs">
-              <CheckCircle2 className="w-3.5 h-3.5 text-slate-400" />
-              <select
-                value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
-                className="bg-transparent focus:outline-none cursor-pointer pr-1 font-semibold"
-              >
-                <option value="All">All Statuses</option>
-                <option value="Paid">Paid</option>
-                <option value="Pending">Pending</option>
               </select>
             </div>
           </div>
