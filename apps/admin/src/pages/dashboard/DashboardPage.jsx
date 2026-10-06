@@ -1,7 +1,7 @@
 // =============================================================================
 // src/pages/dashboard/DashboardPage.jsx — Operations Dashboard (Matching Design Image)
 // =============================================================================
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Users, 
   ShoppingBag, 
@@ -10,7 +10,9 @@ import {
   ArrowRight, 
   ChevronRight,
   UserPlus,
-  CheckSquare
+  CheckSquare,
+  Calendar,
+  ChevronDown
 } from 'lucide-react';
 import { 
   ResponsiveContainer, 
@@ -31,7 +33,8 @@ export default function DashboardPage({
   onOpenAddTask, 
   onSelectClient 
 }) {
-  const { stats, clients, tasks, payments, selectedMonth, loading } = useData();
+  const { stats, clients, tasks, payments, selectedMonth, setSelectedMonth, loading } = useData();
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const isInitialLoading = loading && (!clients || clients.length === 0) && (!payments || payments.length === 0);
 
@@ -246,8 +249,62 @@ export default function DashboardPage({
     };
   });
 
+  const dateRangeOptions = [
+    { label: 'Sep 1, 2026 – Sep 30, 2026', monthKey: '2026-09' },
+    { label: 'Oct 1, 2026 – Oct 31, 2026', monthKey: '2026-10' },
+    { label: 'Nov 1, 2026 – Nov 30, 2026', monthKey: '2026-11' },
+    { label: 'Dec 1, 2026 – Dec 31, 2026', monthKey: '2026-12' },
+    { label: 'All Time', monthKey: 'All' },
+  ];
+  const currentRangeLabel = dateRangeOptions.find((o) => o.monthKey === selectedMonth)?.label || 'Oct 1, 2026 – Oct 31, 2026';
+
   return (
     <div className="space-y-6 animate-in fade-in duration-150">
+      {/* ── Top Header with Date Range & Title ───────────────────────────── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Dashboard</h1>
+          <p className="text-xs text-slate-500 mt-1">
+            Real-time overview of Ahvaan wedding invitations &amp; finances.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          {/* Calendar Month Selector Pill */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setShowDatePicker(!showDatePicker)}
+              className="inline-flex items-center gap-2 px-3.5 py-2 bg-white border border-slate-200/90 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-sm transition-all cursor-pointer"
+            >
+              <Calendar className="w-3.5 h-3.5 text-blue-600" />
+              <span>{currentRangeLabel}</span>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+            </button>
+
+            {showDatePicker && (
+              <div className="absolute right-0 mt-1 w-64 bg-white border border-slate-200 rounded-xl shadow-lg p-2 z-30 text-xs">
+                {dateRangeOptions.map((range) => (
+                  <button
+                    key={range.monthKey}
+                    type="button"
+                    onClick={() => {
+                      if (setSelectedMonth) setSelectedMonth(range.monthKey);
+                      setShowDatePicker(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+                      selectedMonth === range.monthKey ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    {range.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* ── 1. Top KPI Row (Exact 4 Cards as per image) ───────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
         {/* Total Clients */}

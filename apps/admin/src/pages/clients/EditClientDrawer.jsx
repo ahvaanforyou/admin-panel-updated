@@ -449,6 +449,7 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
     setLoading(true);
     try {
       const primaryOrder = ordersList[0];
+      const allOrdersCompleted = ordersList.length > 0 && ordersList.every(o => o.status === 'Completed');
 
       // Update client basic details and primary order info
       await updateClient(client.client_id, {
@@ -456,7 +457,7 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
         country_code: countryCode,
         phone: phone.trim(),
         email: email.trim(),
-        status: primaryOrder?.status || 'In Progress',
+        status: allOrdersCompleted ? 'Completed' : (primaryOrder?.status || 'In Progress'),
         total_amount: Number(primaryOrder?.total_amount) || 0,
         submission_date: primaryOrder?.submission_date || undefined,
       });
@@ -470,6 +471,7 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
                 event_name: ev.event_name,
                 event_date: ev.event_date,
                 template_id: ev.template_id,
+                status: ev.status || 'In Progress',
               });
             } catch (err) {
               console.error('Failed to update event item:', err);
@@ -981,10 +983,13 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
                                   onChange={(e) => handleEventStatusChange(ordIdx, evIdx, e.target.value)}
                                   className="w-full text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white font-medium cursor-pointer"
                                 >
+                                  <option value="In Review">In Review</option>
                                   <option value="In Progress">In Progress</option>
                                   <option value="Completed">Completed</option>
                                   <option value="On Hold">On Hold</option>
+                                  <option value="Template Chosen">Template Chosen</option>
                                   <option value="Cancelled">Cancelled</option>
+                                  <option value="Pending">Pending</option>
                                 </select>
                               </div>
                             </div>

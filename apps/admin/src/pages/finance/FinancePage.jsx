@@ -3,6 +3,7 @@
 // =============================================================================
 import React, { useState } from 'react';
 import { Plus, Calendar, ChevronDown } from 'lucide-react';
+import { useData } from '../../context/DataContext';
 import ClientFinanceTab from './ClientFinanceTab';
 import TeamFinanceTab from './TeamFinanceTab';
 import ExpensesTab from './ExpensesTab';
@@ -16,9 +17,18 @@ export default function FinancePage({
   onEditExpense,
   onSelectMember,
 }) {
+  const { selectedMonth, setSelectedMonth } = useData();
   const [activeSubTab, setActiveSubTab] = useState('client'); // 'client' | 'team' | 'expenses'
-  const [selectedDateRange, setSelectedDateRange] = useState('Sep 1, 2026 – Sep 30, 2026');
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const dateRangeOptions = [
+    { label: 'Sep 1, 2026 – Sep 30, 2026', monthKey: '2026-09' },
+    { label: 'Oct 1, 2026 – Oct 31, 2026', monthKey: '2026-10' },
+    { label: 'Nov 1, 2026 – Nov 30, 2026', monthKey: '2026-11' },
+    { label: 'Dec 1, 2026 – Dec 31, 2026', monthKey: '2026-12' },
+    { label: 'All Time', monthKey: 'All' },
+  ];
+  const currentRangeLabel = dateRangeOptions.find((o) => o.monthKey === selectedMonth)?.label || 'Oct 1, 2026 – Oct 31, 2026';
 
   const subTabs = [
     { id: 'client', label: 'Client Finance' },
@@ -57,34 +67,28 @@ export default function FinancePage({
             <button
               type="button"
               onClick={() => setShowDatePicker(!showDatePicker)}
-              className="inline-flex items-center gap-2 px-3.5 py-2.5 bg-white border border-slate-200/90 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 bg-white border border-slate-200/90 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-sm transition-all cursor-pointer"
             >
-              <Calendar className="w-4 h-4 text-slate-400" />
-              <span>{selectedDateRange}</span>
+              <Calendar className="w-4 h-4 text-blue-600" />
+              <span>{currentRangeLabel}</span>
               <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
             </button>
 
             {showDatePicker && (
               <div className="absolute right-0 mt-1 w-64 bg-white border border-slate-200 rounded-xl shadow-lg p-2 z-30 text-xs">
-                {[
-                  'Sep 1, 2026 – Sep 30, 2026',
-                  'Oct 1, 2026 – Oct 31, 2026',
-                  'Nov 1, 2026 – Nov 30, 2026',
-                  'Last 30 Days',
-                  'All Time'
-                ].map((range) => (
+                {dateRangeOptions.map((range) => (
                   <button
-                    key={range}
+                    key={range.monthKey}
                     type="button"
                     onClick={() => {
-                      setSelectedDateRange(range);
+                      if (setSelectedMonth) setSelectedMonth(range.monthKey);
                       setShowDatePicker(false);
                     }}
                     className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
-                      selectedDateRange === range ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-600 hover:bg-slate-50'
+                      selectedMonth === range.monthKey ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-600 hover:bg-slate-50'
                     }`}
                   >
-                    {range}
+                    {range.label}
                   </button>
                 ))}
               </div>

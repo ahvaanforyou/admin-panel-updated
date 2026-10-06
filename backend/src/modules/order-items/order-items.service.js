@@ -70,13 +70,22 @@ async function addOrderItem(payload) {
 
 /**
  * updateOrderItem
- * Updates editable fields of an existing order item (event/template/details).
- * Does NOT change status — use changeOrderItemStatus for that.
+ * Updates editable fields of an existing order item (event/template/details/status).
  */
 async function updateOrderItem(itemId, updates) {
-  // Status changes must go through changeOrderItemStatus (validated separately)
-  delete updates.status;
-  delete updates.completed_at;
+  let newCompletedAt = updates.completed_at || null;
+  if (updates.status === 'Completed') {
+    newCompletedAt = newCompletedAt || new Date().toISOString();
+  }
+
+  if (updates.status) {
+    let validStatus = updates.status;
+    if (!['In Review', 'In Progress', 'Completed', 'On Hold', 'Template Chosen', 'Cancelled'].includes(validStatus)) {
+      validStatus = 'In Progress';
+    }
+    updates.status = validStatus;
+    updates.completed_at = newCompletedAt;
+  }
 
   const { data, error } = await supabaseAdmin
     .from('order_items')
@@ -87,16 +96,21 @@ async function updateOrderItem(itemId, updates) {
 
   if (error) throw createError(400, error.message, 'Update Failed');
   if (!data) throw createError(404, `Order item ${itemId} not found`, 'Not Found');
+
+  if (data.order_id) {
+    await recalculateOrderStatus(data.order_id);
+  }
+
   return data;
 }
 
 /**
  * changeOrderItemStatus
- * The critical status-change operation (PRD §7 + §6):
- *   1. Validates completed_at requirement for Completed status
- *   2. Nulls completed_at when moving away from Completed
+ * Status-change operation:
+ *   1. Accepts In Review, In Progress, Completed, On Hold, Template Chosen, Cancelled, Pending
+ *   2. Validates completed_at requirement for Completed status
  *   3. Updates the item
- *   4. Recalculates and updates the parent order status
+ *   4. Recalculates and updates the parent order status (only Completed when all items are Completed)
  */
 async function changeOrderItemStatus(itemId, { status, completed_at }) {
   // Fetch current item
@@ -116,10 +130,8 @@ async function changeOrderItemStatus(itemId, { status, completed_at }) {
 
   // Sanitize status to allowed check constraint values
   let validStatus = status;
-  if (!['In Progress', 'Completed', 'On Hold', 'Cancelled'].includes(validStatus)) {
-    if (validStatus === 'Pending') validStatus = 'In Progress';
-    else if (validStatus === 'Review') validStatus = 'In Progress';
-    else validStatus = 'In Progress';
+  if (!['In Review', 'In Progress', 'Completed', 'On Hold', 'Template Chosen', 'Cancelled'].includes(validStatus)) {
+    validStatus = 'In Progress';
   }
 
   // Update the item
@@ -132,7 +144,7 @@ async function changeOrderItemStatus(itemId, { status, completed_at }) {
 
   if (updateError) throw createError(400, updateError.message, 'Status Update Failed');
 
-  // Recalculate parent order status (PRD §6) via Postgres function
+  // Recalculate parent order status: Completed only when ALL active items are Completed
   const newOrderStatus = await recalculateOrderStatus(item.order_id);
 
   return {
@@ -143,16 +155,34 @@ async function changeOrderItemStatus(itemId, { status, completed_at }) {
 
 /**
  * recalculateOrderStatus (internal helper)
- * Calls the Postgres `recalculate_order_status` function.
- * Returns the newly calculated order status string.
+ * Enforces rule: When both / all order items are set to Completed, THEN ONLY main order becomes Completed.
  */
 async function recalculateOrderStatus(orderId) {
-  const { data, error } = await supabaseAdmin.rpc('recalculate_order_status', {
-    p_order_id: orderId,
-  });
+  const { data: allItems } = await supabaseAdmin
+    .from('order_items')
+    .select('status')
+    .eq('order_id', orderId);
 
-  if (error) throw createError(500, `Order status recalculation failed: ${error.message}`);
-  return data; // e.g., 'In Progress'
+  let targetOrderStatus = 'In Progress';
+  if (allItems && allItems.length > 0) {
+    const active = allItems.filter(i => i.status !== 'Cancelled');
+    if (active.length > 0 && active.every(i => i.status === 'Completed')) {
+      targetOrderStatus = 'Completed';
+    } else if (active.length === 0 && allItems.length > 0) {
+      targetOrderStatus = 'Cancelled';
+    } else if (active.every(i => i.status === 'On Hold')) {
+      targetOrderStatus = 'On Hold';
+    } else {
+      targetOrderStatus = 'In Progress';
+    }
+  }
+
+  await supabaseAdmin
+    .from('orders')
+    .update({ status: targetOrderStatus })
+    .eq('order_id', orderId);
+
+  return targetOrderStatus;
 }
 
 /**

@@ -200,6 +200,13 @@ export function DataProvider({ children }) {
 
   const addExpense = async (payload) => {
     const res = await api.addExpense(payload);
+    if (res) {
+      setExpenses((prev) => [res, ...(prev || [])]);
+      setStats((prev) => ({
+        ...prev,
+        total_expenses: (Number(prev?.total_expenses) || 0) + (Number(res.amount) || 0),
+      }));
+    }
     await refreshAll();
     return res;
   };

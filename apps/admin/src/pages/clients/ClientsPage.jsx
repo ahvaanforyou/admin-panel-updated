@@ -585,6 +585,7 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
                     const clientStatus = client.status || latestOrder?.status || 'In Progress';
                     const isSelected = selectedIds.includes(client.client_id);
                     const isMenuOpen = activeMenuId === client.client_id;
+                    const openUpwards = i >= paginatedClients.length - 2 && paginatedClients.length >= 2;
 
                     return (
                       <tr
@@ -679,7 +680,9 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
                             {isMenuOpen && (
                               <div
                                 ref={menuRef}
-                                className="absolute right-0 mt-1 w-44 bg-white rounded-xl shadow-lg border border-slate-200/90 py-1.5 z-50 text-xs text-left animate-in fade-in-50 zoom-in-95 duration-100"
+                                className={`absolute right-0 w-44 bg-white rounded-xl shadow-xl border border-slate-200/90 py-1.5 z-50 text-xs text-left animate-in fade-in-50 zoom-in-95 duration-100 ${
+                                  openUpwards ? 'bottom-full mb-1' : 'top-full mt-1'
+                                }`}
                               >
                                 <button
                                   type="button"

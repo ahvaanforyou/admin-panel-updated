@@ -238,7 +238,21 @@ async function updateClient(clientId, updates) {
   // 2. Order fields (total_amount, status)
   const orderUpdates = {};
   if (updates.total_amount !== undefined) orderUpdates.total_amount = Number(updates.total_amount);
-  if (updates.status !== undefined) orderUpdates.status = updates.status;
+  if (updates.status !== undefined) {
+    if (updates.status === 'Completed') {
+      const { data: ords } = await supabaseAdmin.from('orders').select('order_id').eq('client_id', clientId);
+      const orderIds = (ords || []).map(o => o.order_id);
+      const { data: items } = await supabaseAdmin.from('order_items').select('status').in('order_id', orderIds);
+      const active = (items || []).filter(i => i.status !== 'Cancelled');
+      if (active.length > 0 && active.every(i => i.status === 'Completed')) {
+        orderUpdates.status = 'Completed';
+      } else {
+        orderUpdates.status = 'In Progress';
+      }
+    } else {
+      orderUpdates.status = updates.status;
+    }
+  }
 
   if (Object.keys(orderUpdates).length > 0) {
     const { error: oErr } = await supabaseAdmin

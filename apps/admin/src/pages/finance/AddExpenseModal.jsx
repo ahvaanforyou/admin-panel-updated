@@ -15,7 +15,7 @@ import { useData } from '../../context/DataContext';
 export default function AddExpenseModal({ isOpen, onClose }) {
   const { teamMembers, addExpense } = useData();
 
-  const [date, setDate] = useState('2026-09-30');
+  const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('Marketing');
   const [amount, setAmount] = useState('');
@@ -24,6 +24,16 @@ export default function AddExpenseModal({ isOpen, onClose }) {
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setDate(new Date().toISOString().slice(0, 10));
+      setTitle('');
+      setAmount('');
+      setDescription('');
+      setError('');
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 

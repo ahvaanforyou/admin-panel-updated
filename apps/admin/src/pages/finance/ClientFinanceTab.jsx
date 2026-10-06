@@ -200,9 +200,21 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
         selectedPaymentStatus === 'All' ||
         paymentStatus.toLowerCase() === selectedPaymentStatus.toLowerCase();
 
-      return matchesSearch && matchesEvent && matchesStatus;
+      // Calendar month matching
+      let matchesMonth = true;
+      if (selectedMonth && selectedMonth !== 'All') {
+        const clientPayments = (payments || []).filter(p => p.order_id === order?.order_id || p.client_id === c.client_id);
+        const hasPaymentInMonth = clientPayments.some(p => (p.payment_date || p.created_at || '').startsWith(selectedMonth));
+        const allPayments = (clientPayments.length > 0 ? clientPayments : (order?.payments || [])).slice().sort((a, b) => new Date(b.payment_date || b.created_at) - new Date(a.payment_date || a.created_at));
+        const lastPayDate = allPayments[0]?.payment_date || order?.order_date || c.created_at || '';
+        const lastPayMatches = lastPayDate.startsWith(selectedMonth);
+        const orderMatches = (order?.order_date || c.created_at || '').startsWith(selectedMonth);
+        matchesMonth = hasPaymentInMonth || lastPayMatches || orderMatches;
+      }
+
+      return matchesSearch && matchesEvent && matchesStatus && matchesMonth;
     });
-  }, [clients, searchTerm, selectedEventType, selectedPaymentStatus]);
+  }, [clients, payments, searchTerm, selectedEventType, selectedPaymentStatus, selectedMonth]);
 
   // Reset filters
   const handleResetFilters = () => {
@@ -500,9 +512,12 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
                     const order = client.orders?.[0];
                     const events = getClientEvents(client);
                     const totalAmt = Number(order?.total_amount) || 0;
-                    const paidAmt = Number(order?.amount_paid) || 0;
+                    const clientPayments = (payments || []).filter(p => p.order_id === order?.order_id || p.client_id === client.client_id);
+                    const livePaid = clientPayments.length > 0 ? clientPayments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0) : (Number(order?.amount_paid) || 0);
+                    const paidAmt = livePaid;
                     const pendingAmt = Math.max(0, totalAmt - paidAmt);
-                    const lastPaymentDate = order?.payments?.[0]?.payment_date || order?.order_date || client.created_at;
+                    const allPayments = (clientPayments.length > 0 ? clientPayments : (order?.payments || [])).slice().sort((a, b) => new Date(b.payment_date || b.created_at) - new Date(a.payment_date || a.created_at));
+                    const lastPaymentDate = allPayments[0]?.payment_date || order?.order_date || client.created_at;
 
                     const rawClientName = client?.name || 'Client';
                     const initials = typeof rawClientName === 'string'
