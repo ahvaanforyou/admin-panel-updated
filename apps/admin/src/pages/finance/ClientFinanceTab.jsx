@@ -75,10 +75,10 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
     return d.startsWith(prevMonthStr);
   });
 
-  const totalClientsCount = monthClients.length > 0 ? monthClients.length : safeClients.length;
-  const totalAmountLive = monthClients.length > 0 
-    ? monthClients.reduce((acc, c) => acc + (Number(c.orders?.[0]?.total_amount) || 0), 0)
-    : safeClients.reduce((acc, c) => acc + (Number(c.orders?.[0]?.total_amount) || 0), 0);
+  const totalClientsCount = isAllTime ? safeClients.length : monthClients.length;
+  const totalAmountLive = isAllTime 
+    ? safeClients.reduce((acc, c) => acc + (Number(c.orders?.[0]?.total_amount) || 0), 0)
+    : monthClients.reduce((acc, c) => acc + (Number(c.orders?.[0]?.total_amount) || 0), 0);
   
   const totalReceivedLive = monthPayments.reduce((acc, p) => acc + (Number(p.amount) || 0), 0);
   const totalPendingLive = Math.max(0, totalAmountLive - totalReceivedLive);
@@ -89,7 +89,9 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
 
   // Paid and pending client counts
   const paidClientIds = new Set(monthPayments.map(p => p.orders?.client_id || p.client_id).filter(Boolean));
-  const paidClientsCount = paidClientIds.size > 0 ? paidClientIds.size : monthClients.filter(c => (Number(c.orders?.[0]?.amount_paid) || 0) > 0).length;
+  const paidClientsCount = isAllTime
+    ? (paidClientIds.size > 0 ? paidClientIds.size : safeClients.filter(c => (Number(c.orders?.[0]?.amount_paid) || 0) > 0).length)
+    : (paidClientIds.size > 0 ? paidClientIds.size : monthClients.filter(c => (Number(c.orders?.[0]?.amount_paid) || 0) > 0).length);
   const pendingClientsCount = Math.max(0, totalClientsCount - paidClientsCount);
 
   // Growth percentage
@@ -208,13 +210,11 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
       // Calendar month matching
       let matchesMonth = true;
       if (selectedMonth && selectedMonth !== 'All') {
+        const clientCreatedMatches = String(c.created_at || '').startsWith(selectedMonth);
+        const orderDateMatches = String(order?.order_date || '').startsWith(selectedMonth);
         const clientPayments = safePayments.filter(p => p.order_id === order?.order_id || p.client_id === c.client_id);
         const hasPaymentInMonth = clientPayments.some(p => String(p.payment_date || p.created_at || '').startsWith(selectedMonth));
-        const allPayments = (clientPayments.length > 0 ? clientPayments : (order?.payments || [])).slice().sort((a, b) => new Date(b.payment_date || b.created_at) - new Date(a.payment_date || a.created_at));
-        const lastPayDate = String(allPayments[0]?.payment_date || order?.order_date || c.created_at || '');
-        const lastPayMatches = lastPayDate.startsWith(selectedMonth);
-        const orderMatches = String(order?.order_date || c.created_at || '').startsWith(selectedMonth);
-        matchesMonth = hasPaymentInMonth || lastPayMatches || orderMatches;
+        matchesMonth = clientCreatedMatches || orderDateMatches || hasPaymentInMonth;
       }
 
       return matchesSearch && matchesEvent && matchesStatus && matchesMonth;

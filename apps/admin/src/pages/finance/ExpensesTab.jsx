@@ -35,7 +35,7 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedMethod, setSelectedMethod] = useState('All');
-  const [selectedTimeFilter, setSelectedTimeFilter] = useState('All Time');
+  const [selectedTimeFilter, setSelectedTimeFilter] = useState('This Month');
   const [selectedIds, setSelectedIds] = useState([]);
   const [activeMenuId, setActiveMenuId] = useState(null);
   const menuRef = useRef(null);

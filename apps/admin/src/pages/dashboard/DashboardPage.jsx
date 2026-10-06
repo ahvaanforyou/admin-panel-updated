@@ -130,10 +130,7 @@ export default function DashboardPage({
     const cDate = String(c.created_at || c.orders?.[0]?.order_date || '');
     return cDate.startsWith(prevMonth);
   });
-  const totalClientsCount = isAllTime ? (clients || []).length : (clients || []).filter(c => {
-    const cDate = String(c.created_at || '').slice(0, 7);
-    return !cDate || cDate <= selectedMonth;
-  }).length;
+  const totalClientsCount = isAllTime ? (clients || []).length : monthClients.length;
   const clientDiff = monthClients.length - prevMonthClients.length;
   const clientPct = prevMonthClients.length > 0 
     ? Math.round((clientDiff / prevMonthClients.length) * 100) 
@@ -239,8 +236,8 @@ export default function DashboardPage({
   const inProgressCount = (tasks || []).filter(t => t.status === 'In Progress').length;
   const upcomingCount = (tasks || []).filter(t => t.status === 'Review' || t.status === 'Upcoming' || (t.status !== 'Completed' && t.due_at && new Date(t.due_at) > new Date())).length;
 
-  // 7. Recent Clients (Real database clients)
-  const displayClients = (clients || []).slice(0, 5).map((c, i) => {
+  // 7. Recent Clients (Filtered by selectedMonth)
+  const displayClients = monthClients.slice(0, 5).map((c, i) => {
     const order = c.orders?.[0];
     const eventName = order?.order_items?.[0]?.event_name || 'Wedding Invitation';
     return {

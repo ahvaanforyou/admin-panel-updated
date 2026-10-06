@@ -60,7 +60,7 @@ export const getUserTheme = (name = '') => {
 };
 
 export default function TasksPage({ onOpenAddTask, onEditTask }) {
-  const { tasks, updateTask, deleteTask, teamMembers } = useData();
+  const { tasks, updateTask, deleteTask, teamMembers, selectedMonth } = useData();
 
   const allMembers = (teamMembers && teamMembers.length > 0) ? teamMembers : FALLBACK_MEMBERS;
   const columns = ['Thanu', 'Chaitu', 'Farru'];
@@ -103,10 +103,14 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Use ONLY genuine database tasks
-  const allTasks = localTasks || [];
+  // Filter tasks by selectedMonth if active
+  const allTasks = (localTasks || []).filter((t) => {
+    if (!selectedMonth || selectedMonth === 'All') return true;
+    const d = String(t.due_at || t.created_at || '');
+    return d.startsWith(selectedMonth);
+  });
 
-  // KPI Metrics calculated from real tasks
+  // KPI Metrics calculated from real tasks for selectedMonth
   const overdueCount = allTasks.filter(t => t.status === 'Overdue' || (t.status !== 'Completed' && t.due_at && new Date(t.due_at) < new Date())).length;
   const inProgressCount = allTasks.filter(t => t.status === 'In Progress').length;
   const upcomingCount = allTasks.filter(t => t.status === 'Pending').length;

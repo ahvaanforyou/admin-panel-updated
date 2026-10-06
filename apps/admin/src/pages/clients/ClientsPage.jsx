@@ -174,9 +174,15 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
   const completedWeekly = getWeeklyCounts(c => (c.status || c.orders?.[0]?.status) === 'Completed');
   const onHoldWeekly = getWeeklyCounts(c => ['On Hold', 'In Review', 'Review'].includes(c.status || c.orders?.[0]?.status));
 
-  // Filter clients
+  // Filter clients by search, status, template, and selected month
   const filteredClients = useMemo(() => {
     return clients.filter((c) => {
+      // Month calendar filter
+      if (selectedMonth && selectedMonth !== 'All') {
+        const d = String(c.created_at || c.orders?.[0]?.order_date || '');
+        if (!d.startsWith(selectedMonth)) return false;
+      }
+
       const q = searchTerm.toLowerCase();
       const matchesSearch =
         !q ||
@@ -195,7 +201,7 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
 
       return matchesSearch && matchesStatus && matchesTemplate;
     });
-  }, [clients, searchTerm, selectedStatus, selectedTemplateFilter]);
+  }, [clients, searchTerm, selectedStatus, selectedTemplateFilter, selectedMonth]);
 
   // Pagination
   const totalPages = Math.ceil(filteredClients.length / pageSize) || 1;
