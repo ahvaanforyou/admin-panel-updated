@@ -13,7 +13,8 @@ import {
   Pencil, 
   Trash2, 
   Check, 
-  Plus
+  Plus,
+  ChevronDown
 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 
@@ -60,7 +61,7 @@ export const getUserTheme = (name = '') => {
 };
 
 export default function TasksPage({ onOpenAddTask, onEditTask }) {
-  const { tasks, updateTask, deleteTask, teamMembers, selectedMonth } = useData();
+  const { tasks, updateTask, deleteTask, teamMembers, selectedMonth, setSelectedMonth } = useData();
 
   const allMembers = (teamMembers && teamMembers.length > 0) ? teamMembers : FALLBACK_MEMBERS;
   const columns = ['Thanu', 'Chaitu', 'Farru'];
@@ -68,6 +69,29 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [priorityFilter, setPriorityFilter] = useState('All');
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const datePickerRef = useRef(null);
+
+  const dateRangeOptions = [
+    { label: 'September 2026', monthKey: '2026-09' },
+    { label: 'October 2026', monthKey: '2026-10' },
+    { label: 'November 2026', monthKey: '2026-11' },
+    { label: 'December 2026', monthKey: '2026-12' },
+    { label: 'January 2027', monthKey: '2027-01' },
+    { label: 'February 2027', monthKey: '2027-02' },
+    { label: 'March 2027', monthKey: '2027-03' },
+    { label: 'April 2027', monthKey: '2027-04' },
+    { label: 'May 2027', monthKey: '2027-05' },
+    { label: 'June 2027', monthKey: '2027-06' },
+    { label: 'July 2027', monthKey: '2027-07' },
+    { label: 'August 2027', monthKey: '2027-08' },
+    { label: 'September 2027', monthKey: '2027-09' },
+    { label: 'October 2027', monthKey: '2027-10' },
+    { label: 'November 2027', monthKey: '2027-11' },
+    { label: 'December 2027', monthKey: '2027-12' },
+    { label: 'All Time', monthKey: 'All' },
+  ];
+  const currentRangeLabel = dateRangeOptions.find((o) => o.monthKey === selectedMonth)?.label || (selectedMonth === 'All' ? 'All Time' : 'October 2026');
 
   // Internal reactive task list for instant, butter-smooth optimistic drag & drop
   const [localTasks, setLocalTasks] = useState(tasks || []);
@@ -98,15 +122,22 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setActiveMenuId(null);
       }
+      if (datePickerRef.current && !datePickerRef.current.contains(e.target)) {
+        setShowDatePicker(false);
+      }
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Filter tasks by selectedMonth if active
+  const getTaskMonthDate = (t) => {
+    return t.due_at || t.start_date || t.created_at || '';
+  };
+
+  // Filter tasks strictly by selectedMonth if active
   const allTasks = (localTasks || []).filter((t) => {
     if (!selectedMonth || selectedMonth === 'All') return true;
-    const d = String(t.due_at || t.created_at || '');
+    const d = String(getTaskMonthDate(t));
     return d.startsWith(selectedMonth);
   });
 
@@ -312,7 +343,7 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-150">
-      {/* ── Top Header ───────────────────────────────────────────────────── */}
+      {/* ── Top Header with Date Range & Add Task Button ─────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Tasks</h1>
@@ -321,15 +352,50 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
           </p>
         </div>
 
-        {/* Add Task button with Plus icon & single clean text */}
-        <button
-          type="button"
-          onClick={() => onOpenAddTask && onOpenAddTask()}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-all hover:shadow-md cursor-pointer shrink-0"
-        >
-          <Plus className="w-4 h-4 text-white" />
-          <span>Add Task</span>
-        </button>
+        <div className="flex items-center gap-3">
+          {/* Calendar Month Selector Dropdown */}
+          <div className="relative" ref={datePickerRef}>
+            <button
+              type="button"
+              onClick={() => setShowDatePicker(!showDatePicker)}
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 bg-white border border-slate-200/90 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-xs transition-all cursor-pointer"
+            >
+              <Calendar className="w-4 h-4 text-blue-600" />
+              <span>{currentRangeLabel}</span>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+            </button>
+
+            {showDatePicker && (
+              <div className="absolute right-0 mt-1 w-64 bg-white border border-slate-200 rounded-xl shadow-lg p-2 z-50 text-xs max-h-80 overflow-y-auto animate-in fade-in-50 zoom-in-95 duration-100">
+                {dateRangeOptions.map((range) => (
+                  <button
+                    key={range.monthKey}
+                    type="button"
+                    onClick={() => {
+                      if (setSelectedMonth) setSelectedMonth(range.monthKey);
+                      setShowDatePicker(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+                      selectedMonth === range.monthKey ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    {range.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Add Task button with Plus icon & single clean text */}
+          <button
+            type="button"
+            onClick={() => onOpenAddTask && onOpenAddTask()}
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-all hover:shadow-md cursor-pointer shrink-0"
+          >
+            <Plus className="w-4 h-4 text-white" />
+            <span>Add Task</span>
+          </button>
+        </div>
       </div>
 
       {/* ── 4 KPI Metric Cards ────────────────────────────────────────────── */}
