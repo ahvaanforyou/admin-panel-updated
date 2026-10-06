@@ -79,7 +79,7 @@ export const api = {
       const res = await client.get(`/clients${search ? `?search=${encodeURIComponent(search)}` : ''}`);
       return res.data.data || [];
     } catch {
-      return [];
+      return null;
     }
   },
 
@@ -141,7 +141,7 @@ export const api = {
       const res = await client.get('/payments', { params });
       return res.data.data || [];
     } catch {
-      return [];
+      return null;
     }
   },
 
@@ -166,7 +166,7 @@ export const api = {
       const res = await client.get('/expenses', { params });
       return res.data.data || [];
     } catch {
-      return [];
+      return null;
     }
   },
 
@@ -191,7 +191,7 @@ export const api = {
       const res = await client.get('/team-members');
       return res.data.data || [];
     } catch {
-      return [];
+      return null;
     }
   },
 
@@ -200,7 +200,7 @@ export const api = {
       const res = await client.get('/team-finance', { params });
       return res.data.data || [];
     } catch {
-      return [];
+      return null;
     }
   },
 
@@ -225,7 +225,7 @@ export const api = {
       const res = await client.get('/tasks', { params });
       return res.data.data || [];
     } catch {
-      return [];
+      return null;
     }
   },
 
@@ -234,7 +234,7 @@ export const api = {
       const res = await client.get('/tasks/today');
       return res.data.data || [];
     } catch {
-      return [];
+      return null;
     }
   },
 
@@ -259,7 +259,7 @@ export const api = {
       const res = await client.get('/templates', { params });
       return res.data.data || [];
     } catch {
-      return [];
+      return null;
     }
   },
 

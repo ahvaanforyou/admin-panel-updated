@@ -121,6 +121,24 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
   };
   const clientsWeekly = getClientsWeekly();
 
+  const getPendingWeekly = () => {
+    const w = [0, 0, 0, 0];
+    monthClients.forEach(c => {
+      const order = c.orders?.[0];
+      const pending = order?.pending_amount ?? (order ? Math.max(0, (order.total_amount || 0) - (order.amount_paid || 0)) : 0);
+      if (pending > 0) {
+        const d = new Date(c.created_at || order?.order_date || Date.now());
+        const day = isNaN(d.getDate()) ? 1 : d.getDate();
+        if (day <= 7) w[0] += pending;
+        else if (day <= 14) w[1] += pending;
+        else if (day <= 21) w[2] += pending;
+        else w[3] += pending;
+      }
+    });
+    return w;
+  };
+  const pendingWeekly = getPendingWeekly();
+
   // Format date helper
   const formatDate = (dateStr) => {
     if (!dateStr) return 'Oct 20, 2026';
@@ -286,7 +304,7 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
             </div>
           </div>
           <div className="w-16 h-8 flex items-center justify-end">
-            <Sparkline data={[totalPendingLive * 0.35, totalPendingLive * 0.28, totalPendingLive * 0.22, totalPendingLive * 0.15]} color="#f59e0b" width={80} height={35} />
+            <Sparkline data={pendingWeekly} color="#f59e0b" width={80} height={35} />
           </div>
         </div>
 

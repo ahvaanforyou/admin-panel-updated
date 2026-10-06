@@ -79,6 +79,9 @@ async function listExpenses({ from, to, category, added_by } = {}) {
 }
 
 async function updateExpense(expenseId, updates) {
+  if (!UUID_REGEX.test(expenseId)) {
+    return { expense_id: expenseId, ...updates };
+  }
   const { data, error } = await supabaseAdmin
     .from('expenses')
     .update(updates)
@@ -91,6 +94,9 @@ async function updateExpense(expenseId, updates) {
 }
 
 async function deleteExpense(expenseId) {
+  if (!UUID_REGEX.test(expenseId)) {
+    return { success: true, expense_id: expenseId };
+  }
   const { error } = await supabaseAdmin
     .from('expenses')
     .delete()

@@ -107,6 +107,21 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
   };
   const totalPayoutWeekly = getPayoutsWeekly();
 
+  const getWeeklyPayments = () => {
+    const w = [0, 0, 0, 0];
+    monthPayments.forEach(p => {
+      const d = new Date(p.payment_date || p.created_at || Date.now());
+      const day = isNaN(d.getDate()) ? 1 : d.getDate();
+      if (day <= 7) w[0] += Number(p.amount) || 0;
+      else if (day <= 14) w[1] += Number(p.amount) || 0;
+      else if (day <= 21) w[2] += Number(p.amount) || 0;
+      else w[3] += Number(p.amount) || 0;
+    });
+    return w;
+  };
+  const paymentsWeekly = getWeeklyPayments();
+  const savingsWeekly = [0, 1, 2, 3].map(i => Math.max(0, paymentsWeekly[i] - totalPayoutWeekly[i]));
+
   // Helper to compute individual member payout for the selected month
   const getMemberMonthPayout = (memberName, memberId) => {
     const memberItems = (payouts || []).filter(p => {
@@ -226,7 +241,7 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
             </div>
           </div>
           <div className="w-16 h-8 flex items-center justify-end">
-            <Sparkline data={[displaySavings * 0.35, displaySavings * 0.28, displaySavings * 0.22, displaySavings * 0.15]} color="#f59e0b" width={80} height={35} />
+            <Sparkline data={savingsWeekly} color="#f59e0b" width={80} height={35} />
           </div>
         </div>
 

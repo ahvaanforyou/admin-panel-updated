@@ -64,7 +64,7 @@ export function DataProvider({ children }) {
         console.warn('Bootstrap endpoint fallback:', e);
       }
 
-      if (bData) {
+      if (bData && bData.clients !== undefined) {
         setStats(bData.stats || {});
         setClients(bData.clients || []);
         setTasks(bData.tasks || []);
@@ -103,23 +103,14 @@ export function DataProvider({ children }) {
           api.getTeamPayouts(),
         ]);
 
-        setStats(statsData || {});
-        setClients(clientsData || []);
-        setTasks(tasksData || []);
-        setTemplates(templatesData || []);
-        setPayments(paymentsData || []);
-        setExpenses(expensesData || []);
-        setTeamMembers(teamData || []);
-        setPayouts(payoutsData || []);
-
-        setCache('stats', statsData);
-        setCache('clients', clientsData);
-        setCache('tasks', tasksData);
-        setCache('templates', templatesData);
-        setCache('payments', paymentsData);
-        setCache('expenses', expensesData);
-        setCache('teamMembers', teamData);
-        setCache('payouts', payoutsData);
+        if (statsData !== null) { setStats(statsData); setCache('stats', statsData); }
+        if (clientsData !== null) { setClients(clientsData); setCache('clients', clientsData); }
+        if (tasksData !== null) { setTasks(tasksData); setCache('tasks', tasksData); }
+        if (templatesData !== null) { setTemplates(templatesData); setCache('templates', templatesData); }
+        if (paymentsData !== null) { setPayments(paymentsData); setCache('payments', paymentsData); }
+        if (expensesData !== null) { setExpenses(expensesData); setCache('expenses', expensesData); }
+        if (teamData !== null) { setTeamMembers(teamData); setCache('teamMembers', teamData); }
+        if (payoutsData !== null) { setPayouts(payoutsData); setCache('payouts', payoutsData); }
       }
     } catch (err) {
       console.error("Failed to load admin data:", err);

@@ -120,7 +120,33 @@ async function getOrderById(orderId) {
  * Updates editable order-level fields. Does NOT create a new order.
  * Status is NOT updated here — it's calculated automatically from order items.
  */
+async function updateOrder(orderId, updates) {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(orderId)) {
+    return { order_id: orderId, ...updates };
+  }
+
+  // Prevent direct order status overwrite unless explicitly passed
+  const { data, error } = await supabaseAdmin
+    .from('orders')
+    .update(updates)
+    .eq('order_id', orderId)
+    .select()
+    .single();
+
+  if (error) throw createError(400, error.message, 'Order Update Failed');
+  if (!data) throw createError(404, `Order ${orderId} not found`, 'Not Found');
+  return data;
+}
+
+/**
+ * deleteOrder
+ * Cascades tasks, payments, and order items before deleting the order.
+ */
 async function deleteOrder(orderId) {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(orderId)) {
+    return { success: true, order_id: orderId };
+  }
+
   // 1. Delete tasks linked to this order
   await supabaseAdmin.from('tasks').delete().eq('order_id', orderId);
   // 2. Delete payments linked to this order

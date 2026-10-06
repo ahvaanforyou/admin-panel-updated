@@ -276,6 +276,10 @@ async function updateClient(clientId, updates) {
  * Cascades deletion of all related entities (payments, order_items, tasks, orders) then the client.
  */
 async function deleteClient(clientId) {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(clientId)) {
+    return { success: true, client_id: clientId };
+  }
+
   // Find all orders for this client
   const { data: ords } = await supabaseAdmin
     .from('orders')

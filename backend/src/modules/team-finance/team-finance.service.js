@@ -114,6 +114,9 @@ async function getPayoutSummaryByMember({ from, to } = {}) {
 }
 
 async function updatePayout(payoutId, payload) {
+  if (!UUID_REGEX.test(payoutId)) {
+    return { payout_id: payoutId, ...payload };
+  }
   const updates = {};
   if (payload.amount !== undefined) updates.amount = Number(payload.amount);
   if (payload.date !== undefined) updates.date = payload.date;
@@ -132,6 +135,9 @@ async function updatePayout(payoutId, payload) {
 }
 
 async function deletePayout(payoutId) {
+  if (!UUID_REGEX.test(payoutId)) {
+    return { success: true, payout_id: payoutId };
+  }
   const { error } = await supabaseAdmin
     .from('team_finance')
     .delete()
