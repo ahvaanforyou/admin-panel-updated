@@ -26,6 +26,18 @@ export default function FinancePage({
     { label: 'October 2026', monthKey: '2026-10' },
     { label: 'November 2026', monthKey: '2026-11' },
     { label: 'December 2026', monthKey: '2026-12' },
+    { label: 'January 2027', monthKey: '2027-01' },
+    { label: 'February 2027', monthKey: '2027-02' },
+    { label: 'March 2027', monthKey: '2027-03' },
+    { label: 'April 2027', monthKey: '2027-04' },
+    { label: 'May 2027', monthKey: '2027-05' },
+    { label: 'June 2027', monthKey: '2027-06' },
+    { label: 'July 2027', monthKey: '2027-07' },
+    { label: 'August 2027', monthKey: '2027-08' },
+    { label: 'September 2027', monthKey: '2027-09' },
+    { label: 'October 2027', monthKey: '2027-10' },
+    { label: 'November 2027', monthKey: '2027-11' },
+    { label: 'December 2027', monthKey: '2027-12' },
     { label: 'All Time', monthKey: 'All' },
   ];
   const currentRangeLabel = dateRangeOptions.find((o) => o.monthKey === selectedMonth)?.label || 'October 2026';

@@ -16,7 +16,10 @@ import {
   Pencil, 
   ChevronLeft, 
   ChevronRight,
-  Trash2
+  Trash2,
+  Check,
+  X,
+  Loader2
 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 import { formatCurrency } from '../../config/customization';
@@ -24,13 +27,18 @@ import EmptyState from '../../components/common/EmptyState';
 import Sparkline from '../../components/common/Sparkline';
 
 export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onEditClient }) {
-  const { clients, payments, selectedMonth = '2026-10', deleteClients } = useData();
+  const { clients, payments, selectedMonth = '2026-10', deleteClients, updatePayment, addPayment, updateClient } = useData();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedEventType, setSelectedEventType] = useState('All');
   const [selectedPaymentStatus, setSelectedPaymentStatus] = useState('All');
   const [showEventFilter, setShowEventFilter] = useState(false);
   const [showStatusFilter, setShowStatusFilter] = useState(false);
+
+  // Last payment date inline edit
+  const [editingClientId, setEditingClientId] = useState(null);
+  const [editDateValue, setEditDateValue] = useState('');
+  const [savingDate, setSavingDate] = useState(false);
 
   // Selected checkboxes
   const [selectedIds, setSelectedIds] = useState([]);
@@ -261,6 +269,34 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
       setSelectedIds([]);
     } catch (err) {
       alert(err.response?.data?.message || err.message || 'Failed to delete selected clients');
+    }
+  };
+
+  const handleSaveLastPaymentDate = async (client, latestPayment, order) => {
+    if (!editDateValue) {
+      setEditingClientId(null);
+      return;
+    }
+    setSavingDate(true);
+    try {
+      if (latestPayment?.payment_id) {
+        await updatePayment(latestPayment.payment_id, { payment_date: editDateValue });
+      } else if (order?.order_id) {
+        await addPayment({
+          order_id: order.order_id,
+          amount: Number(order.amount_paid) || 0,
+          payment_date: editDateValue,
+          payment_method: 'UPI',
+          notes: 'Last payment date updated',
+        });
+      } else if (client?.client_id) {
+        await updateClient(client.client_id, { submission_date: editDateValue });
+      }
+    } catch (err) {
+      console.error('Failed to update last payment date:', err);
+    } finally {
+      setSavingDate(false);
+      setEditingClientId(null);
     }
   };
 
@@ -522,7 +558,8 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
                     const paidAmt = livePaid;
                     const pendingAmt = Math.max(0, totalAmt - paidAmt);
                     const allPayments = (clientPayments.length > 0 ? clientPayments : (order?.payments || [])).slice().sort((a, b) => new Date(b.payment_date || b.created_at) - new Date(a.payment_date || a.created_at));
-                    const lastPaymentDate = allPayments[0]?.payment_date || order?.order_date || client.created_at;
+                    const latestPayment = allPayments[0];
+                    const lastPaymentDate = latestPayment?.payment_date || order?.order_date || client.created_at;
 
                     const rawClientName = client?.name || 'Client';
                     const initials = typeof rawClientName === 'string'
@@ -620,8 +657,62 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
                         </td>
 
                         {/* Last Payment Date */}
-                        <td className="py-4 px-6 text-slate-600 font-medium">
-                          {formatDate(lastPaymentDate)}
+                        <td 
+                          className="py-4 px-6 text-slate-600 font-medium whitespace-nowrap"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {editingClientId === client.client_id ? (
+                            <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                              <input
+                                type="date"
+                                value={editDateValue}
+                                onChange={(e) => setEditDateValue(e.target.value)}
+                                className="px-2 py-1 text-xs border border-blue-400 rounded-lg shadow-xs focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-slate-900"
+                                autoFocus
+                              />
+                              <button
+                                type="button"
+                                disabled={savingDate}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleSaveLastPaymentDate(client, latestPayment, order);
+                                }}
+                                className="p-1 rounded bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer disabled:opacity-50"
+                                title="Save date"
+                              >
+                                {savingDate ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
+                              </button>
+                              <button
+                                type="button"
+                                disabled={savingDate}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditingClientId(null);
+                                }}
+                                className="p-1 rounded bg-slate-200 text-slate-700 hover:bg-slate-300 transition cursor-pointer"
+                                title="Cancel"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-2 group/date">
+                              <span>{formatDate(lastPaymentDate)}</span>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const raw = lastPaymentDate ? String(lastPaymentDate).split('T')[0] : new Date().toISOString().split('T')[0];
+                                  setEditDateValue(raw);
+                                  setEditingClientId(client.client_id);
+                                }}
+                                className="opacity-0 group-hover/date:opacity-100 p-1 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-all cursor-pointer"
+                                title="Edit Last Payment Date"
+                              >
+                                <Pencil className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          )}
                         </td>
 
                         {/* Actions: Direct View and Edit Buttons */}

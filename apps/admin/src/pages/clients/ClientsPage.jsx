@@ -107,12 +107,29 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
     return colorStyles[index % colorStyles.length];
   };
 
+  // Helper to extract client submission date (falls back to order_date or created_at)
+  const getClientSubmissionDate = (c) => {
+    return c.orders?.[0]?.submission_date || c.submission_date || c.orders?.[0]?.order_date || c.created_at || '';
+  };
+
   // Dynamic KPI calculations connected to selectedMonth
   const dateRangeOptions = [
     { label: 'September 2026', monthKey: '2026-09' },
     { label: 'October 2026', monthKey: '2026-10' },
     { label: 'November 2026', monthKey: '2026-11' },
     { label: 'December 2026', monthKey: '2026-12' },
+    { label: 'January 2027', monthKey: '2027-01' },
+    { label: 'February 2027', monthKey: '2027-02' },
+    { label: 'March 2027', monthKey: '2027-03' },
+    { label: 'April 2027', monthKey: '2027-04' },
+    { label: 'May 2027', monthKey: '2027-05' },
+    { label: 'June 2027', monthKey: '2027-06' },
+    { label: 'July 2027', monthKey: '2027-07' },
+    { label: 'August 2027', monthKey: '2027-08' },
+    { label: 'September 2027', monthKey: '2027-09' },
+    { label: 'October 2027', monthKey: '2027-10' },
+    { label: 'November 2027', monthKey: '2027-11' },
+    { label: 'December 2027', monthKey: '2027-12' },
     { label: 'All Time', monthKey: 'All' },
   ];
 
@@ -123,13 +140,14 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
   const prevM = currM === 1 ? 12 : currM - 1;
   const prevMonthStr = `${prevY}-${String(prevM).padStart(2, '0')}`;
 
+  // Filter clients for KPIs strictly based on submission date
   const monthClients = selectedMonth === 'All' ? clients : clients.filter(c => {
-    const d = c.created_at || c.orders?.[0]?.order_date || '';
+    const d = String(getClientSubmissionDate(c));
     return d.startsWith(selectedMonth);
   });
 
   const prevMonthClients = clients.filter(c => {
-    const d = c.created_at || c.orders?.[0]?.order_date || '';
+    const d = String(getClientSubmissionDate(c));
     return d.startsWith(prevMonthStr);
   });
 
@@ -174,12 +192,12 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
   const completedWeekly = getWeeklyCounts(c => (c.status || c.orders?.[0]?.status) === 'Completed');
   const onHoldWeekly = getWeeklyCounts(c => ['On Hold', 'In Review', 'Review'].includes(c.status || c.orders?.[0]?.status));
 
-  // Filter clients by search, status, template, and selected month
+  // Filter clients by search, status, template, and selected month (by submission date)
   const filteredClients = useMemo(() => {
     return clients.filter((c) => {
-      // Month calendar filter
+      // Month calendar filter based on submission date
       if (selectedMonth && selectedMonth !== 'All') {
-        const d = String(c.created_at || c.orders?.[0]?.order_date || '');
+        const d = String(getClientSubmissionDate(c));
         if (!d.startsWith(selectedMonth)) return false;
       }
 
