@@ -45,8 +45,15 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
 
   // Local card action menu state
   const [activeMenuId, setActiveMenuId] = useState(null);
-  // Local pinned tasks set
-  const [pinnedTaskIds, setPinnedTaskIds] = useState(() => new Set());
+  // Local pinned tasks set persisted in localStorage
+  const [pinnedTaskIds, setPinnedTaskIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('ahvaan_pinned_tasks');
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch {
+      return new Set();
+    }
+  });
 
   const menuRef = useRef(null);
 
@@ -84,6 +91,11 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
       const copy = new Set(prev);
       if (copy.has(taskId)) copy.delete(taskId);
       else copy.add(taskId);
+      try {
+        localStorage.setItem('ahvaan_pinned_tasks', JSON.stringify([...copy]));
+      } catch (err) {
+        console.warn('Failed to persist pinned tasks', err);
+      }
       return copy;
     });
     setActiveMenuId(null);
@@ -395,15 +407,17 @@ export default function TasksPage({ onOpenAddTask, onEditTask }) {
                             <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${style.badge}`}>
                               {style.statusLabel}
                             </span>
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
-                              (t.priority || '').toLowerCase() === 'high' || (t.priority || '').toLowerCase() === 'urgent'
-                                ? 'bg-rose-50 text-rose-600 border-rose-200'
-                                : (t.priority || '').toLowerCase() === 'low'
-                                ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
-                                : 'bg-amber-50 text-amber-600 border-amber-200'
-                            }`}>
-                              {t.priority || 'Medium'}
-                            </span>
+                            {/* Clean Color Indicator without text label: Red (High/Urgent), Yellow (Medium), Green (Low) */}
+                            <span 
+                              title={`Priority: ${t.priority || 'Medium'}`}
+                              className={`w-2.5 h-2.5 rounded-full shrink-0 shadow-2xs ring-1 ring-white/80 ${
+                                (t.priority || '').toLowerCase() === 'high' || (t.priority || '').toLowerCase() === 'urgent'
+                                  ? 'bg-rose-500'
+                                  : (t.priority || '').toLowerCase() === 'low'
+                                  ? 'bg-emerald-500'
+                                  : 'bg-amber-400'
+                              }`}
+                            />
                           </div>
 
                           <div className="flex items-center gap-1">

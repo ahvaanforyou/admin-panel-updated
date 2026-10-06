@@ -147,6 +147,24 @@ export function DataProvider({ children }) {
     return res;
   };
 
+  const deleteClient = async (clientId) => {
+    const res = await api.deleteClient(clientId);
+    await refreshAll();
+    return res;
+  };
+
+  const deleteClients = async (clientIds) => {
+    const res = await api.deleteClients(clientIds);
+    await refreshAll();
+    return res;
+  };
+
+  const deleteOrder = async (orderId) => {
+    const res = await api.deleteOrder(orderId);
+    await refreshAll();
+    return res;
+  };
+
   const updateClientStatus = async (clientId, updates) => {
     const res = await api.updateClient(clientId, updates);
     await refreshAll();
@@ -289,6 +307,9 @@ export function DataProvider({ children }) {
       refreshAll,
       addClient,
       updateClient,
+      deleteClient,
+      deleteClients,
+      deleteOrder,
       updateClientStatus,
       changeOrderItemStatus,
       addPayment,

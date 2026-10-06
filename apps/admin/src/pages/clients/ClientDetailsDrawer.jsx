@@ -26,7 +26,8 @@ import {
   Plus,
   Package,
   Check,
-  ChevronDown
+  ChevronDown,
+  Trash2
 } from 'lucide-react';
 import StatusChip from '../../components/common/StatusChip';
 import { formatCurrency } from '../../config/customization';
@@ -47,7 +48,7 @@ const PRESET_EVENTS = [
 ];
 
 export default function ClientDetailsDrawer({ isOpen, onClose, client, onOpenAddPayment, onEditClient }) {
-  const { clients, addOrder, templates } = useData();
+  const { clients, deleteClient, addOrder, templates } = useData();
 
   const [showAddOrder, setShowAddOrder] = useState(false);
   const [newOrderAmount, setNewOrderAmount] = useState('25000');
@@ -149,6 +150,18 @@ export default function ClientDetailsDrawer({ isOpen, onClose, client, onOpenAdd
     }
   };
 
+  const handleDeleteClient = async () => {
+    if (!window.confirm(`Are you sure you want to delete ${liveClient.name}? All orders, events, payments, and tasks for this client will be permanently deleted.`)) {
+      return;
+    }
+    try {
+      await deleteClient(liveClient.client_id);
+      onClose();
+    } catch (err) {
+      alert(err.response?.data?.message || err.message || 'Failed to delete client');
+    }
+  };
+
   return (
     <div 
       className="fixed inset-0 z-[100] overflow-hidden bg-slate-900/40 backdrop-blur-xs flex justify-end"
@@ -173,6 +186,16 @@ export default function ClientDetailsDrawer({ isOpen, onClose, client, onOpenAdd
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Delete Client Button */}
+            <button
+              type="button"
+              onClick={handleDeleteClient}
+              className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+              title="Delete Client"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+
             {/* Edit Button — switches directly to Edit Client Drawer */}
             {onEditClient && (
               <button

@@ -32,4 +32,11 @@ async function update(req, res, next) {
   } catch (err) { next(err); }
 }
 
-module.exports = { create, list, getById, update };
+async function remove(req, res, next) {
+  try {
+    const data = await service.deleteOrder(req.params.id);
+    res.json({ success: true, data });
+  } catch (err) { next(err); }
+}
+
+module.exports = { create, list, getById, update, remove };

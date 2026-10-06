@@ -272,11 +272,12 @@ export default function AddClientModal({ isOpen, onClose }) {
 
     setLoading(true);
     try {
-      const fullPhone = `${selectedCountry.code} ${phone.trim()}`;
+      const cleanPhone = phone.trim();
       const payload = {
         name: name.trim(),
-        email: email.trim() || `${phone.replace(/\D/g, '')}@ahvaan.com`,
-        phone: fullPhone,
+        email: email.trim() || `${cleanPhone.replace(/\D/g, '')}@ahvaan.com`,
+        phone: cleanPhone,
+        country_code: selectedCountry.code,
         order: {
           total_amount: 25000,
           order_date: new Date().toISOString().slice(0, 10),

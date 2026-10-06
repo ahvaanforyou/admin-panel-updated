@@ -14,10 +14,25 @@ import {
   Check, 
   FileText, 
   ChevronDown,
-  Package
+  Package,
+  AlertTriangle
 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 import { CUSTOMIZATION, formatCurrency } from '../../config/customization';
+
+const COUNTRY_CODES = [
+  { code: '+1', country: 'US', flag: '🇺🇸', name: 'United States' },
+  { code: '+91', country: 'IN', flag: '🇮🇳', name: 'India' },
+  { code: '+44', country: 'GB', flag: '🇬🇧', name: 'United Kingdom' },
+  { code: '+971', country: 'AE', flag: '🇦🇪', name: 'UAE' },
+  { code: '+1', country: 'CA', flag: '🇨🇦', name: 'Canada' },
+  { code: '+61', country: 'AU', flag: '🇦🇺', name: 'Australia' },
+  { code: '+65', country: 'SG', flag: '🇸🇬', name: 'Singapore' },
+  { code: '+49', country: 'DE', flag: '🇩🇪', name: 'Germany' },
+  { code: '+33', country: 'FR', flag: '🇫🇷', name: 'France' },
+  { code: '+966', country: 'SA', flag: '🇸🇦', name: 'Saudi Arabia' },
+  { code: '+974', country: 'QA', flag: '🇶🇦', name: 'Qatar' },
+];
 
 const PRESET_EVENTS = [
   'Wedding Ceremony',
@@ -34,10 +49,12 @@ const PRESET_EVENTS = [
 ];
 
 export default function EditClientDrawer({ isOpen, onClose, client }) {
-  const { updateClient, addOrder, addOrderItem, updateOrderItem, deleteOrderItem, templates } = useData();
+  const { updateClient, deleteClient, addOrder, deleteOrder, addOrderItem, updateOrderItem, changeOrderItemStatus, deleteOrderItem, templates } = useData();
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [countryCode, setCountryCode] = useState('+91');
+  const [showCountryPicker, setShowCountryPicker] = useState(false);
   const [email, setEmail] = useState('');
 
   // Orders hierarchy state
@@ -71,6 +88,7 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
         setActiveClientId(client.client_id);
         setName(client.name || '');
         setPhone(client.phone || '');
+        setCountryCode(client.country_code || '+91');
         setEmail(client.email || '');
 
         const existingOrders = client.orders && client.orders.length > 0 ? client.orders : [
@@ -85,6 +103,7 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
               {
                 order_item_id: null,
                 event_name: 'Wedding Ceremony',
+                status: 'In Progress',
                 event_date: new Date().toISOString().slice(0, 10),
                 template_id: templates?.[0]?.template_id || '',
               }
@@ -107,6 +126,7 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
               .map((it) => ({
                 order_item_id: it.order_item_id || null,
                 event_name: it.event_name || 'Wedding Ceremony',
+                status: it.status || 'In Progress',
                 event_date: it.event_date ? new Date(it.event_date).toISOString().slice(0, 10) : '',
                 template_id: it.template_id || templates?.[0]?.template_id || '',
               }))
@@ -319,6 +339,83 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
     }
   };
 
+  // Derive order status based on event items
+  const deriveOrderStatus = (items) => {
+    const active = items.filter((it) => it.status !== 'Cancelled');
+    if (active.length === 0) return items.length > 0 ? 'Cancelled' : 'In Progress';
+    if (active.every((it) => it.status === 'Completed')) return 'Completed';
+    if (active.every((it) => it.status === 'On Hold')) return 'On Hold';
+    return 'In Progress';
+  };
+
+  // Change status of an event item
+  const handleEventStatusChange = async (orderIdx, eventIdx, newStatus) => {
+    let targetItemId = null;
+    setOrdersList((prev) => {
+      const copy = [...prev];
+      const ord = { ...copy[orderIdx] };
+      const items = [...ord.order_items];
+      targetItemId = items[eventIdx]?.order_item_id;
+      items[eventIdx] = { ...items[eventIdx], status: newStatus };
+      ord.order_items = items;
+      ord.status = deriveOrderStatus(items);
+      copy[orderIdx] = ord;
+      return copy;
+    });
+
+    if (targetItemId && changeOrderItemStatus) {
+      try {
+        await changeOrderItemStatus(targetItemId, { status: newStatus });
+      } catch (err) {
+        console.warn('Failed to update event item status on server:', err);
+      }
+    }
+  };
+
+  // Delete an entire Order
+  const handleDeleteOrder = async (orderIdx) => {
+    const ord = ordersList[orderIdx];
+    if (ordersList.length <= 1) {
+      setError('A client must have at least one order. To remove the client completely, use Delete Client.');
+      return;
+    }
+    if (!window.confirm(`Are you sure you want to delete Order ${orderIdx + 1}? All associated events will be deleted.`)) {
+      return;
+    }
+
+    if (ord.order_id && deleteOrder) {
+      setLoading(true);
+      try {
+        await deleteOrder(ord.order_id);
+      } catch (err) {
+        setError(err.response?.data?.message || err.message || 'Failed to delete order.');
+        setLoading(false);
+        return;
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    setOrdersList((prev) => prev.filter((_, idx) => idx !== orderIdx));
+    setSuccessMsg(`Order ${orderIdx + 1} deleted.`);
+    setTimeout(() => setSuccessMsg(''), 2500);
+  };
+
+  // Delete the client completely
+  const handleDeleteClient = async () => {
+    if (!window.confirm(`Are you sure you want to delete ${client.name}? All orders, events, payments, and tasks for this client will be permanently deleted.`)) {
+      return;
+    }
+    setLoading(true);
+    try {
+      await deleteClient(client.client_id);
+      onClose();
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || 'Failed to delete client.');
+      setLoading(false);
+    }
+  };
+
   // Save all changes
   const handleSaveChanges = async (e) => {
     e.preventDefault();
@@ -341,6 +438,7 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
       // Update client basic details and primary order info
       await updateClient(client.client_id, {
         name: name.trim(),
+        country_code: countryCode,
         phone: phone.trim(),
         email: email.trim(),
         status: primaryOrder?.status || 'In Progress',
@@ -441,13 +539,55 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
                   Phone Number <span className="text-rose-500">*</span>
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800"
-                />
+                <div className="flex rounded-xl border border-slate-200 bg-white overflow-visible relative focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500">
+                  {/* Country Selector Dropdown Pill */}
+                  <div className="relative shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => setShowCountryPicker(!showCountryPicker)}
+                      className="h-full px-2.5 py-2 flex items-center gap-1 bg-slate-50 border-r border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-100 rounded-l-xl transition-colors cursor-pointer"
+                    >
+                      <span className="text-sm leading-none">
+                        {COUNTRY_CODES.find(c => c.code === countryCode)?.flag || '🇮🇳'}
+                      </span>
+                      <span className="font-semibold text-slate-800">{countryCode}</span>
+                      <ChevronDown className="w-3 h-3 text-slate-400" />
+                    </button>
+
+                    {showCountryPicker && (
+                      <div className="absolute left-0 top-full mt-1 w-56 bg-white border border-slate-200 rounded-xl shadow-xl p-1 z-50 text-xs max-h-48 overflow-y-auto">
+                        {COUNTRY_CODES.map((c) => (
+                          <button
+                            key={c.code + c.country}
+                            type="button"
+                            onClick={() => {
+                              setCountryCode(c.code);
+                              setShowCountryPicker(false);
+                            }}
+                            className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left transition-colors cursor-pointer ${
+                              countryCode === c.code ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-700 hover:bg-slate-50'
+                            }`}
+                          >
+                            <span className="flex items-center gap-2">
+                              <span>{c.flag}</span>
+                              <span className="truncate">{c.name}</span>
+                            </span>
+                            <span className="text-slate-400 font-mono text-[11px]">{c.code}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="9876543210"
+                    className="w-full text-xs px-3 py-2 bg-transparent focus:outline-none text-slate-800"
+                  />
+                </div>
               </div>
 
               <div>
@@ -608,18 +748,31 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
                         </div>
                       </div>
 
-                      {/* Status Selector */}
-                      <div className="w-40 relative">
-                        <select
-                          value={ord.status}
-                          onChange={(e) => handleOrderChange(ordIdx, 'status', e.target.value)}
-                          className="w-full text-xs font-semibold px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 cursor-pointer appearance-none"
-                        >
-                          {CUSTOMIZATION.clientStatuses.map((st) => (
-                            <option key={st.id} value={st.id}>{st.label}</option>
-                          ))}
-                        </select>
-                        <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      <div className="flex items-center gap-2">
+                        {/* Status Selector */}
+                        <div className="w-36 relative">
+                          <select
+                            value={ord.status}
+                            onChange={(e) => handleOrderChange(ordIdx, 'status', e.target.value)}
+                            className="w-full text-xs font-semibold px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 cursor-pointer appearance-none"
+                          >
+                            {CUSTOMIZATION.clientStatuses.map((st) => (
+                              <option key={st.id} value={st.id}>{st.label}</option>
+                            ))}
+                          </select>
+                          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        </div>
+
+                        {ordersList.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteOrder(ordIdx)}
+                            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                            title={`Delete Order ${ordIdx + 1}`}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        )}
                       </div>
                     </div>
 
@@ -760,7 +913,7 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
                               )}
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
                               <div>
                                 <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
                                   Event Name
@@ -803,6 +956,22 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
                                   ))}
                                 </select>
                               </div>
+
+                              <div>
+                                <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
+                                  Event Status
+                                </label>
+                                <select
+                                  value={ev.status || 'In Progress'}
+                                  onChange={(e) => handleEventStatusChange(ordIdx, evIdx, e.target.value)}
+                                  className="w-full text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white font-medium cursor-pointer"
+                                >
+                                  <option value="In Progress">In Progress</option>
+                                  <option value="Completed">Completed</option>
+                                  <option value="On Hold">On Hold</option>
+                                  <option value="Cancelled">Cancelled</option>
+                                </select>
+                              </div>
                             </div>
                           </div>
                         ))}
@@ -818,22 +987,33 @@ export default function EditClientDrawer({ isOpen, onClose, client }) {
           <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
             <button
               type="button"
-              onClick={onClose}
-              className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
+              onClick={handleDeleteClient}
               disabled={loading}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs font-semibold shadow-sm transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold transition-colors cursor-pointer"
             >
-              {loading ? (
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <span>Save All Changes</span>
-              )}
+              <Trash2 className="w-4 h-4 text-rose-600" />
+              <span>Delete Client</span>
             </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs font-semibold shadow-sm transition-all cursor-pointer"
+              >
+                {loading ? (
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <span>Save All Changes</span>
+                )}
+              </button>
+            </div>
           </div>
         </form>
       </div>

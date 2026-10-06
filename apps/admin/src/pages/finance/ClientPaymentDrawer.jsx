@@ -202,7 +202,7 @@ export default function ClientPaymentDrawer({ isOpen, onClose, client, onOpenAdd
                   <span 
                     key={i} 
                     className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                      ev.toLowerCase().includes('wedding') ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600'
+                      String(ev || '').toLowerCase().includes('wedding') ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600'
                     }`}
                   >
                     {ev}
@@ -305,13 +305,14 @@ export default function ClientPaymentDrawer({ isOpen, onClose, client, onOpenAdd
                     No payments logged yet for this client order.
                   </div>
                 ) : (
-                  displayPayments.map((p) => {
+                  displayPayments.map((p, idx) => {
+                  const pId = p.payment_id || p.id || `payment-${idx}`;
                   const cardDate = formatCardDate(p.payment_date);
-                  const isMenuOpen = activeMenuId === p.payment_id;
+                  const isMenuOpen = activeMenuId === pId;
 
                   return (
                     <div 
-                      key={p.payment_id}
+                      key={pId}
                       className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between hover:border-slate-300 transition-all relative"
                     >
                       {/* Left: Date Badge Box */}
@@ -341,7 +342,7 @@ export default function ClientPaymentDrawer({ isOpen, onClose, client, onOpenAdd
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
-                            setActiveMenuId(isMenuOpen ? null : p.payment_id);
+                            setActiveMenuId(isMenuOpen ? null : pId);
                           }}
                           className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
                         >
@@ -363,7 +364,7 @@ export default function ClientPaymentDrawer({ isOpen, onClose, client, onOpenAdd
                             </button>
                             <button
                               type="button"
-                              onClick={() => handleDelete(p.payment_id)}
+                              onClick={() => handleDelete(pId)}
                               className="w-full flex items-center gap-2 px-3 py-2 text-rose-600 hover:bg-rose-50 transition-colors font-medium border-t border-slate-100 cursor-pointer"
                             >
                               <Trash2 className="w-3.5 h-3.5 text-rose-500" />

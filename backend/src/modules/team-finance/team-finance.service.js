@@ -57,7 +57,7 @@ async function addPayout(payload) {
     .single();
 
   if (error) throw createError(400, error.message, 'Payout Creation Failed');
-  return data;
+  return { ...data, payout_id: data.team_finance_id };
 }
 
 /**
@@ -76,7 +76,7 @@ async function listPayouts({ team_member_id, from, to } = {}) {
 
   const { data, error } = await query;
   if (error) throw createError(500, error.message);
-  return data;
+  return (data || []).map(r => ({ ...r, payout_id: r.team_finance_id }));
 }
 
 /**
@@ -123,19 +123,19 @@ async function updatePayout(payoutId, payload) {
   const { data, error } = await supabaseAdmin
     .from('team_finance')
     .update(updates)
-    .eq('payout_id', payoutId)
+    .eq('team_finance_id', payoutId)
     .select('*, team_members(name, role)')
     .single();
 
   if (error) throw createError(400, error.message);
-  return data;
+  return { ...data, payout_id: data.team_finance_id };
 }
 
 async function deletePayout(payoutId) {
   const { error } = await supabaseAdmin
     .from('team_finance')
     .delete()
-    .eq('payout_id', payoutId);
+    .eq('team_finance_id', payoutId);
 
   if (error) throw createError(400, error.message);
   return { success: true, payout_id: payoutId };

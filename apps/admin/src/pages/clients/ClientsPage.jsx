@@ -17,7 +17,8 @@ import {
   Clock, 
   CheckCircle2, 
   PauseCircle,
-  SlidersHorizontal
+  SlidersHorizontal,
+  Trash2
 } from 'lucide-react';
 import StatusChip from '../../components/common/StatusChip';
 import EmptyState from '../../components/common/EmptyState';
@@ -25,7 +26,7 @@ import Sparkline from '../../components/common/Sparkline';
 import { useData } from '../../context/DataContext';
 
 export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditClient, onOpenAddPayment }) {
-  const { clients = [], templates = [], selectedMonth = '2026-10', setSelectedMonth } = useData();
+  const { clients = [], templates = [], selectedMonth = '2026-10', setSelectedMonth, deleteClient, deleteClients } = useData();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('All');
@@ -217,6 +218,31 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
   };
 
   const isAllSelected = paginatedClients.length > 0 && selectedIds.length === paginatedClients.length;
+
+  const handleDeleteSingleClient = async (client) => {
+    if (!window.confirm(`Are you sure you want to delete ${client.name}? All orders, events, payments, and tasks for this client will be permanently deleted.`)) {
+      return;
+    }
+    try {
+      await deleteClient(client.client_id);
+      setSelectedIds((prev) => prev.filter((id) => id !== client.client_id));
+    } catch (err) {
+      alert(err.response?.data?.message || err.message || 'Failed to delete client');
+    }
+  };
+
+  const handleBatchDeleteClients = async () => {
+    if (selectedIds.length === 0) return;
+    if (!window.confirm(`Are you sure you want to delete ${selectedIds.length} selected client(s)? All orders, events, payments, and tasks will be permanently removed.`)) {
+      return;
+    }
+    try {
+      await deleteClients(selectedIds);
+      setSelectedIds([]);
+    } catch (err) {
+      alert(err.response?.data?.message || err.message || 'Failed to delete selected clients');
+    }
+  };
 
   return (
     <div className="space-y-6 animate-in fade-in duration-150">
@@ -483,6 +509,35 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
         </div>
       </div>
 
+      {/* Batch Action Bar */}
+      {selectedIds.length > 0 && (
+        <div className="flex items-center justify-between px-4 py-3 bg-blue-50/90 border border-blue-200 rounded-2xl text-xs shadow-xs animate-in fade-in-50 duration-150">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+            <span className="font-semibold text-blue-900">
+              {selectedIds.length} client{selectedIds.length > 1 ? 's' : ''} selected
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setSelectedIds([])}
+              className="px-3 py-1.5 text-slate-600 hover:bg-white rounded-xl font-medium transition-colors cursor-pointer"
+            >
+              Deselect All
+            </button>
+            <button
+              type="button"
+              onClick={handleBatchDeleteClients}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-xl shadow-xs transition-colors cursor-pointer"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              <span>Delete Selected ({selectedIds.length})</span>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* ── Clients Table Matching Figma media_1791121690592.png ───────────── */}
       <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-visible">
         {filteredClients.length === 0 ? (
@@ -668,6 +723,19 @@ export default function ClientsPage({ onOpenAddClient, onSelectClient, onEditCli
                                     <span>Record Payment</span>
                                   </button>
                                 )}
+
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setActiveMenuId(null);
+                                    handleDeleteSingleClient(client);
+                                  }}
+                                  className="w-full flex items-center gap-2 px-3.5 py-2 text-rose-600 hover:bg-rose-50 transition-colors font-medium border-t border-slate-100"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                  <span>Delete Client</span>
+                                </button>
                               </div>
                             )}
                           </div>

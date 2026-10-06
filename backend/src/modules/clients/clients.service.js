@@ -33,13 +33,27 @@ async function createClientWithOrder(payload) {
     clientEmail = `${cleanPhone || 'client'}@ahvaan.com`;
   }
 
+  // Helper to map event names to valid order_items categories
+  const mapEventToCategory = (eventName, customCategory) => {
+    if (customCategory && ['Wedding Ceremony', 'Engagement', 'Anniversary', 'Baby Shower', 'House Warming'].includes(customCategory)) {
+      return customCategory;
+    }
+    const ev = (eventName || '').toLowerCase();
+    if (ev.includes('engagement') || ev.includes('ring')) return 'Engagement';
+    if (ev.includes('anniversary')) return 'Anniversary';
+    if (ev.includes('baby') || ev.includes('shower')) return 'Baby Shower';
+    if (ev.includes('house') || ev.includes('warming') || ev.includes('opening') || ev.includes('griha')) return 'House Warming';
+    return 'Wedding Ceremony';
+  };
+
   // 2. Insert Client
   const { data: client, error: clientErr } = await supabaseAdmin
     .from('clients')
     .insert({
       name: payload.name,
       email: clientEmail,
-      phone: payload.phone || '+91 0000000000',
+      phone: payload.phone || '0000000000',
+      country_code: payload.country_code || '+91',
     })
     .select()
     .single();
@@ -66,7 +80,7 @@ async function createClientWithOrder(payload) {
       .from('orders')
       .insert({
         client_id: client.client_id,
-        status: 'In Progress',
+        status: payload.order?.status || 'In Progress',
         total_amount: Number(payload.order?.total_amount) || 0,
         order_date: orderDate,
         submission_date: subDate,
@@ -76,7 +90,7 @@ async function createClientWithOrder(payload) {
 
     if (orderErr) throw orderErr;
 
-    // 4. Insert each order item with explicit status
+    // 4. Insert each order item with compliant category and status
     const items = payload.order?.items || [];
     for (const item of items) {
       let templateId = (item.template_id && item.template_id.trim() !== '') ? item.template_id : defaultTemplateId;
@@ -85,6 +99,8 @@ async function createClientWithOrder(payload) {
         templateId = defaultTemplateId;
       }
 
+      const category = mapEventToCategory(item.event_name, item.category);
+
       const { error: itemErr } = await supabaseAdmin
         .from('order_items')
         .insert({
@@ -92,8 +108,9 @@ async function createClientWithOrder(payload) {
           template_id: templateId,
           event_name: item.event_name,
           event_date: safeDate(item.event_date),
-          status: 'Pending',
+          status: item.status || 'In Progress',
           notes: item.notes || null,
+          category: category,
         });
 
       if (itemErr) throw itemErr;
@@ -208,6 +225,7 @@ async function updateClient(clientId, updates) {
   if (updates.name !== undefined) clientUpdates.name = updates.name;
   if (updates.email !== undefined) clientUpdates.email = updates.email;
   if (updates.phone !== undefined) clientUpdates.phone = updates.phone;
+  if (updates.country_code !== undefined) clientUpdates.country_code = updates.country_code;
 
   if (Object.keys(clientUpdates).length > 0) {
     const { error: cErr } = await supabaseAdmin
@@ -253,4 +271,55 @@ async function updateClient(clientId, updates) {
   return getClientById(clientId);
 }
 
-module.exports = { createClientWithOrder, listClients, getClientById, updateClient };
+/**
+ * deleteClient
+ * Cascades deletion of all related entities (payments, order_items, tasks, orders) then the client.
+ */
+async function deleteClient(clientId) {
+  // Find all orders for this client
+  const { data: ords } = await supabaseAdmin
+    .from('orders')
+    .select('order_id')
+    .eq('client_id', clientId);
+
+  const orderIds = (ords || []).map((o) => o.order_id);
+
+  if (orderIds.length > 0) {
+    // 1. Delete tasks linked to these orders
+    await supabaseAdmin.from('tasks').delete().in('order_id', orderIds);
+    // 2. Delete payments linked to these orders
+    await supabaseAdmin.from('payments').delete().in('order_id', orderIds);
+    // 3. Delete order items linked to these orders
+    await supabaseAdmin.from('order_items').delete().in('order_id', orderIds);
+    // 4. Delete orders
+    await supabaseAdmin.from('orders').delete().in('order_id', orderIds);
+  }
+
+  // 5. Delete client
+  const { error: cErr } = await supabaseAdmin
+    .from('clients')
+    .delete()
+    .eq('client_id', clientId);
+
+  if (cErr) throw createError(400, cErr.message, 'Failed to delete client');
+
+  return { success: true, client_id: clientId };
+}
+
+/**
+ * deleteClients
+ * Batch deletes multiple clients with cascading.
+ */
+async function deleteClients(clientIds) {
+  if (!Array.isArray(clientIds) || clientIds.length === 0) {
+    return { success: true, count: 0 };
+  }
+
+  for (const cid of clientIds) {
+    await deleteClient(cid);
+  }
+
+  return { success: true, count: clientIds.length };
+}
+
+module.exports = { createClientWithOrder, listClients, getClientById, updateClient, deleteClient, deleteClients };

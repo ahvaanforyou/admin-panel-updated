@@ -129,9 +129,10 @@ export default function MemberPayoutDrawer({ isOpen, onClose, member, onOpenAddP
   const handleSaveEdit = async (e) => {
     e.preventDefault();
     if (!editingPayout) return;
+    const targetPayoutId = editingPayout.team_finance_id || editingPayout.payout_id || editingPayout.id;
     try {
       setLoading(true);
-      await updatePayout(editingPayout.payout_id, {
+      await updatePayout(targetPayoutId, {
         amount: Number(editAmount),
         payment_method: editMethod,
         notes: editNotes,
@@ -212,13 +213,14 @@ export default function MemberPayoutDrawer({ isOpen, onClose, member, onOpenAddP
 
         {/* Payout Cards List */}
         <div className="flex-1 overflow-y-auto px-6 py-2 space-y-3">
-          {displayPayouts.map((p) => {
-            const cardDate = formatCardDate(p.date || p.payment_date);
-            const isMenuOpen = activeMenuId === p.payout_id;
+          {displayPayouts.map((p, idx) => {
+            const pId = p.team_finance_id || p.payout_id || p.id || `payout-${idx}`;
+            const cardDate = formatCardDate(p.date || p.payout_date || p.payment_date);
+            const isMenuOpen = activeMenuId === pId;
 
             return (
               <div 
-                key={p.payout_id}
+                key={pId}
                 className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between hover:border-slate-300 transition-all relative"
               >
                 {/* Left Date Box */}
@@ -247,7 +249,7 @@ export default function MemberPayoutDrawer({ isOpen, onClose, member, onOpenAddP
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setActiveMenuId(isMenuOpen ? null : p.payout_id);
+                      setActiveMenuId(isMenuOpen ? null : pId);
                     }}
                     className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
                   >
@@ -269,7 +271,7 @@ export default function MemberPayoutDrawer({ isOpen, onClose, member, onOpenAddP
                       </button>
                       <button
                         type="button"
-                        onClick={() => handleDelete(p.payout_id)}
+                        onClick={() => handleDelete(pId)}
                         className="w-full flex items-center gap-2 px-3 py-2 text-rose-600 hover:bg-rose-50 transition-colors font-medium border-t border-slate-100 cursor-pointer"
                       >
                         <Trash2 className="w-3.5 h-3.5 text-rose-500" />

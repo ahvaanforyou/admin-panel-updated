@@ -8,13 +8,26 @@
 const { supabaseAdmin } = require('../../config/supabase');
 const { createError }   = require('../../middleware/errorHandler');
 
+// Helper to map event names to valid order_items categories
+const mapEventToCategory = (eventName, customCategory) => {
+  if (customCategory && ['Wedding Ceremony', 'Engagement', 'Anniversary', 'Baby Shower', 'House Warming'].includes(customCategory)) {
+    return customCategory;
+  }
+  const ev = (eventName || '').toLowerCase();
+  if (ev.includes('engagement') || ev.includes('ring')) return 'Engagement';
+  if (ev.includes('anniversary')) return 'Anniversary';
+  if (ev.includes('baby') || ev.includes('shower')) return 'Baby Shower';
+  if (ev.includes('house') || ev.includes('warming') || ev.includes('opening') || ev.includes('griha')) return 'House Warming';
+  return 'Wedding Ceremony';
+};
+
 /**
  * addOrderItem
  * Adds a new item to an existing order.
  * Also triggers order status recalculation.
  */
 async function addOrderItem(payload) {
-  const { order_id, template_id, event_name, event_date, notes } = payload;
+  const { order_id, template_id, event_name, event_date, notes, category, status } = payload;
 
   // Resolve template_id fallback
   let activeTemplateId = template_id;
@@ -31,9 +44,19 @@ async function addOrderItem(payload) {
     .single();
   if (orderError || !order) throw createError(404, `Order ${order_id} not found`, 'Not Found');
 
+  const effCategory = mapEventToCategory(event_name, category);
+
   const { data, error } = await supabaseAdmin
     .from('order_items')
-    .insert({ order_id, template_id: activeTemplateId, event_name, event_date, notes })
+    .insert({
+      order_id,
+      template_id: activeTemplateId,
+      event_name,
+      event_date,
+      notes,
+      category: effCategory,
+      status: status || 'In Progress'
+    })
     .select('*, templates(*)')
     .single();
 
@@ -85,22 +108,24 @@ async function changeOrderItemStatus(itemId, { status, completed_at }) {
 
   if (fetchError || !item) throw createError(404, `Order item ${itemId} not found`, 'Not Found');
 
-  // PRD §7: completed_at is REQUIRED when status = Completed
-  if (status === 'Completed' && !completed_at) {
-    throw createError(
-      400,
-      'completed_at is required when setting status to Completed. Select the actual completion date/time.',
-      'Validation Error'
-    );
+  // Completed status handling
+  let newCompletedAt = null;
+  if (status === 'Completed') {
+    newCompletedAt = completed_at || new Date().toISOString();
   }
 
-  // PRD §7: completed_at must be NULL when not Completed
-  const newCompletedAt = status === 'Completed' ? completed_at : null;
+  // Sanitize status to allowed check constraint values
+  let validStatus = status;
+  if (!['In Progress', 'Completed', 'On Hold', 'Cancelled'].includes(validStatus)) {
+    if (validStatus === 'Pending') validStatus = 'In Progress';
+    else if (validStatus === 'Review') validStatus = 'In Progress';
+    else validStatus = 'In Progress';
+  }
 
   // Update the item
   const { data: updatedItem, error: updateError } = await supabaseAdmin
     .from('order_items')
-    .update({ status, completed_at: newCompletedAt })
+    .update({ status: validStatus, completed_at: newCompletedAt })
     .eq('order_item_id', itemId)
     .select()
     .single();

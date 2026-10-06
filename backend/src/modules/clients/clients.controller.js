@@ -32,4 +32,19 @@ async function update(req, res, next) {
   } catch (err) { next(err); }
 }
 
-module.exports = { create, list, getById, update };
+async function remove(req, res, next) {
+  try {
+    const data = await service.deleteClient(req.params.id);
+    res.json({ success: true, data });
+  } catch (err) { next(err); }
+}
+
+async function removeBatch(req, res, next) {
+  try {
+    const { client_ids } = req.body;
+    const data = await service.deleteClients(client_ids || []);
+    res.json({ success: true, data });
+  } catch (err) { next(err); }
+}
+
+module.exports = { create, list, getById, update, remove, removeBatch };

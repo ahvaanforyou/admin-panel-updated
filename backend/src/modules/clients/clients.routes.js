@@ -17,9 +17,10 @@ const orderItemSchema = z.object({
 
 const createClientSchema = z.object({
   // Client fields
-  name:  z.string().min(1, 'name is required'),
-  email: z.string().optional().nullable().or(z.literal('')),
-  phone: z.string().optional().nullable().or(z.literal('')),
+  name:         z.string().min(1, 'name is required'),
+  email:        z.string().optional().nullable().or(z.literal('')),
+  phone:        z.string().optional().nullable().or(z.literal('')),
+  country_code: z.string().optional().nullable().or(z.literal('')),
 
   // Initial order (required on client creation per PRD §4)
   order: z.object({
@@ -34,6 +35,7 @@ const updateClientSchema = z.object({
   name:         z.string().min(1).optional(),
   email:        z.string().optional().nullable().or(z.literal('')),
   phone:        z.string().optional().nullable().or(z.literal('')),
+  country_code: z.string().optional().nullable().or(z.literal('')),
   total_amount: z.union([z.number(), z.string()]).optional(),
   event_name:   z.string().optional(),
   event_date:   z.string().optional(),
@@ -53,5 +55,11 @@ router.get('/:id', controller.getById);
 
 /** PATCH /api/clients/:id — Update client details */
 router.patch('/:id', validate(updateClientSchema), controller.update);
+
+/** DELETE /api/clients/:id — Delete client and cascade delete all associated data */
+router.delete('/:id', controller.remove);
+
+/** POST /api/clients/batch-delete — Batch delete clients */
+router.post('/batch-delete', controller.removeBatch);
 
 module.exports = router;

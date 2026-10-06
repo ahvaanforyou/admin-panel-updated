@@ -44,4 +44,7 @@ router.get('/:id', controller.getById);
 /** PATCH /api/orders/:id — Edit order-level fields (not status) */
 router.patch('/:id', validate(updateOrderSchema), controller.update);
 
+/** DELETE /api/orders/:id — Delete order and cascade associated items and payments */
+router.delete('/:id', controller.remove);
+
 module.exports = router;

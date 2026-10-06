@@ -35,8 +35,8 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedMethod, setSelectedMethod] = useState('All');
-  const [selectedStatus, setSelectedStatus] = useState('All');
   const [selectedTimeFilter, setSelectedTimeFilter] = useState('This Month');
+  const [selectedIds, setSelectedIds] = useState([]);
   const [activeMenuId, setActiveMenuId] = useState(null);
   const menuRef = useRef(null);
 
@@ -179,10 +179,6 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
     }
 
     const matchesMethod = selectedMethod === 'All' || (e.payment_method || '').toLowerCase() === selectedMethod.toLowerCase();
-    
-    // Status filter
-    const eStatus = (e.status || 'Paid').toLowerCase();
-    const matchesStatus = selectedStatus === 'All' || eStatus === selectedStatus.toLowerCase();
 
     // Time filter
     let matchesTime = true;
@@ -197,8 +193,38 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
       matchesTime = eDate.startsWith(prevMonthStr);
     }
 
-    return matchesSearch && matchesCat && matchesMethod && matchesStatus && matchesTime;
+    return matchesSearch && matchesCat && matchesMethod && matchesTime;
   });
+
+  const isAllSelected = filtered.length > 0 && selectedIds.length === filtered.length;
+
+  const handleToggleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(filtered.map((e) => e.expense_id));
+    }
+  };
+
+  const handleToggleSelectRow = (id, e) => {
+    e.stopPropagation();
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const handleBatchDeleteExpenses = async () => {
+    if (selectedIds.length === 0) return;
+    if (!window.confirm(`Are you sure you want to delete ${selectedIds.length} selected expense(s)?`)) return;
+    try {
+      for (const id of selectedIds) {
+        await deleteExpense(id);
+      }
+      setSelectedIds([]);
+    } catch (err) {
+      alert(err.message || 'Failed to delete selected expenses');
+    }
+  };
 
   // Calculate dynamic KPIs based on current month vs previous month
   const [currY, currM] = selectedMonth.split('-').map(Number);
@@ -480,14 +506,51 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
         </div>
       </div>
 
+      {/* Batch Action Bar */}
+      {selectedIds.length > 0 && (
+        <div className="flex items-center justify-between px-4 py-3 bg-blue-50/90 border border-blue-200 rounded-2xl text-xs shadow-xs animate-in fade-in-50 duration-150">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+            <span className="font-semibold text-blue-900">
+              {selectedIds.length} expense{selectedIds.length > 1 ? 's' : ''} selected
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setSelectedIds([])}
+              className="px-3 py-1.5 text-slate-600 hover:bg-white rounded-xl font-medium transition-colors cursor-pointer"
+            >
+              Deselect All
+            </button>
+            <button
+              type="button"
+              onClick={handleBatchDeleteExpenses}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-xl shadow-xs transition-colors cursor-pointer"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              <span>Delete Selected ({selectedIds.length})</span>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* ── Expenses Table Matching Figma media_1791194061474.png ───────────── */}
       <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50/50">
+                <th className="py-3.5 px-4 w-12 text-center">
+                  <input
+                    type="checkbox"
+                    checked={isAllSelected}
+                    onChange={handleToggleSelectAll}
+                    className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                  />
+                </th>
                 <th className="py-3.5 px-6">DATE</th>
-                <th className="py-3.5 px-6">DESCRIPTION</th>
+                <th className="py-3.5 px-6">EXPENSE</th>
                 <th className="py-3.5 px-6">CATEGORY</th>
                 <th className="py-3.5 px-6">AMOUNT</th>
                 <th className="py-3.5 px-6">PAYMENT METHOD</th>
@@ -499,19 +562,40 @@ export default function ExpensesTab({ onOpenAddExpense, onEditExpense }) {
               {filtered.map((item, index) => {
                 const isMenuOpen = activeMenuId === item.expense_id;
                 const openUpwards = index >= Math.max(1, filtered.length - 2);
+                const isSelected = selectedIds.includes(item.expense_id);
 
                 return (
-                  <tr key={item.expense_id} className="hover:bg-slate-50/60 transition-colors">
+                  <tr key={item.expense_id} className={`hover:bg-slate-50/60 transition-colors ${isSelected ? 'bg-blue-50/30' : ''}`}>
+                    {/* Checkbox */}
+                    <td
+                      className="py-4 px-4 text-center"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={(e) => handleToggleSelectRow(item.expense_id, e)}
+                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                      />
+                    </td>
+
                     {/* Date */}
                     <td className="py-4 px-6 text-slate-600 whitespace-nowrap">
                       {formatDate(item.date)}
                     </td>
 
-                    {/* Description */}
+                    {/* Expense Title & Description */}
                     <td className="py-4 px-6 text-slate-900 font-semibold">
                       <div className="flex items-center gap-3">
                         {getExpenseIcon(item)}
-                        <span>{item.title}</span>
+                        <div>
+                          <p className="font-semibold text-slate-900 text-xs">{item.title}</p>
+                          {item.description && (
+                            <p className="text-[11px] text-slate-400 font-normal mt-0.5 leading-snug">
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </td>
 

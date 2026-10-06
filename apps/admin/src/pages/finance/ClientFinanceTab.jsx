@@ -15,7 +15,8 @@ import {
   Eye, 
   Pencil, 
   ChevronLeft, 
-  ChevronRight 
+  ChevronRight,
+  Trash2
 } from 'lucide-react';
 import { useData } from '../../context/DataContext';
 import { formatCurrency } from '../../config/customization';
@@ -23,7 +24,7 @@ import EmptyState from '../../components/common/EmptyState';
 import Sparkline from '../../components/common/Sparkline';
 
 export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onEditClient }) {
-  const { clients, payments, selectedMonth = '2026-10' } = useData();
+  const { clients, payments, selectedMonth = '2026-10', deleteClients } = useData();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedEventType, setSelectedEventType] = useState('All');
@@ -215,6 +216,19 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
 
   const isAllSelected = paginatedClients.length > 0 && selectedIds.length === paginatedClients.length;
 
+  const handleBatchDeleteClients = async () => {
+    if (selectedIds.length === 0) return;
+    if (!window.confirm(`Are you sure you want to delete ${selectedIds.length} selected client(s)? All orders, events, payments, and tasks will be permanently removed.`)) {
+      return;
+    }
+    try {
+      await deleteClients(selectedIds);
+      setSelectedIds([]);
+    } catch (err) {
+      alert(err.response?.data?.message || err.message || 'Failed to delete selected clients');
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* ── 4 KPI Cards with Dynamic Data & Real-Time Sparklines ──────────── */}
@@ -401,6 +415,35 @@ export default function ClientFinanceTab({ onOpenAddPayment, onSelectClient, onE
           </button>
         </div>
       </div>
+
+      {/* Batch Action Bar */}
+      {selectedIds.length > 0 && (
+        <div className="flex items-center justify-between px-4 py-3 bg-blue-50/90 border border-blue-200 rounded-2xl text-xs shadow-xs animate-in fade-in-50 duration-150">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+            <span className="font-semibold text-blue-900">
+              {selectedIds.length} client{selectedIds.length > 1 ? 's' : ''} selected
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setSelectedIds([])}
+              className="px-3 py-1.5 text-slate-600 hover:bg-white rounded-xl font-medium transition-colors cursor-pointer"
+            >
+              Deselect All
+            </button>
+            <button
+              type="button"
+              onClick={handleBatchDeleteClients}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-xl shadow-xs transition-colors cursor-pointer"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              <span>Delete Selected ({selectedIds.length})</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ── Client Finance Table Matching Figma media_1791189909044.png ───── */}
       <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-visible">

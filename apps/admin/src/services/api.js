@@ -93,9 +93,24 @@ export const api = {
     return res.data.data;
   },
 
+  async deleteClient(clientId) {
+    const res = await client.delete(`/clients/${clientId}`);
+    return res.data.data;
+  },
+
+  async deleteClients(clientIds) {
+    const res = await client.post('/clients/batch-delete', { client_ids: clientIds });
+    return res.data.data;
+  },
+
   // ── Orders & Order Items ──────────────────────────────────────────────────
   async addOrder(payload) {
     const res = await client.post('/orders', payload);
+    return res.data.data;
+  },
+
+  async deleteOrder(orderId) {
+    const res = await client.delete(`/orders/${orderId}`);
     return res.data.data;
   },
 
