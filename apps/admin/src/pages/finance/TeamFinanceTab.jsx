@@ -28,6 +28,9 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Helper to extract clean date paid
+  const getPayoutDate = (p) => p.date || p.payout_date || (p.created_at ? p.created_at.slice(0, 10) : '');
+
   // 1. Total Team Payout & Amount Paid (This Month)
   const isAllTime = !selectedMonth || selectedMonth === 'All';
   const effectiveMonth = isAllTime ? '2026-10' : selectedMonth;
@@ -36,45 +39,68 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
   const prevM = currM === 1 ? 12 : currM - 1;
   const prevMonthStr = `${prevY}-${String(prevM).padStart(2, '0')}`;
 
+  // Strict date matching for the selected month according to date paid
   const monthPayouts = (payouts || []).filter(p => {
-    const d = String(p.date || p.payout_date || '');
-    const c = String(p.created_at || '');
-    return isAllTime || d.startsWith(selectedMonth) || c.startsWith(selectedMonth);
+    if (isAllTime) return true;
+    const d = getPayoutDate(p);
+    return d.startsWith(selectedMonth);
   });
   const prevMonthPayouts = (payouts || []).filter(p => {
-    const d = String(p.date || p.payout_date || '');
-    const c = String(p.created_at || '');
-    return d.startsWith(prevMonthStr) || c.startsWith(prevMonthStr);
+    const d = getPayoutDate(p);
+    return d.startsWith(prevMonthStr);
   });
 
   const totalPayoutMonth = monthPayouts.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
   const prevTotalPayoutMonth = prevMonthPayouts.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
   const totalPayoutAll = (payouts || []).reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
-  const displayTotalPayout = totalPayoutAll;
-  const displayAmountPaidThisMonth = totalPayoutMonth > 0 ? totalPayoutMonth : (isAllTime ? totalPayoutAll : 0);
+
+  const displayTotalPayout = isAllTime ? totalPayoutAll : totalPayoutMonth;
+  const displayAmountPaidThisMonth = totalPayoutMonth;
 
   // 2. Savings: Formula requested by user:
   // "total received amount - total team payout - total expenses"
-  const totalReceivedAll = (payments || []).reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
-  const totalExpensesAll = (expenses || []).reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
-  const displaySavings = Math.max(0, totalReceivedAll - totalPayoutAll - totalExpensesAll);
+  // Cumulative up to the selected month (or all time)
+  const upToMonthEnd = isAllTime ? '9999-99' : `${selectedMonth}-31`;
+  const prevUpToEnd = `${prevMonthStr}-31`;
 
-  // Previous month comparison
-  const prevPaymentsReceived = (payments || []).filter(p => {
-    const d = String(p.payment_date || p.created_at || '');
-    return d.startsWith(prevMonthStr);
+  const paymentsUpTo = (payments || []).filter(p => {
+    const d = p.payment_date || p.created_at || '';
+    return isAllTime || d.slice(0, 10) <= upToMonthEnd;
   }).reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
-  const prevExpensesTotal = (expenses || []).filter(e => {
-    const d = String(e.date || e.created_at || '');
-    return d.startsWith(prevMonthStr);
+
+  const payoutsUpTo = (payouts || []).filter(p => {
+    const d = getPayoutDate(p);
+    return isAllTime || d.slice(0, 10) <= upToMonthEnd;
+  }).reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+
+  const expensesUpTo = (expenses || []).filter(e => {
+    const d = e.date || e.created_at || '';
+    return isAllTime || d.slice(0, 10) <= upToMonthEnd;
   }).reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
-  const prevSavings = Math.max(0, prevPaymentsReceived - prevTotalPayoutMonth - prevExpensesTotal);
+
+  const displaySavings = Math.max(0, paymentsUpTo - payoutsUpTo - expensesUpTo);
+
+  const prevPaymentsUpTo = (payments || []).filter(p => {
+    const d = p.payment_date || p.created_at || '';
+    return d.slice(0, 10) <= prevUpToEnd;
+  }).reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+
+  const prevPayoutsUpTo = (payouts || []).filter(p => {
+    const d = getPayoutDate(p);
+    return d.slice(0, 10) <= prevUpToEnd;
+  }).reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+
+  const prevExpensesUpTo = (expenses || []).filter(e => {
+    const d = e.date || e.created_at || '';
+    return d.slice(0, 10) <= prevUpToEnd;
+  }).reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
+
+  const prevSavings = Math.max(0, prevPaymentsUpTo - prevPayoutsUpTo - prevExpensesUpTo);
 
   // 3. Avg. Payout per Member
   const numMembers = (teamMembers && teamMembers.length > 0) ? teamMembers.length : 3;
-  const effectivePayoutForAvg = totalPayoutMonth > 0 ? totalPayoutMonth : totalPayoutAll;
-  const displayAvgPayout = Math.round(effectivePayoutForAvg / numMembers);
-  const prevAvgPayout = Math.round((prevTotalPayoutMonth > 0 ? prevTotalPayoutMonth : totalPayoutAll) / numMembers);
+  const displayAvgPayout = numMembers > 0 ? Math.round(totalPayoutMonth / numMembers) : 0;
+  const prevAvgPayout = numMembers > 0 ? Math.round(prevTotalPayoutMonth / numMembers) : 0;
 
   // Real-time dynamic percentages vs last month
   const calcDiff = (curr, prev) => {
@@ -121,33 +147,20 @@ export default function TeamFinanceTab({ onOpenAddPayout, onSelectMember }) {
   const paymentsWeekly = getWeeklyPayments();
   const savingsWeekly = [0, 1, 2, 3].map(i => Math.max(0, paymentsWeekly[i] - totalPayoutWeekly[i]));
 
-  // Helper to compute individual member payout
-  // When selectedMonth has payouts for the member, show that month.
-  // When 0 or viewing cards, fallback to all-time payout for that member
-  // so values internally present in database are ALWAYS visible on the user card.
+  // Helper to compute individual member payout strictly for the selected month or all-time
   const getMemberPayout = (memberName, memberId) => {
-    if (!isAllTime) {
-      const monthItems = (payouts || []).filter(p => {
-        const matchId = memberId && (p.team_member_id === memberId || p.id === memberId);
-        const matchName = (p.team_members?.name || p.member_name || '').toLowerCase() === (memberName || '').toLowerCase();
-        const d = String(p.date || p.payout_date || '');
-        const c = String(p.created_at || '');
-        const dateMatch = d.startsWith(selectedMonth) || c.startsWith(selectedMonth);
-        return (matchId || matchName) && dateMatch;
-      });
-      const monthSum = monthItems.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
-      if (monthSum > 0) return monthSum;
-    }
-
-    const allItems = (payouts || []).filter(p => {
+    const memberItems = (payouts || []).filter(p => {
       const matchId = memberId && (p.team_member_id === memberId || p.id === memberId);
       const matchName = (p.team_members?.name || p.member_name || '').toLowerCase() === (memberName || '').toLowerCase();
-      return matchId || matchName;
+      if (!matchId && !matchName) return false;
+      if (isAllTime) return true;
+      const d = getPayoutDate(p);
+      return d.startsWith(selectedMonth);
     });
-    return allItems.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+    return memberItems.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
   };
 
-  const totalPayoutForCalc = (totalPayoutMonth > 0 ? totalPayoutMonth : totalPayoutAll) || 1;
+  const totalPayoutForCalc = totalPayoutMonth || 1;
 
   const knownStyles = {
     chaitu: {
