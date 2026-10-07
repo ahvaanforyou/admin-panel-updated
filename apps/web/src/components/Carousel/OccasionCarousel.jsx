@@ -59,12 +59,13 @@ export default function OccasionCarousel({ onSelectTemplate }) {
   const [isAutoPlayPaused, setIsAutoPlayPaused] = useState(false);
   const total = OCCASION_CARDS.length;
 
+  // Auto transition every 6.5 seconds (6500ms) as requested
   useEffect(() => {
     if (isAutoPlayPaused) return;
     const timer = setInterval(() => {
       setDirection(1);
       setActiveIndex((prev) => (prev + 1) % total);
-    }, 4200);
+    }, 6500);
 
     return () => clearInterval(timer);
   }, [isAutoPlayPaused, total]);
@@ -86,8 +87,8 @@ export default function OccasionCarousel({ onSelectTemplate }) {
     enter: (dir) => ({
       rotateZ: dir > 0 ? 12 : -12,
       rotateY: dir > 0 ? 15 : -15,
-      scale: 0.88,
-      x: dir > 0 ? 220 : -220,
+      scale: 0.95,
+      x: dir > 0 ? 180 : -180,
       opacity: 0,
     }),
     center: {
@@ -97,18 +98,18 @@ export default function OccasionCarousel({ onSelectTemplate }) {
       x: 0,
       opacity: 1,
       transition: {
-        duration: 0.65,
+        duration: 0.7,
         ease: [0.16, 1, 0.3, 1],
       },
     },
     exit: (dir) => ({
       rotateZ: dir > 0 ? -12 : 12,
       rotateY: dir > 0 ? -15 : 15,
-      scale: 0.88,
-      x: dir > 0 ? -220 : 220,
+      scale: 0.95,
+      x: dir > 0 ? -180 : 180,
       opacity: 0,
       transition: {
-        duration: 0.5,
+        duration: 0.55,
         ease: [0.16, 1, 0.3, 1],
       },
     }),
@@ -117,15 +118,15 @@ export default function OccasionCarousel({ onSelectTemplate }) {
   return (
     <section 
       id="carousel" 
-      className="py-16 sm:py-24 bg-white overflow-hidden relative select-none w-full"
+      className="min-h-screen py-10 sm:py-14 bg-white overflow-hidden relative select-none w-full flex flex-col justify-center"
     >
-      <div className="w-full max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex-1 flex flex-col justify-between">
         
         {/* ========================================================================= */}
         {/* TOP HEADER SECTION (Matching Reference Image 1)                           */}
         {/* ========================================================================= */}
-        <div className="text-center mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-3 justify-center mb-3">
+        <div className="text-center mb-6 sm:mb-8 pt-4">
+          <div className="inline-flex items-center gap-3 justify-center mb-2.5">
             <span className="w-10 sm:w-16 h-px bg-stone-300" />
             <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.28em] text-stone-500">
               FOR EVERY SPECIAL MOMENT
@@ -147,7 +148,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
         {/* FULL PAGE CAROUSEL STAGE: Seamless edge-to-edge, NO card boundaries       */}
         {/* ========================================================================= */}
         <div 
-          className="relative w-full [perspective:1600px] flex items-center justify-center min-h-[580px] sm:min-h-[640px] lg:min-h-[700px] my-4"
+          className="relative w-full [perspective:1600px] flex items-center justify-center flex-1 my-2"
           onMouseEnter={() => setIsAutoPlayPaused(true)}
           onMouseLeave={() => setIsAutoPlayPaused(false)}
         >
@@ -168,31 +169,24 @@ export default function OccasionCarousel({ onSelectTemplate }) {
               >
                 {/* 
                   Full Width Section:
-                  1. Middle horizontal color strip (half page height)
-                  2. Left typography inside strip
-                  3. Right devices much larger than color strip, overflowing out top & bottom
+                  1. Deep colored horizontal sash / band (expanded to 80% of section height so button is cleanly inside)
+                  2. Left typography safely nested inside the colored sash
+                  3. Right devices sized uniformly with identical height container
                 */}
-                <div className="relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center">
+                <div className="relative w-full min-h-[500px] sm:min-h-[560px] lg:min-h-[620px] flex items-center">
                   
-                  {/* Colored Horizontal Rectangle Strip running across the entire page */}
+                  {/* Colored Horizontal Rectangle Strip (generous top and bottom height) */}
                   <div 
-                    className="absolute inset-y-[18%] sm:inset-y-[16%] inset-x-0 w-full transition-colors duration-700 pointer-events-none rounded-2xl sm:rounded-3xl shadow-sm"
+                    className="absolute inset-y-[8%] sm:inset-y-[10%] inset-x-0 w-full transition-colors duration-700 pointer-events-none rounded-3xl sm:rounded-[36px] shadow-sm"
                     style={{ backgroundColor: current.bgColor }}
                   />
 
                   {/* Left Text & Right Device Content Grid */}
-                  <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 items-center gap-6 sm:gap-8 px-6 sm:px-12 lg:px-16 xl:px-20">
+                  <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 items-center gap-6 sm:gap-8 px-6 sm:px-12 lg:px-16 xl:px-20 py-6 sm:py-8">
                     
-                    {/* LEFT COLUMN: Large Typography aligned with color band */}
-                    <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center py-6 sm:py-10">
+                    {/* LEFT COLUMN: Large Typography aligned securely inside color sash */}
+                    <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center py-4">
                       
-                      <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md self-start mb-4 border border-white/35">
-                        <Sparkles className="w-3.5 h-3.5 text-white" />
-                        <span className="text-[11px] font-bold tracking-wider uppercase text-white">
-                          {current.badge}
-                        </span>
-                      </div>
-
                       <h3 
                         className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.04] whitespace-pre-line drop-shadow-sm"
                         style={{ color: current.titleColor }}
@@ -201,16 +195,16 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                       </h3>
 
                       <p 
-                        className="mt-4 sm:mt-5 text-sm sm:text-base lg:text-lg font-medium leading-relaxed max-w-md opacity-95"
+                        className="mt-3.5 sm:mt-4 text-sm sm:text-base lg:text-lg font-medium leading-relaxed max-w-md opacity-95"
                         style={{ color: current.subtextColor }}
                       >
                         {current.description}
                       </p>
 
-                      <div className="mt-6 sm:mt-8 flex items-center gap-4">
+                      <div className="mt-5 sm:mt-6 flex items-center gap-4">
                         <button
                           onClick={() => onSelectTemplate && onSelectTemplate(current.category)}
-                          className="bg-[#4E1D1D] hover:bg-[#381313] text-white px-8 sm:px-9 py-4 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2.5"
+                          className="bg-[#4E1D1D] hover:bg-[#381313] text-white px-7 sm:px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2.5"
                         >
                           <span>Explore {current.title.split('/')[0].split('\n')[0]} Templates</span>
                           <ArrowRight className="w-4 h-4" />
@@ -219,17 +213,13 @@ export default function OccasionCarousel({ onSelectTemplate }) {
 
                     </div>
 
-                    {/* RIGHT COLUMN: Much larger device mockup overflowing top and bottom of the strip */}
+                    {/* RIGHT COLUMN: Uniform height and width, NO expanding or jumping */}
                     <div className="lg:col-span-7 xl:col-span-7 flex justify-center lg:justify-end items-center relative overflow-visible">
-                      <div className="relative w-full max-w-[620px] sm:max-w-[720px] lg:max-w-[820px] xl:max-w-[880px] flex justify-end items-center overflow-visible">
-                        <motion.img
-                          key={current.deviceImage}
-                          initial={{ opacity: 0, scale: 0.92, y: 30 }}
-                          animate={{ opacity: 1, scale: 1.1, y: 0 }}
-                          transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                      <div className="relative w-full h-[440px] sm:h-[500px] lg:h-[560px] flex justify-end items-center overflow-visible">
+                        <img
                           src={current.deviceImage}
                           alt={current.title}
-                          className="w-full h-auto max-h-[520px] sm:max-h-[600px] lg:max-h-[660px] object-contain object-right drop-shadow-[0_25px_35px_rgba(0,0,0,0.3)] filter transform hover:scale-[1.12] transition-transform duration-500 pointer-events-none"
+                          className="w-auto h-full max-h-[440px] sm:max-h-[500px] lg:max-h-[560px] max-w-full object-contain object-right drop-shadow-[0_25px_35px_rgba(0,0,0,0.3)] filter pointer-events-none transition-none"
                         />
                       </div>
                     </div>
@@ -260,7 +250,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
           </button>
 
           {/* Bottom Dots Indicator */}
-          <div className="absolute -bottom-6 inset-x-0 z-30 flex justify-center items-center gap-2.5">
+          <div className="absolute -bottom-5 inset-x-0 z-30 flex justify-center items-center gap-2.5">
             {OCCASION_CARDS.map((card, idx) => (
               <button
                 key={card.id}
