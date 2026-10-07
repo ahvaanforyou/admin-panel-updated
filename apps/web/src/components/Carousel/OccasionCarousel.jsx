@@ -8,10 +8,10 @@ export const OCCASION_CARDS = [
     category: 'wedding',
     title: 'Wedding/\nReception/\nSangeet....',
     description: 'Thoughtfully designed digital invitations through websites for modern Indian couples and families, wherever you are.',
-    bgColor: '#F4BA44', // Warm Honey Gold from Reference Image 3
-    titleColor: '#533705',
-    subtextColor: '#533705',
-    deviceImage: '/images/card-wedding-phones.png',
+    bgColor: '#E6A935', // Honey Ochre from Reference Image
+    titleColor: '#3F2703',
+    subtextColor: '#4A3005',
+    deviceImage: '/images/fullscreen-wedding-trans.png',
     accentTag: 'Wedding Celebrations',
     badge: 'Trending • Most Loved'
   },
@@ -20,10 +20,10 @@ export const OCCASION_CARDS = [
     category: 'baby-shower',
     title: 'Baby\nShower',
     description: 'Thoughtfully designed digital invitations through websites for modern Indian couples and families, wherever you are.',
-    bgColor: '#0070C0', // Royal / Azure Blue from Reference Image 4
+    bgColor: '#0070C0', // Royal / Azure Blue from Reference Image
     titleColor: '#FFFFFF',
     subtextColor: '#E8F5FF',
-    deviceImage: '/images/card-baby-devices.png',
+    deviceImage: '/images/fullscreen-babyshower-trans.png',
     accentTag: 'Pastel Baby Shower',
     badge: 'Sweet Beginnings'
   },
@@ -32,10 +32,10 @@ export const OCCASION_CARDS = [
     category: 'birthday',
     title: 'Birthday\nParties',
     description: 'Thoughtfully designed digital invitations through websites for modern Indian couples and families, wherever you are.',
-    bgColor: '#F44E66', // Coral Punch Pink from Reference Image 5
+    bgColor: '#F44E66', // Coral Punch Pink from Reference Image
     titleColor: '#FFFFFF',
     subtextColor: '#FFEBF0',
-    deviceImage: '/images/card-bday-devices.png',
+    deviceImage: '/images/fullscreen-birthday-trans.png',
     accentTag: 'Fun & Playful',
     badge: 'All Ages • Themes'
   },
@@ -47,7 +47,7 @@ export const OCCASION_CARDS = [
     bgColor: '#2E5131', // Forest Olive Emerald Green
     titleColor: '#FFFFFF',
     subtextColor: '#EEF6EE',
-    deviceImage: '/images/card-house-devices.png',
+    deviceImage: '/images/fullscreen-housewarming-trans.png',
     accentTag: 'Griha Pravesh & Puja',
     badge: 'Blessings & Rituals'
   }
@@ -144,10 +144,10 @@ export default function OccasionCarousel({ onSelectTemplate }) {
         </div>
 
         {/* ========================================================================= */}
-        {/* FULL SCREEN 3D WHEEL CAROUSEL STAGE                                      */}
+        {/* FULL PAGE CAROUSEL STAGE: Seamless edge-to-edge, NO card boundaries       */}
         {/* ========================================================================= */}
         <div 
-          className="relative w-full [perspective:1400px] flex items-center justify-center min-h-[500px] sm:min-h-[560px] lg:min-h-[620px]"
+          className="relative w-full [perspective:1600px] flex items-center justify-center min-h-[580px] sm:min-h-[640px] lg:min-h-[700px] my-4"
           onMouseEnter={() => setIsAutoPlayPaused(true)}
           onMouseLeave={() => setIsAutoPlayPaused(false)}
         >
@@ -161,31 +161,32 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                className="w-full relative rounded-3xl sm:rounded-[36px] overflow-hidden shadow-2xl border border-stone-100 bg-white"
+                className="w-full relative flex flex-col justify-center overflow-visible"
                 style={{
                   transformStyle: 'preserve-3d',
                 }}
               >
                 {/* 
-                  Card Container:
-                  Half of the card height at the center has a vibrant colored rectangle
-                  with left typography and right device assets, matching reference images 3, 4, 5
+                  Full Width Section:
+                  1. Middle horizontal color strip (half page height)
+                  2. Left typography inside strip
+                  3. Right devices much larger than color strip, overflowing out top & bottom
                 */}
-                <div className="relative w-full min-h-[460px] sm:min-h-[520px] lg:min-h-[580px] flex flex-col justify-center overflow-hidden">
+                <div className="relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center">
                   
-                  {/* Colored Horizontal Rectangle through the center */}
+                  {/* Colored Horizontal Rectangle Strip running across the entire page */}
                   <div 
-                    className="absolute inset-y-[15%] sm:inset-y-[14%] inset-x-0 transition-colors duration-700 pointer-events-none"
+                    className="absolute inset-y-[18%] sm:inset-y-[16%] inset-x-0 w-full transition-colors duration-700 pointer-events-none rounded-2xl sm:rounded-3xl shadow-sm"
                     style={{ backgroundColor: current.bgColor }}
                   />
 
                   {/* Left Text & Right Device Content Grid */}
-                  <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 items-center gap-6 sm:gap-8 px-6 sm:px-12 lg:px-16 xl:px-20 py-8">
+                  <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 items-center gap-6 sm:gap-8 px-6 sm:px-12 lg:px-16 xl:px-20">
                     
-                    {/* LEFT COLUMN: Large Typography */}
-                    <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center">
+                    {/* LEFT COLUMN: Large Typography aligned with color band */}
+                    <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center py-6 sm:py-10">
                       
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm self-start mb-4 border border-white/30">
+                      <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md self-start mb-4 border border-white/35">
                         <Sparkles className="w-3.5 h-3.5 text-white" />
                         <span className="text-[11px] font-bold tracking-wider uppercase text-white">
                           {current.badge}
@@ -193,7 +194,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                       </div>
 
                       <h3 
-                        className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.04] whitespace-pre-line"
+                        className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.04] whitespace-pre-line drop-shadow-sm"
                         style={{ color: current.titleColor }}
                       >
                         {current.title}
@@ -209,7 +210,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                       <div className="mt-6 sm:mt-8 flex items-center gap-4">
                         <button
                           onClick={() => onSelectTemplate && onSelectTemplate(current.category)}
-                          className="bg-[#4E1D1D] hover:bg-[#381313] text-white px-7 sm:px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
+                          className="bg-[#4E1D1D] hover:bg-[#381313] text-white px-8 sm:px-9 py-4 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2.5"
                         >
                           <span>Explore {current.title.split('/')[0].split('\n')[0]} Templates</span>
                           <ArrowRight className="w-4 h-4" />
@@ -218,17 +219,17 @@ export default function OccasionCarousel({ onSelectTemplate }) {
 
                     </div>
 
-                    {/* RIGHT COLUMN: Realistic Device Assets & Mockups */}
-                    <div className="lg:col-span-7 xl:col-span-7 flex justify-center lg:justify-end items-center relative">
-                      <div className="relative w-full max-w-[560px] sm:max-w-[640px] lg:max-w-[720px] flex justify-end items-center">
+                    {/* RIGHT COLUMN: Much larger device mockup overflowing top and bottom of the strip */}
+                    <div className="lg:col-span-7 xl:col-span-7 flex justify-center lg:justify-end items-center relative overflow-visible">
+                      <div className="relative w-full max-w-[620px] sm:max-w-[720px] lg:max-w-[820px] xl:max-w-[880px] flex justify-end items-center overflow-visible">
                         <motion.img
                           key={current.deviceImage}
-                          initial={{ opacity: 0, scale: 0.94, y: 15 }}
-                          animate={{ opacity: 1, scale: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.15 }}
+                          initial={{ opacity: 0, scale: 0.92, y: 30 }}
+                          animate={{ opacity: 1, scale: 1.1, y: 0 }}
+                          transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                           src={current.deviceImage}
                           alt={current.title}
-                          className="w-full h-auto max-h-[360px] sm:max-h-[440px] lg:max-h-[490px] object-contain object-right drop-shadow-2xl"
+                          className="w-full h-auto max-h-[520px] sm:max-h-[600px] lg:max-h-[660px] object-contain object-right drop-shadow-[0_25px_35px_rgba(0,0,0,0.3)] filter transform hover:scale-[1.12] transition-transform duration-500 pointer-events-none"
                         />
                       </div>
                     </div>
@@ -244,22 +245,22 @@ export default function OccasionCarousel({ onSelectTemplate }) {
           {/* Cart-Wheel Navigation Arrows */}
           <button
             onClick={handlePrev}
-            className="absolute left-2 sm:left-4 lg:left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/90 hover:bg-white text-stone-900 shadow-2xl border border-stone-200/80 backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
-            aria-label="Previous card"
+            className="absolute left-2 sm:left-4 lg:left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 hover:bg-white text-stone-900 shadow-2xl border border-stone-200/80 backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
+            aria-label="Previous occasion"
           >
             <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
           <button
             onClick={handleNext}
-            className="absolute right-2 sm:right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/90 hover:bg-white text-stone-900 shadow-2xl border border-stone-200/80 backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
-            aria-label="Next card"
+            className="absolute right-2 sm:right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 hover:bg-white text-stone-900 shadow-2xl border border-stone-200/80 backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
+            aria-label="Next occasion"
           >
             <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
           {/* Bottom Dots Indicator */}
-          <div className="absolute bottom-4 inset-x-0 z-30 flex justify-center items-center gap-2.5">
+          <div className="absolute -bottom-6 inset-x-0 z-30 flex justify-center items-center gap-2.5">
             {OCCASION_CARDS.map((card, idx) => (
               <button
                 key={card.id}
