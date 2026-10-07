@@ -18,15 +18,15 @@ export default function Hero({ onCreateClick }) {
     <section 
       ref={containerRef}
       id="hero" 
-      className="relative w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-24 sm:pt-28 pb-6 sm:pb-8"
+      className="relative w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-20 sm:pt-24 lg:pt-26 pb-8"
     >
       {/* 
         Full viewport width container with safe margins:
-        - pl-6 sm:pl-10 lg:pl-14 xl:pl-16 guarantees left headline & button NEVER clip on any resolution
-        - pr-0 allows the right shape grid to reach the right border 
+        - pl-6 sm:pl-10 lg:pl-12 xl:pl-16 ensures safe breathing room on left
+        - pr-0 allows the right shape grid to extend towards the right border 
       */}
-      <div className="w-full pl-6 sm:pl-10 lg:pl-14 xl:pl-16 pr-4 sm:pr-8 lg:pr-10 xl:pr-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-12 items-center w-full">
+      <div className="w-full pl-6 sm:pl-10 lg:pl-12 xl:pl-16 pr-4 sm:pr-8 lg:pr-10 xl:pr-12 max-w-[1920px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-6 xl:gap-8 items-center w-full">
           
           {/* ========================================================================= */}
           {/* LEFT COLUMN: Editorial Typography & Animated Stroke Text                  */}
@@ -36,11 +36,11 @@ export default function Hero({ onCreateClick }) {
               opacity: leftOpacity, 
               y: leftTranslateY,
             }}
-            className="lg:col-span-5 xl:col-span-5 flex flex-col items-start justify-center z-10 select-none py-2"
+            className="lg:col-span-6 xl:col-span-6 flex flex-col items-start justify-center z-10 select-none py-2"
           >
             
             {/* Top Swirl Flourish Line */}
-            <div className="w-full max-w-[420px] sm:max-w-[460px] mb-3 sm:mb-4 overflow-visible">
+            <div className="w-full max-w-[480px] sm:max-w-[560px] xl:max-w-[620px] mb-3 sm:mb-4 overflow-visible">
               <svg 
                 viewBox="0 0 450 140" 
                 fill="none" 
@@ -65,58 +65,69 @@ export default function Hero({ onCreateClick }) {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-4xl sm:text-5xl lg:text-5xl xl:text-[4.4rem] font-bold tracking-tight text-[#1F1F1F] leading-[1.08]"
+                className="text-5xl sm:text-6xl lg:text-6xl xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-[1.06]"
               >
                 Digital invitations,
               </motion.h1>
 
               {/* Line with 'made' and 'unforgettable' directly beside it */}
-              <div className="flex flex-wrap items-baseline gap-2 sm:gap-3.5">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 xl:gap-5">
                 <motion.span
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
-                  className="text-4xl sm:text-5xl lg:text-5xl xl:text-[4.4rem] font-bold tracking-tight text-[#1F1F1F] leading-none"
+                  className="text-5xl sm:text-6xl lg:text-6xl xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none"
                 >
                   made
                 </motion.span>
 
-                {/* 'unforgettable' in cursive with smooth fluid stroke reveal */}
-                <div className="relative inline-block overflow-hidden align-baseline">
-                  <div className="relative w-[230px] sm:w-[310px] lg:w-[360px] xl:w-[410px] h-[52px] sm:h-[70px] lg:h-[80px] xl:h-[92px]">
-                    
-                    {/* Golden Underglow Line Draw */}
-                    <svg 
-                      className="absolute inset-0 w-full h-full overflow-visible pointer-events-none" 
-                      viewBox="0 0 450 100" 
-                      fill="none"
-                    >
-                      <motion.path
-                        d="M 12 70 Q 120 40 230 65 T 440 55"
-                        stroke="#FFC655"
-                        strokeWidth="5.5"
-                        strokeLinecap="round"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.8 }}
-                        transition={{ duration: 1.2, delay: 0.35, ease: "easeInOut" }}
-                      />
-                    </svg>
+                {/* 'unforgettable' cursive written letter-by-letter with SVG stroke animation */}
+                <div className="relative inline-flex items-center overflow-visible">
+                  {/* Golden Underglow Line Draw behind the cursive text */}
+                  <svg 
+                    className="absolute -bottom-1 -left-2 w-[112%] h-[42px] overflow-visible pointer-events-none z-0" 
+                    viewBox="0 0 450 60" 
+                    fill="none"
+                  >
+                    <motion.path
+                      d="M 5 35 Q 110 15 220 32 T 445 28"
+                      stroke="#FFC655"
+                      strokeWidth="7"
+                      strokeLinecap="round"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 0.85 }}
+                      transition={{ duration: 1.4, delay: 0.25, ease: "easeInOut" }}
+                    />
+                  </svg>
 
-                    {/* Smooth masked fluid write-on for exact cursive text */}
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 1.3, delay: 0.4, ease: [0.25, 1, 0.5, 1] }}
-                      className="absolute inset-y-0 left-0 overflow-hidden"
-                    >
-                      <img
-                        src="/images/unforgettable-exact.png"
-                        alt="unforgettable"
-                        className="w-[230px] sm:w-[310px] lg:w-[360px] xl:w-[410px] h-full object-contain object-left pointer-events-none"
-                      />
-                    </motion.div>
-
-                  </div>
+                  {/* Letter-by-letter animated cursive text with stroke handwriting effect */}
+                  <span className="relative z-10 font-['Caveat',cursive] text-[3.8rem] sm:text-[5rem] lg:text-[5.2rem] xl:text-[6.2rem] 2xl:text-[6.8rem] font-bold text-[#4E1D1D] leading-none tracking-normal inline-flex select-none">
+                    {'unforgettable'.split('').map((char, index) => (
+                      <motion.span
+                        key={index}
+                        initial={{ 
+                          opacity: 0, 
+                          scale: 0.85,
+                          y: 8,
+                          filter: 'blur(3px)'
+                        }}
+                        animate={{ 
+                          opacity: 1, 
+                          scale: 1,
+                          y: 0,
+                          filter: 'blur(0px)'
+                        }}
+                        transition={{
+                          duration: 0.28,
+                          delay: 0.35 + index * 0.08,
+                          ease: [0.34, 1.56, 0.64, 1]
+                        }}
+                        className="inline-block transform-gpu origin-bottom-left"
+                      >
+                        {char}
+                      </motion.span>
+                    ))}
+                  </span>
                 </div>
               </div>
             </div>
@@ -125,18 +136,18 @@ export default function Hero({ onCreateClick }) {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-5 xl:gap-7 w-full"
+              transition={{ duration: 0.8, delay: 1.4 }}
+              className="mt-8 sm:mt-10 xl:mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-6 xl:gap-8 w-full"
             >
               <button
                 onClick={onCreateClick}
-                className="bg-[#4E1D1D] hover:bg-[#381313] text-white px-7 sm:px-8 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-md hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2.5 group flex-shrink-0"
+                className="bg-[#4E1D1D] hover:bg-[#381313] text-white px-8 sm:px-9 py-4 sm:py-4.5 rounded-full text-sm sm:text-base font-semibold tracking-wide shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-3 group flex-shrink-0"
               >
                 <span>Create Your Invitation</span>
-                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                <ArrowRight className="w-4.5 h-4.5 transition-transform duration-300 group-hover:translate-x-1.5" />
               </button>
 
-              <p className="text-xs sm:text-sm text-stone-600 max-w-[270px] leading-relaxed font-normal">
+              <p className="text-sm sm:text-base text-stone-600 max-w-[320px] leading-relaxed font-normal">
                 Thoughtfully designed digital invitations through websites for modern Indian couples and families, wherever you are.
               </p>
             </motion.div>
@@ -146,12 +157,11 @@ export default function Hero({ onCreateClick }) {
           {/* ========================================================================= */}
           {/* RIGHT COLUMN: Exact 3×3 Grid Fitting Viewport with Depth Shadows & Crops  */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-7 xl:col-span-7 flex justify-end items-center w-full">
+          <div className="lg:col-span-6 xl:col-span-6 flex justify-end items-center w-full">
             {/* 
-              Responsive 3x3 Matrix clamped to viewport height:
-              max-w-[calc(100vh-8.5rem)] ensures shapes NEVER bleed off the bottom of the screen!
+              Responsive 3x3 Matrix filling the right hero area generously:
             */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-4.5 xl:gap-5 w-full max-w-[620px] lg:max-w-[660px] xl:max-w-[720px] 2xl:max-w-[780px] max-h-[calc(100vh-8rem)] aspect-[1/1] select-none p-1 relative">
+            <div className="grid grid-cols-3 gap-3.5 sm:gap-4.5 xl:gap-5 w-full max-w-[660px] lg:max-w-[720px] xl:max-w-[800px] 2xl:max-w-[860px] max-h-[calc(100vh-7rem)] aspect-[1/1] select-none p-1 relative">
               
               {/* Star Accent placed at intersection of Peach Circle & Col 3 boundary */}
               <div className="absolute top-[34%] right-[32%] z-20 pointer-events-none">
