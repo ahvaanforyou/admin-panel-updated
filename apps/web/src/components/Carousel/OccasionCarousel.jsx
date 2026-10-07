@@ -232,25 +232,25 @@ export default function OccasionCarousel({ onSelectTemplate }) {
             </AnimatePresence>
           </div>
 
-          {/* Cart-Wheel Navigation Arrows */}
+          {/* Subtle Frosted Glass Navigation Arrows */}
           <button
             onClick={handlePrev}
-            className="absolute left-2 sm:left-4 lg:left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 hover:bg-white text-stone-900 shadow-2xl border border-stone-200/80 backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
+            className="absolute left-3 sm:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/30 hover:bg-white/60 active:bg-white/80 text-stone-900/80 hover:text-stone-900 border border-white/50 backdrop-blur-md shadow-sm hover:shadow-md flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
             aria-label="Previous occasion"
           >
-            <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
           <button
             onClick={handleNext}
-            className="absolute right-2 sm:right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 hover:bg-white text-stone-900 shadow-2xl border border-stone-200/80 backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
+            className="absolute right-3 sm:right-6 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/30 hover:bg-white/60 active:bg-white/80 text-stone-900/80 hover:text-stone-900 border border-white/50 backdrop-blur-md shadow-sm hover:shadow-md flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
             aria-label="Next occasion"
           >
-            <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
           {/* Bottom Dots Indicator */}
-          <div className="absolute -bottom-5 inset-x-0 z-30 flex justify-center items-center gap-2.5">
+          <div className="absolute -bottom-6 inset-x-0 z-30 flex justify-center items-center gap-2">
             {OCCASION_CARDS.map((card, idx) => (
               <button
                 key={card.id}
@@ -258,59 +258,14 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                   setDirection(idx > activeIndex ? 1 : -1);
                   setActiveIndex(idx);
                 }}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
-                  activeIndex === idx ? 'w-10 bg-stone-900 shadow-md' : 'w-2.5 bg-stone-300 hover:bg-stone-400'
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  activeIndex === idx ? 'w-8 bg-stone-900/80 shadow-sm' : 'w-2 bg-stone-300/80 hover:bg-stone-400'
                 }`}
                 title={card.title.replace(/\n/g, ' ')}
               />
             ))}
           </div>
 
-        </div>
-
-        {/* ========================================================================= */}
-        {/* 4 CARDS PREVIEW BAR                                                       */}
-        {/* ========================================================================= */}
-        <div className="mt-8 sm:mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
-          {OCCASION_CARDS.map((card, idx) => {
-            const isSelected = activeIndex === idx;
-            return (
-              <button
-                key={card.id}
-                onClick={() => {
-                  setDirection(idx > activeIndex ? 1 : -1);
-                  setActiveIndex(idx);
-                }}
-                className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl border text-left transition-all duration-300 relative overflow-hidden group ${
-                  isSelected
-                    ? 'border-stone-900 bg-stone-900 text-white shadow-xl scale-[1.02]'
-                    : 'border-stone-200 bg-white hover:border-stone-300 hover:shadow-md text-stone-900'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-2 sm:mb-3">
-                  <div 
-                    className="w-4 h-4 rounded-full border border-black/10 shadow-sm"
-                    style={{ backgroundColor: card.bgColor }}
-                  />
-                  <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${
-                    isSelected ? 'text-amber-400' : 'text-stone-400'
-                  }`}>
-                    0{idx + 1}
-                  </span>
-                </div>
-                
-                <h4 className="font-bold text-sm sm:text-base leading-tight">
-                  {card.title.replace(/\n/g, ' ')}
-                </h4>
-                
-                <span className={`text-xs block mt-1 ${
-                  isSelected ? 'text-stone-300' : 'text-stone-500'
-                }`}>
-                  {card.accentTag}
-                </span>
-              </button>
-            );
-          })}
         </div>
 
       </div>
