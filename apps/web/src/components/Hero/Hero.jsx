@@ -14,6 +14,8 @@ export default function Hero({ onCreateClick }) {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.45], [1, 0.96]);
   const heroTranslateY = useTransform(scrollYProgress, [0, 0.45], [0, -40]);
+  const leftOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
+  const leftTranslateY = useTransform(scrollYProgress, [0, 0.35], [0, -30]);
 
   return (
     <motion.section 
@@ -23,11 +25,11 @@ export default function Hero({ onCreateClick }) {
       className="relative w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-20 sm:pt-24 lg:pt-26 pb-8"
     >
       {/* 
-        Full viewport width container with safe margins:
-        - pl-6 sm:pl-10 lg:pl-12 xl:pl-16 ensures safe breathing room on left
-        - pr-0 allows the right shape grid to extend towards the right border 
+        Full viewport width container:
+        - pl-6 sm:pl-10 lg:pl-12 xl:pl-16 guarantees left headline & button NEVER clip
+        - pr-0 allows the right shape grid to touch the right border of the screen without white gap
       */}
-      <div className="w-full pl-6 sm:pl-10 lg:pl-12 xl:pl-16 pr-4 sm:pr-8 lg:pr-10 xl:pr-12 max-w-[1920px] mx-auto">
+      <div className="w-full pl-6 sm:pl-10 lg:pl-12 xl:pl-16 pr-0 max-w-[1920px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-6 xl:gap-8 items-center w-full">
           
           {/* ========================================================================= */}
@@ -159,14 +161,14 @@ export default function Hero({ onCreateClick }) {
           {/* ========================================================================= */}
           {/* RIGHT COLUMN: Exact 3×3 Grid Fitting Viewport with Depth Shadows & Crops  */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-6 xl:col-span-6 flex justify-end items-center w-full">
+          <div className="lg:col-span-6 xl:col-span-6 flex justify-end items-center w-full pr-0">
             {/* 
-              Responsive 3x3 Matrix filling the right hero area generously:
+              Responsive 3x3 Matrix filling the right hero area generously up to the right edge:
             */}
-            <div className="grid grid-cols-3 gap-3.5 sm:gap-4.5 xl:gap-5 w-full max-w-[660px] lg:max-w-[720px] xl:max-w-[800px] 2xl:max-w-[860px] max-h-[calc(100vh-7rem)] aspect-[1/1] select-none p-1 relative">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 xl:gap-4.5 w-full max-w-[680px] lg:max-w-[740px] xl:max-w-[820px] 2xl:max-w-[900px] max-h-[calc(100vh-6.5rem)] aspect-[1/1] select-none p-0 relative">
               
-              {/* Star Accent placed at intersection of Peach Circle & Col 3 boundary */}
-              <div className="absolute top-[34%] right-[32%] z-20 pointer-events-none">
+              {/* Star Accent moved upwards to match exact reference geometry */}
+              <div className="absolute top-[26%] sm:top-[27%] right-[31%] z-20 pointer-events-none">
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
