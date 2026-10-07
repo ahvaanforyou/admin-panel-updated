@@ -14,48 +14,15 @@ export default function Hero({ onCreateClick }) {
   const leftOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
   const leftTranslateY = useTransform(scrollYProgress, [0, 0.45], [0, -35]);
 
-  // Stroke draw variants for letters of "unforgettable"
-  // Letters: u n f o r g e t t a b l e
-  const letters = ['u', 'n', 'f', 'o', 'r', 'g', 'e', 't', 't', 'a', 'b', 'l', 'e'];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.11, // fast, smooth, sequential letter write-on
-        delayChildren: 0.35,
-      },
-    },
-  };
-
-  const letterVariants = {
-    hidden: {
-      opacity: 0,
-      strokeDashoffset: 160,
-      fillOpacity: 0,
-    },
-    visible: {
-      opacity: 1,
-      strokeDashoffset: 0,
-      fillOpacity: 1,
-      transition: {
-        strokeDashoffset: { duration: 0.55, ease: [0.25, 1, 0.5, 1] },
-        fillOpacity: { duration: 0.35, delay: 0.3 },
-        opacity: { duration: 0.15 },
-      },
-    },
-  };
-
   return (
     <section 
       ref={containerRef}
       id="hero" 
-      className="relative min-h-screen w-full pt-24 sm:pt-28 pb-6 sm:pb-8 bg-white overflow-hidden flex items-center justify-center px-4 sm:px-6 lg:px-8 xl:px-10"
+      className="relative min-h-screen w-full pt-20 sm:pt-24 pb-4 sm:pb-8 bg-white overflow-hidden flex items-center justify-center pl-4 sm:pl-8 lg:pl-12 xl:pl-14 pr-0"
     >
-      {/* Full-width viewport container that reaches screen borders */}
-      <div className="w-full max-w-[1720px] mx-auto min-h-[calc(100vh-6rem)] flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center w-full">
+      {/* Full-width container that touches right screen border */}
+      <div className="w-full mx-auto min-h-[calc(100vh-5rem)] flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-12 items-center w-full">
           
           {/* ========================================================================= */}
           {/* LEFT COLUMN: Editorial Typography (Fade-out on scroll, beside 'made')     */}
@@ -65,10 +32,10 @@ export default function Hero({ onCreateClick }) {
               opacity: leftOpacity, 
               y: leftTranslateY,
             }}
-            className="lg:col-span-5 xl:col-span-5 flex flex-col items-start justify-center z-10 select-none pl-2 sm:pl-4 xl:pl-6"
+            className="lg:col-span-5 xl:col-span-5 flex flex-col items-start justify-center z-10 select-none py-6"
           >
             
-            {/* Top Swirl Flourish Line */}
+            {/* Top Swirl Flourish Line (Smooth continuous draw) */}
             <div className="w-full max-w-[480px] mb-3 sm:mb-5 overflow-visible">
               <svg 
                 viewBox="0 0 450 140" 
@@ -83,7 +50,7 @@ export default function Hero({ onCreateClick }) {
                   strokeLinecap="round"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{ pathLength: 1, opacity: 0.9 }}
-                  transition={{ duration: 1.8, ease: [0.65, 0, 0.35, 1] }}
+                  transition={{ duration: 1.6, ease: [0.65, 0, 0.35, 1] }}
                 />
               </svg>
             </div>
@@ -93,7 +60,7 @@ export default function Hero({ onCreateClick }) {
               <motion.h1 
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.15 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
                 className="text-4xl sm:text-6xl lg:text-6xl xl:text-[4.8rem] font-bold tracking-tight text-[#1F1F1F] leading-[1.06]"
               >
                 Digital invitations,
@@ -104,50 +71,49 @@ export default function Hero({ onCreateClick }) {
                 <motion.span
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.25 }}
+                  transition={{ duration: 0.7, delay: 0.2 }}
                   className="text-4xl sm:text-6xl lg:text-6xl xl:text-[4.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none"
                 >
                   made
                 </motion.span>
 
-                {/* SVG Stroke animation: letter by letter After Effects write-on */}
-                <motion.div 
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="inline-flex items-baseline"
-                >
-                  <svg
-                    viewBox="0 0 540 100"
-                    className="w-[230px] sm:w-[320px] lg:w-[360px] xl:w-[420px] h-auto overflow-visible translate-y-1"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    {letters.map((char, index) => {
-                      // Precise horizontal tracking offsets for Playwrite/cursive letters
-                      const charOffsets = [10, 48, 86, 126, 168, 204, 248, 286, 320, 354, 396, 436, 468];
-                      const xPos = charOffsets[index] || index * 38;
+                {/* EXACT Cursive Unforgettable with Smooth Fluid Stroke-Reveal (Zero lag, pixel-perfect matching uploaded cursive) */}
+                <div className="relative inline-block overflow-hidden align-baseline">
+                  <div className="relative w-[240px] sm:w-[330px] lg:w-[380px] xl:w-[440px] h-[55px] sm:h-[75px] lg:h-[86px] xl:h-[100px]">
+                    
+                    {/* Golden Underglow Animated Stroke Line Draw */}
+                    <svg 
+                      className="absolute inset-0 w-full h-full overflow-visible pointer-events-none" 
+                      viewBox="0 0 450 100" 
+                      fill="none"
+                    >
+                      <motion.path
+                        d="M 12 70 Q 120 40 230 65 T 440 55"
+                        stroke="#FFC655"
+                        strokeWidth="6"
+                        strokeLinecap="round"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.8 }}
+                        transition={{ duration: 1.2, delay: 0.35, ease: "easeInOut" }}
+                      />
+                    </svg>
 
-                      return (
-                        <motion.text
-                          key={index}
-                          x={xPos}
-                          y="78"
-                          className="font-handwriting italic font-normal"
-                          fontSize="76"
-                          fill="#4E1D1D"
-                          stroke="#4E1D1D"
-                          strokeWidth="2.2"
-                          strokeDasharray="160"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          variants={letterVariants}
-                        >
-                          {char}
-                        </motion.text>
-                      );
-                    })}
-                  </svg>
-                </motion.div>
+                    {/* Masked reveal container: fluidly uncovers the exact cursive text from left to right */}
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 1.3, delay: 0.4, ease: [0.25, 1, 0.5, 1] }}
+                      className="absolute inset-y-0 left-0 overflow-hidden"
+                    >
+                      <img
+                        src="/images/unforgettable-exact.png"
+                        alt="unforgettable"
+                        className="w-[240px] sm:w-[330px] lg:w-[380px] xl:w-[440px] h-full object-contain object-left pointer-events-none"
+                      />
+                    </motion.div>
+
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -174,34 +140,54 @@ export default function Hero({ onCreateClick }) {
           </motion.div>
 
           {/* ========================================================================= */}
-          {/* RIGHT COLUMN: Full-Height Geometric Shapes Grid (Filled with uploaded images) */}
+          {/* RIGHT COLUMN: Full-Height Shapes Grid touching outer right border         */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-7 xl:col-span-7 flex justify-center lg:justify-end w-full pr-1 sm:pr-3">
-            {/* The 3x3 Exact Frame Matrix scaled to fill the right section gracefully */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-4.5 xl:gap-5 w-full max-w-[700px] xl:max-w-[820px] aspect-[1/1] select-none p-1">
+          <div className="lg:col-span-7 xl:col-span-7 flex justify-end w-full pl-2 pr-0">
+            {/* The 3x3 Exact Frame Matrix with subtle inset depth shadows & border alignment */}
+            <div className="grid grid-cols-3 gap-3 sm:gap-4.5 xl:gap-5 w-full max-w-[850px] xl:max-w-[960px] aspect-[1/1] select-none p-1 relative">
               
-              {/* Row 1, Col 1: Yellow Quarter-Circle (Top-Right Curved) */}
+              {/* Star Accent placed exactly at center intersection (Col 2 & Col 3 boundary) */}
+              <div className="absolute top-[34%] right-[32%] z-20 pointer-events-none">
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+                  className="text-[#1F1F1F] text-xl sm:text-2xl font-black drop-shadow-sm"
+                >
+                  ✦
+                </motion.div>
+              </div>
+
+              {/* Row 1, Col 1: Yellow Quarter-Circle (Top-Right Curved) with Inset Depth */}
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-[#E5B54F] rounded-tr-[100%] rounded-tl-none rounded-br-none rounded-bl-none shadow-sm"
+                className="w-full h-full bg-[#E5B54F] rounded-tr-[100%] rounded-tl-none rounded-br-none rounded-bl-none"
+                style={{
+                  boxShadow: 'inset -8px -8px 24px rgba(0, 0, 0, 0.08), 0 8px 20px -6px rgba(229, 181, 79, 0.25)'
+                }}
               />
 
-              {/* Row 1, Col 2: Peach Quarter-Circle (Bottom-Right Curved) */}
+              {/* Row 1, Col 2: Peach Quarter-Circle (Bottom-Right Curved) with Inset Depth */}
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-[#F3C4B3] rounded-br-[100%] rounded-tl-none rounded-tr-none rounded-bl-none shadow-sm"
+                className="w-full h-full bg-[#F3C4B3] rounded-br-[100%] rounded-tl-none rounded-tr-none rounded-bl-none"
+                style={{
+                  boxShadow: 'inset 8px -8px 24px rgba(0, 0, 0, 0.06), 0 8px 20px -6px rgba(243, 196, 179, 0.25)'
+                }}
               />
 
               {/* Row 1, Col 3: Deep Maroon Quarter-Circle with 'For Every Special Moment' */}
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-[#4E1D1D] rounded-tl-[100%] rounded-tr-none rounded-bl-none rounded-br-none p-4 sm:p-6 xl:p-8 flex flex-col justify-end items-end text-right text-white shadow-sm"
+                className="w-full h-full bg-[#4E1D1D] rounded-tl-[100%] rounded-tr-none rounded-bl-none rounded-br-none p-4 sm:p-7 xl:p-9 flex flex-col justify-end items-end text-right text-white relative overflow-hidden"
+                style={{
+                  boxShadow: 'inset -6px 6px 20px rgba(0, 0, 0, 0.2), 0 10px 25px -6px rgba(78, 29, 29, 0.3)'
+                }}
               >
-                <div className="w-8 sm:w-12 h-0.5 bg-white/70 mb-2 self-start" />
-                <span className="font-editorial text-xs sm:text-base xl:text-lg tracking-wide text-white/95 leading-tight">
+                <div className="w-8 sm:w-12 h-0.5 bg-white/70 mb-2.5 self-start" />
+                <span className="font-editorial text-xs sm:text-base xl:text-xl tracking-wide text-white/95 leading-tight">
                   For Every<br />Special<br />Moment
                 </span>
               </motion.div>
@@ -210,35 +196,63 @@ export default function Hero({ onCreateClick }) {
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full rounded-t-[140px] sm:rounded-t-[180px] overflow-hidden shadow-sm relative group bg-stone-100"
+                className="w-full h-full rounded-t-[140px] sm:rounded-t-[200px] overflow-hidden relative group bg-stone-100"
+                style={{
+                  boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.15), 0 8px 24px -4px rgba(0, 0, 0, 0.12)'
+                }}
               >
                 <img
-                  src="/images/hero-couple-arch.jpg"
+                  src="/images/hero-couple-perfect.jpg"
                   alt="Wedding Couple Rose Petals Ceremony"
-                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 />
               </motion.div>
 
-              {/* Row 2, Col 2: Peach Full Circle (Clean, no white lines or stars) */}
+              {/* Row 2, Col 2: Peach Full Circle with Subtle Inset Depth Shadow */}
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full rounded-full bg-[#F3C4B3] shadow-sm"
+                className="w-full h-full rounded-full bg-[#F3C4B3]"
+                style={{
+                  boxShadow: 'inset 0 -10px 25px rgba(0, 0, 0, 0.08), inset 0 10px 25px rgba(255, 255, 255, 0.4), 0 10px 25px -8px rgba(243, 196, 179, 0.35)'
+                }}
               />
 
-              {/* Row 2, Col 3: Clean Yellow Quarter-Circle (Top-Left Curved) */}
-              <motion.div 
-                whileHover={{ scale: 1.015 }}
-                transition={{ duration: 0.3 }}
-                className="w-full h-full bg-[#E5B54F] rounded-tl-[100%] rounded-tr-none rounded-bl-none rounded-br-none shadow-sm"
-              />
-
-              {/* Row 3, Col 1: Split into Maroon 'BEAUTIFUL DESIGNS' + High-Res Night Dinner Reception Photo */}
+              {/* Row 2, Col 3: Split into Yellow Quarter-Circle + Wedding Hands Photo */}
               <div className="w-full h-full flex flex-col gap-2.5 sm:gap-3.5 xl:gap-4">
                 <motion.div 
                   whileHover={{ scale: 1.015 }}
                   transition={{ duration: 0.3 }}
-                  className="flex-[1.05] bg-[#4E1D1D] rounded-2xl p-3.5 sm:p-5 text-white flex flex-col justify-center shadow-sm"
+                  className="flex-[1.05] bg-[#E5B54F] rounded-tl-[100%]"
+                  style={{
+                    boxShadow: 'inset -6px 6px 20px rgba(0, 0, 0, 0.07)'
+                  }}
+                />
+                <motion.div 
+                  whileHover={{ scale: 1.015 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex-[0.95] rounded-2xl overflow-hidden bg-stone-100 group"
+                  style={{
+                    boxShadow: 'inset 0 0 16px rgba(0, 0, 0, 0.1), 0 6px 16px -4px rgba(0, 0, 0, 0.1)'
+                  }}
+                >
+                  <img
+                    src="/images/hero-hands-perfect.jpg"
+                    alt="Indian Wedding Hands Ceremony"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  />
+                </motion.div>
+              </div>
+
+              {/* Row 3, Col 1: Split into Maroon 'BEAUTIFUL DESIGNS' + High-Res Night Reception Photo */}
+              <div className="w-full h-full flex flex-col gap-2.5 sm:gap-3.5 xl:gap-4">
+                <motion.div 
+                  whileHover={{ scale: 1.015 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex-[1.05] bg-[#4E1D1D] rounded-2xl p-3.5 sm:p-5 text-white flex flex-col justify-center"
+                  style={{
+                    boxShadow: 'inset -4px 4px 16px rgba(0, 0, 0, 0.25), 0 6px 16px -4px rgba(78, 29, 29, 0.25)'
+                  }}
                 >
                   <span className="text-[10px] sm:text-xs xl:text-sm font-bold tracking-widest uppercase leading-snug">
                     BEAUTIFUL<br />DESIGNS
@@ -248,10 +262,13 @@ export default function Hero({ onCreateClick }) {
                 <motion.div 
                   whileHover={{ scale: 1.015 }}
                   transition={{ duration: 0.3 }}
-                  className="flex-[0.95] rounded-2xl overflow-hidden shadow-sm bg-stone-900 group"
+                  className="flex-[0.95] rounded-2xl overflow-hidden bg-stone-900 group"
+                  style={{
+                    boxShadow: 'inset 0 0 16px rgba(0, 0, 0, 0.2), 0 6px 16px -4px rgba(0, 0, 0, 0.12)'
+                  }}
                 >
                   <img
-                    src="/images/hero-sangeet-reception.jpg"
+                    src="/images/hero-reception-perfect.jpg"
                     alt="Starry Night Dinner Reception"
                     className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
@@ -262,7 +279,10 @@ export default function Hero({ onCreateClick }) {
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-[#E5B54F] rounded-2xl p-4 sm:p-6 xl:p-7 flex flex-col justify-center text-[#1F1F1F] shadow-sm"
+                className="w-full h-full bg-[#E5B54F] rounded-2xl p-4 sm:p-6 xl:p-8 flex flex-col justify-center text-[#1F1F1F]"
+                style={{
+                  boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.06), 0 8px 20px -6px rgba(229, 181, 79, 0.25)'
+                }}
               >
                 <span className="font-bold text-[11px] sm:text-sm xl:text-base tracking-wider uppercase leading-snug">
                   SHARED<br />ACROSS<br />THE WORLD
@@ -274,9 +294,12 @@ export default function Hero({ onCreateClick }) {
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-[#F3C4B3] rounded-tl-[100%] p-4 sm:p-7 xl:p-9 flex items-end justify-end shadow-sm group"
+                className="w-full h-full bg-[#F3C4B3] rounded-tl-[100%] p-4 sm:p-7 xl:p-9 flex items-end justify-end group"
+                style={{
+                  boxShadow: 'inset 8px 8px 24px rgba(0, 0, 0, 0.07), 0 8px 24px -6px rgba(243, 196, 179, 0.25)'
+                }}
               >
-                <ArrowUpRight className="w-7 h-7 sm:w-11 sm:h-11 xl:w-14 xl:h-14 text-[#1F1F1F] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                <ArrowUpRight className="w-8 h-8 sm:w-11 sm:h-11 xl:w-14 xl:h-14 text-[#1F1F1F] transition-transform duration-300 group-hover:translate-x-1.5 group-hover:-translate-y-1.5" />
               </motion.div>
 
             </div>
