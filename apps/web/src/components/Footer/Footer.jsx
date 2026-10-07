@@ -139,7 +139,7 @@ export default function Footer({ onCategoryClick, onCreateClick }) {
               </button>
 
               <a
-                href="http://localhost:5173"
+                href="/admin"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-2 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold text-center flex items-center justify-center gap-1.5 transition-colors"

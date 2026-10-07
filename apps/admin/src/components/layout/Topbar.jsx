@@ -68,7 +68,7 @@ export default function Topbar({ title, subtitle, searchPlaceholder, searchValue
 
         {/* Visit Live Website Link */}
         <a
-          href="http://localhost:5174"
+          href="/"
           target="_blank"
           rel="noopener noreferrer"
           title="Visit Live Client Website (ahvaanforyou.com)"

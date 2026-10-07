@@ -1,11 +1,19 @@
 {
   "version": 2,
-  "buildCommand": "cd apps/admin && npm install --include=dev && npm run build",
-  "outputDirectory": "apps/admin/dist",
+  "buildCommand": "node scripts/build-all.js",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "/api/index.js"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": "/admin/index.html"
     },
     {
       "source": "/(.*)",

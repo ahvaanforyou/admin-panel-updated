@@ -90,7 +90,7 @@ export default function Navbar({ onOpenCreateModal }) {
 
           {/* Admin Login Link */}
           <a
-            href="http://localhost:5173"
+            href="/admin"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs font-semibold text-surface-muted hover:text-brand-primary transition-colors px-2 py-1 flex items-center gap-1"
@@ -174,7 +174,7 @@ export default function Navbar({ onOpenCreateModal }) {
 
             <div className="flex items-center justify-between px-2 pt-1 text-xs text-surface-muted">
               <a
-                href="http://localhost:5173"
+                href="/admin"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 hover:text-brand-primary"
