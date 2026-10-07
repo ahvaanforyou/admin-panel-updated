@@ -1,0 +1,432 @@
+
+AHVAAN FOR YOU
+Design System & UI/UX Guidelines
+Premium digital invitations for meaningful celebrations
+Token
+HEX
+Purpose
+Primary Brand
+#4E1D1D
+Core Ahvaan brand color
+Wedding
+#FFC655
+Wedding-related content
+Baby Shower
+#0776C6
+Baby shower content
+Birthday
+#F7526C
+Birthday party content
+House Warming
+#314A31
+Housewarming content
+
+
+1. Design System Overview
+Ahvaan for You is a premium digital invitation platform designed for weddings, baby showers, birthdays, housewarmings, and other celebrations. The interface should combine modern product design with the warmth and personality of traditional invitations.
+Core design qualities:
+Elegant
+Premium
+Warm
+Emotional
+Modern
+Celebratory
+Simple
+Fast
+2. Typography
+2.1 Primary Font
+SF Pro is the primary typeface for the product interface and all functional content.
+Navigation
+Buttons
+Body text
+Forms
+Labels
+Metadata
+Pricing
+Functional information
+2.2 Decorative Combination Font
+Playwrite US Trad is the secondary decorative typeface. It should be used selectively for emotional or invitation-like moments, not for dense UI.
+Wedding names
+Short celebration phrases
+Quotes
+Decorative headings
+Highlight words
+Element
+Weight
+Desktop
+Mobile
+Display
+600–700
+56–80px
+40–52px
+H1
+600–700
+48–64px
+36–44px
+H2
+600–700
+36–48px
+28–36px
+H3
+600
+28–36px
+22–28px
+Body Large
+400–500
+18–20px
+16–18px
+Body
+400
+16px
+15–16px
+Small
+400
+14px
+13–14px
+Caption
+400–500
+12–13px
+12px
+Button
+500–600
+14–16px
+14–16px
+
+3. Color System
+3.1 Primary Brand
+Primary: #4E1D1D
+Use for primary CTAs, brand accents, headings, active states, icons, links, borders, and key UI elements.
+3.2 Celebration Theme Colors
+Category
+Primary HEX
+Personality
+Recommended Supporting Light
+Wedding
+#FFC655
+Festive, warm, luxurious, traditional
+#FFF4D6
+Baby Shower
+#0776C6
+Fresh, joyful, playful, welcoming
+#E8F5FF
+Birthday
+#F7526C
+Energetic, fun, youthful, celebratory
+#FFF0F3
+House Warming
+#314A31
+Natural, calm, sophisticated, welcoming
+#EEF3EC
+
+3.3 Neutral Colors
+Token
+HEX
+Usage
+Text Primary
+#1F1F1F
+Main readable content
+Text Secondary
+#666666
+Supporting content
+Text Muted
+#8A8A8A
+Metadata and low-emphasis text
+Background
+#FFFFFF
+Primary surfaces
+Soft Background
+#FAF8F6
+Soft sections and page backgrounds
+Border
+#E8E2DE
+Cards, inputs and dividers
+White
+#FFFFFF
+Light surfaces and button text
+Black
+#000000
+Use sparingly
+
+4. Design Tokens
+--brand-primary: #4E1D1D;--theme-wedding: #FFC655;--theme-baby-shower: #0776C6;--theme-birthday: #F7526C;--theme-house-warming: #314A31;--font-primary: "SF Pro", sans-serif;--font-display: "Playwrite US Trad", cursive;--space-1: 4px;--space-2: 8px;--space-3: 12px;--space-4: 16px;--space-5: 24px;--space-6: 32px;--space-7: 40px;--space-8: 48px;--space-9: 64px;--space-10: 80px;--space-11: 96px;--space-12: 120px;--radius-sm: 8px;--radius-md: 12px;--radius-lg: 16px;--radius-xl: 24px;--radius-pill: 999px;--transition-fast: 150ms;--transition-normal: 250ms;--transition-smooth: 400ms;
+5. Theme Architecture
+Category colors must be implemented as theme tokens rather than scattered hardcoded values. This keeps the application scalable and ensures that changing a category theme does not require editing every component.
+[data-theme="wedding"] {  --theme-primary: #FFC655;}[data-theme="baby-shower"] {  --theme-primary: #0776C6;}[data-theme="birthday"] {  --theme-primary: #F7526C;}[data-theme="house-warming"] {  --theme-primary: #314A31;}
+6. Layout & Grid
+Breakpoint
+Grid
+Side Padding
+Container
+Desktop
+12 columns
+32–64px
+1200–1280px
+Tablet
+8 columns
+24–40px
+Fluid
+Mobile
+4 columns
+16–20px
+Fluid
+
+Use an 8-point spacing system. Major sections should have generous vertical breathing room.
+7. Components
+Buttons
+Primary, secondary, theme, loading, disabled and focus states.
+Inputs
+Labels, placeholders, validation, errors and accessible focus states.
+Cards
+Clean cards with strong visual hierarchy and minimal information.
+Template Cards
+Invitation image dominates, with template name, category and clear actions.
+Category Cards
+Visually distinct celebration themes while preserving the Ahvaan brand.
+Blog Cards
+Image, category, title, description, date, reading time and Read More.
+Modal / Preview
+Focused invitation preview with clear close and navigation controls.
+Drawer
+Use for mobile navigation and appropriate contextual actions.
+Badge
+Use for category, status and metadata.
+Toast
+Use for temporary success, error and confirmation feedback.
+Skeleton
+Use when important content is loading to prevent blank states.
+Tabs
+Use only when multiple related content groups need switching.
+Breadcrumb
+Use on deeper SEO/content pages.
+8. Button Guidelines
+Type
+Background
+Text
+Use
+Primary
+#4E1D1D
+#FFFFFF
+Main conversion action
+Secondary
+#FFFFFF
+#4E1D1D
+Alternative action
+Theme
+Category theme
+Contrast-safe
+Invitation/category actions
+Ghost
+Transparent
+#4E1D1D
+Low emphasis
+
+Minimum recommended touch target: 44 × 44px.
+9. Template Card Guidelines
+Template cards are a primary discovery component and should prioritize the invitation visual.
+Large, high-quality invitation preview
+Template name
+Category
+Optional short description
+Preview CTA
+Use Template CTA
+Subtle hover elevation
+Slight preview scale on hover, around 1.02–1.04
+10. Invitation Preview Experience
+When a user clicks Preview, the invitation should appear quickly in a mobile-device-oriented presentation. The invitation itself should remain the visual focus.
+Show immediate visual feedback
+Use optimized preview assets
+Keep close/back control obvious
+Allow Previous / Next navigation when browsing templates
+Avoid unnecessary UI around the invitation
+Support keyboard navigation and reduced motion
+11. Responsive Design
+Every screen and component must work across large desktop, desktop, tablet, mobile and small mobile.
+No fixed desktop-only layouts
+Use fluid widths and max-width containers
+Collapse multi-column layouts appropriately
+Use full-width CTAs on mobile where useful
+Maintain comfortable text sizes
+Keep interactive elements touch-friendly
+Never allow horizontal overflow
+12. Navigation
+Recommended desktop navigation:
+Logo | Templates | How It Works | Blogs | About | Create Invitation
+Mobile navigation should reduce complexity and expose the primary CTA prominently.
+13. Hero Section
+The hero should answer what Ahvaan is, what users can create, why it is useful, and what they should do next.
+Clear H1
+Short supporting paragraph
+Primary CTA
+Optional secondary CTA
+Invitation visual or mobile mockup
+Subtle decorative typography using Playwrite US Trad
+14. Category Discovery
+Use category cards for Wedding, Baby Shower, Birthday and House Warming. Each should use its theme color while preserving the same component structure.
+15. Image Guidelines
+Use high-quality, relevant invitation imagery
+Maintain consistent aspect ratios
+Optimize all assets for web
+Prefer WebP or AVIF where supported
+Use responsive image sizing
+Use descriptive alt text
+Avoid pixelated, stretched or unnecessarily heavy images
+16. Performance & Loading
+The interface must feel fast, especially when users browse and preview invitations.
+Lazy-load below-the-fold images
+Prioritize above-the-fold content
+Use responsive image srcsets
+Use image compression and modern formats
+Use code splitting where appropriate
+Use skeletons or progressive loading for dynamic content
+Avoid unnecessary JavaScript and animation libraries
+Prefetch likely next template content when appropriate
+Cache reusable assets
+<img  src="..."  srcset="..."  sizes="..."  loading="lazy"  decoding="async"  alt="Traditional wedding invitation template" />
+17. Smooth Scrolling & Motion
+Use Lenis for the website's smooth scrolling experience.
+Scrolling should feel smooth and premium
+Do not interfere with touch scrolling
+Do not interfere with keyboard navigation
+Do not trap scrolling inside inappropriate components
+Respect prefers-reduced-motion
+Motion Type
+Recommended Duration
+Fast
+150ms
+Standard
+250ms
+Smooth
+400ms
+Large transition
+600ms
+
+18. Interaction States
+Default
+Hover
+Focus
+Active
+Disabled
+Loading
+Success
+Error
+Every interactive component must have an intentional state for keyboard and pointer interaction.
+19. Forms
+Use visible labels
+Use helpful placeholders without replacing labels
+Validate inline
+Show clear and human-readable errors
+Use correct input types
+Use large touch targets
+Keep multi-step forms simple and focused
+20. Accessibility
+Maintain adequate color contrast
+Support keyboard navigation
+Provide visible focus indicators
+Use semantic HTML
+Maintain heading hierarchy
+Provide meaningful alt text
+Use accessible form labels
+Do not rely on color alone
+Support prefers-reduced-motion
+Ensure dialogs and menus are accessible
+21. SEO-Friendly Design
+Design and content structure should support search engines from the beginning.
+Use semantic HTML
+One clear H1 per primary page
+Logical H2/H3 hierarchy
+Unique page titles
+Unique meta descriptions
+Canonical URLs
+Descriptive URLs
+Descriptive image alt text
+Open Graph metadata
+Structured data where relevant
+Important text must remain real HTML, not text embedded only in images
+22. Blog UI
+Content
+Purpose
+Category
+Helps users and search engines understand topic
+Title
+Primary click and SEO hook
+Description
+Quick context
+Published date
+Freshness/context
+Reading time
+Sets expectation
+Read More
+Clear next action
+
+23. Implementation Checklist
+SF Pro configured as primary font
+Playwrite US Trad configured as decorative font
+Primary brand color set to #4E1D1D
+Wedding theme set to #FFC655
+Baby Shower theme set to #0776C6
+Birthday theme set to #F7526C
+House Warming theme set to #314A31
+8px spacing grid implemented
+Responsive breakpoints implemented
+44px minimum touch target
+Lenis configured with reduced-motion support
+Images optimized and lazy-loaded where appropriate
+Template preview loads efficiently
+Accessible focus states implemented
+Semantic HTML implemented
+SEO metadata supported
+Reusable component architecture established
+24. Design Do's & Don'ts
+Do
+Use SF Pro for the majority of the interface.
+Use Playwrite US Trad as a selective emotional accent.
+Maintain strong whitespace.
+Use category colors consistently.
+Keep invitation previews visually dominant.
+Use clear CTAs.
+Design mobile-first.
+Keep motion subtle and purposeful.
+Optimize images and loading.
+Use reusable components and design tokens.
+Don't
+Do not use multiple decorative fonts.
+Do not overuse Playwrite US Trad.
+Do not mix unrelated palettes.
+Do not use excessive gradients or heavy shadows.
+Do not make cards information-heavy.
+Do not hide primary actions.
+Do not create fixed-width layouts.
+Do not use animation everywhere.
+Do not replace important HTML text with images.
+Do not sacrifice performance for decorative effects.
+25. Final Visual Direction
+Ahvaan for You should feel like a premium digital invitation studio rather than a generic template marketplace. The product should combine modern digital product design, traditional celebration aesthetics and personal emotional storytelling.
+Foundation
+Direction
+Primary Typeface
+SF Pro
+Decorative Typeface
+Playwrite US Trad
+Brand Color
+#4E1D1D
+Wedding
+#FFC655
+Baby Shower
+#0776C6
+Birthday
+#F7526C
+House Warming
+#314A31
+Spacing
+8px grid
+Scroll
+Lenis
+Layout
+Responsive, mobile-first
+Motion
+Subtle and purposeful
+Overall personality
+Premium, warm, elegant, emotional, modern, celebratory
+
+
+Ahvaan for You • Design System

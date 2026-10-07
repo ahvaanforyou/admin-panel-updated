@@ -1,0 +1,585 @@
+
+AHVAAN FOR YOU
+PRODUCT REQUIREMENTS DOCUMENT
+SEO-first • Responsive • Performance-focused • Premium digital invitations
+
+Document purposeDefine the complete website product requirements for Ahvaan for You while preserving the visual direction of the supplied landing-page design and extending it into a scalable, SEO-friendly invitation platform.
+
+
+Document
+Value
+Product
+Ahvaan for You
+Document type
+Website Product Requirements Document
+Primary platform
+Responsive web
+Primary goal
+Discover → Preview → Enquire/Create Invitation
+Experience priority
+Mobile-first, premium, simple, fast
+Reference design
+Supplied Ahvaan for You landing page
+Smooth scrolling
+Lenis
+Primary contact
++91 89859 66940
+Instagram
+https://www.instagram.com/ahvaan_for_you/
+YouTube
+https://www.youtube.com/@AhvaanForYou
+
+
+Prepared: 07 October 2026
+
+1. Executive Summary
+Ahvaan for You is a premium digital invitation platform for modern Indian couples, families and celebrations. The website should help visitors discover invitation designs, understand the value of digital invitations, preview templates clearly on a mobile device mockup, and move naturally toward creating an invitation.
+The supplied landing page establishes the core visual language: a premium editorial layout, large expressive typography, warm celebration-oriented visuals, template cards, a four-step process, FAQ and customer testimonials. The new website must retain this visual identity rather than replacing it with a generic template-store interface.
+Product principleThe website should feel like a digital invitation studio, not a catalogue. Discovery, preview and confidence should happen before the user is asked to order.
+
+2. Existing Design Reference
+The supplied landing page contains the following visible product structure: Home navigation, Invitations, How It Works, Blog, About, FAQ and Create Your Invitation; a hero around 'For Every Special Moment' and 'Digital invitations, made unforgettable'; invitation categories; template filters and cards; a four-step process; FAQ; and testimonials.
+Existing area
+PRD requirement
+Navigation
+Preserve current information architecture and improve responsive behavior.
+Hero
+Preserve current visual composition; strengthen semantic H1 and CTA clarity.
+Invitation categories
+Make categories clickable and SEO-indexable where appropriate.
+Template section
+Provide filtering, search, preview and template detail pages.
+Template preview
+Open a clear mobile mockup with optimized assets.
+How It Works
+Retain four-step structure and expand into a dedicated page.
+FAQ
+Retain accordion interaction and expand useful search-intent questions.
+Testimonials
+Retain customer-oriented cards and improve mobile interaction.
+Footer
+Add navigation, categories, contact, social and legal links.
+
+Design source noteThe source landing page describes digital invitations for modern Indian couples and families and shows the current Home → Invitations → How It Works → Blog → About → FAQ navigation, along with template cards and the four-step workflow.
+
+3. Product Goals & Success Criteria
+3.1 Business goals
+Increase qualified enquiries and invitation orders.
+Make invitation templates easy to discover and compare.
+Build trust through clear examples, testimonials and transparent information.
+Create indexable landing pages that can rank for digital invitation searches.
+Build a content engine through category pages and SEO-focused blog articles.
+Create a scalable foundation for adding more invitation categories and templates.
+3.2 UX goals
+A first-time visitor should understand what Ahvaan for You offers within seconds.
+Users should reach invitations from any major page without hunting through the interface.
+Template preview should be visually obvious and require minimal interaction.
+Mobile must feel intentionally designed, not like a compressed desktop site.
+Navigation, filters, accordions and dialogs must remain accessible and predictable.
+Animations should add polish without blocking content or hurting performance.
+3.3 Success metrics
+Metric
+Target / direction
+Template preview rate
+Increase month over month
+Preview → Create CTA
+Primary conversion funnel
+Invitation enquiry submissions
+Primary business conversion
+Organic landing-page traffic
+Increase month over month
+Organic template-page traffic
+Increase as catalogue grows
+Mobile conversion rate
+Must not materially lag desktop
+LCP
+< 2.5 seconds target
+INP
+< 200 ms target
+CLS
+< 0.1 target
+
+4. Target Users
+User
+Need
+Expected behavior
+Couple planning a wedding
+A beautiful, modern invitation that is easy to share.
+Explore wedding templates → preview → enquire.
+Family organizer
+An invitation for a family celebration.
+Browse category → compare designs → contact.
+NRI / long-distance family
+A shareable invitation accessible to guests anywhere.
+Discover online → preview → share/enquire.
+Design-conscious customer
+A premium visual experience and customization.
+Spend more time on template details and examples.
+Search visitor
+An answer to a specific invitation need.
+Land on blog/category/template → continue to relevant templates.
+
+5. Information Architecture
+Primary navigation:
+Home
+Invitations
+How It Works
+Blog
+About
+FAQ
+Create Your Invitation
+Recommended sitemap:
+Route
+Purpose
+Indexable
+/
+Primary brand and conversion landing page
+Yes
+/invitations
+All invitation templates
+Yes
+/invitations/{category}
+Category landing page
+Yes
+/invitations/{category}/{template-slug}
+Individual template detail
+Yes
+/how-it-works
+Explain ordering and customization process
+Yes
+/blog
+Blog hub
+Yes
+/blog/{article-slug}
+Individual article
+Yes
+/about
+Brand story and positioning
+Yes
+/faq
+FAQ hub
+Yes
+/contact
+Contact / enquiry
+Yes
+/create-your-invitation
+Primary enquiry/order flow
+Yes/no depending on implementation
+/privacy-policy
+Privacy
+Yes
+/terms-and-conditions
+Terms
+Yes
+/refund-policy
+Refund/cancellation
+Yes
+
+6. Home Page Requirements
+6.1 Header / navigation
+Desktop: logo, Home, Invitations, How It Works, Blog, About, FAQ and Create Your Invitation.
+Mobile: logo plus menu trigger; open a clean navigation drawer or full-screen menu.
+Navigation should indicate the current page and support smooth anchor navigation where applicable.
+Header should remain usable across all viewport sizes without horizontal overflow.
+6.2 Hero
+Preserve the existing visual composition and editorial feel.
+Use a semantic H1 such as 'Beautiful Digital Invitations for Every Special Moment'.
+Primary CTA: Create Your Invitation.
+Secondary CTA: Explore Invitations.
+Hero imagery must be optimized and loaded with priority.
+6.3 Occasion categories
+Show Wedding, Reception, Sangeet, Engagement, Haldi, Mehendi, Birthday, Baby Shower, Housewarming and other supported categories.
+Each category card should be clickable.
+Category links should lead to indexable category pages where sufficient unique content exists.
+6.4 Template showcase
+Provide search, category filtering and price filtering.
+Use clean template cards with image, name, event type, short descriptor, price and Preview/View action.
+Do not load every full-resolution template asset on initial page load.
+Use optimized thumbnails and load high-resolution assets when a user requests a preview.
+6.5 Benefits
+Explain practical features such as RSVP, Maps, Event Details, Music, Gallery and Easy Sharing.
+Keep copy concise and benefit-oriented.
+6.6 How It Works preview
+Retain the four-step structure: Choose a Template, Share Your Details, We Customize It, Receive & Share.
+Link to the full How It Works page.
+6.7 FAQ preview
+Use an accessible accordion.
+Show the most useful high-intent questions and link to the full FAQ page.
+6.8 Testimonials
+Show customer review, name, location, profession and event type when that information is genuinely available.
+Use swipeable cards on mobile rather than a dense desktop grid.
+6.9 Final CTA
+Reinforce the value proposition.
+Primary CTA: Create Your Invitation.
+Secondary CTA: Explore Templates.
+7. Invitations Catalogue
+7.1 Catalogue features
+Search templates by name or relevant terms.
+Filter by event category.
+Filter by price range.
+Optional sort by newest, price and featured.
+Responsive grid with clear hierarchy.
+Empty state when no templates match.
+Template count may be shown when useful.
+Use pagination or controlled infinite loading so the page remains performant.
+7.2 Template card
+Optimized invitation thumbnail.
+Template name.
+Event category.
+Short style descriptor.
+Price.
+Preview action.
+View Template action.
+Optional favorite/share action if implemented consistently.
+7.3 Template preview
+Critical UX requirementWhen the user selects Preview, the invitation must be clearly visible inside a mobile phone mockup. The selected template's high-resolution preview should be loaded on demand rather than loading all large assets with the page.
+
+Desktop: modal or dedicated preview experience with large phone mockup.
+Mobile: full-screen or near-full-screen preview optimized for the viewport.
+Provide close/back control.
+Provide View Full Template and Create This Invitation CTAs.
+Do not hide the invitation behind excessive UI.
+Preserve scroll position when the user returns to the catalogue.
+8. Template Detail Page
+Recommended URL:
+/invitations/wedding/eternal-togetherness
+Breadcrumb navigation.
+Template name and event type.
+Large mobile mockup preview.
+Price.
+Short template description.
+Feature list.
+Primary Create This Invitation CTA.
+Relevant invitation features such as RSVP, Maps, Gallery, Music or other features only when actually supported by the template.
+Related templates.
+FAQ or useful supporting content where appropriate.
+Unique title, meta description, canonical URL and structured data.
+9. How It Works Page
+The dedicated page should expand the landing-page workflow without changing its core four-step structure.
+Choose a Template: browse designs and select a preferred invitation.
+Share Your Details: provide event information, images and preferences.
+We Customize It: Ahvaan for You personalizes the selected design.
+Receive & Share: receive the finished invitation and share it with guests.
+9.1 Supporting sections
+Why digital invitations?
+What information the customer needs to provide.
+What customization means.
+How preview/review works.
+How the final invitation is shared.
+FAQ.
+Final Create Your Invitation CTA.
+10. About Page
+Brand introduction.
+Why Ahvaan for You exists.
+The problem with traditional and static invitation sharing.
+The role of digital invitations in modern celebrations.
+Design philosophy.
+Personalization and customer support approach.
+Trust-building content.
+Final CTA.
+11. Blog & Content Platform
+The blog is a long-term SEO acquisition channel. Content should answer real planning and invitation questions and naturally connect readers to relevant invitation categories and templates.
+11.1 Categories
+Wedding Invitations
+Digital Invitations
+Wedding Planning
+Invitation Ideas
+Indian Weddings
+Birthday Invitations
+Baby Showers
+Housewarming
+Invitation Trends
+11.2 Blog card
+Cover image.
+Category.
+Title.
+Short excerpt.
+Published date.
+Estimated reading time.
+Read Article CTA.
+11.3 Initial content themes
+Digital Wedding Invitation Ideas for Modern Indian Weddings
+Digital Wedding Invitations vs Traditional Wedding Cards
+How to Create a Wedding Invitation Online
+What to Include in a Digital Wedding Invitation
+How to Share Wedding Invitations on WhatsApp
+Sangeet Invitation Ideas
+Haldi Invitation Ideas
+Digital Birthday Invitation Ideas
+Baby Shower Invitation Ideas
+Housewarming Invitation Ideas
+12. FAQ Requirements
+How does Ahvaan for You work?
+How long does it take to get an invitation?
+Can I customize the content?
+Can I add my own music?
+Can I add Google Maps?
+Can guests RSVP?
+Will the invitation work on mobile and laptop?
+What if I do not have professional images?
+Can I request changes?
+Can I create invitations for events other than weddings?
+Do you offer custom designs?
+How do I order an invitation?
+FAQ implementation must use accessible accordion controls and should expose structured data only when the content and search-engine guidelines make that appropriate.
+13. Footer Requirements
+Group
+Content
+Brand
+Ahvaan for You + short brand description
+Navigation
+Home, Invitations, How It Works, Blog, About, FAQ, Contact
+Invitation categories
+Wedding, Birthday, Baby Shower, Housewarming, Engagement, Sangeet, etc.
+Social
+Instagram and YouTube
+Contact
++91 89859 66940
+Legal
+Privacy Policy, Terms & Conditions, Refund Policy
+Copyright
+© 2026 Ahvaan for You. All rights reserved.
+
+14. SEO Requirements
+14.1 Keyword strategy
+Intent
+Example target terms
+Core
+digital wedding invitation, digital wedding invitations, online wedding invitation
+India
+digital wedding invitation India, Indian wedding digital invitation, wedding invitation website India
+Feature
+wedding invitation website, RSVP wedding invitation, online wedding invitation
+Category
+sangeet invitation, haldi invitation, engagement invitation, reception invitation
+Other events
+digital birthday invitation, baby shower invitation, housewarming invitation
+
+14.2 On-page SEO
+Unique title tag for every indexable page.
+Unique meta description for every indexable page.
+One clear primary H1 per page.
+Logical H2/H3 hierarchy.
+Descriptive image alt text.
+Descriptive image filenames.
+Canonical URL on indexable pages.
+Open Graph metadata.
+XML sitemap.
+Robots.txt.
+Breadcrumbs on deep pages.
+Contextual internal links.
+No keyword stuffing.
+14.3 Structured data
+Organization/WebSite where applicable.
+BreadcrumbList for hierarchical pages.
+Article for blog posts.
+Product only where the template is genuinely represented as a product and the data is accurate.
+FAQPage only where eligible and appropriate.
+15. Responsive Design Requirements
+Viewport
+Requirement
+320–359px
+No horizontal overflow; readable type; compact controls.
+360–414px
+Primary mobile target; optimized cards, navigation and preview.
+768–1023px
+Tablet layouts with adaptive grids and spacing.
+1024–1439px
+Desktop layout with balanced content width.
+1440px+
+Maintain readable max-width; do not stretch content excessively.
+
+All sections must be responsive.
+Images must preserve intended aspect ratio.
+Buttons must remain touch-friendly.
+No clipped text or overflowing cards.
+Mobile filters should use a bottom sheet or equivalent focused UI.
+Mobile preview should prioritize the invitation itself.
+Desktop and mobile can use different compositions where needed while preserving the same brand language.
+16. Motion & Smooth Scrolling
+Use Lenis for smooth scrolling across the experience.
+Smooth anchor navigation.
+Respect prefers-reduced-motion.
+Do not block scrolling while animations initialize.
+Use short, purposeful entrance animations.
+Use subtle hover and image transitions.
+Avoid excessive parallax or animations that delay content visibility.
+Do not let motion interfere with keyboard navigation or screen readers.
+17. Performance Requirements
+17.1 Image strategy
+Prefer AVIF/WebP for web images where supported.
+Use responsive image sources.
+Use lazy loading below the fold.
+Prioritize the hero image only when it is actually part of the critical rendering path.
+Do not load full-size template previews until requested.
+Reserve image dimensions to prevent layout shift.
+17.2 Frontend strategy
+Route-level code splitting.
+Lazy-load non-critical components.
+Minimize JavaScript shipped to the initial page.
+Avoid unnecessary third-party scripts.
+Load only required font weights.
+Cache static assets effectively.
+17.3 Core Web Vitals targets
+Metric
+Target
+LCP
+< 2.5s
+INP
+< 200ms
+CLS
+< 0.1
+
+18. Accessibility Requirements
+Semantic HTML.
+Keyboard-accessible navigation.
+Visible focus states.
+Accessible menu, modal, filters and accordion.
+Meaningful alt text for informative images.
+Decorative images marked appropriately.
+Sufficient text/background contrast.
+Touch targets suitable for mobile.
+Reduced-motion support.
+Form labels and error messages must be accessible.
+19. Technical Architecture & Folder Structure
+Recommended scalable frontend structure:
+ahvaan-for-you/├── public/│   ├── images/│   ├── templates/│   ├── icons/│   ├── fonts/│   ├── favicon/│   ├── robots.txt│   └── sitemap.xml├── src/│   ├── assets/│   ├── components/│   │   ├── Navbar/│   │   ├── Footer/│   │   ├── Hero/│   │   ├── TemplateCard/│   │   ├── TemplateGrid/│   │   ├── TemplatePreview/│   │   ├── Filters/│   │   ├── HowItWorks/│   │   ├── FAQ/│   │   ├── Testimonials/│   │   ├── CTA/│   │   ├── Breadcrumb/│   │   └── SEO/│   ├── pages/│   │   ├── Home/│   │   ├── Invitations/│   │   ├── TemplateDetail/│   │   ├── HowItWorks/│   │   ├── Blog/│   │   ├── BlogArticle/│   │   ├── About/│   │   ├── FAQ/│   │   ├── Contact/│   │   ├── CreateInvitation/│   │   └── Legal/│   ├── data/│   │   ├── templates.js│   │   ├── categories.js│   │   ├── faq.js│   │   └── blog.js│   ├── hooks/│   │   ├── useLenis.js│   │   └── useMediaQuery.js│   ├── utils/│   │   ├── seo.js│   │   ├── image.js│   │   └── analytics.js│   ├── routes/│   ├── styles/│   ├── App.jsx│   └── main.jsx├── package.json├── vite.config.js└── README.md
+20. Content & Data Model Requirements
+20.1 Template model
+Field
+Requirement
+id
+Unique internal identifier
+slug
+SEO-friendly unique URL slug
+name
+Template name
+category
+Primary invitation category
+style
+Short style descriptor
+price
+Current displayed price
+thumbnail
+Optimized listing image
+previewImage
+Higher-resolution preview asset
+description
+Unique useful template description
+features
+Supported features only
+seo.title
+Unique page title
+seo.description
+Unique meta description
+
+20.2 Blog model
+slug
+title
+category
+author
+publishedAt
+updatedAt
+readTime
+coverImage
+excerpt
+content
+seo.title
+seo.description
+21. Analytics & Tracking
+view_home
+view_invitations
+search_template
+filter_template
+preview_template
+view_template
+click_create_invitation
+submit_enquiry
+click_phone
+click_instagram
+click_youtube
+read_blog
+faq_open
+Primary funnelTemplate discovery → Template preview → Template detail → Create Your Invitation → Enquiry/order submission.
+
+22. Loading, Empty & Error States
+State
+Expected UX
+Template loading
+Skeleton cards with reserved image dimensions.
+Preview loading
+Focused preview loader without blocking the rest of the site.
+No templates
+Clear message + Clear Filters action.
+404
+Friendly message + Back to Invitations / Home.
+Form validation
+Inline, specific and accessible error messages.
+Network failure
+Useful retry action where applicable.
+
+23. Acceptance Criteria
+The existing landing page visual direction is preserved.
+Every primary page is responsive from small mobile to large desktop.
+Navigation works correctly on desktop, tablet and mobile.
+All major sections can be reached through clear navigation or contextual links.
+Template cards support search/filter behavior as specified.
+Preview opens the selected invitation clearly inside a mobile mockup.
+Only necessary high-resolution template assets are loaded for preview.
+Lenis is implemented without breaking native scrolling or reduced-motion behavior.
+Template detail pages have clean, indexable URLs.
+Blog articles have unique SEO metadata and internal links.
+Images are optimized and lazy-loaded where appropriate.
+The site has sitemap and robots configuration.
+Canonical tags are implemented on indexable pages.
+Accessibility basics are implemented across navigation, forms, accordions and preview.
+Footer includes +91 89859 66940, Instagram and YouTube.
+No page introduces horizontal scrolling at supported viewport sizes.
+Loading and empty states are designed rather than left blank.
+Analytics events are implemented for the main discovery and conversion actions.
+24. Recommended Development Phases
+Phase
+Scope
+Phase 1
+Design system, global layout, navigation, footer, responsive foundation
+Phase 2
+Home page matching approved landing-page design
+Phase 3
+Invitation catalogue, search, filters and template cards
+Phase 4
+Template preview and mobile mockup experience
+Phase 5
+Template detail pages and SEO metadata
+Phase 6
+How It Works, About, FAQ and Contact
+Phase 7
+Blog hub and article pages
+Phase 8
+Performance, accessibility, analytics and technical SEO
+Phase 9
+Cross-device QA, content QA and launch checklist
+
+25. Final Product Definition
+Ahvaan for You should be delivered as a premium, responsive and SEO-friendly digital invitation website built around one clear journey: discover a beautiful invitation, understand what it offers, preview it clearly, trust the brand, and create the invitation.
+Non-negotiablesResponsive on every screen size • Current landing-page visual direction preserved • Lenis smooth scrolling • Fast and efficient content loading • Mobile mockup template preview • SEO-friendly routes and content • Scalable folder and data structure • Accessible UI • Clear conversion CTAs
+
+Appendix A. Suggested Homepage Content Hierarchy
+Navigation
+Hero: Digital invitations, made unforgettable
+For Every Special Moment / Occasion categories
+Invitation showcase
+Benefits / Why digital invitations
+How It Works
+FAQ
+Testimonials / Moments
+Final CTA
+Footer
+Appendix B. Required Social & Contact Details
+Channel
+Value
+Instagram
+https://www.instagram.com/ahvaan_for_you/
+YouTube
+https://www.youtube.com/@AhvaanForYou
+Phone
++91 89859 66940

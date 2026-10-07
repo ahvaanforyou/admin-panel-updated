@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-primary: #4E1D1D;
+    --brand-dark: #3A1414;
+    --theme-wedding: #FFC655;
+    --theme-wedding-light: #FFF4D6;
+    --theme-baby-shower: #0776C6;
+    --theme-baby-light: #E8F5FF;
+    --theme-birthday: #F7526C;
+    --theme-birthday-light: #FFF0F3;
+    --theme-house-warming: #314A31;
+    --theme-house-light: #EEF3EC;
+    --font-primary: "Plus Jakarta Sans", "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: "Playwrite US Trad", cursive;
+    --font-serif: "Playfair Display", Georgia, serif;
+  }
+
+  html {
+    font-family: var(--font-primary);
+    scroll-behavior: auto !important; /* Lenis handles smooth scrolling */
+  }
+
+  body {
+    background-color: #FAF8F6;
+    color: #1F1F1F;
+    overflow-x: hidden;
+  }
+}
+
+.font-handwriting {
+  font-family: var(--font-display);
+}
+
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF8F6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D9D2CD;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B3A8A0;
+}
+
+/* Animated gradient border shimmer */
+.shimmer-border {
+  position: relative;
+  background: linear-gradient(60deg, #FAF8F6, #FFFFFF, #FAF8F6);
+  border: 1px solid rgba(78, 29, 29, 0.1);
+}
+
+/* Glassmorphism */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}

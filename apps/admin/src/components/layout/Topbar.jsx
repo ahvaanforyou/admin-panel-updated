@@ -66,6 +66,18 @@ export default function Topbar({ title, subtitle, searchPlaceholder, searchValue
           </select>
         </div>
 
+        {/* Visit Live Website Link */}
+        <a
+          href="http://localhost:5174"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Visit Live Client Website (ahvaanforyou.com)"
+          className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 hover:text-blue-600 bg-slate-50 hover:bg-blue-50 rounded-xl border border-slate-200 transition-all"
+        >
+          <span>Live Site</span>
+          <span className="text-[10px] text-blue-600 font-bold">↗</span>
+        </a>
+
         {/* Live Sync Refresh Button */}
         <button
           type="button"
