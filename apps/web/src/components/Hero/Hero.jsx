@@ -11,13 +11,15 @@ export default function Hero({ onCreateClick }) {
     offset: ['start start', 'end start'],
   });
 
-  const leftOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
-  const leftTranslateY = useTransform(scrollYProgress, [0, 0.45], [0, -30]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.45], [1, 0.96]);
+  const heroTranslateY = useTransform(scrollYProgress, [0, 0.45], [0, -40]);
 
   return (
-    <section 
+    <motion.section 
       ref={containerRef}
       id="hero" 
+      style={{ opacity: heroOpacity, scale: heroScale, y: heroTranslateY }}
       className="relative w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-20 sm:pt-24 lg:pt-26 pb-8"
     >
       {/* 
@@ -324,6 +326,6 @@ export default function Hero({ onCreateClick }) {
 
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
