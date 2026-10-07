@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
+import OccasionCarousel from './components/Carousel/OccasionCarousel';
 import Categories from './components/Categories/Categories';
 import TemplateShowcase from './components/Templates/TemplateShowcase';
 import TemplatePreviewModal from './components/Preview/TemplatePreviewModal';
@@ -23,7 +24,7 @@ export default function App() {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [preSelectedTemplate, setPreSelectedTemplate] = useState(null);
 
-  // Quick preview trigger by ID (from Hero mockup)
+  // Quick preview trigger by ID
   const handleQuickPreview = (templateId) => {
     const tpl = TEMPLATES.find(t => t.id === templateId) || TEMPLATES[0];
     setPreviewTemplate(tpl);
@@ -54,7 +55,7 @@ export default function App() {
     const el = document.getElementById(id);
     if (el) {
       if (window.__lenis) {
-        window.__lenis.scrollTo(el, { offset: -60 });
+        window.__lenis.scrollTo(el, { offset: -80 });
       } else {
         el.scrollIntoView({ behavior: 'smooth' });
       }
@@ -67,22 +68,19 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F6] text-surface-text">
+    <div className="min-h-screen flex flex-col bg-white text-surface-text selection:bg-[#4E1D1D] selection:text-white">
       
-      {/* 1. Header Navigation */}
+      {/* 1. Floating Middle Pill Navbar with Sticky Glass Effect */}
       <Navbar onOpenCreateModal={handleOpenGeneralCreate} />
 
-      {/* 2. Hero Section with stroke handwriting animation & mobile mockup */}
+      {/* 2. Hero Section Matching Image 1 (Swirl line, stroke 'unforgettable', exact geometric grid) */}
       <Hero
-        onExploreClick={() => scrollToSection('templates')}
         onCreateClick={handleOpenGeneralCreate}
-        onPreviewQuick={handleQuickPreview}
       />
 
-      {/* 3. Celebration Categories (Wedding, Baby Shower, Birthday, Housewarming) */}
-      <Categories
-        selectedCategory={selectedCategory}
-        onSelectCategory={handleSelectCategoryFromBanner}
+      {/* 3. Second Section: Occasion Carousel with Fast Wheel Movement (Matching Images 2, 3, 4, 5) */}
+      <OccasionCarousel
+        onSelectTemplate={handleSelectCategoryFromBanner}
       />
 
       {/* 4. Filterable Template Catalog */}

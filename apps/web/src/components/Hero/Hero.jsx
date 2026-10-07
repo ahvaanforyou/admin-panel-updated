@@ -1,213 +1,229 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight, Play, Heart, MapPin, Music } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Sparkles } from 'lucide-react';
 
-export default function Hero({ onExploreClick, onCreateClick, onPreviewQuick }) {
+export default function Hero({ onCreateClick }) {
   return (
-    <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32 bg-gradient-to-b from-[#FAF8F6] via-white to-[#FAF8F6]">
-      {/* Decorative Warm Ambient Glows (Pinterest / Ramos style kinetic cards & gradients) */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-[#FFC655]/15 via-[#F7526C]/10 to-[#0776C6]/10 blur-3xl -z-10 pointer-events-none rounded-full" />
-      <div className="absolute -top-24 right-10 w-96 h-96 bg-[#4E1D1D]/5 blur-2xl -z-10 pointer-events-none rounded-full" />
+    <section id="hero" className="relative min-h-screen pt-28 pb-16 sm:pt-36 sm:pb-24 bg-white overflow-hidden flex items-center">
+      
+      {/* Background Accent Subtle Glow */}
+      <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-amber-100/30 via-rose-100/20 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
-          {/* Left Column: Editorial Headline & Copy */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 flex flex-col items-start text-left z-10"
-          >
-            {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-brand-border/80 shadow-soft-sm mb-6">
-              <span className="w-2 h-2 rounded-full bg-brand-primary animate-ping" />
-              <span className="text-xs font-semibold uppercase tracking-wider text-brand-primary">
-                For Every Special Moment
-              </span>
-              <span className="text-surface-subtle text-xs">•</span>
-              <span className="text-xs text-surface-muted font-medium">
-                Weddings • Showers • Birthdays
-              </span>
-            </div>
+          {/* ========================================================= */}
+          {/* LEFT COLUMN: Editorial Typography & Handwriting Animation */}
+          {/* ========================================================= */}
+          <div className="lg:col-span-5 flex flex-col items-start z-10">
+            
+            {/* Elegant Continuous Swirl Flourish Line (Exact from image 1) */}
+            <motion.div 
+              initial={{ opacity: 0, pathLength: 0 }}
+              animate={{ opacity: 1, pathLength: 1 }}
+              transition={{ duration: 1.6, ease: "easeInOut" }}
+              className="w-full max-w-[420px] mb-6 overflow-visible"
+            >
+              <svg 
+                viewBox="0 0 450 140" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-full h-auto"
+              >
+                <motion.path
+                  d="M 10 95 C 60 40, 120 20, 180 50 C 230 75, 230 15, 200 15 C 160 15, 170 85, 230 85 C 310 85, 370 20, 440 95"
+                  stroke="#4E1D1D"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 0.85 }}
+                  transition={{ duration: 2.2, ease: [0.65, 0, 0.35, 1] }}
+                />
+              </svg>
+            </motion.div>
 
-            {/* Main Editorial H1 with After Effects Style Stroke Animation */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-surface-text leading-[1.12]">
-              Digital invitations,
-              <br />
-              <span className="inline-block relative mt-1">
-                made{' '}
-                <span className="font-handwriting font-normal text-brand-primary italic tracking-normal relative px-1 inline-block">
-                  unforgettable
-                  
-                  {/* SVG Hand-Drawn Stroke Animation (After Effects Style Underline Draw) */}
+            {/* Main Headline with Fade In and Stroke-Drawn 'unforgettable' */}
+            <div className="space-y-1">
+              <motion.h1 
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1F1F1F] leading-[1.08]"
+              >
+                Digital invitations,
+              </motion.h1>
+
+              <div className="flex flex-wrap items-baseline gap-2">
+                <motion.span
+                  initial={{ opacity: 0, y: 25 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                  className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1F1F1F]"
+                >
+                  made
+                </motion.span>
+
+                {/* 'unforgettable' in cursive with SVG handwriting stroke drawing animation */}
+                <span className="relative inline-block font-handwriting font-normal text-4xl sm:text-5xl lg:text-[4.2rem] text-[#4E1D1D] tracking-normal italic ml-2">
+                  <motion.span
+                    initial={{ opacity: 0, filter: "blur(4px)" }}
+                    animate={{ opacity: 1, filter: "blur(0px)" }}
+                    transition={{ duration: 1.2, delay: 0.6 }}
+                  >
+                    unforgettable
+                  </motion.span>
+
+                  {/* SVG Stroke Outline Handwriting Effect (After Effects Style) */}
                   <motion.svg
-                    className="absolute -bottom-2 left-0 w-full h-4 overflow-visible"
-                    viewBox="0 0 300 24"
+                    className="absolute -bottom-2 left-0 w-full h-5 overflow-visible pointer-events-none"
+                    viewBox="0 0 350 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <motion.path
-                      d="M 5 15 Q 80 4 150 14 T 295 12"
+                      d="M 5 18 Q 90 2 180 14 T 345 10"
                       stroke="#FFC655"
                       strokeWidth="5"
                       strokeLinecap="round"
-                      strokeLinejoin="round"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: 1, opacity: 1 }}
-                      transition={{ 
-                        duration: 1.4, 
-                        delay: 0.4, 
-                        ease: [0.65, 0, 0.35, 1] 
-                      }}
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 1.4, delay: 0.8, ease: "easeInOut" }}
                     />
                     <motion.path
-                      d="M 25 19 Q 120 10 270 17"
+                      d="M 20 20 Q 140 8 320 16"
                       stroke="#4E1D1D"
                       strokeWidth="2"
                       strokeLinecap="round"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: 1, opacity: 0.6 }}
-                      transition={{ 
-                        duration: 1.2, 
-                        delay: 0.8, 
-                        ease: [0.65, 0, 0.35, 1] 
-                      }}
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 1.2, delay: 1.1, ease: "easeInOut" }}
                     />
                   </motion.svg>
                 </span>
-              </span>
-            </h1>
-
-            {/* Subheading */}
-            <p className="mt-6 text-base sm:text-lg text-surface-muted max-w-xl leading-relaxed">
-              Elevate your celebration with interactive digital invitations. Featuring live Google Maps, one-tap RSVP attendance, background music, and seamless WhatsApp sharing for modern Indian families.
-            </p>
-
-            {/* CTAs */}
-            <div className="mt-8 flex flex-wrap items-center gap-4 w-full sm:w-auto">
-              <button
-                onClick={onCreateClick}
-                className="w-full sm:w-auto bg-brand-primary hover:bg-brand-dark text-white font-semibold text-sm px-8 py-3.5 rounded-full shadow-soft-lg hover:shadow-soft-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 group"
-              >
-                <span>Create Your Invitation</span>
-                <ArrowRight className="w-4 h-4 text-theme-wedding transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
-
-              <button
-                onClick={onExploreClick}
-                className="w-full sm:w-auto bg-white hover:bg-brand-soft border border-brand-border text-surface-text font-semibold text-sm px-7 py-3.5 rounded-full shadow-soft-sm hover:shadow-soft-md transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                <span>Explore 12+ Templates</span>
-                <Sparkles className="w-4 h-4 text-brand-primary" />
-              </button>
-            </div>
-
-            {/* Social Proof & Trust Metric Micro-Bar */}
-            <div className="mt-10 pt-8 border-t border-brand-border/60 flex flex-wrap items-center gap-8 text-xs text-surface-muted">
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-2">
-                  <div className="w-7 h-7 rounded-full bg-theme-wedding border-2 border-white flex items-center justify-center font-bold text-[10px] text-brand-primary">S</div>
-                  <div className="w-7 h-7 rounded-full bg-theme-baby border-2 border-white flex items-center justify-center font-bold text-[10px] text-white">R</div>
-                  <div className="w-7 h-7 rounded-full bg-theme-birthday border-2 border-white flex items-center justify-center font-bold text-[10px] text-white">A</div>
-                  <div className="w-7 h-7 rounded-full bg-theme-house border-2 border-white flex items-center justify-center font-bold text-[10px] text-white">K</div>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-bold text-surface-text">500+ Celebrations</span>
-                  <span className="text-[11px] text-surface-subtle">Loved across India & NRI families</span>
-                </div>
-              </div>
-
-              <div className="h-6 w-px bg-brand-border hidden sm:block" />
-
-              <div className="flex items-center gap-2">
-                <span className="flex text-amber-500">★★★★★</span>
-                <span className="font-semibold text-surface-text">4.9 / 5.0 Rating</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Column: Pinterest/Ramos-Style Interactive Device Reveal */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.94, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 relative flex justify-center items-center"
-          >
-            {/* Phone Mockup Frame */}
-            <div className="relative w-[280px] sm:w-[320px] rounded-[42px] p-3 bg-gradient-to-b from-stone-800 to-stone-900 shadow-2xl border-4 border-stone-700/60 transition-transform duration-500 hover:scale-[1.02]">
-              
-              {/* Dynamic Island / Speaker Notch */}
-              <div className="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-4 bg-black rounded-full z-20 flex items-center justify-center">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#1F1F1F] mr-3" />
-                <div className="w-2 h-2 rounded-full bg-blue-900/40" />
-              </div>
-
-              {/* Screen Content Window */}
-              <div className="relative w-full aspect-[9/18.5] rounded-[34px] overflow-hidden bg-white shadow-inner flex flex-col">
-                <img
-                  src="/images/templates/wedding-sangeet.jpg"
-                  alt="Ahvaan Royal Wedding Invitation Mockup"
-                  className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
-                  loading="eager"
-                />
-
-                {/* Glass Floating Quick Preview Button on Screen */}
-                <div className="absolute bottom-4 inset-x-4">
-                  <button
-                    onClick={() => onPreviewQuick('tpl-wed-01')}
-                    className="w-full py-2.5 px-4 rounded-xl bg-white/90 backdrop-blur-md shadow-soft-md border border-white/40 text-brand-primary text-xs font-bold flex items-center justify-center gap-2 hover:bg-white transition-all"
-                  >
-                    <Play className="w-3.5 h-3.5 fill-brand-primary text-brand-primary" />
-                    <span>Tap to Preview Interactive View</span>
-                  </button>
-                </div>
               </div>
             </div>
 
-            {/* Floating Kinetic Pill 1: Live RSVP Alert */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.6 }}
-              className="absolute -left-4 sm:-left-8 top-16 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-soft-lg border border-brand-border/80 flex items-center gap-3 z-20 max-w-[210px]"
-            >
-              <div className="w-9 h-9 rounded-xl bg-theme-wedding-light flex items-center justify-center text-amber-700 flex-shrink-0">
-                <Heart className="w-5 h-5 fill-amber-500 text-amber-500" />
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-[11px] font-bold text-surface-text">RSVP Confirmed!</span>
-                <span className="text-[10px] text-surface-muted leading-tight">Rohit & family attending (4 guests)</span>
-              </div>
-            </motion.div>
-
-            {/* Floating Kinetic Pill 2: Venue Google Maps Pin */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.8 }}
-              className="absolute -right-4 sm:-right-8 bottom-24 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-soft-lg border border-brand-border/80 flex items-center gap-3 z-20 max-w-[200px]"
-            >
-              <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 flex-shrink-0">
-                <MapPin className="w-5 h-5 text-emerald-600" />
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-[11px] font-bold text-surface-text">Turn-by-turn Maps</span>
-                <span className="text-[10px] text-surface-muted leading-tight">1-click navigation to venue</span>
-              </div>
-            </motion.div>
-
-            {/* Floating Kinetic Pill 3: Audio Track */}
-            <motion.div
+            {/* Primary Action Button & Subtext Layout (Exact from Image 1) */}
+            <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 1 }}
-              className="absolute bottom-2 left-6 bg-white/95 backdrop-blur-md rounded-full px-3 py-1.5 shadow-soft-md border border-brand-border flex items-center gap-2 z-20"
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-6"
             >
-              <Music className="w-3.5 h-3.5 text-brand-primary animate-bounce" />
-              <span className="text-[10px] font-semibold text-brand-primary">Playing: Kesariya (Acoustic)</span>
+              {/* Pill Button 'Create Your Invitation ->' */}
+              <button
+                onClick={onCreateClick}
+                className="bg-[#4E1D1D] hover:bg-[#3A1414] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-md hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2 group flex-shrink-0"
+              >
+                <span>Create Your Invitation</span>
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
+
+              {/* Subtext description right next to button */}
+              <p className="text-xs sm:text-sm text-stone-600 max-w-[260px] leading-relaxed">
+                Thoughtfully designed digital invitations through websites for modern Indian couples and families, wherever you are.
+              </p>
             </motion.div>
 
+          </div>
+
+          {/* ========================================================= */}
+          {/* RIGHT COLUMN: Exact Geometric Grid Collage (Image 1) */}
+          {/* ========================================================= */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 relative flex justify-center lg:justify-end"
+          >
+            {/* Grid Container with 3 Columns x 3 Rows Matching Reference */}
+            <div className="grid grid-cols-3 gap-3.5 sm:gap-4.5 w-full max-w-[560px] aspect-[1/1] select-none">
+              
+              {/* Row 1, Col 1: Yellow Quarter-Circle (Top-Right Rounded) */}
+              <div 
+                className="w-full h-full bg-[#E5B54F] rounded-tr-[100%] rounded-tl-none rounded-br-none rounded-bl-none shadow-sm hover:scale-[1.02] transition-transform duration-300"
+                style={{ backgroundColor: '#E5B54F' }}
+              />
+
+              {/* Row 1, Col 2: Peach Quarter-Circle (Bottom-Right Rounded) */}
+              <div 
+                className="w-full h-full bg-[#F3C4B3] rounded-br-[100%] rounded-tl-none rounded-tr-none rounded-bl-none shadow-sm hover:scale-[1.02] transition-transform duration-300"
+                style={{ backgroundColor: '#F3C4B3' }}
+              />
+
+              {/* Row 1, Col 3: Deep Maroon Quarter-Circle with 'For Every Special Moment' */}
+              <div 
+                className="w-full h-full bg-[#4E1D1D] rounded-tl-[100%] rounded-tr-none rounded-bl-none rounded-br-none p-5 flex flex-col justify-end items-end text-right text-white shadow-sm hover:scale-[1.02] transition-transform duration-300"
+              >
+                <div className="w-8 h-0.5 bg-white/70 mb-2 self-start" />
+                <span className="font-editorial text-xs sm:text-sm tracking-wide text-white/95 leading-snug">
+                  For Every<br />Special<br />Moment
+                </span>
+              </div>
+
+              {/* Row 2, Col 1: Arch Mandap Photo (Top Rounded Arch) */}
+              <div className="w-full h-full rounded-t-[100px] overflow-hidden shadow-sm hover:scale-[1.02] transition-transform duration-300 relative group">
+                <img
+                  src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80"
+                  alt="Scenic Mandap Wedding Setup"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+
+              {/* Row 2, Col 2: Peach Full Circle */}
+              <div 
+                className="w-full h-full rounded-full bg-[#F3C4B3] flex items-center justify-center shadow-sm hover:scale-[1.02] transition-transform duration-300 relative"
+                style={{ backgroundColor: '#F3C4B3' }}
+              >
+                {/* Little 4-point star on top right */}
+                <div className="absolute -top-3 -right-3 text-[#1F1F1F]">
+                  ✦
+                </div>
+              </div>
+
+              {/* Row 2, Col 3: Yellow Quarter-Circle (Top-Left Rounded) */}
+              <div 
+                className="w-full h-full bg-[#E5B54F] rounded-tl-[100%] rounded-tr-none rounded-bl-none rounded-br-none shadow-sm hover:scale-[1.02] transition-transform duration-300"
+                style={{ backgroundColor: '#E5B54F' }}
+              />
+
+              {/* Row 3, Col 1: Split 2 Cards (Top: Deep Maroon 'BEAUTIFUL DESIGNS', Bottom: Brass Diya Photo) */}
+              <div className="w-full h-full flex flex-col gap-2.5 sm:gap-3">
+                <div className="flex-1 bg-[#4E1D1D] rounded-xl p-3 sm:p-4 text-white flex flex-col justify-center">
+                  <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase">
+                    BEAUTIFUL<br />DESIGNS
+                  </span>
+                  <div className="w-6 h-0.5 bg-white/70 mt-1.5" />
+                </div>
+                <div className="flex-1 rounded-xl overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1609137144822-259dbb3f6381?auto=format&fit=crop&w=400&q=80"
+                    alt="Traditional Brass Diya Puja"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Row 3, Col 2: Yellow Solid Square with 'SHARED ACROSS THE WORLD' */}
+              <div 
+                className="w-full h-full bg-[#E5B54F] rounded-xl p-4 sm:p-5 flex flex-col justify-center text-[#1F1F1F] shadow-sm hover:scale-[1.02] transition-transform duration-300"
+                style={{ backgroundColor: '#E5B54F' }}
+              >
+                <span className="font-bold text-[11px] sm:text-xs tracking-wider uppercase leading-snug">
+                  SHARED<br />ACROSS<br />THE WORLD
+                </span>
+                <div className="w-6 h-0.5 bg-[#1F1F1F]/70 mt-2" />
+              </div>
+
+              {/* Row 3, Col 3: Peach Quarter-Circle (Top-Left Rounded) with Diagonal Arrow */}
+              <div 
+                className="w-full h-full bg-[#F3C4B3] rounded-tl-[100%] rounded-tr-none rounded-bl-none rounded-br-none p-4 sm:p-6 flex items-end justify-end shadow-sm hover:scale-[1.02] transition-transform duration-300"
+                style={{ backgroundColor: '#F3C4B3' }}
+              >
+                <ArrowUpRight className="w-7 h-7 sm:w-9 h-9 text-[#1F1F1F]" />
+              </div>
+
+            </div>
           </motion.div>
 
         </div>
