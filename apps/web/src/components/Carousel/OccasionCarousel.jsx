@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 
 export const OCCASION_CARDS = [
@@ -11,7 +11,7 @@ export const OCCASION_CARDS = [
     bgColor: '#E6A935', // Honey Ochre from Reference Image
     titleColor: '#3F2703',
     subtextColor: '#4A3005',
-    deviceImage: '/images/fullscreen-wedding-trans.png',
+    deviceImage: '/images/fullscreen-wedding-trans.webp',
     accentTag: 'Wedding Celebrations',
     badge: 'Trending • Most Loved'
   },
@@ -23,7 +23,7 @@ export const OCCASION_CARDS = [
     bgColor: '#0070C0', // Royal / Azure Blue from Reference Image
     titleColor: '#FFFFFF',
     subtextColor: '#E8F5FF',
-    deviceImage: '/images/fullscreen-babyshower-trans.png',
+    deviceImage: '/images/fullscreen-babyshower-trans.webp',
     accentTag: 'Pastel Baby Shower',
     badge: 'Sweet Beginnings'
   },
@@ -35,7 +35,7 @@ export const OCCASION_CARDS = [
     bgColor: '#F44E66', // Coral Punch Pink from Reference Image
     titleColor: '#FFFFFF',
     subtextColor: '#FFEBF0',
-    deviceImage: '/images/fullscreen-birthday-trans.png',
+    deviceImage: '/images/fullscreen-birthday-trans.webp',
     accentTag: 'Fun & Playful',
     badge: 'All Ages • Themes'
   },
@@ -47,17 +47,36 @@ export const OCCASION_CARDS = [
     bgColor: '#2E5131', // Forest Olive Emerald Green
     titleColor: '#FFFFFF',
     subtextColor: '#EEF6EE',
-    deviceImage: '/images/fullscreen-housewarming-trans.png',
+    deviceImage: '/images/fullscreen-housewarming-trans.webp',
     accentTag: 'Griha Pravesh & Puja',
     badge: 'Blessings & Rituals'
   }
 ];
 
 export default function OccasionCarousel({ onSelectTemplate }) {
+  const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isAutoPlayPaused, setIsAutoPlayPaused] = useState(false);
   const total = OCCASION_CARDS.length;
+
+  // Preload all 4 images immediately so there is zero delay/lag on changing
+  useEffect(() => {
+    OCCASION_CARDS.forEach((card) => {
+      const img = new Image();
+      img.src = card.deviceImage;
+    });
+  }, []);
+
+  // Scroll driven fade in and fade out like top section
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [0.3, 1, 1, 0.4]);
+  const sectionScale = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [0.96, 1, 1, 0.97]);
+  const sectionY = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [40, 0, 0, -30]);
 
   // Auto transition every 6.5 seconds (6500ms) as requested
   useEffect(() => {
@@ -116,8 +135,10 @@ export default function OccasionCarousel({ onSelectTemplate }) {
   };
 
   return (
-    <section 
+    <motion.section 
+      ref={containerRef}
       id="carousel" 
+      style={{ opacity: sectionOpacity, scale: sectionScale, y: sectionY }}
       className="min-h-screen py-10 sm:py-14 bg-white overflow-hidden relative select-none w-full flex flex-col justify-center"
     >
       <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex-1 flex flex-col justify-between">
@@ -269,7 +290,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
         </div>
 
       </div>
-    </section>
+    </motion.section>
   );
 }
 
