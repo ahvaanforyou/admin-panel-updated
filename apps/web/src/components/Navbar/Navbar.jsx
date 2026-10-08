@@ -14,6 +14,8 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
   }, []);
 
   const isHowItWorks = currentPath === '/howitworks' || currentPath === '/how-it-works';
+  const isBlogs = currentPath === '/blogs' || currentPath === '/blog';
+  const isSubpage = isHowItWorks || isBlogs;
 
   const handleNavClick = (target) => {
     setMobileMenuOpen(false);
@@ -28,8 +30,18 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
       return;
     }
 
+    if (target === 'blogs') {
+      if (onNavigate) {
+        onNavigate('/blogs');
+      } else {
+        window.history.pushState(null, '', '/blogs');
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }
+      return;
+    }
+
     if (target === 'home') {
-      if (isHowItWorks) {
+      if (isSubpage) {
         if (onNavigate) {
           onNavigate('/');
         } else {
@@ -43,7 +55,7 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
     }
 
     // Anchor links (templates, carousel, moments, faq)
-    if (isHowItWorks) {
+    if (isSubpage) {
       if (onNavigate) {
         onNavigate('/#' + target);
       } else {
@@ -133,8 +145,12 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
             </button>
 
             <button
-              onClick={() => handleNavClick('carousel')}
-              className="font-medium text-stone-700 hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
+              onClick={() => handleNavClick('blogs')}
+              className={`transition-all pb-0.5 ${
+                isBlogs
+                  ? 'font-bold text-stone-900 border-b-2 border-stone-900'
+                  : 'font-medium text-stone-700 hover:text-brand-primary border-b-2 border-transparent hover:border-brand-primary'
+              }`}
             >
               Blog
             </button>
@@ -201,7 +217,10 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
             >
               How It Works
             </button>
-            <button onClick={() => handleNavClick('carousel')} className="text-left py-1">
+            <button
+              onClick={() => handleNavClick('blogs')}
+              className={`text-left py-1 ${isBlogs ? 'text-brand-primary font-bold' : ''}`}
+            >
               Blog
             </button>
             <button onClick={() => handleNavClick('moments')} className="text-left py-1">

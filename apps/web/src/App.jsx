@@ -10,6 +10,7 @@ import Moments from './components/Moments/Moments';
 import CreateModal from './components/CreateModal/CreateModal';
 import Footer from './components/Footer/Footer';
 import HowItWorksPage from './pages/HowItWorks/HowItWorksPage';
+import BlogsPage from './pages/Blogs/BlogsPage';
 import { useLenis } from './hooks/useLenis';
 import { TEMPLATES } from './data/content';
 
@@ -100,6 +101,7 @@ export default function App() {
   };
 
   const isHowItWorks = currentPath === '/howitworks' || currentPath === '/how-it-works';
+  const isBlogs = currentPath === '/blogs' || currentPath === '/blog';
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-surface-text selection:bg-[#4E1D1D] selection:text-white">
@@ -111,7 +113,13 @@ export default function App() {
         onNavigate={navigate}
       />
 
-      {isHowItWorks ? (
+      {isBlogs ? (
+        /* ================= BLOGS / ARTICLES PAGE ================= */
+        <BlogsPage
+          onNavigate={navigate}
+          onOpenCreateModal={handleOpenGeneralCreate}
+        />
+      ) : isHowItWorks ? (
         /* ================= HOW IT WORKS PAGE ================= */
         <HowItWorksPage
           onNavigate={navigate}

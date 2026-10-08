@@ -442,9 +442,9 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
       <motion.section
         ref={section1Ref}
         style={{ opacity: s1Opacity, y: s1Y }}
-        className="w-full pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-12 flex items-center justify-center relative overflow-hidden bg-white select-none"
+        className="w-full min-h-screen pt-28 sm:pt-32 pb-16 lg:pb-24 px-4 sm:px-6 lg:px-12 flex items-center justify-center relative overflow-hidden bg-white select-none"
       >
-        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Heading, Cursive stroke reveal, Paragraphs & CTA */}
           <div className="lg:col-span-6 xl:col-span-6 flex flex-col items-start z-10">
@@ -453,7 +453,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6 }}
-              className="text-[11px] sm:text-xs font-bold tracking-[0.22em] text-stone-400 uppercase mb-3 sm:mb-4"
+              className="text-[11px] sm:text-xs font-bold tracking-[0.22em] text-stone-400 uppercase mb-4 sm:mb-6"
             >
               HOW AHVAAN FOR YOU WORKS
             </motion.span>
@@ -480,7 +480,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-5 text-sm sm:text-base text-stone-600 max-w-lg leading-relaxed font-normal"
+              className="mt-6 text-sm sm:text-base text-stone-600 max-w-lg leading-relaxed font-normal"
             >
               Create a beautiful digital invitation that brings together your event details, location, photos, music, RSVP and more in one easy-to-share experience.
             </motion.p>
@@ -490,7 +490,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-2.5 text-sm sm:text-base text-stone-600 max-w-lg leading-relaxed font-normal"
+              className="mt-3.5 text-sm sm:text-base text-stone-600 max-w-lg leading-relaxed font-normal"
             >
               Whether it's a wedding, birthday, baby shower or housewarming, invite everyone, wherever they are.
             </motion.p>
@@ -500,11 +500,11 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-7 sm:mt-8 flex flex-wrap items-center gap-4"
+              className="mt-8 sm:mt-10 flex flex-wrap items-center gap-4"
             >
               <button
                 onClick={() => onNavigate && onNavigate('/#templates')}
-                className="bg-[#4E1D1D] hover:bg-[#381414] text-white px-7 sm:px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2 group cursor-pointer"
+                className="bg-[#4E1D1D] hover:bg-[#381414] text-white px-7 sm:px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2 group"
               >
                 <span>Explore Invitations</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -512,7 +512,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
 
               <button
                 onClick={onOpenCreateModal}
-                className="bg-white hover:bg-stone-50 text-stone-800 border border-stone-300/80 px-7 sm:px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-2xs hover:border-stone-400 transition-all duration-300 cursor-pointer"
+                className="bg-white hover:bg-stone-50 text-stone-800 border border-stone-300/80 px-7 sm:px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-2xs hover:border-stone-400 transition-all duration-300"
               >
                 Contact us
               </button>
@@ -584,7 +584,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
         ref={section2Ref}
         style={{ opacity: s2Opacity }}
         id="problem"
-        className="w-full py-12 sm:py-16 lg:py-20 bg-[#FAF8F5] relative overflow-hidden select-none"
+        className="w-full py-20 sm:py-28 lg:py-32 bg-[#FAF8F5] relative overflow-hidden select-none"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -594,7 +594,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6 }}
-              className="text-[11px] sm:text-xs font-bold tracking-[0.24em] text-[#B84A39] uppercase block mb-2.5"
+              className="text-[11px] sm:text-xs font-bold tracking-[0.24em] text-[#B84A39] uppercase block mb-3"
             >
               THE PROBLEM
             </motion.span>
@@ -618,13 +618,13 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-3.5 sm:mt-4 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-xl mx-auto"
+              className="mt-4 sm:mt-5 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-xl mx-auto"
             >
               Traditional cards and static digital invites often leave important details scattered across messages, calls and photos.
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mt-8 sm:mt-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6 mt-12 sm:mt-16">
             {PROBLEM_CARDS.map((card, idx) => (
               <motion.div
                 key={card.id}
@@ -642,18 +642,18 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                   scale: 1.02,
                   transition: { duration: 0.25 },
                 }}
-                className="bg-[#462121] text-white rounded-[24px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] sm:min-h-[300px] shadow-[0_16px_36px_-10px_rgba(70,33,33,0.3)] border border-white/5 cursor-default"
+                className="bg-[#462121] text-white rounded-[26px] p-7 sm:p-8 flex flex-col justify-between min-h-[340px] sm:min-h-[360px] shadow-[0_20px_45px_-12px_rgba(70,33,33,0.35)] border border-white/5 cursor-default"
               >
                 <div>
-                  <div className="mb-5">{card.icon}</div>
-                  <h3 className="text-base sm:text-lg font-bold text-white tracking-tight leading-snug mb-2.5">
+                  <div className="mb-6">{card.icon}</div>
+                  <h3 className="text-base sm:text-lg font-bold text-white tracking-tight leading-snug mb-3">
                     {card.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-stone-300/85 leading-relaxed font-normal">
                     {card.description}
                   </p>
                 </div>
-                <div className="w-8 h-1 bg-white/10 rounded-full mt-4" />
+                <div className="w-8 h-1 bg-white/10 rounded-full mt-6" />
               </motion.div>
             ))}
           </div>
@@ -664,18 +664,15 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
       {/* ========================================================================= */}
       {/* SECTION 3: SIMPLER WAY TO INVITE (Comparison)                             */}
       {/* ========================================================================= */}
-      {/* ========================================================================= */}
-      {/* SECTION 3: SIMPLER WAY TO INVITE (Comparison)                             */}
-      {/* ========================================================================= */}
       <motion.section
         ref={section3Ref}
         style={{ opacity: s3Opacity }}
         id="simpler-way"
-        className="w-full py-12 sm:py-16 lg:py-20 bg-white relative overflow-hidden select-none"
+        className="w-full py-24 sm:py-32 lg:py-36 bg-white relative overflow-hidden select-none"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
             <motion.h2
               initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
@@ -696,13 +693,13 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="mt-3 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-xl mx-auto"
+              className="mt-3.5 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-xl mx-auto"
             >
               See how Ahvaan makes the experience better for you and your guests.
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 max-w-6xl mx-auto items-stretch">
             
             {/* Card Left: TRADITIONAL / STATIC INVITE */}
             <motion.div
@@ -711,15 +708,15 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
-              className="bg-[#5B5959] text-white rounded-[28px] p-6 sm:p-8 shadow-xl flex flex-col justify-between border border-white/10"
+              className="bg-[#5B5959] text-white rounded-[32px] p-8 sm:p-10 shadow-2xl flex flex-col justify-between border border-white/10"
             >
               <div>
-                <div className="inline-block bg-white/20 text-white font-bold text-[11px] sm:text-xs uppercase px-3.5 py-1.5 rounded-full mb-6 tracking-wider">
+                <div className="inline-block bg-white/20 text-white font-bold text-xs uppercase px-4 py-1.5 rounded-full mb-8 tracking-wider">
                   TRADITIONAL / STATIC INVITE
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6 mb-6">
-                  <div className="w-36 sm:w-44 h-36 sm:h-44 rounded-2xl overflow-hidden shadow-lg border border-white/20 flex-shrink-0 bg-stone-700">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-7 mb-8">
+                  <div className="w-44 sm:w-52 h-44 sm:h-52 rounded-2xl overflow-hidden shadow-lg border border-white/20 flex-shrink-0 bg-stone-700">
                     <img
                       src="/images/traditional-card.png"
                       alt="Traditional Printed Invitation"
@@ -727,7 +724,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                     />
                   </div>
 
-                  <div className="space-y-3 text-xs sm:text-sm text-white/90 font-medium">
+                  <div className="space-y-3.5 text-xs sm:text-sm text-white/90 font-medium">
                     <div className="flex items-center gap-2.5">
                       <XCircle className="w-4 h-4 text-rose-300 flex-shrink-0" />
                       <span>Share an image or video</span>
@@ -747,9 +744,9 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                   </div>
                 </div>
 
-                <div className="w-full h-px bg-white/15 my-5" />
+                <div className="w-full h-px bg-white/15 my-6" />
 
-                <div className="space-y-3 text-xs sm:text-sm text-white/85 font-medium">
+                <div className="space-y-3.5 text-xs sm:text-sm text-white/85 font-medium">
                   <div className="flex items-center gap-2.5">
                     <XCircle className="w-4 h-4 text-rose-300 flex-shrink-0" />
                     <span>Send event timings in another message</span>
@@ -773,15 +770,15 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
-              className="bg-white text-stone-900 rounded-[28px] p-6 sm:p-8 shadow-xl flex flex-col justify-between border border-stone-200/90 relative"
+              className="bg-white text-stone-900 rounded-[32px] p-8 sm:p-10 shadow-2xl flex flex-col justify-between border border-stone-200/90 relative"
             >
               <div>
-                <div className="inline-block bg-[#4E1D1D] text-white font-bold text-[11px] sm:text-xs uppercase px-3.5 py-1.5 rounded-full mb-6 tracking-wider shadow-sm">
+                <div className="inline-block bg-[#4E1D1D] text-white font-bold text-xs uppercase px-4 py-1.5 rounded-full mb-8 tracking-wider shadow-sm">
                   WITH AHVAAN FOR YOU
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-7 mb-5">
-                  <div className="w-32 sm:w-36 h-auto flex-shrink-0 filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)]">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 mb-6">
+                  <div className="w-36 sm:w-44 h-auto flex-shrink-0 filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)]">
                     <img
                       src="/images/ahvaan-playing-phone.png"
                       alt="Ahvaan Interactive Invitation Playing"
@@ -789,7 +786,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                     />
                   </div>
 
-                  <div className="space-y-3 text-xs sm:text-sm text-stone-800 font-semibold">
+                  <div className="space-y-3.5 text-xs sm:text-sm text-stone-800 font-semibold">
                     <div className="flex items-center gap-2.5">
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                       <span>One beautiful invitation</span>
@@ -809,9 +806,9 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                   </div>
                 </div>
 
-                <div className="w-full h-px bg-stone-200 my-5" />
+                <div className="w-full h-px bg-stone-200 my-6" />
 
-                <div className="space-y-3 text-xs sm:text-sm text-stone-800 font-semibold">
+                <div className="space-y-3.5 text-xs sm:text-sm text-stone-800 font-semibold">
                   <div className="flex items-center gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                     <span>Photos and memories</span>
@@ -844,11 +841,11 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
         ref={section4Ref}
         style={{ opacity: s4Opacity }}
         id="everything-guests-need"
-        className="w-full py-12 sm:py-16 lg:py-20 bg-[#FAF8F5] relative overflow-hidden select-none"
+        className="w-full py-24 sm:py-32 lg:py-36 bg-[#FAF8F5] relative overflow-hidden select-none"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
             <motion.h2
               initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
@@ -869,13 +866,13 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="mt-3 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-2xl mx-auto"
+              className="mt-3.5 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-2xl mx-auto"
             >
               Ahvaan brings all the important details of your celebration together into one beautifully designed experience.
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4 max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5 max-w-7xl mx-auto">
             {FEATURE_CARDS.map((card, idx) => (
               <motion.div
                 key={card.id}
@@ -889,16 +886,16 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                   delay: idx * 0.08,
                 }}
                 whileHover={{
-                  y: -6,
-                  scale: 1.02,
+                  y: -8,
+                  scale: 1.03,
                   transition: { duration: 0.25 },
                 }}
-                className="bg-[#462121] text-white rounded-[22px] p-4 sm:p-5 text-center flex flex-col items-center justify-start min-h-[210px] sm:min-h-[225px] shadow-[0_12px_28px_-10px_rgba(70,33,33,0.25)] border border-white/5 cursor-default group"
+                className="bg-[#462121] text-white rounded-[24px] p-5 sm:p-6 text-center flex flex-col items-center justify-start min-h-[235px] sm:min-h-[250px] shadow-[0_15px_35px_-10px_rgba(70,33,33,0.3)] border border-white/5 cursor-default group"
               >
-                <div className="mb-3.5 transform group-hover:scale-110 transition-transform duration-300">
+                <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
                   {card.icon}
                 </div>
-                <h3 className="text-sm sm:text-base font-bold text-white tracking-tight mb-1.5">
+                <h3 className="text-sm sm:text-base font-bold text-white tracking-tight mb-2">
                   {card.title}
                 </h3>
                 <p className="text-[11px] sm:text-xs text-stone-300/80 leading-relaxed font-normal">
@@ -914,18 +911,15 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
       {/* ========================================================================= */}
       {/* SECTION 5: HOW AHVAAN WORKS (5 Regular Process Step Cards from Top to Down) */}
       {/* ========================================================================= */}
-      {/* ========================================================================= */}
-      {/* SECTION 5: HOW AHVAAN WORKS (5 Regular Process Step Cards from Top to Down) */}
-      {/* ========================================================================= */}
       <motion.section
         ref={section5Ref}
         style={{ opacity: s5Opacity }}
         id="how-ahvaan-works-steps"
-        className="w-full py-12 sm:py-16 lg:py-20 bg-white relative overflow-hidden select-none"
+        className="w-full py-20 sm:py-28 lg:py-32 bg-white relative overflow-hidden select-none"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <motion.h2
               initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
@@ -941,14 +935,14 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="mt-3 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-xl mx-auto"
+              className="mt-3.5 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-xl mx-auto"
             >
               A simple process, from your details to a beautiful invitation, ready to share.
             </motion.p>
           </div>
 
           {/* 5 Step Cards with top-to-bottom entrance animation */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 sm:gap-6 max-w-7xl mx-auto">
             {PROCESS_STEPS.map((step, idx) => (
               <motion.div
                 key={step.step}
@@ -962,23 +956,23 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                   delay: idx * 0.1,
                 }}
                 whileHover={{
-                  y: -6,
+                  y: -8,
                   scale: 1.02,
                   boxShadow: '0 20px 35px -10px rgba(78, 29, 29, 0.12)',
                   transition: { duration: 0.25 },
                 }}
-                className="bg-[#FCFAF8] border border-[#6A382C]/15 rounded-[26px] p-5 sm:p-6 flex flex-col justify-between shadow-[0_8px_25px_-8px_rgba(78,29,29,0.05)] hover:shadow-[0_20px_35px_-8px_rgba(78,29,29,0.12)] transition-all duration-300 relative group min-h-[250px] sm:min-h-[270px]"
+                className="bg-[#FCFAF8] border border-[#6A382C]/15 rounded-[28px] p-6 sm:p-7 flex flex-col justify-between shadow-[0_8px_25px_-8px_rgba(78,29,29,0.05)] hover:shadow-[0_20px_35px_-8px_rgba(78,29,29,0.12)] transition-all duration-300 relative group min-h-[290px] sm:min-h-[310px]"
               >
                 <div>
                   {/* Top Badge: Number and Emoji Icon */}
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-5">
                     <div className="w-8 h-8 rounded-full bg-stone-900 text-white font-bold text-xs flex items-center justify-center shadow-xs">
                       {step.step}
                     </div>
                     <span className="text-xl select-none">{step.icon}</span>
                   </div>
 
-                  <h3 className="font-bold text-base sm:text-lg text-stone-900 leading-snug mb-2 tracking-tight">
+                  <h3 className="font-bold text-base sm:text-lg text-stone-900 leading-snug mb-3 tracking-tight">
                     {step.title}
                   </h3>
 
@@ -989,7 +983,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
 
                 {/* Highlight badge e.g. Free Revisions */}
                 {step.highlight && (
-                  <div className="mt-4 pt-3 border-t border-[#6A382C]/10">
+                  <div className="mt-5 pt-3.5 border-t border-[#6A382C]/10">
                     <span className="inline-block bg-[#FDF0ED] text-[#8C3A27] text-[11px] font-semibold px-2.5 py-1 rounded-md leading-tight">
                       {step.highlight}
                     </span>
@@ -1009,10 +1003,10 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
         ref={section6Ref}
         style={{ opacity: s6Opacity }}
         id="global-reach"
-        className="w-full py-12 sm:py-16 lg:py-20 bg-[#FAF8F5] relative overflow-hidden select-none"
+        className="w-full py-24 sm:py-32 lg:py-36 bg-[#FAF8F5] relative overflow-hidden select-none"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
             
             {/* Left Column: Heading, Subtitle & Callout */}
             <div className="lg:col-span-5 flex flex-col items-start">
@@ -1031,7 +1025,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                 whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.6, delay: 0.15 }}
-                className="mt-5 text-sm sm:text-base text-stone-600 leading-relaxed font-normal"
+                className="mt-6 text-sm sm:text-base text-stone-600 leading-relaxed font-normal"
               >
                 Your family might be in Hyderabad. Your best friend might be in London. Your cousin might be in Dubai. A celebration can still bring everyone together.
               </motion.p>
@@ -1041,7 +1035,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.6, delay: 0.25 }}
-                className="mt-4 p-3.5 sm:p-4 rounded-2xl bg-white border border-stone-200/80 shadow-xs"
+                className="mt-5 p-4 rounded-2xl bg-white border border-stone-200/80 shadow-xs"
               >
                 <p className="text-xs sm:text-sm font-bold text-stone-900 leading-snug">
                   With Ahvaan, your invitation can travel anywhere in the world with a single link.
@@ -1056,10 +1050,10 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 viewport={{ once: false, amount: 0.2 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-[#F8F4EE] border border-[#E4D9CD] rounded-[32px] p-6 sm:p-10 relative shadow-xl overflow-hidden flex flex-col justify-between min-h-[300px]"
+                className="bg-[#F8F4EE] border border-[#E4D9CD] rounded-[36px] p-8 sm:p-12 relative shadow-xl overflow-hidden flex flex-col justify-between min-h-[360px]"
               >
                 {/* 4 Connected Global Cities */}
-                <div className="relative w-full py-5 sm:py-7 flex items-center justify-between px-3 sm:px-8">
+                <div className="relative w-full py-8 sm:py-12 flex items-center justify-between px-3 sm:px-8">
                   
                   {/* Flight Connection Dotted Arc (Positioned behind circular avatars) */}
                   <svg
@@ -1078,10 +1072,10 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
 
                   {/* City 1: USA */}
                   <div className="relative z-10 flex flex-col items-center">
-                    <span className="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">
+                    <span className="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-2.5">
                       USA
                     </span>
-                    <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-full p-[3px] border-2 border-dashed border-amber-400/90 bg-[#F8F4EE] shadow-md transform hover:scale-110 transition-transform">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-[3px] border-2 border-dashed border-amber-400/90 bg-[#F8F4EE] shadow-md transform hover:scale-110 transition-transform">
                       <div className="w-full h-full rounded-full overflow-hidden bg-stone-100">
                         <img src="/images/city-usa.png" alt="USA - New York" className="w-full h-full object-cover object-center" />
                       </div>
@@ -1089,11 +1083,11 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                   </div>
 
                   {/* City 2: UK */}
-                  <div className="relative z-10 flex flex-col items-center -mt-6 sm:-mt-8">
-                    <span className="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">
+                  <div className="relative z-10 flex flex-col items-center -mt-8 sm:-mt-10">
+                    <span className="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-2.5">
                       UK
                     </span>
-                    <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-full p-[3px] border-2 border-amber-400 bg-[#F8F4EE] shadow-md transform hover:scale-110 transition-transform">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-[3px] border-2 border-amber-400 bg-[#F8F4EE] shadow-md transform hover:scale-110 transition-transform">
                       <div className="w-full h-full rounded-full overflow-hidden bg-stone-100">
                         <img src="/images/city-uk.png" alt="UK - London" className="w-full h-full object-cover object-center" />
                       </div>
@@ -1102,10 +1096,10 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
 
                   {/* City 3: DUBAI */}
                   <div className="relative z-10 flex flex-col items-center">
-                    <span className="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">
+                    <span className="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-2.5">
                       DUBAI
                     </span>
-                    <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-full p-[3px] border-2 border-dashed border-amber-400/90 bg-[#F8F4EE] shadow-md transform hover:scale-110 transition-transform">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-[3px] border-2 border-dashed border-amber-400/90 bg-[#F8F4EE] shadow-md transform hover:scale-110 transition-transform">
                       <div className="w-full h-full rounded-full overflow-hidden bg-stone-100">
                         <img src="/images/city-dubai.png" alt="Dubai" className="w-full h-full object-cover object-center" />
                       </div>
@@ -1113,11 +1107,11 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                   </div>
 
                   {/* City 4: INDIA */}
-                  <div className="relative z-10 flex flex-col items-center -mt-3">
-                    <span className="text-xs sm:text-sm font-extrabold text-stone-800 uppercase tracking-wider mb-2">
+                  <div className="relative z-10 flex flex-col items-center -mt-4">
+                    <span className="text-xs sm:text-sm font-extrabold text-stone-800 uppercase tracking-wider mb-2.5">
                       INDIA
                     </span>
-                    <div className="w-15 h-15 sm:w-18 sm:h-18 rounded-full p-[3px] border-[3px] border-[#8C3A27] bg-[#F8F4EE] shadow-xl ring-4 ring-[#8C3A27]/20 transform hover:scale-110 transition-transform">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full p-[3px] border-[3px] border-[#8C3A27] bg-[#F8F4EE] shadow-xl ring-4 ring-[#8C3A27]/20 transform hover:scale-110 transition-transform">
                       <div className="w-full h-full rounded-full overflow-hidden bg-stone-100">
                         <img src="/images/city-india.png" alt="India - Taj Mahal" className="w-full h-full object-cover object-center" />
                       </div>
@@ -1127,8 +1121,8 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                 </div>
 
                 {/* Bottom Center Pill CTA */}
-                <div className="flex justify-center mt-4">
-                  <div className="inline-flex items-center gap-2 bg-white px-5 sm:px-6 py-2 rounded-full border border-stone-300/80 shadow-sm text-xs sm:text-sm font-semibold text-stone-800">
+                <div className="flex justify-center mt-6">
+                  <div className="inline-flex items-center gap-2 bg-white px-5 sm:px-6 py-2.5 rounded-full border border-stone-300/80 shadow-sm text-xs sm:text-sm font-semibold text-stone-800">
                     <Plane className="w-4 h-4 text-[#8C3A27] transform -rotate-45" />
                     <span>One link. Wherever your people are. →</span>
                   </div>
@@ -1148,11 +1142,11 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
         ref={section7Ref}
         style={{ opacity: s7Opacity }}
         id="occasions-film-strip"
-        className="w-full py-12 sm:py-16 lg:py-20 bg-white relative overflow-hidden select-none"
+        className="w-full py-20 sm:py-28 lg:py-32 bg-white relative overflow-hidden select-none"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <motion.h2
               initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
@@ -1170,7 +1164,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
         </div>
 
         {/* Continuous Slow-Moving Infinite Card Carousel (Never stops) */}
-        <div className="relative w-full overflow-hidden py-3">
+        <div className="relative w-full overflow-hidden py-4">
           {/* Left and Right Edge Soft Gradient Masks */}
           <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-20 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-20 pointer-events-none" />
@@ -1189,13 +1183,13 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
             {[...OCCASION_EVENTS, ...OCCASION_EVENTS].map((event, idx) => (
               <motion.div
                 key={`${event.id}-${idx}`}
-                whileHover={{ y: -6, scale: 1.02 }}
+                whileHover={{ y: -8, scale: 1.02 }}
                 transition={{ duration: 0.2 }}
-                className="w-[220px] sm:w-[240px] shrink-0 bg-[#462121] text-white rounded-[24px] p-4 sm:p-4.5 flex flex-col justify-between shadow-lg border border-white/10 group cursor-pointer"
+                className="w-[230px] sm:w-[250px] shrink-0 bg-[#462121] text-white rounded-[26px] p-4 sm:p-5 flex flex-col justify-between shadow-xl border border-white/10 group cursor-pointer"
               >
                 <div>
                   {/* Top Photo Frame */}
-                  <div className="w-full h-30 sm:h-34 rounded-xl overflow-hidden mb-3.5 bg-stone-900 shadow-sm">
+                  <div className="w-full h-32 sm:h-36 rounded-xl overflow-hidden mb-4 bg-stone-900 shadow-sm">
                     <img
                       src={event.photo}
                       alt={event.title}
@@ -1203,7 +1197,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                     />
                   </div>
 
-                  <h3 className="font-bold text-base sm:text-lg text-white tracking-tight mb-1">
+                  <h3 className="font-bold text-base sm:text-lg text-white tracking-tight mb-1.5">
                     {event.title}
                   </h3>
 
@@ -1217,10 +1211,10 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
         </div>
 
         {/* Bottom Pill Button */}
-        <div className="flex justify-center mt-7 sm:mt-8">
+        <div className="flex justify-center mt-10">
           <button
             onClick={() => onNavigate && onNavigate('/#templates')}
-            className="bg-white hover:bg-stone-50 text-stone-900 border border-stone-300 px-7 sm:px-8 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-xs hover:shadow-md transition-all flex items-center gap-2 group cursor-pointer"
+            className="bg-white hover:bg-stone-50 text-stone-900 border border-stone-300 px-8 py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-sm hover:shadow-md transition-all flex items-center gap-2 group"
           >
             <span>Explore Invitations</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -1231,18 +1225,15 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
       {/* ========================================================================= */}
       {/* SECTION 8: AN INVITATION YOUR GUESTS CAN ACTUALLY EXPERIENCE              */}
       {/* ========================================================================= */}
-      {/* ========================================================================= */}
-      {/* SECTION 8: AN INVITATION YOUR GUESTS CAN ACTUALLY EXPERIENCE              */}
-      {/* ========================================================================= */}
       <motion.section
         ref={section8Ref}
         style={{ opacity: s8Opacity }}
         id="actually-experience"
-        className="w-full py-12 sm:py-16 lg:py-20 bg-[#FAF8F5] relative overflow-hidden select-none"
+        className="w-full py-24 sm:py-32 lg:py-36 bg-[#FAF8F5] relative overflow-hidden select-none"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
             <motion.h2
               initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
@@ -1262,17 +1253,17 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="mt-3 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-xl mx-auto"
+              className="mt-3.5 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-xl mx-auto"
             >
               More than a card. More than a video. A complete digital experience designed around your celebration.
             </motion.p>
           </div>
 
           {/* Interactive Mockup Stage: Center Phone & 8 Surrounding Badges */}
-          <div className="relative w-full max-w-4xl mx-auto flex items-center justify-center py-4 sm:py-6">
+          <div className="relative w-full max-w-4xl mx-auto flex items-center justify-center py-8">
             
             {/* Left 4 Floating Pills */}
-            <div className="hidden md:flex flex-col gap-4 sm:gap-5 items-end z-20 flex-1 pr-6 sm:pr-10">
+            <div className="hidden md:flex flex-col gap-6 items-end z-20 flex-1 pr-6 sm:pr-10">
               {EXPERIENCE_PILLS_LEFT.map((pill, idx) => (
                 <motion.div
                   key={pill.id}
@@ -1297,7 +1288,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 w-[220px] sm:w-[260px] md:w-[290px] filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.18)]"
+              className="relative z-10 w-[240px] sm:w-[280px] md:w-[320px] filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.18)]"
             >
               <img
                 src="/images/experience-phone.png"
@@ -1307,7 +1298,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
             </motion.div>
 
             {/* Right 4 Floating Pills */}
-            <div className="hidden md:flex flex-col gap-4 sm:gap-5 items-start z-20 flex-1 pl-6 sm:pl-10">
+            <div className="hidden md:flex flex-col gap-6 items-start z-20 flex-1 pl-6 sm:pl-10">
               {EXPERIENCE_PILLS_RIGHT.map((pill, idx) => (
                 <motion.div
                   key={pill.id}
@@ -1329,11 +1320,11 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
           </div>
 
           {/* Mobile Pills Grid (below phone on smaller screens) */}
-          <div className="grid grid-cols-2 gap-2.5 mt-6 md:hidden max-w-sm mx-auto">
+          <div className="grid grid-cols-2 gap-3 mt-8 md:hidden max-w-sm mx-auto">
             {[...EXPERIENCE_PILLS_LEFT, ...EXPERIENCE_PILLS_RIGHT].map((pill) => (
               <div
                 key={pill.id}
-                className="bg-white border border-stone-300 rounded-full px-3 py-1.5 flex items-center justify-center gap-2 shadow-2xs text-xs font-semibold text-stone-800"
+                className="bg-white border border-stone-300 rounded-full px-3 py-2 flex items-center justify-center gap-2 shadow-2xs text-xs font-semibold text-stone-800"
               >
                 <span>{pill.icon}</span>
                 <span className="truncate">{pill.label}</span>
@@ -1351,11 +1342,11 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
         ref={section9Ref}
         style={{ opacity: s9Opacity }}
         id="designed-beautifully"
-        className="w-full py-12 sm:py-16 lg:py-20 bg-[#3D1A1A] text-white relative overflow-hidden select-none"
+        className="w-full py-20 sm:py-28 lg:py-32 bg-[#3D1A1A] text-white relative overflow-hidden select-none"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <motion.h2
               initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
@@ -1367,7 +1358,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
             </motion.h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 max-w-6xl mx-auto">
             {VALUE_PROP_CARDS.map((card, idx) => (
               <motion.div
                 key={card.id}
@@ -1385,17 +1376,17 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                   scale: 1.02,
                   transition: { duration: 0.25 },
                 }}
-                className="bg-white text-stone-900 rounded-[22px] p-5 sm:p-6 shadow-md flex flex-col justify-start relative group"
+                className="bg-white text-stone-900 rounded-[24px] p-6 sm:p-7 shadow-lg flex flex-col justify-start relative group"
               >
-                <div className={`w-11 h-11 rounded-2xl ${card.iconBg} flex items-center justify-center text-lg mb-4 shadow-xs`}>
+                <div className={`w-12 h-12 rounded-2xl ${card.iconBg} flex items-center justify-center text-xl mb-5 shadow-xs`}>
                   <span>{card.icon}</span>
                 </div>
 
-                <h3 className="font-bold text-base sm:text-lg text-stone-900 tracking-tight mb-2">
+                <h3 className="font-bold text-base sm:text-lg text-stone-900 tracking-tight mb-2.5">
                   {card.title}
                 </h3>
 
-                <p className="text-xs sm:text-[13px] text-stone-600 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
                   {card.description}
                 </p>
               </motion.div>
@@ -1412,7 +1403,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
         ref={section10Ref}
         style={{ opacity: s10Opacity }}
         id="final-callout"
-        className="w-full py-12 sm:py-16 lg:py-20 bg-[#FAF8F5] relative overflow-hidden select-none"
+        className="w-full py-20 sm:py-28 lg:py-32 bg-white relative overflow-hidden select-none"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -1426,16 +1417,16 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               viewport={{ once: false, amount: 0.2 }}
               transition={{ type: 'spring', stiffness: 90, damping: 14 }}
               animate={{
-                y: [-4, 5, -4],
+                y: [-5, 6, -5],
               }}
-              className="hidden md:block absolute -left-6 lg:-left-10 top-1/2 -translate-y-1/2 z-20 w-36 sm:w-44 lg:w-52 cursor-pointer"
+              className="hidden md:block absolute -left-8 lg:-left-12 top-1/2 -translate-y-1/2 z-20 w-40 sm:w-48 lg:w-56 cursor-pointer"
             >
               <motion.div
                 whileHover={{ scale: 1.06, rotate: -2 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white p-2 sm:p-2.5 rounded-2xl sm:rounded-3xl shadow-[0_20px_45px_-10px_rgba(0,0,0,0.2)] border border-stone-200/80 transform origin-center"
+                className="bg-white p-2.5 sm:p-3 rounded-2xl sm:rounded-3xl shadow-[0_20px_45px_-10px_rgba(0,0,0,0.22)] border border-stone-200/80 transform origin-center"
               >
-                <div className="w-full h-44 sm:h-52 lg:h-60 rounded-xl sm:rounded-2xl overflow-hidden bg-stone-100">
+                <div className="w-full h-48 sm:h-56 lg:h-64 rounded-xl sm:rounded-2xl overflow-hidden bg-stone-100">
                   <img
                     src="/images/cta-anniversary.jpg"
                     alt="Celebration moment - Anniversary"
@@ -1452,16 +1443,16 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               viewport={{ once: false, amount: 0.2 }}
               transition={{ type: 'spring', stiffness: 90, damping: 14 }}
               animate={{
-                y: [5, -4, 5],
+                y: [6, -5, 6],
               }}
-              className="hidden md:block absolute -right-6 lg:-right-10 top-1/2 -translate-y-1/2 z-20 w-36 sm:w-44 lg:w-52 cursor-pointer"
+              className="hidden md:block absolute -right-8 lg:-right-12 top-1/2 -translate-y-1/2 z-20 w-40 sm:w-48 lg:w-56 cursor-pointer"
             >
               <motion.div
                 whileHover={{ scale: 1.06, rotate: 2 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white p-2 sm:p-2.5 rounded-2xl sm:rounded-3xl shadow-[0_20px_45px_-10px_rgba(0,0,0,0.2)] border border-stone-200/80 transform origin-center"
+                className="bg-white p-2.5 sm:p-3 rounded-2xl sm:rounded-3xl shadow-[0_20px_45px_-10px_rgba(0,0,0,0.22)] border border-stone-200/80 transform origin-center"
               >
-                <div className="w-full h-44 sm:h-52 lg:h-60 rounded-xl sm:rounded-2xl overflow-hidden bg-stone-100">
+                <div className="w-full h-48 sm:h-56 lg:h-64 rounded-xl sm:rounded-2xl overflow-hidden bg-stone-100">
                   <img
                     src="/images/cta-wedding.jpg"
                     alt="Celebration moment - Wedding petal shower"
@@ -1472,7 +1463,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
             </motion.div>
 
             {/* Inner Cream Banner Card */}
-            <div className="bg-[#FAF7F2] border border-[#6A382C]/20 rounded-[32px] sm:rounded-[40px] px-6 py-10 sm:px-14 sm:py-14 lg:py-16 text-center shadow-lg relative z-10">
+            <div className="bg-[#FAF7F2] border border-[#6A382C]/20 rounded-[36px] sm:rounded-[44px] px-6 py-14 sm:px-16 sm:py-20 lg:py-24 text-center shadow-lg relative z-10">
               
               <motion.h2
                 initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}
@@ -1513,7 +1504,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                 whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.6, delay: 0.15 }}
-                className="mt-4 text-sm sm:text-base text-stone-600 leading-relaxed font-normal max-w-xl mx-auto"
+                className="mt-5 text-sm sm:text-base text-stone-600 leading-relaxed font-normal max-w-xl mx-auto"
               >
                 Tell us what you're celebrating, and we'll create an invitation your guests will want to open, explore and remember.
               </motion.p>
@@ -1524,11 +1515,11 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.6, delay: 0.25 }}
-                className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4"
+                className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4"
               >
                 <button
                   onClick={onOpenCreateModal}
-                  className="w-full sm:w-auto bg-[#3D1A1A] hover:bg-[#281111] text-white px-7 sm:px-8 py-3 rounded-full font-semibold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 group cursor-pointer"
+                  className="w-full sm:w-auto bg-[#3D1A1A] hover:bg-[#281111] text-white px-7 sm:px-8 py-3.5 rounded-full font-semibold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 group cursor-pointer"
                 >
                   <span>Create Your Invitation</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -1536,14 +1527,14 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
 
                 <button
                   onClick={() => onNavigate && onNavigate('/#templates')}
-                  className="w-full sm:w-auto bg-white hover:bg-stone-50 text-stone-900 border border-stone-200 px-7 sm:px-8 py-3 rounded-full font-semibold text-xs sm:text-sm shadow-xs hover:shadow-sm transition-all cursor-pointer"
+                  className="w-full sm:w-auto bg-white hover:bg-stone-50 text-stone-900 border border-stone-200 px-7 sm:px-8 py-3.5 rounded-full font-semibold text-xs sm:text-sm shadow-xs hover:shadow-sm transition-all cursor-pointer"
                 >
                   <span>Explore Designs</span>
                 </button>
               </motion.div>
 
               {/* Mobile Photo Preview Cards (stacked below CTA on small devices) */}
-              <div className="grid grid-cols-2 gap-3 mt-6 md:hidden max-w-xs mx-auto">
+              <div className="grid grid-cols-2 gap-3 mt-8 md:hidden max-w-xs mx-auto">
                 <div className="bg-white p-2 rounded-xl shadow-md border border-stone-200/80 -rotate-3">
                   <div className="w-full h-28 rounded-lg overflow-hidden">
                     <img src="/images/cta-anniversary.jpg" alt="Anniversary" className="w-full h-full object-cover" />
