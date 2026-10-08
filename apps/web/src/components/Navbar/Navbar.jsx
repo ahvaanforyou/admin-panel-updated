@@ -75,28 +75,22 @@ export default function Navbar({ onOpenCreateModal }) {
               Invitations
             </button>
             <button
-              onClick={() => scrollTo('how-it-works')}
-              className="hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
-            >
-              How It Works
-            </button>
-            <button
               onClick={() => scrollTo('carousel')}
               className="hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
             >
-              Blog
-            </button>
-            <button
-              onClick={() => scrollTo('benefits')}
-              className="hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
-            >
-              About
+              Categories
             </button>
             <button
               onClick={() => scrollTo('faq')}
               className="hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
             >
               FAQ
+            </button>
+            <button
+              onClick={() => scrollTo('moments')}
+              className="hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
+            >
+              Moments
             </button>
           </nav>
 
@@ -134,10 +128,9 @@ export default function Navbar({ onOpenCreateModal }) {
           <div className="md:hidden mt-4 pt-4 border-t border-stone-200/80 flex flex-col gap-3 text-xs font-semibold text-stone-800 pb-2">
             <button onClick={() => scrollTo('hero')} className="text-left py-1 text-brand-primary">Home</button>
             <button onClick={() => scrollTo('templates')} className="text-left py-1">Invitations</button>
-            <button onClick={() => scrollTo('how-it-works')} className="text-left py-1">How It Works</button>
-            <button onClick={() => scrollTo('carousel')} className="text-left py-1">Special Moments</button>
-            <button onClick={() => scrollTo('benefits')} className="text-left py-1">About</button>
+            <button onClick={() => scrollTo('carousel')} className="text-left py-1">Categories</button>
             <button onClick={() => scrollTo('faq')} className="text-left py-1">FAQ</button>
+            <button onClick={() => scrollTo('moments')} className="text-left py-1">Moments</button>
             <a href="/admin" target="_blank" rel="noopener noreferrer" className="text-left py-1 text-stone-500">
               Admin Portal →
             </a>

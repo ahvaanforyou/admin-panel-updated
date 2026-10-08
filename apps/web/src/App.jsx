@@ -5,10 +5,8 @@ import OccasionCarousel from './components/Carousel/OccasionCarousel';
 import Categories from './components/Categories/Categories';
 import TemplateShowcase from './components/Templates/TemplateShowcase';
 import TemplatePreviewModal from './components/Preview/TemplatePreviewModal';
-import WhyDigital from './components/WhyDigital/WhyDigital';
-import HowItWorks from './components/HowItWorks/HowItWorks';
 import FAQ from './components/FAQ/FAQ';
-import Testimonials from './components/Testimonials/Testimonials';
+import Moments from './components/Moments/Moments';
 import CreateModal from './components/CreateModal/CreateModal';
 import Footer from './components/Footer/Footer';
 import { useLenis } from './hooks/useLenis';
@@ -91,17 +89,11 @@ export default function App() {
         onCreateTemplate={(tpl) => handleStartCreation(tpl, false)}
       />
 
-      {/* 5. Features & Benefits (Why Digital Invitations?) */}
-      <WhyDigital />
-
-      {/* 6. Four-Step Process (How It Works) */}
-      <HowItWorks onCreateClick={handleOpenGeneralCreate} />
-
-      {/* 7. Client Reviews & Social Proof */}
-      <Testimonials />
-
-      {/* 8. Frequently Asked Questions (Accordion) */}
+      {/* 5. Frequently Asked Questions (Accordion) */}
       <FAQ />
+
+      {/* 6. Client Moments & Reviews Glass Cards */}
+      <Moments />
 
       {/* 9. Site Footer with brand, categories, social & admin link */}
       <Footer 

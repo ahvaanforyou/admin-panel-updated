@@ -82,16 +82,13 @@ export default function Footer({ onCategoryClick, onCreateClick }) {
                 <a href="#templates" className="hover:text-white transition-colors">All Invitations</a>
               </li>
               <li>
-                <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
-              </li>
-              <li>
-                <a href="#benefits" className="hover:text-white transition-colors">Interactive Features</a>
-              </li>
-              <li>
-                <a href="#testimonials" className="hover:text-white transition-colors">Client Reviews</a>
+                <a href="#carousel" className="hover:text-white transition-colors">Celebration Categories</a>
               </li>
               <li>
                 <a href="#faq" className="hover:text-white transition-colors">Frequently Asked Questions</a>
+              </li>
+              <li>
+                <a href="#moments" className="hover:text-white transition-colors">Client Moments & Reviews</a>
               </li>
             </ul>
           </div>
