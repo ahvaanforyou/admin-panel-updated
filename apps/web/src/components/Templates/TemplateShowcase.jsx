@@ -307,16 +307,16 @@ export default function TemplateShowcase({
                     </button>
 
                     {/* PHONE SCREEN MOCKUP WITH HOVER EXPANSION ANIMATION */}
-                    <div className="relative w-[100px] sm:w-[115px] h-[160px] sm:h-[185px] flex-shrink-0 flex items-center justify-center overflow-visible">
+                    <div className="relative w-[92px] sm:w-[102px] h-[176px] sm:h-[196px] flex-shrink-0 flex items-center justify-center">
                       <motion.div 
-                        whileHover={{ scale: 1.15, y: -4 }}
+                        whileHover={{ scale: 1.12, y: -5 }}
                         transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="w-full h-full rounded-2xl overflow-hidden shadow-md group-hover:shadow-xl transition-shadow bg-stone-900 border border-stone-800"
+                        className="w-full h-full flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.14)] group-hover:drop-shadow-[0_14px_24px_rgba(0,0,0,0.22)] transition-all"
                       >
                         <img 
                           src={item.phoneImage}
                           alt={item.name}
-                          className="w-full h-full object-cover object-top"
+                          className="w-full h-full object-contain select-none pointer-events-none"
                           loading="lazy"
                         />
                       </motion.div>
