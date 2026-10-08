@@ -318,6 +318,38 @@ const EXPERIENCE_PILLS_RIGHT = [
   { id: 'more', icon: '✨', label: 'And more' },
 ];
 
+// 4 Value Proposition Cards (Section 9 - Designed beautifully. Shared effortlessly.)
+const VALUE_PROP_CARDS = [
+  {
+    id: 'beautiful',
+    icon: '🎨',
+    iconBg: 'bg-rose-50 text-rose-500',
+    title: 'Beautiful by design',
+    description: 'Every invitation is thoughtfully designed around your occasion.',
+  },
+  {
+    id: 'easy',
+    icon: '🔗',
+    iconBg: 'bg-indigo-50 text-indigo-500',
+    title: 'Easy to share',
+    description: 'One link can reach guests anywhere in the world.',
+  },
+  {
+    id: 'everything',
+    icon: '📁',
+    iconBg: 'bg-amber-50 text-amber-600',
+    title: 'Everything in one place',
+    description: 'No more sending five different messages for five different details.',
+  },
+  {
+    id: 'made',
+    icon: '✨',
+    iconBg: 'bg-emerald-50 text-emerald-500',
+    title: 'Made for every celebration',
+    description: 'Weddings are just the beginning.',
+  },
+];
+
 export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
   const section1Ref = useRef(null);
   const section2Ref = useRef(null);
@@ -327,6 +359,8 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
   const section6Ref = useRef(null);
   const section7Ref = useRef(null);
   const section8Ref = useRef(null);
+  const section9Ref = useRef(null);
+  const section10Ref = useRef(null);
 
   // Section 1 scroll fade-out & tiny cards parallax
   const { scrollYProgress: s1Progress } = useScroll({
@@ -384,6 +418,20 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
     offset: ['start end', 'end start'],
   });
   const s8Opacity = useTransform(s8Progress, [0, 0.15, 0.85, 1], [0.3, 1, 1, 0.15]);
+
+  // Section 9 scroll fade-out
+  const { scrollYProgress: s9Progress } = useScroll({
+    target: section9Ref,
+    offset: ['start end', 'end start'],
+  });
+  const s9Opacity = useTransform(s9Progress, [0, 0.15, 0.85, 1], [0.3, 1, 1, 0.15]);
+
+  // Section 10 scroll fade-out
+  const { scrollYProgress: s10Progress } = useScroll({
+    target: section10Ref,
+    offset: ['start end', 'end start'],
+  });
+  const s10Opacity = useTransform(s10Progress, [0, 0.15, 0.85, 1], [0.3, 1, 1, 0.15]);
 
   return (
     <div className="min-h-screen bg-white text-stone-900 selection:bg-[#4E1D1D] selection:text-white">
@@ -1282,6 +1330,225 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                 <span className="truncate">{pill.label}</span>
               </div>
             ))}
+          </div>
+
+        </div>
+      </motion.section>
+
+      {/* ========================================================================= */}
+      {/* SECTION 9: VALUE PROPS (Designed beautifully. Shared effortlessly.)       */}
+      {/* ========================================================================= */}
+      <motion.section
+        ref={section9Ref}
+        style={{ opacity: s9Opacity }}
+        id="designed-beautifully"
+        className="w-full py-20 sm:py-28 lg:py-32 bg-[#3D1A1A] text-white relative overflow-hidden select-none"
+      >
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <motion.h2
+              initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}
+              whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.7 }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight"
+            >
+              Designed beautifully. Shared effortlessly.
+            </motion.h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 max-w-6xl mx-auto">
+            {VALUE_PROP_CARDS.map((card, idx) => (
+              <motion.div
+                key={card.id}
+                initial={{ opacity: 0, y: -45, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 110,
+                  damping: 15,
+                  delay: idx * 0.1,
+                }}
+                whileHover={{
+                  y: -6,
+                  scale: 1.02,
+                  transition: { duration: 0.25 },
+                }}
+                className="bg-white text-stone-900 rounded-[24px] p-6 sm:p-7 shadow-lg flex flex-col justify-start relative group"
+              >
+                <div className={`w-12 h-12 rounded-2xl ${card.iconBg} flex items-center justify-center text-xl mb-5 shadow-xs`}>
+                  <span>{card.icon}</span>
+                </div>
+
+                <h3 className="font-bold text-base sm:text-lg text-stone-900 tracking-tight mb-2.5">
+                  {card.title}
+                </h3>
+
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                  {card.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+
+        </div>
+      </motion.section>
+
+      {/* ========================================================================= */}
+      {/* SECTION 10: FINAL CTA CALLOUT (You bring the occasion)                    */}
+      {/* ========================================================================= */}
+      <motion.section
+        ref={section10Ref}
+        style={{ opacity: s10Opacity }}
+        id="final-callout"
+        className="w-full py-20 sm:py-28 lg:py-32 bg-white relative overflow-hidden select-none"
+      >
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Main Card with Left and Right Tilted Photo Frames */}
+          <div className="relative max-w-5xl mx-auto">
+            
+            {/* Left Photo Frame: Anniversary couple celebrating (Attachment 2) */}
+            <motion.div
+              initial={{ opacity: 0, x: -50, rotate: -12 }}
+              whileInView={{ opacity: 1, x: 0, rotate: -6 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ type: 'spring', stiffness: 90, damping: 14 }}
+              animate={{
+                y: [-5, 6, -5],
+              }}
+              className="hidden md:block absolute -left-8 lg:-left-12 top-1/2 -translate-y-1/2 z-20 w-40 sm:w-48 lg:w-56 cursor-pointer"
+            >
+              <motion.div
+                whileHover={{ scale: 1.06, rotate: -2 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white p-2.5 sm:p-3 rounded-2xl sm:rounded-3xl shadow-[0_20px_45px_-10px_rgba(0,0,0,0.22)] border border-stone-200/80 transform origin-center"
+              >
+                <div className="w-full h-48 sm:h-56 lg:h-64 rounded-xl sm:rounded-2xl overflow-hidden bg-stone-100">
+                  <img
+                    src="/images/cta-anniversary.jpg"
+                    alt="Celebration moment - Anniversary"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Photo Frame: Indian wedding petal shower (Attachment 3) */}
+            <motion.div
+              initial={{ opacity: 0, x: 50, rotate: 12 }}
+              whileInView={{ opacity: 1, x: 0, rotate: 6 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ type: 'spring', stiffness: 90, damping: 14 }}
+              animate={{
+                y: [6, -5, 6],
+              }}
+              className="hidden md:block absolute -right-8 lg:-right-12 top-1/2 -translate-y-1/2 z-20 w-40 sm:w-48 lg:w-56 cursor-pointer"
+            >
+              <motion.div
+                whileHover={{ scale: 1.06, rotate: 2 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white p-2.5 sm:p-3 rounded-2xl sm:rounded-3xl shadow-[0_20px_45px_-10px_rgba(0,0,0,0.22)] border border-stone-200/80 transform origin-center"
+              >
+                <div className="w-full h-48 sm:h-56 lg:h-64 rounded-xl sm:rounded-2xl overflow-hidden bg-stone-100">
+                  <img
+                    src="/images/cta-wedding.jpg"
+                    alt="Celebration moment - Wedding petal shower"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Inner Cream Banner Card */}
+            <div className="bg-[#FAF7F2] border border-[#6A382C]/20 rounded-[36px] sm:rounded-[44px] px-6 py-14 sm:px-16 sm:py-20 lg:py-24 text-center shadow-lg relative z-10">
+              
+              <motion.h2
+                initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}
+                whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+                viewport={{ once: false }}
+                transition={{ duration: 0.7 }}
+                className="text-3xl sm:text-4xl lg:text-[3.25rem] font-bold text-stone-900 tracking-tight leading-[1.2] max-w-2xl mx-auto"
+              >
+                You bring the occasion.
+                <br />
+                We'll make the invitation{' '}
+                <span className="relative inline-block mt-1">
+                  <CursiveStrokeText
+                    text="unforgettable."
+                    className="text-3xl sm:text-4xl lg:text-[3.35rem] text-[#8C3A27] inline-block"
+                  />
+                  <motion.svg
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    whileInView={{ pathLength: 1, opacity: 1 }}
+                    viewport={{ once: false }}
+                    transition={{ duration: 0.8, delay: 0.45, ease: 'easeOut' }}
+                    className="absolute -bottom-1.5 left-0 w-full h-3 text-[#8C3A27]"
+                    viewBox="0 0 240 10"
+                    fill="none"
+                  >
+                    <path
+                      d="M 3 6 Q 120 2 237 6"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                  </motion.svg>
+                </span>
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, filter: 'blur(6px)', y: 12 }}
+                whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+                viewport={{ once: false }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                className="mt-5 text-sm sm:text-base text-stone-600 leading-relaxed font-normal max-w-xl mx-auto"
+              >
+                Tell us what you're celebrating, and we'll create an invitation your guests will want to open, explore and remember.
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false }}
+                transition={{ duration: 0.6, delay: 0.25 }}
+                className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4"
+              >
+                <button
+                  onClick={onOpenCreateModal}
+                  className="w-full sm:w-auto bg-[#3D1A1A] hover:bg-[#281111] text-white px-7 sm:px-8 py-3.5 rounded-full font-semibold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 group cursor-pointer"
+                >
+                  <span>Create Your Invitation</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </button>
+
+                <button
+                  onClick={() => onNavigate && onNavigate('/#templates')}
+                  className="w-full sm:w-auto bg-white hover:bg-stone-50 text-stone-900 border border-stone-200 px-7 sm:px-8 py-3.5 rounded-full font-semibold text-xs sm:text-sm shadow-xs hover:shadow-sm transition-all cursor-pointer"
+                >
+                  <span>Explore Designs</span>
+                </button>
+              </motion.div>
+
+              {/* Mobile Photo Preview Cards (stacked below CTA on small devices) */}
+              <div className="grid grid-cols-2 gap-3 mt-8 md:hidden max-w-xs mx-auto">
+                <div className="bg-white p-2 rounded-xl shadow-md border border-stone-200/80 -rotate-3">
+                  <div className="w-full h-28 rounded-lg overflow-hidden">
+                    <img src="/images/cta-anniversary.jpg" alt="Anniversary" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+                <div className="bg-white p-2 rounded-xl shadow-md border border-stone-200/80 rotate-3">
+                  <div className="w-full h-28 rounded-lg overflow-hidden">
+                    <img src="/images/cta-wedding.jpg" alt="Wedding" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
           </div>
 
         </div>
