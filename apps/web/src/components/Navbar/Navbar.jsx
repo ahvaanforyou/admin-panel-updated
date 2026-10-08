@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 
-export default function Navbar({ onOpenCreateModal }) {
+export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigate }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -13,14 +13,55 @@ export default function Navbar({ onOpenCreateModal }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollTo = (id) => {
+  const isHowItWorks = currentPath === '/howitworks' || currentPath === '/how-it-works';
+
+  const handleNavClick = (target) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      if (window.__lenis) {
-        window.__lenis.scrollTo(element, { offset: -100 });
+
+    if (target === 'howitworks') {
+      if (onNavigate) {
+        onNavigate('/howitworks');
       } else {
-        element.scrollIntoView({ behavior: 'smooth' });
+        window.history.pushState(null, '', '/howitworks');
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }
+      return;
+    }
+
+    if (target === 'home') {
+      if (isHowItWorks) {
+        if (onNavigate) {
+          onNavigate('/');
+        } else {
+          window.history.pushState(null, '', '/');
+          window.dispatchEvent(new PopStateEvent('popstate'));
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    // Anchor links (templates, carousel, moments, faq)
+    if (isHowItWorks) {
+      if (onNavigate) {
+        onNavigate('/#' + target);
+      } else {
+        window.history.pushState(null, '', '/#' + target);
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }
+      setTimeout(() => {
+        const el = document.getElementById(target);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    } else {
+      const el = document.getElementById(target);
+      if (el) {
+        if (window.__lenis) {
+          window.__lenis.scrollTo(el, { offset: -90 });
+        } else {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     }
   };
@@ -36,17 +77,17 @@ export default function Navbar({ onOpenCreateModal }) {
         style={{
           boxShadow: isScrolled
             ? '0 20px 40px -15px rgba(78, 29, 29, 0.12), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset'
-            : '0 10px 30px -10px rgba(0, 0, 0, 0.06)'
+            : '0 10px 30px -10px rgba(0, 0, 0, 0.06)',
         }}
       >
         <div className="flex items-center justify-between">
           
-          {/* Brand Logo - EXACT Ahvaan Serif from Reference Image */}
+          {/* Brand Logo - EXACT Ahvaan Serif */}
           <a
-            href="#"
+            href="/"
             onClick={(e) => {
               e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+              handleNavClick('home');
             }}
             className="flex items-center gap-2 group flex-shrink-0"
           >
@@ -60,37 +101,56 @@ export default function Navbar({ onOpenCreateModal }) {
             </div>
           </a>
 
-          {/* Center Navigation Links - EXACT Underline & Styling */}
+          {/* Center Navigation Links - Exactly matching Reference Attachment 1 */}
           <nav className="hidden md:flex items-center gap-7 text-xs sm:text-sm font-medium text-stone-700">
             <button
-              onClick={() => scrollTo('hero')}
-              className="font-bold text-stone-900 border-b-2 border-stone-900 pb-0.5 transition-all"
+              onClick={() => handleNavClick('home')}
+              className={`transition-all pb-0.5 ${
+                !isHowItWorks
+                  ? 'font-bold text-stone-900 border-b-2 border-stone-900'
+                  : 'font-medium text-stone-700 hover:text-brand-primary border-b-2 border-transparent hover:border-brand-primary'
+              }`}
             >
               Home
             </button>
+
             <button
-              onClick={() => scrollTo('templates')}
-              className="hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
+              onClick={() => handleNavClick('templates')}
+              className="font-medium text-stone-700 hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
             >
               Invitations
             </button>
+
             <button
-              onClick={() => scrollTo('carousel')}
-              className="hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
+              onClick={() => handleNavClick('howitworks')}
+              className={`transition-all pb-0.5 ${
+                isHowItWorks
+                  ? 'font-bold text-stone-900 border-b-2 border-stone-900'
+                  : 'font-medium text-stone-700 hover:text-brand-primary border-b-2 border-transparent hover:border-brand-primary'
+              }`}
             >
-              Categories
+              How It Works
             </button>
+
             <button
-              onClick={() => scrollTo('faq')}
-              className="hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
+              onClick={() => handleNavClick('carousel')}
+              className="font-medium text-stone-700 hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
+            >
+              Blog
+            </button>
+
+            <button
+              onClick={() => handleNavClick('moments')}
+              className="font-medium text-stone-700 hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
+            >
+              About
+            </button>
+
+            <button
+              onClick={() => handleNavClick('faq')}
+              className="font-medium text-stone-700 hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
             >
               FAQ
-            </button>
-            <button
-              onClick={() => scrollTo('moments')}
-              className="hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
-            >
-              Moments
             </button>
           </nav>
 
@@ -126,12 +186,36 @@ export default function Navbar({ onOpenCreateModal }) {
         {/* Mobile Dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 pt-4 border-t border-stone-200/80 flex flex-col gap-3 text-xs font-semibold text-stone-800 pb-2">
-            <button onClick={() => scrollTo('hero')} className="text-left py-1 text-brand-primary">Home</button>
-            <button onClick={() => scrollTo('templates')} className="text-left py-1">Invitations</button>
-            <button onClick={() => scrollTo('carousel')} className="text-left py-1">Categories</button>
-            <button onClick={() => scrollTo('faq')} className="text-left py-1">FAQ</button>
-            <button onClick={() => scrollTo('moments')} className="text-left py-1">Moments</button>
-            <a href="/admin" target="_blank" rel="noopener noreferrer" className="text-left py-1 text-stone-500">
+            <button
+              onClick={() => handleNavClick('home')}
+              className={`text-left py-1 ${!isHowItWorks ? 'text-brand-primary font-bold' : ''}`}
+            >
+              Home
+            </button>
+            <button onClick={() => handleNavClick('templates')} className="text-left py-1">
+              Invitations
+            </button>
+            <button
+              onClick={() => handleNavClick('howitworks')}
+              className={`text-left py-1 ${isHowItWorks ? 'text-brand-primary font-bold' : ''}`}
+            >
+              How It Works
+            </button>
+            <button onClick={() => handleNavClick('carousel')} className="text-left py-1">
+              Blog
+            </button>
+            <button onClick={() => handleNavClick('moments')} className="text-left py-1">
+              About
+            </button>
+            <button onClick={() => handleNavClick('faq')} className="text-left py-1">
+              FAQ
+            </button>
+            <a
+              href="/admin"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-left py-1 text-stone-500"
+            >
               Admin Portal →
             </a>
           </div>

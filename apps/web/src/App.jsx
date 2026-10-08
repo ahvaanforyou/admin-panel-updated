@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import OccasionCarousel from './components/Carousel/OccasionCarousel';
@@ -9,12 +9,46 @@ import FAQ from './components/FAQ/FAQ';
 import Moments from './components/Moments/Moments';
 import CreateModal from './components/CreateModal/CreateModal';
 import Footer from './components/Footer/Footer';
+import HowItWorksPage from './pages/HowItWorks/HowItWorksPage';
 import { useLenis } from './hooks/useLenis';
 import { TEMPLATES } from './data/content';
 
 export default function App() {
   // Initialize Lenis smooth scroll
   useLenis();
+
+  // URL Path Routing
+  const [currentPath, setCurrentPath] = useState(
+    typeof window !== 'undefined' ? window.location.pathname : '/'
+  );
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigate = (path) => {
+    const [pathname, hash] = path.split('#');
+    window.history.pushState(null, '', path);
+    setCurrentPath(pathname || '/');
+    if (hash) {
+      setTimeout(() => {
+        const el = document.getElementById(hash);
+        if (el) {
+          if (window.__lenis) {
+            window.__lenis.scrollTo(el, { offset: -80 });
+          } else {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }, 150);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   // State
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -24,7 +58,7 @@ export default function App() {
 
   // Quick preview trigger by ID
   const handleQuickPreview = (templateId) => {
-    const tpl = TEMPLATES.find(t => t.id === templateId) || TEMPLATES[0];
+    const tpl = TEMPLATES.find((t) => t.id === templateId) || TEMPLATES[0];
     setPreviewTemplate(tpl);
   };
 
@@ -65,41 +99,54 @@ export default function App() {
     scrollToSection('templates');
   };
 
+  const isHowItWorks = currentPath === '/howitworks' || currentPath === '/how-it-works';
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-surface-text selection:bg-[#4E1D1D] selection:text-white">
       
       {/* 1. Floating Middle Pill Navbar with Sticky Glass Effect */}
-      <Navbar onOpenCreateModal={handleOpenGeneralCreate} />
-
-      {/* 2. Hero Section Matching Image 1 (Swirl line, stroke 'unforgettable', exact geometric grid) */}
-      <Hero
-        onCreateClick={handleOpenGeneralCreate}
+      <Navbar
+        onOpenCreateModal={handleOpenGeneralCreate}
+        currentPath={currentPath}
+        onNavigate={navigate}
       />
 
-      {/* 3. Second Section: Occasion Carousel with Fast Wheel Movement (Matching Images 2, 3, 4, 5) */}
-      <OccasionCarousel
-        onSelectTemplate={handleSelectCategoryFromBanner}
-      />
+      {isHowItWorks ? (
+        /* ================= HOW IT WORKS PAGE ================= */
+        <HowItWorksPage
+          onNavigate={navigate}
+          onOpenCreateModal={handleOpenGeneralCreate}
+        />
+      ) : (
+        /* ================= HOME LANDING PAGE ================= */
+        <>
+          {/* 2. Hero Section Matching Image 1 (Swirl line, stroke 'unforgettable', exact geometric grid) */}
+          <Hero onCreateClick={handleOpenGeneralCreate} />
 
-      {/* 4. Filterable Template Catalog */}
-      <TemplateShowcase
-        selectedCategory={selectedCategory}
-        onSelectCategory={setSelectedCategory}
-        onPreviewTemplate={handleOpenPreview}
-        onCreateTemplate={(tpl) => handleStartCreation(tpl, false)}
-      />
+          {/* 3. Second Section: Occasion Carousel with Fast Wheel Movement */}
+          <OccasionCarousel onSelectTemplate={handleSelectCategoryFromBanner} />
 
-      {/* 5. Frequently Asked Questions (Accordion) */}
-      <FAQ />
+          {/* 4. Filterable Template Catalog */}
+          <TemplateShowcase
+            selectedCategory={selectedCategory}
+            onSelectCategory={setSelectedCategory}
+            onPreviewTemplate={handleOpenPreview}
+            onCreateTemplate={(tpl) => handleStartCreation(tpl, false)}
+          />
 
-      {/* 6. Client Moments & Reviews Glass Cards */}
-      <Moments />
+          {/* 5. Frequently Asked Questions (Accordion) */}
+          <FAQ />
 
-      {/* 9. Site Footer with brand, categories, social & admin link */}
-      <Footer 
-        onCategoryClick={handleSelectCategoryFromBanner}
-        onCreateClick={handleOpenGeneralCreate}
-      />
+          {/* 6. Client Moments & Reviews Glass Cards */}
+          <Moments />
+
+          {/* 7. Site Footer with brand, categories, social & admin link */}
+          <Footer
+            onCategoryClick={handleSelectCategoryFromBanner}
+            onCreateClick={handleOpenGeneralCreate}
+          />
+        </>
+      )}
 
       {/* Interactive Mobile Mockup Preview Modal */}
       {previewTemplate && (
