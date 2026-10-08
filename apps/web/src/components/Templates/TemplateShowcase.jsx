@@ -5,63 +5,94 @@ import { Search, Heart, Share2, Sparkles, LayoutGrid, HeartHandshake, FileText, 
 const DISPLAY_TEMPLATES = [
   {
     id: 'tpl-1',
-    name: 'Eternal Togetherness',
-    style: 'Elegant & Modern',
-    price: '₹500',
+    name: 'Royal Celebration',
+    style: 'Traditional & Elegant',
+    price: '₹3,500',
     tags: ['RSVP', 'Maps', 'Bulk Emails'],
-    phoneImage: '/images/templates/card-screen-1.png',
+    badge: 'Best Value',
+    badgeColor: '#FFF8E1',
+    badgeText: '#F59E0B',
+    phoneImage: '/images/templates/card-p1.png',
     category: 'wedding',
-    priceVal: 500
+    priceVal: 3500
   },
   {
     id: 'tpl-2',
-    name: 'Eternal Togetherness',
-    style: 'Elegant & Modern',
-    price: '₹3,500',
+    name: 'Blissful Beginnings',
+    style: 'Modern & Minimal',
+    price: '₹2,500',
     tags: ['RSVP', 'Maps', 'Bulk Emails'],
-    phoneImage: '/images/templates/card-screen-2.png',
+    badge: 'Popular',
+    badgeColor: '#FFFBEB',
+    badgeText: '#D97706',
+    phoneImage: '/images/templates/card-p2.png',
     category: 'wedding',
-    priceVal: 3500
+    priceVal: 2500
   },
   {
     id: 'tpl-3',
-    name: 'Eternal Togetherness',
-    style: 'Elegant & Modern',
-    price: '₹3,500',
+    name: 'Timeless Traditions',
+    style: 'Classic & Grand',
+    price: '₹4,000',
     tags: ['RSVP', 'Maps', 'Bulk Emails'],
-    phoneImage: '/images/templates/card-screen-3.png',
+    badge: 'Premium',
+    badgeColor: '#FEF3C7',
+    badgeText: '#B45309',
+    phoneImage: '/images/templates/card-p3.png',
     category: 'wedding',
-    priceVal: 3500
+    priceVal: 4000
   },
   {
     id: 'tpl-4',
-    name: 'Eternal Togetherness',
-    style: 'Elegant & Modern',
-    price: '₹3,500',
+    name: 'Little Smiles',
+    style: 'Birthday Invitation',
+    price: '₹1,500',
     tags: ['RSVP', 'Maps', 'Bulk Emails'],
-    phoneImage: '/images/templates/card-screen-1.png',
-    category: 'wedding',
-    priceVal: 3500
+    badge: 'Affordable',
+    badgeColor: '#FEF3C7',
+    badgeText: '#D97706',
+    phoneImage: '/images/templates/card-p4.png',
+    category: 'birthday',
+    priceVal: 1500
   },
   {
     id: 'tpl-5',
-    name: 'Eternal Togetherness',
-    style: 'Elegant & Modern',
-    price: '₹3,500',
+    name: 'Colorful Moments',
+    style: 'Birthday Invitation',
+    price: '₹2,500',
     tags: ['RSVP', 'Maps', 'Bulk Emails'],
-    phoneImage: '/images/templates/card-screen-2.png',
-    category: 'wedding',
-    priceVal: 3500
+    badge: 'Popular',
+    badgeColor: '#FFFBEB',
+    badgeText: '#D97706',
+    phoneImage: '/images/templates/card-p5.png',
+    category: 'birthday',
+    priceVal: 2500
   },
   {
     id: 'tpl-6',
-    name: 'Eternal Togetherness',
-    style: 'Elegant & Modern',
+    name: 'New Beginnings',
+    style: 'House Warming',
     price: '₹3,500',
     tags: ['RSVP', 'Maps', 'Bulk Emails'],
-    phoneImage: '/images/templates/card-screen-3.png',
-    category: 'wedding',
+    badge: 'Best Seller',
+    badgeColor: '#FEF3C7',
+    badgeText: '#B45309',
+    phoneImage: '/images/templates/card-p6.png',
+    category: 'house-warming',
     priceVal: 3500
+  },
+  {
+    id: 'tpl-7',
+    name: 'A Little Miracle',
+    style: 'Baby Shower',
+    price: '₹2,500',
+    tags: ['RSVP', 'Maps', 'Bulk Emails'],
+    badge: 'Trending',
+    badgeColor: '#FEF3C7',
+    badgeText: '#D97706',
+    phoneImage: '/images/templates/card-p7.png',
+    category: 'baby-shower',
+    priceVal: 2500
   }
 ];
 
@@ -317,6 +348,19 @@ export default function TemplateShowcase({
                             </span>
                           ))}
                         </div>
+
+                        {/* Badge e.g. Best Value, Popular, etc. */}
+                        {item.badge && (
+                          <div className="mt-2.5">
+                            <span 
+                              className="text-[10px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 shadow-2xs"
+                              style={{ backgroundColor: item.badgeColor, color: item.badgeText }}
+                            >
+                              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: item.badgeText }} />
+                              {item.badge}
+                            </span>
+                          </div>
+                        )}
                       </div>
 
                       {/* Price & Action Buttons */}
@@ -328,9 +372,9 @@ export default function TemplateShowcase({
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => onPreviewTemplate && onPreviewTemplate(item)}
-                            className="flex-1 bg-[#4E1D1D] hover:bg-[#381313] text-white py-2 px-3 rounded-xl text-xs font-bold transition-all shadow-sm hover:shadow text-center truncate"
+                            className="flex-1 bg-[#8B5A2B] hover:bg-[#724820] text-white py-2 px-3 rounded-xl text-xs font-bold transition-all shadow-sm hover:shadow text-center truncate"
                           >
-                            {idx === 0 ? 'Preview →' : 'View Template →'}
+                            View Template →
                           </button>
 
                           <button
@@ -358,76 +402,77 @@ export default function TemplateShowcase({
 
         </div>
 
-        {/* ========================================================================= */}
-        {/* BOTTOM 4-STEP PROCESS BANNER (Exact dark maroon banner from image 2)      */}
-        {/* ========================================================================= */}
-        <div className="w-full bg-[#4E1D1D] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl text-white">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 items-center">
-            
-            {/* Step 1 */}
-            <div className="flex items-center gap-4 group">
-              <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
-                <LayoutGrid className="w-5 h-5 text-amber-200" />
-              </div>
-              <div>
-                <span className="text-[11px] font-bold tracking-wider uppercase text-amber-300 block mb-0.5">
-                  01 Choose a Template
-                </span>
-                <p className="text-xs text-stone-300 leading-snug">
-                  Browse and pick your favorite design.
-                </p>
-              </div>
-            </div>
-
-            {/* Step 2 */}
-            <div className="flex items-center gap-4 group">
-              <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
-                <FileText className="w-5 h-5 text-amber-200" />
-              </div>
-              <div>
-                <span className="text-[11px] font-bold tracking-wider uppercase text-amber-300 block mb-0.5">
-                  02 Share Your Details
-                </span>
-                <p className="text-xs text-stone-300 leading-snug">
-                  Send us your event details and preferences.
-                </p>
-              </div>
-            </div>
-
-            {/* Step 3 */}
-            <div className="flex items-center gap-4 group">
-              <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
-                <HeartHandshake className="w-5 h-5 text-amber-200" />
-              </div>
-              <div>
-                <span className="text-[11px] font-bold tracking-wider uppercase text-amber-300 block mb-0.5">
-                  03 We Customize It
-                </span>
-                <p className="text-xs text-stone-300 leading-snug">
-                  Our team personalizes the template for you.
-                </p>
-              </div>
-            </div>
-
-            {/* Step 4 */}
-            <div className="flex items-center gap-4 group">
-              <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
-                <Send className="w-5 h-5 text-amber-200" />
-              </div>
-              <div>
-                <span className="text-[11px] font-bold tracking-wider uppercase text-amber-300 block mb-0.5">
-                  04 Receive & Share
-                </span>
-                <p className="text-xs text-stone-300 leading-snug">
-                  Get your final invitation and share it with loved ones.
-                </p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
       </div>
+
+      {/* ========================================================================= */}
+      {/* BOTTOM 4-STEP PROCESS BANNER: Expanded across the entire computer frame   */}
+      {/* ========================================================================= */}
+      <div className="w-full bg-[#4E1D1D] py-8 sm:py-10 lg:py-12 px-6 sm:px-12 lg:px-20 text-white shadow-2xl">
+        <div className="max-w-[1720px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 items-center">
+          
+          {/* Step 1 */}
+          <div className="flex items-center gap-4 group">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
+              <LayoutGrid className="w-5 h-5 text-amber-300" />
+            </div>
+            <div>
+              <span className="text-[11px] font-bold tracking-wider uppercase text-amber-300 block mb-0.5">
+                01 CHOOSE A TEMPLATE
+              </span>
+              <p className="text-xs text-stone-300 leading-snug">
+                Browse and pick your favorite design.
+              </p>
+            </div>
+          </div>
+
+          {/* Step 2 */}
+          <div className="flex items-center gap-4 group">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
+              <FileText className="w-5 h-5 text-amber-300" />
+            </div>
+            <div>
+              <span className="text-[11px] font-bold tracking-wider uppercase text-amber-300 block mb-0.5">
+                02 SHARE YOUR DETAILS
+              </span>
+              <p className="text-xs text-stone-300 leading-snug">
+                Send us your event details and preferences.
+              </p>
+            </div>
+          </div>
+
+          {/* Step 3 */}
+          <div className="flex items-center gap-4 group">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
+              <HeartHandshake className="w-5 h-5 text-amber-300" />
+            </div>
+            <div>
+              <span className="text-[11px] font-bold tracking-wider uppercase text-amber-300 block mb-0.5">
+                03 WE CUSTOMIZE IT
+              </span>
+              <p className="text-xs text-stone-300 leading-snug">
+                Our team personalizes the template for you.
+              </p>
+            </div>
+          </div>
+
+          {/* Step 4 */}
+          <div className="flex items-center gap-4 group">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
+              <Send className="w-5 h-5 text-amber-300" />
+            </div>
+            <div>
+              <span className="text-[11px] font-bold tracking-wider uppercase text-amber-300 block mb-0.5">
+                04 RECEIVE & SHARE
+              </span>
+              <p className="text-xs text-stone-300 leading-snug">
+                Get your final invitation and share it with loved ones.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </motion.section>
   );
 }

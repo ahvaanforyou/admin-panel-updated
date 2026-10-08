@@ -1,92 +1,186 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, HelpCircle } from 'lucide-react';
-import { FAQS } from '../../data/content';
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { Clock, Music, MonitorSmartphone, Image as ImageIcon, ChevronDown, ChevronUp } from 'lucide-react';
+
+const EXACT_FAQS = [
+  {
+    id: 1,
+    icon: Clock,
+    iconBg: '#FCECE8',
+    iconColor: '#C05646',
+    question: 'How long does it take to get my invitation ready?',
+    answer: (
+      <span>
+        Once we have your details, we'll design and deliver your invitation typically within{' '}
+        <strong className="text-stone-900 font-bold">2 working days</strong>. For custom requests, it may take a little longer depending on your requirements.
+      </span>
+    )
+  },
+  {
+    id: 2,
+    icon: Music,
+    iconBg: '#FCECE8',
+    iconColor: '#C05646',
+    question: 'Can I change the content or music to my own taste?',
+    answer: (
+      <span>
+        Absolutely! You can personalize the content, music, and other details to match your celebration. Plus,{' '}
+        <strong className="text-stone-900 font-bold">2 rounds of revisions are completely free</strong>, so we can fine-tune everything until it feels just right.
+      </span>
+    )
+  },
+  {
+    id: 3,
+    icon: MonitorSmartphone,
+    iconBg: '#FCECE8',
+    iconColor: '#C05646',
+    question: 'Will it be suitable for both mobile and laptop?',
+    answer: (
+      <span>
+        Yes, absolutely. Every invitation we create is fully responsive, so it will look beautiful and work smoothly on mobile phones, tablets, and laptops.
+      </span>
+    )
+  },
+  {
+    id: 4,
+    icon: ImageIcon,
+    iconBg: '#FCECE8',
+    iconColor: '#C05646',
+    question: "If we don't have any images, what do you do?",
+    answer: (
+      <span>
+        Haha, that’s actually a fun challenge! If you don’t have images, we can create suitable AI-generated visuals to complement your invitation. And of course, we’ll only use them if you’re happy with how they look.
+      </span>
+    )
+  }
+];
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(0);
+  const containerRef = useRef(null);
+  const [openIndex, setOpenIndex] = useState(0); // First question open by default as in screenshot
+
+  // Scroll driven animation
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.35, 1, 1, 0.4]);
+  const sectionScale = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.97, 1, 1, 0.98]);
 
   const toggle = (idx) => {
     setOpenIndex(openIndex === idx ? null : idx);
   };
 
   return (
-    <section id="faq" className="py-24 bg-[#FAF8F6] border-t border-brand-border/60">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <motion.section 
+      ref={containerRef}
+      id="faq" 
+      style={{ opacity: sectionOpacity, scale: sectionScale }}
+      className="py-20 sm:py-28 bg-[#FAF8F6] relative overflow-hidden select-none w-full"
+    >
+      <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-brand-border text-brand-primary text-xs font-bold uppercase tracking-wider mb-3">
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>Got Questions?</span>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          {/* LEFT COLUMN: TITLE & SUBTITLE (Matching Reference Image 3) */}
+          <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center text-center lg:text-left">
+            
+            {/* Top Flourish Ornament */}
+            <div className="flex items-center justify-center lg:justify-start gap-2 mb-3">
+              <span className="w-8 h-px bg-stone-300" />
+              <span className="text-[#8C6D46] text-sm">🌰</span>
+              <span className="w-8 h-px bg-stone-300" />
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1F1F1F] tracking-tight leading-tight">
+              Before the
+              <br />
+              <span className="font-['Great_Vibes',cursive] text-5xl sm:text-6xl lg:text-7xl text-[#4E1D1D] font-normal leading-none ml-1">
+                Celebration
+              </span>{' '}
+              <span className="font-bold text-[#1F1F1F]">Begins</span>
+            </h2>
+
+            <p className="mt-4 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-md mx-auto lg:mx-0">
+              A few quick answers to help you get started.
+            </p>
+
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-surface-text tracking-tight">
-            Frequently Asked <span className="font-handwriting font-normal text-brand-primary italic">Questions</span>
-          </h2>
-          <p className="mt-2 text-sm text-surface-muted">
-            Everything you need to know about delivery timelines, customization, music, and RSVP tracking.
-          </p>
-        </div>
 
-        {/* Accordion List */}
-        <div className="space-y-3.5">
-          {FAQS.map((faq, idx) => {
-            const isOpen = openIndex === idx;
+          {/* RIGHT COLUMN: ACCORDION LIST (Matching Reference Image 3) */}
+          <div className="lg:col-span-7 xl:col-span-7 space-y-4">
+            {EXACT_FAQS.map((faq, idx) => {
+              const isOpen = openIndex === idx;
+              const Icon = faq.icon;
 
-            return (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl border border-brand-border/80 overflow-hidden shadow-soft-sm transition-all duration-200"
-              >
-                <button
-                  type="button"
-                  onClick={() => toggle(idx)}
-                  className="w-full px-6 py-4.5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-surface-text hover:text-brand-primary transition-colors"
-                  aria-expanded={isOpen}
+              return (
+                <div
+                  key={faq.id}
+                  className={`bg-white rounded-2xl sm:rounded-3xl border transition-all duration-300 overflow-hidden shadow-xs hover:shadow-md ${
+                    isOpen 
+                      ? 'border-stone-200 shadow-sm' 
+                      : 'border-stone-200/80 hover:border-stone-300'
+                  }`}
                 >
-                  <span>{faq.question}</span>
-                  <div className={`w-8 h-8 rounded-full bg-brand-soft flex items-center justify-center flex-shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-brand-primary text-white' : 'text-surface-muted'}`}>
-                    <ChevronDown className="w-4 h-4" />
-                  </div>
-                </button>
-
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-6 pb-5 pt-1 text-xs sm:text-sm text-surface-muted leading-relaxed border-t border-brand-border/30">
-                        {faq.answer}
+                  
+                  {/* Question Header Button */}
+                  <button
+                    type="button"
+                    onClick={() => toggle(idx)}
+                    className="w-full px-5 sm:px-7 py-4.5 sm:py-5 text-left flex items-center justify-between gap-4 cursor-pointer select-none"
+                    aria-expanded={isOpen}
+                  >
+                    <div className="flex items-center gap-3.5 sm:gap-4 flex-1">
+                      {/* Left Icon Pill */}
+                      <div 
+                        className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: faq.iconBg, color: faq.iconColor }}
+                      >
+                        <Icon className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-        </div>
 
-        {/* Support Chat Prompt */}
-        <div className="mt-12 text-center p-6 bg-white rounded-2xl border border-brand-border/80 shadow-soft-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-left">
-            <h4 className="font-bold text-sm text-surface-text">Have a special custom design in mind?</h4>
-            <p className="text-xs text-surface-muted mt-0.5">Talk directly with our lead invitation artist on WhatsApp.</p>
+                      {/* Question Text */}
+                      <span className="font-semibold text-sm sm:text-base text-stone-900 tracking-tight">
+                        {faq.question}
+                      </span>
+                    </div>
+
+                    {/* Chevron Arrow */}
+                    <div className="w-7 h-7 flex items-center justify-center text-stone-500 flex-shrink-0 transition-transform duration-300">
+                      {isOpen ? (
+                        <ChevronUp className="w-4 h-4 text-stone-700" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-stone-500" />
+                      )}
+                    </div>
+                  </button>
+
+                  {/* Expandable Answer Box */}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="bg-[#FAF2EE]/60 px-5 sm:px-7 py-4.5 sm:py-5 border-t border-stone-100 text-xs sm:text-sm text-stone-700 leading-relaxed font-normal">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                </div>
+              );
+            })}
           </div>
-          <a
-            href="https://wa.me/918985966940?text=Hi%20Ahvaan%20Team!%20I%20have%20a%20question%20about%20customizing%20an%20invitation."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full text-xs font-bold shadow-soft-sm whitespace-nowrap transition-colors"
-          >
-            WhatsApp Support (+91 89859 66940)
-          </a>
+
         </div>
 
       </div>
-    </section>
+    </motion.section>
   );
 }
