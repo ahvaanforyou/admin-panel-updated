@@ -861,17 +861,17 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
       </motion.section>
 
       {/* ========================================================================= */}
-      {/* SECTION 5: HOW AHVAAN WORKS (5 Step Curved Film-Strip Reel)               */}
+      {/* SECTION 5: HOW AHVAAN WORKS (5 Regular Process Step Cards from Top to Down) */}
       {/* ========================================================================= */}
       <motion.section
         ref={section5Ref}
         style={{ opacity: s5Opacity }}
         id="how-ahvaan-works-steps"
-        className="w-full py-24 sm:py-32 lg:py-36 bg-white relative overflow-hidden select-none"
+        className="w-full py-20 sm:py-28 lg:py-32 bg-white relative overflow-hidden select-none"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <motion.h2
               initial={{ opacity: 0, filter: 'blur(8px)', y: 16 }}
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
@@ -893,62 +893,56 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
             </motion.p>
           </div>
 
-          {/* 3D Film Strip Conveyor of 5 Step Cards */}
-          <div className="relative w-full overflow-x-auto pb-6 pt-2 hide-scrollbar [perspective:1200px]">
-            <div className="flex items-stretch gap-6 sm:gap-7 justify-start lg:justify-center min-w-max px-4">
-              {PROCESS_STEPS.map((step, idx) => (
-                <motion.div
-                  key={step.step}
-                  initial={{ opacity: 0, y: 40, rotateY: 10 }}
-                  whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-                  viewport={{ once: false, amount: 0.2 }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 110,
-                    damping: 14,
-                    delay: idx * 0.1,
-                  }}
-                  whileHover={{
-                    scale: 1.04,
-                    y: -10,
-                    rotateY: -2,
-                    boxShadow: '0 25px 50px -12px rgba(78, 29, 29, 0.15)',
-                  }}
-                  className="w-[230px] sm:w-[250px] lg:w-[260px] bg-[#FAF8F6] border border-[#E8DFD8] rounded-[28px] p-6 sm:p-7 flex flex-col justify-between shadow-md relative group transition-all duration-300"
-                  style={{
-                    boxShadow:
-                      '0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 0 1px 1px rgba(255, 255, 255, 0.8) inset',
-                  }}
-                >
+          {/* 5 Step Cards with top-to-bottom entrance animation */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 sm:gap-6 max-w-7xl mx-auto">
+            {PROCESS_STEPS.map((step, idx) => (
+              <motion.div
+                key={step.step}
+                initial={{ opacity: 0, y: -60, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 110,
+                  damping: 15,
+                  delay: idx * 0.1,
+                }}
+                whileHover={{
+                  y: -8,
+                  scale: 1.02,
+                  boxShadow: '0 20px 35px -10px rgba(78, 29, 29, 0.12)',
+                  transition: { duration: 0.25 },
+                }}
+                className="bg-[#FCFAF8] border border-[#6A382C]/15 rounded-[28px] p-6 sm:p-7 flex flex-col justify-between shadow-[0_8px_25px_-8px_rgba(78,29,29,0.05)] hover:shadow-[0_20px_35px_-8px_rgba(78,29,29,0.12)] transition-all duration-300 relative group min-h-[290px] sm:min-h-[310px]"
+              >
+                <div>
                   {/* Top Badge: Number and Emoji Icon */}
-                  <div>
-                    <div className="flex items-center justify-between mb-5">
-                      <div className="w-8 h-8 rounded-full bg-stone-900 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-                        {step.step}
-                      </div>
-                      <span className="text-xl select-none">{step.icon}</span>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="w-8 h-8 rounded-full bg-stone-900 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                      {step.step}
                     </div>
-
-                    <h3 className="font-bold text-base sm:text-lg text-stone-900 leading-snug mb-3 tracking-tight">
-                      {step.title}
-                    </h3>
-
-                    <p className="text-xs sm:text-[13px] text-stone-600 leading-relaxed font-normal">
-                      {step.description}
-                    </p>
+                    <span className="text-xl select-none">{step.icon}</span>
                   </div>
 
-                  {/* Optional highlighted pill e.g. Free Revisions */}
-                  {step.highlight && (
-                    <div className="mt-5 pt-3.5 border-t border-stone-200/80">
-                      <span className="inline-block bg-[#FDF0ED] text-[#8C3A27] text-[10.5px] font-semibold px-2.5 py-1 rounded-md leading-tight">
-                        {step.highlight}
-                      </span>
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
+                  <h3 className="font-bold text-base sm:text-lg text-stone-900 leading-snug mb-3 tracking-tight">
+                    {step.title}
+                  </h3>
+
+                  <p className="text-xs sm:text-[13px] text-stone-600 leading-relaxed font-normal">
+                    {step.description}
+                  </p>
+                </div>
+
+                {/* Highlight badge e.g. Free Revisions */}
+                {step.highlight && (
+                  <div className="mt-5 pt-3.5 border-t border-[#6A382C]/10">
+                    <span className="inline-block bg-[#FDF0ED] text-[#8C3A27] text-[11px] font-semibold px-2.5 py-1 rounded-md leading-tight">
+                      {step.highlight}
+                    </span>
+                  </div>
+                )}
+              </motion.div>
+            ))}
           </div>
 
         </div>
@@ -1011,60 +1005,68 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                 className="bg-[#F8F4EE] border border-[#E4D9CD] rounded-[36px] p-8 sm:p-12 relative shadow-xl overflow-hidden flex flex-col justify-between min-h-[360px]"
               >
                 {/* 4 Connected Global Cities */}
-                <div className="relative w-full py-8 sm:py-12 flex items-center justify-between px-2 sm:px-6">
+                <div className="relative w-full py-8 sm:py-12 flex items-center justify-between px-3 sm:px-8">
                   
-                  {/* Flight Connection Dotted Arc */}
+                  {/* Flight Connection Dotted Arc (Positioned behind circular avatars) */}
                   <svg
-                    className="absolute inset-0 w-full h-full pointer-events-none"
-                    viewBox="0 0 500 120"
+                    className="absolute inset-0 w-full h-full pointer-events-none z-0"
+                    viewBox="0 0 500 130"
                     fill="none"
                     preserveAspectRatio="none"
                   >
                     <path
-                      d="M 40 70 Q 150 15 250 50 T 460 60"
+                      d="M 50 82 Q 165 25 285 82 T 455 68"
                       stroke="#C9B8A7"
-                      strokeWidth="2"
+                      strokeWidth="2.5"
                       strokeDasharray="6 6"
                     />
                   </svg>
 
                   {/* City 1: USA */}
                   <div className="relative z-10 flex flex-col items-center">
-                    <span className="text-[10px] sm:text-[11px] font-bold text-stone-500 uppercase tracking-wider mb-2">
+                    <span className="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-2.5">
                       USA
                     </span>
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-amber-300 shadow-md transform hover:scale-115 transition-transform bg-white">
-                      <img src="/images/city-usa.png" alt="USA" className="w-full h-full object-cover" />
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-[3px] border-2 border-dashed border-amber-400/90 bg-[#F8F4EE] shadow-md transform hover:scale-110 transition-transform">
+                      <div className="w-full h-full rounded-full overflow-hidden bg-stone-100">
+                        <img src="/images/city-usa.png" alt="USA - New York" className="w-full h-full object-cover object-center" />
+                      </div>
                     </div>
                   </div>
 
                   {/* City 2: UK */}
-                  <div className="relative z-10 flex flex-col items-center -mt-6">
-                    <span className="text-[10px] sm:text-[11px] font-bold text-stone-500 uppercase tracking-wider mb-2">
+                  <div className="relative z-10 flex flex-col items-center -mt-8 sm:-mt-10">
+                    <span className="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-2.5">
                       UK
                     </span>
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-amber-400 shadow-md transform hover:scale-115 transition-transform bg-white">
-                      <img src="/images/city-uk.png" alt="UK" className="w-full h-full object-cover" />
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-[3px] border-2 border-amber-400 bg-[#F8F4EE] shadow-md transform hover:scale-110 transition-transform">
+                      <div className="w-full h-full rounded-full overflow-hidden bg-stone-100">
+                        <img src="/images/city-uk.png" alt="UK - London" className="w-full h-full object-cover object-center" />
+                      </div>
                     </div>
                   </div>
 
                   {/* City 3: DUBAI */}
                   <div className="relative z-10 flex flex-col items-center">
-                    <span className="text-[10px] sm:text-[11px] font-bold text-stone-500 uppercase tracking-wider mb-2">
+                    <span className="text-[11px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider mb-2.5">
                       DUBAI
                     </span>
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-amber-300 shadow-md transform hover:scale-115 transition-transform bg-white">
-                      <img src="/images/city-dubai.png" alt="Dubai" className="w-full h-full object-cover" />
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-[3px] border-2 border-dashed border-amber-400/90 bg-[#F8F4EE] shadow-md transform hover:scale-110 transition-transform">
+                      <div className="w-full h-full rounded-full overflow-hidden bg-stone-100">
+                        <img src="/images/city-dubai.png" alt="Dubai" className="w-full h-full object-cover object-center" />
+                      </div>
                     </div>
                   </div>
 
                   {/* City 4: INDIA */}
                   <div className="relative z-10 flex flex-col items-center -mt-4">
-                    <span className="text-[10px] sm:text-[11px] font-bold text-stone-800 uppercase tracking-wider mb-2 font-extrabold">
+                    <span className="text-xs sm:text-sm font-extrabold text-stone-800 uppercase tracking-wider mb-2.5">
                       INDIA
                     </span>
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-3 border-[#8C3A27] shadow-lg transform hover:scale-115 transition-transform bg-white ring-4 ring-[#8C3A27]/20">
-                      <img src="/images/city-india.png" alt="India" className="w-full h-full object-cover" />
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full p-[3px] border-[3px] border-[#8C3A27] bg-[#F8F4EE] shadow-xl ring-4 ring-[#8C3A27]/20 transform hover:scale-110 transition-transform">
+                      <div className="w-full h-full rounded-full overflow-hidden bg-stone-100">
+                        <img src="/images/city-india.png" alt="India - Taj Mahal" className="w-full h-full object-cover object-center" />
+                      </div>
                     </div>
                   </div>
 
@@ -1086,13 +1088,13 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
       </motion.section>
 
       {/* ========================================================================= */}
-      {/* SECTION 7: WHATEVER THE OCCASION (7 Occasion 3D Film Strip)              */}
+      {/* SECTION 7: WHATEVER THE OCCASION (Continuous Slow-Moving Card Carousel)   */}
       {/* ========================================================================= */}
       <motion.section
         ref={section7Ref}
         style={{ opacity: s7Opacity }}
         id="occasions-film-strip"
-        className="w-full py-24 sm:py-32 lg:py-36 bg-white relative overflow-hidden select-none"
+        className="w-full py-20 sm:py-28 lg:py-32 bg-white relative overflow-hidden select-none"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -1111,64 +1113,64 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               />
             </motion.h2>
           </div>
+        </div>
 
-          {/* 3D Film Strip Carousel of 7 Occasion Cards */}
-          <div className="relative w-full overflow-x-auto pb-8 pt-4 hide-scrollbar [perspective:1400px]">
-            <div className="flex items-stretch gap-5 sm:gap-6 justify-start min-w-max px-4">
-              {OCCASION_EVENTS.map((event, idx) => (
-                <motion.div
-                  key={event.id}
-                  initial={{ opacity: 0, y: 50, rotateY: 15 }}
-                  whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-                  viewport={{ once: false, amount: 0.15 }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 110,
-                    damping: 15,
-                    delay: idx * 0.08,
-                  }}
-                  whileHover={{
-                    scale: 1.06,
-                    y: -12,
-                    rotateY: -3,
-                    boxShadow: '0 25px 50px -10px rgba(70, 33, 33, 0.45)',
-                  }}
-                  className="w-[200px] sm:w-[220px] bg-[#462121] text-white rounded-[24px] p-4 sm:p-5 flex flex-col justify-between shadow-xl border border-white/10 cursor-pointer group transition-all duration-300"
-                >
-                  <div>
-                    {/* Top Photo Frame */}
-                    <div className="w-full h-28 sm:h-32 rounded-xl overflow-hidden mb-4 bg-stone-800 shadow-sm">
-                      <img
-                        src={event.photo}
-                        alt={event.title}
-                        className="w-full h-full object-cover transform group-hover:scale-108 transition-transform duration-500"
-                      />
-                    </div>
+        {/* Continuous Slow-Moving Infinite Card Carousel (Never stops) */}
+        <div className="relative w-full overflow-hidden py-4">
+          {/* Left and Right Edge Soft Gradient Masks */}
+          <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-20 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-20 pointer-events-none" />
 
-                    <h3 className="font-bold text-sm sm:text-base text-white tracking-tight mb-1.5">
-                      {event.title}
-                    </h3>
-
-                    <p className="text-[11px] sm:text-xs text-stone-300/80 leading-relaxed font-normal">
-                      {event.description}
-                    </p>
+          <motion.div
+            className="flex gap-5 sm:gap-6 w-max"
+            animate={{
+              x: ['0%', '-50%'],
+            }}
+            transition={{
+              ease: 'linear',
+              duration: 38,
+              repeat: Infinity,
+            }}
+          >
+            {[...OCCASION_EVENTS, ...OCCASION_EVENTS].map((event, idx) => (
+              <motion.div
+                key={`${event.id}-${idx}`}
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+                className="w-[230px] sm:w-[250px] shrink-0 bg-[#462121] text-white rounded-[26px] p-4 sm:p-5 flex flex-col justify-between shadow-xl border border-white/10 group cursor-pointer"
+              >
+                <div>
+                  {/* Top Photo Frame */}
+                  <div className="w-full h-32 sm:h-36 rounded-xl overflow-hidden mb-4 bg-stone-900 shadow-sm">
+                    <img
+                      src={event.photo}
+                      alt={event.title}
+                      className="w-full h-full object-cover transform group-hover:scale-108 transition-transform duration-500"
+                    />
                   </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
 
-          {/* Bottom Pill Button */}
-          <div className="flex justify-center mt-10">
-            <button
-              onClick={() => onNavigate && onNavigate('/#templates')}
-              className="bg-white hover:bg-stone-50 text-stone-900 border border-stone-300 px-8 py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-sm hover:shadow-md transition-all flex items-center gap-2 group"
-            >
-              <span>Explore Invitations</span>
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
-          </div>
+                  <h3 className="font-bold text-base sm:text-lg text-white tracking-tight mb-1.5">
+                    {event.title}
+                  </h3>
 
+                  <p className="text-xs text-stone-300/80 leading-relaxed font-normal">
+                    {event.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Bottom Pill Button */}
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={() => onNavigate && onNavigate('/#templates')}
+            className="bg-white hover:bg-stone-50 text-stone-900 border border-stone-300 px-8 py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-sm hover:shadow-md transition-all flex items-center gap-2 group"
+          >
+            <span>Explore Invitations</span>
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </button>
         </div>
       </motion.section>
 
