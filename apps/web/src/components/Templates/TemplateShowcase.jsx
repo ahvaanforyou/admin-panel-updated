@@ -128,10 +128,10 @@ export default function TemplateShowcase({
     <motion.section 
       ref={containerRef}
       id="templates" 
-      style={{ opacity: sectionOpacity, scale: sectionScale, y: sectionY }}
-      className="py-16 sm:py-24 bg-white relative overflow-hidden select-none w-full"
+      style={{ opacity: sectionOpacity, y: sectionY }}
+      className="pt-16 sm:pt-24 pb-0 bg-white relative overflow-hidden select-none w-full"
     >
-      <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+      <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 mb-16 sm:mb-24">
         
         {/* ========================================================================= */}
         {/* HEADLINE WITH CURSIVE STROKE ANIMATION (Matching Reference Image 2 & 3)    */}

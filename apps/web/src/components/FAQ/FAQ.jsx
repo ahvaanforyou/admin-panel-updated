@@ -57,7 +57,7 @@ const EXACT_FAQS = [
 
 export default function FAQ() {
   const containerRef = useRef(null);
-  const [openIndex, setOpenIndex] = useState(0); // First question open by default as in screenshot
+  const [openIndex, setOpenIndex] = useState(null); // Closed by default, opens on user click
 
   // Scroll driven animation
   const { scrollYProgress } = useScroll({
@@ -66,7 +66,6 @@ export default function FAQ() {
   });
 
   const sectionOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.35, 1, 1, 0.4]);
-  const sectionScale = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.97, 1, 1, 0.98]);
 
   const toggle = (idx) => {
     setOpenIndex(openIndex === idx ? null : idx);
@@ -76,7 +75,7 @@ export default function FAQ() {
     <motion.section 
       ref={containerRef}
       id="faq" 
-      style={{ opacity: sectionOpacity, scale: sectionScale }}
+      style={{ opacity: sectionOpacity }}
       className="py-20 sm:py-28 bg-[#FAF8F6] relative overflow-hidden select-none w-full"
     >
       <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
