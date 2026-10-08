@@ -137,12 +137,18 @@ export default function TemplateShowcase({
         {/* HEADLINE WITH CURSIVE STROKE ANIMATION (Matching Reference Image 2 & 3)    */}
         {/* ========================================================================= */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold text-[#1F1F1F] tracking-tight leading-[1.2]">
+          <motion.h2 
+            initial={{ opacity: 0, filter: 'blur(8px)', y: 14 }}
+            whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.7 }}
+            className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold text-[#1F1F1F] tracking-tight leading-[1.2]"
+          >
             Select a template, share with us, and we
-          </h2>
+          </motion.h2>
 
           <div className="flex justify-center items-center mt-1 sm:mt-2">
-            <span className="font-['Great_Vibes',cursive] text-4xl sm:text-5xl lg:text-6xl text-[#4E1D1D] tracking-wide inline-flex select-none">
+            <span className="font-['Playwrite_US_Trad',cursive] text-3xl sm:text-4xl lg:text-5xl text-[#4E1D1D] tracking-normal inline-flex select-none">
               {cursiveText.split('').map((char, index) => (
                 <motion.span
                   key={index}

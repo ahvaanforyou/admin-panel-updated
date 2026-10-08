@@ -92,18 +92,30 @@ export default function FAQ() {
               <span className="w-8 h-px bg-stone-300" />
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1F1F1F] tracking-tight leading-tight">
+            <motion.h2 
+              initial={{ opacity: 0, filter: 'blur(8px)', y: 14 }}
+              whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.7 }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1F1F1F] tracking-tight leading-tight"
+            >
               Before the
               <br />
-              <span className="font-['Great_Vibes',cursive] text-5xl sm:text-6xl lg:text-7xl text-[#4E1D1D] font-normal leading-none ml-1">
+              <span className="font-['Playwrite_US_Trad',cursive] text-4xl sm:text-5xl lg:text-6xl text-[#4E1D1D] font-normal leading-none ml-1">
                 Celebration
               </span>{' '}
               <span className="font-bold text-[#1F1F1F]">Begins</span>
-            </h2>
+            </motion.h2>
 
-            <p className="mt-4 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-md mx-auto lg:mx-0">
+            <motion.p 
+              initial={{ opacity: 0, filter: 'blur(6px)', y: 10 }}
+              whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="mt-4 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-md mx-auto lg:mx-0"
+            >
               A few quick answers to help you get started.
-            </p>
+            </motion.p>
 
           </div>
 

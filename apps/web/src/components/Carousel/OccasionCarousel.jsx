@@ -155,14 +155,20 @@ export default function OccasionCarousel({ onSelectTemplate }) {
             <span className="w-10 sm:w-16 h-px bg-stone-300" />
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.12]">
-            Create beutiful invitations
+          <motion.h2 
+            initial={{ opacity: 0, filter: 'blur(8px)', y: 14 }}
+            whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.7 }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.12]"
+          >
+            Create beautiful invitations
             <br />
             for life’s{' '}
-            <span className="font-['Caveat',cursive] font-normal text-[#E5B54F] italic text-4xl sm:text-6xl lg:text-7xl ml-1">
+            <span className="font-['Playwrite_US_Trad',cursive] font-normal text-[#E5B54F] text-3xl sm:text-5xl lg:text-6xl ml-1">
               special moments
             </span>
-          </h2>
+          </motion.h2>
         </div>
 
         {/* ========================================================================= */}

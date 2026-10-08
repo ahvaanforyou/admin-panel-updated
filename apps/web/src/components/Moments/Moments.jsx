@@ -146,13 +146,16 @@ export default function Moments() {
     offset: ['start end', 'end start'],
   });
 
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.35, 1, 1, 0.2]);
+
   const topRow = MOMENT_CARDS.filter((c) => c.row === 'top');
   const bottomRow = MOMENT_CARDS.filter((c) => c.row === 'bottom');
 
   return (
-    <section
+    <motion.section
       ref={sectionRef}
       id="moments"
+      style={{ opacity: sectionOpacity }}
       className="relative w-full py-16 sm:py-24 lg:py-28 bg-white overflow-hidden flex flex-col justify-center items-center select-none"
     >
       {/* Background 'MOMENTS' Watermark Typography - reduced in size */}
@@ -190,6 +193,6 @@ export default function Moments() {
         </div>
 
       </div>
-    </section>
+    </motion.section>
   );
 }

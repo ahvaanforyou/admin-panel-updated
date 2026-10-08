@@ -66,8 +66,8 @@ export default function Hero({ onCreateClick }) {
             {/* Headline Section */}
             <div className="space-y-1 sm:space-y-2 w-full">
               <motion.h1 
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
+                animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
                 className="text-5xl sm:text-6xl lg:text-6xl xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-[1.06]"
               >
@@ -77,8 +77,8 @@ export default function Hero({ onCreateClick }) {
               {/* Line with 'made' and 'unforgettable' directly beside it */}
               <div className="flex flex-wrap items-center gap-3 sm:gap-4 xl:gap-5">
                 <motion.span
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
+                  animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
                   className="text-5xl sm:text-6xl lg:text-6xl xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none"
                 >
@@ -105,7 +105,7 @@ export default function Hero({ onCreateClick }) {
                   </svg>
 
                   {/* Letter-by-letter animated cursive text with stroke handwriting effect */}
-                  <span className="relative z-10 font-['Caveat',cursive] text-[3.8rem] sm:text-[5rem] lg:text-[5.2rem] xl:text-[6.2rem] 2xl:text-[6.8rem] font-bold text-[#4E1D1D] leading-none tracking-normal inline-flex select-none">
+                  <span className="relative z-10 font-['Playwrite_US_Trad',cursive] text-[3.2rem] sm:text-[4.2rem] lg:text-[4.5rem] xl:text-[5.4rem] 2xl:text-[6rem] font-normal text-[#4E1D1D] leading-none tracking-normal inline-flex select-none">
                     {'unforgettable'.split('').map((char, index) => (
                       <motion.span
                         key={index}
