@@ -145,14 +145,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
               <span>Back to Blogs</span>
             </button>
-            <span className="text-stone-300">/</span>
-            <span className="text-stone-500">Blogs</span>
-            <span className="text-stone-300">/</span>
-            <span className="text-stone-500">Digital Invitations</span>
-            <span className="text-stone-300 hidden sm:inline">/</span>
-            <span className="text-stone-800 font-medium truncate max-w-[240px] sm:max-w-xs hidden sm:inline">
-              Digital Wedding Invitation Website
-            </span>
+
           </div>
 
           <button
@@ -674,7 +667,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
           <aside className="lg:col-span-4 space-y-8 select-none">
             
             {/* Sticky Container */}
-            <div className="lg:sticky lg:top-28 space-y-8">
+            <div className="lg:sticky lg:top-24 space-y-6 max-h-[calc(100vh-7rem)] overflow-y-auto no-scrollbar pr-1">
               
               {/* Table of Contents Card */}
               <div className="bg-white rounded-3xl p-6 border border-stone-200/80 shadow-md">
@@ -740,14 +733,6 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                       date: 'Sep 18, 2026',
                       readTime: '5 min read',
                       image: '/images/blogs/blog-whatsapp-invite.jpg',
-                    },
-                    {
-                      id: 4,
-                      tag: 'WORDING IDEAS',
-                      title: 'Wedding Invitation Wording Ideas: 50+ Messages for Every Celebration',
-                      date: 'Sep 15, 2026',
-                      readTime: '4 min read',
-                      image: '/images/blogs/blog-wedding-wording.jpg',
                     },
                   ].map((rel) => (
                     <div

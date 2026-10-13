@@ -74,7 +74,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
     offset: ['start end', 'end start'],
   });
 
-  const sectionOpacity = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [0.3, 1, 1, 0.4]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.08, 0.92, 1], [0.7, 1, 1, 0.6]);
   const sectionScale = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [0.96, 1, 1, 0.97]);
   const sectionY = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [40, 0, 0, -30]);
 
@@ -175,7 +175,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
         {/* FULL PAGE CAROUSEL STAGE: Seamless edge-to-edge, NO card boundaries       */}
         {/* ========================================================================= */}
         <div 
-          className="relative w-full [perspective:1600px] flex items-center justify-center flex-1 my-2"
+          className="relative w-full  flex items-center justify-center flex-1 my-2"
           onMouseEnter={() => setIsAutoPlayPaused(true)}
           onMouseLeave={() => setIsAutoPlayPaused(false)}
         >
@@ -190,9 +190,6 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                 animate="center"
                 exit="exit"
                 className="w-full relative flex flex-col justify-center overflow-visible"
-                style={{
-                  transformStyle: 'preserve-3d',
-                }}
               >
                 {/* 
                   Full Width Section:

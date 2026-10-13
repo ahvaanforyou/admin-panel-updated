@@ -11,11 +11,11 @@ export default function Hero({ onCreateClick }) {
     offset: ['start start', 'end start'],
   });
 
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.45], [1, 0.96]);
-  const heroTranslateY = useTransform(scrollYProgress, [0, 0.45], [0, -40]);
-  const leftOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
-  const leftTranslateY = useTransform(scrollYProgress, [0, 0.35], [0, -30]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.95], [1, 0.55]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.85], [1, 0.98]);
+  const heroTranslateY = useTransform(scrollYProgress, [0, 0.85], [0, -25]);
+  const leftOpacity = useTransform(scrollYProgress, [0, 0.95], [1, 0.55]);
+  const leftTranslateY = useTransform(scrollYProgress, [0, 0.95], [0, -15]);
 
   return (
     <motion.section 
@@ -87,22 +87,7 @@ export default function Hero({ onCreateClick }) {
 
                 {/* 'unforgettable' cursive written letter-by-letter with SVG stroke animation */}
                 <div className="relative inline-flex items-center overflow-visible">
-                  {/* Golden Underglow Line Draw behind the cursive text */}
-                  <svg 
-                    className="absolute -bottom-1 -left-2 w-[112%] h-[42px] overflow-visible pointer-events-none z-0" 
-                    viewBox="0 0 450 60" 
-                    fill="none"
-                  >
-                    <motion.path
-                      d="M 5 35 Q 110 15 220 32 T 445 28"
-                      stroke="#FFC655"
-                      strokeWidth="7"
-                      strokeLinecap="round"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: 1, opacity: 0.85 }}
-                      transition={{ duration: 1.4, delay: 0.25, ease: "easeInOut" }}
-                    />
-                  </svg>
+                  
 
                   {/* Letter-by-letter animated cursive text with stroke handwriting effect */}
                   <span

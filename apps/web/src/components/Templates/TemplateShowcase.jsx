@@ -1,46 +1,46 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { Search, Heart, Share2, Sparkles, LayoutGrid, HeartHandshake, FileText, CheckCircle2, Send, ChevronDown } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Search, Heart, Share2, LayoutGrid, HeartHandshake, FileText, Send, ChevronDown } from 'lucide-react';
 
 const DISPLAY_TEMPLATES = [
   {
     id: 'tpl-1',
-    name: 'Royal Celebration',
-    style: 'Traditional & Elegant',
+    name: 'Eternal Togetherness',
+    style: 'Elegant & Modern',
+    price: '₹500',
+    tags: ['RSVP', 'Maps', 'Bulk Emails'],
+    badge: 'Popular',
+    badgeColor: '#FFF8E1',
+    badgeText: '#D97706',
+    phoneImage: '/images/templates/card-p1.png',
+    category: 'wedding',
+    priceVal: 500
+  },
+  {
+    id: 'tpl-2',
+    name: 'Eternal Togetherness',
+    style: 'Elegant & Modern',
     price: '₹3,500',
     tags: ['RSVP', 'Maps', 'Bulk Emails'],
     badge: 'Best Value',
-    badgeColor: '#FFF8E1',
-    badgeText: '#F59E0B',
-    phoneImage: '/images/templates/card-p1.png',
+    badgeColor: '#FFFBEB',
+    badgeText: '#B45309',
+    phoneImage: '/images/templates/card-p2.png',
     category: 'wedding',
     priceVal: 3500
   },
   {
-    id: 'tpl-2',
-    name: 'Blissful Beginnings',
-    style: 'Modern & Minimal',
-    price: '₹2,500',
-    tags: ['RSVP', 'Maps', 'Bulk Emails'],
-    badge: 'Popular',
-    badgeColor: '#FFFBEB',
-    badgeText: '#D97706',
-    phoneImage: '/images/templates/card-p2.png',
-    category: 'wedding',
-    priceVal: 2500
-  },
-  {
     id: 'tpl-3',
-    name: 'Timeless Traditions',
-    style: 'Classic & Grand',
-    price: '₹4,000',
+    name: 'Eternal Togetherness',
+    style: 'Elegant & Modern',
+    price: '₹3,500',
     tags: ['RSVP', 'Maps', 'Bulk Emails'],
     badge: 'Premium',
     badgeColor: '#FEF3C7',
     badgeText: '#B45309',
     phoneImage: '/images/templates/card-p3.png',
     category: 'wedding',
-    priceVal: 4000
+    priceVal: 3500
   },
   {
     id: 'tpl-4',
@@ -61,7 +61,7 @@ const DISPLAY_TEMPLATES = [
     style: 'Birthday Invitation',
     price: '₹2,500',
     tags: ['RSVP', 'Maps', 'Bulk Emails'],
-    badge: 'Popular',
+    badge: 'Trending',
     badgeColor: '#FFFBEB',
     badgeText: '#D97706',
     phoneImage: '/images/templates/card-p5.png',
@@ -108,15 +108,13 @@ export default function TemplateShowcase({
   const [searchQuery, setSearchQuery] = useState('');
   const [likedTemplates, setLikedTemplates] = useState({});
 
-  // Scroll driven fade in for this section
+  // Gentle scroll fade
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start end', 'end start'],
   });
 
-  const sectionOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.35, 1, 1, 0.4]);
-  const sectionScale = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.97, 1, 1, 0.98]);
-  const sectionY = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [30, 0, 0, -20]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.1, 0.92, 1], [0.7, 1, 1, 0.55]);
 
   const toggleLike = (id) => {
     setLikedTemplates(prev => ({ ...prev, [id]: !prev[id] }));
@@ -124,17 +122,144 @@ export default function TemplateShowcase({
 
   const cursiveText = "create it for you";
 
+  // Filter templates
+  const filteredTemplates = useMemo(() => {
+    return DISPLAY_TEMPLATES.filter((tpl) => {
+      const matchesCategory = activeTab === 'all' || tpl.category === activeTab;
+      const matchesSearch = !searchQuery || 
+        tpl.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        tpl.style.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesPrice = selectedPriceRange === 'all' || 
+        (selectedPriceRange === 'under-2000' && tpl.priceVal < 2000) ||
+        (selectedPriceRange === '2000-3000' && tpl.priceVal >= 2000 && tpl.priceVal <= 3000) ||
+        (selectedPriceRange === '3000-4000' && tpl.priceVal >= 3000 && tpl.priceVal <= 4000) ||
+        (selectedPriceRange === 'above-4000' && tpl.priceVal > 4000);
+      return matchesCategory && matchesSearch && matchesPrice;
+    });
+  }, [activeTab, searchQuery, selectedPriceRange]);
+
+  // Split into two sets for the 2 horizontal rows
+  const row1Templates = useMemo(() => {
+    const list = filteredTemplates.length > 0 ? filteredTemplates : DISPLAY_TEMPLATES;
+    // Repeat to ensure seamless continuous looping
+    return [...list, ...list, ...list, ...list];
+  }, [filteredTemplates]);
+
+  const row2Templates = useMemo(() => {
+    const list = filteredTemplates.length > 0 
+      ? [...filteredTemplates.slice(1), filteredTemplates[0]] 
+      : [...DISPLAY_TEMPLATES.slice(2), ...DISPLAY_TEMPLATES.slice(0, 2)];
+    return [...list, ...list, ...list, ...list];
+  }, [filteredTemplates]);
+
+  const renderCard = (item, uniqueKey) => {
+    const isLiked = likedTemplates[item.id];
+
+    return (
+      <div
+        key={uniqueKey}
+        className="group bg-white rounded-3xl border border-stone-200/90 p-4 sm:p-5 shadow-sm hover:shadow-xl transition-all duration-300 flex items-center gap-4 relative min-w-[360px] sm:min-w-[410px] max-w-[430px] flex-shrink-0 select-none"
+      >
+        {/* Heart Favorite Button */}
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleLike(item.id);
+          }}
+          className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full border border-stone-200/80 flex items-center justify-center text-stone-300 hover:text-red-500 hover:border-red-200 bg-white/95 shadow-2xs transition-colors"
+          aria-label="Save template"
+        >
+          <Heart 
+            className={`w-4 h-4 transition-all duration-200 ${
+              isLiked ? 'fill-red-500 text-red-500 scale-110' : 'text-stone-400 group-hover:text-red-400'
+            }`} 
+          />
+        </button>
+
+        {/* PHONE SCREEN MOCKUP */}
+        <div className="relative w-[100px] sm:w-[114px] h-[180px] sm:h-[198px] flex-shrink-0 flex items-center justify-center bg-stone-50 rounded-2xl overflow-hidden border border-stone-200/80 shadow-inner">
+          <img 
+            src={item.phoneImage}
+            alt={item.name}
+            className="w-full h-full object-contain select-none pointer-events-none group-hover:scale-105 transition-transform duration-300"
+            loading="lazy"
+          />
+        </div>
+
+        {/* RIGHT INFO COLUMN */}
+        <div className="flex-1 flex flex-col justify-between h-full py-1 min-w-0">
+          <div>
+            <h4 className="font-bold text-base sm:text-lg text-stone-900 tracking-tight truncate">
+              {item.name}
+            </h4>
+            <p className="text-xs text-stone-500 mt-0.5 truncate">
+              {item.style}
+            </p>
+
+            {/* Feature Badges */}
+            <div className="flex flex-wrap gap-1.5 mt-2.5">
+              {item.tags.map((tag, tIdx) => (
+                <span
+                  key={tIdx}
+                  className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
+                    tag === 'RSVP' ? 'bg-[#E0F2FE] text-[#0284C7]' :
+                    tag === 'Maps' ? 'bg-[#E0F2FE] text-[#0284C7]' :
+                    'bg-[#FCE7F3] text-[#DB2777]'
+                  }`}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Price & Action Buttons matching reference image */}
+          <div className="mt-3">
+            <div className="text-xl sm:text-2xl font-bold text-stone-900 mb-2.5">
+              {item.price}
+            </div>
+
+            <div className="flex items-center gap-2.5">
+              {/* Preview Button in Ahvaan Maroon (#4E1D1D) */}
+              <button
+                onClick={() => onPreviewTemplate && onPreviewTemplate(item)}
+                className="bg-[#4E1D1D] hover:bg-[#3D1616] active:scale-95 text-white py-2 px-4 rounded-xl text-xs sm:text-sm font-semibold transition-all shadow-sm hover:shadow text-center truncate"
+              >
+                Preview →
+              </button>
+
+              {/* Share Button beside it */}
+              <button
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({ title: item.name, url: window.location.href });
+                  } else {
+                    navigator.clipboard.writeText(window.location.href);
+                  }
+                }}
+                className="bg-white hover:bg-stone-50 active:scale-95 py-2 px-3.5 rounded-xl border border-stone-300 text-stone-700 text-xs sm:text-sm font-medium transition-colors text-center"
+              >
+                Share
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    );
+  };
+
   return (
     <motion.section 
       ref={containerRef}
       id="templates" 
-      style={{ opacity: sectionOpacity, y: sectionY }}
+      style={{ opacity: sectionOpacity }}
       className="pt-16 sm:pt-24 pb-0 bg-white relative overflow-hidden select-none w-full"
     >
       <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 mb-16 sm:mb-24">
         
         {/* ========================================================================= */}
-        {/* HEADLINE WITH CURSIVE STROKE ANIMATION (Matching Reference Image 2 & 3)    */}
+        {/* HEADLINE WITH CURSIVE STROKE ANIMATION                                    */}
         {/* ========================================================================= */}
         <div className="text-center mb-12 sm:mb-16">
           <motion.h2 
@@ -180,11 +305,11 @@ export default function TemplateShowcase({
         </div>
 
         {/* ========================================================================= */}
-        {/* MAIN BODY: LEFT SIDEBAR + TEMPLATE GRID                                   */}
+        {/* MAIN BODY: STATIC LEFT SIDEBAR + 2-ROW MARQUEE TEMPLATE CARDS            */}
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16 sm:mb-20">
           
-          {/* LEFT SIDEBAR: PRICE RANGE (Exact card from reference image 2) */}
+          {/* LEFT SIDEBAR: PRICE RANGE (Completely static, no animations) */}
           <div className="lg:col-span-3 xl:col-span-3">
             <div className="bg-white rounded-3xl border border-stone-200/80 p-6 shadow-sm">
               
@@ -231,13 +356,13 @@ export default function TemplateShowcase({
             </div>
           </div>
 
-          {/* RIGHT COLUMN: CATEGORY TABS + SEARCH + CARDS */}
-          <div className="lg:col-span-9 xl:col-span-9 flex flex-col gap-6">
+          {/* RIGHT COLUMN: CATEGORY TABS + SEARCH + 2 CONTINUOUS HORIZONTAL MOVING ROWS */}
+          <div className="lg:col-span-9 xl:col-span-9 flex flex-col gap-6 min-w-0 overflow-hidden">
             
             {/* Top Toolbar: Tabs on left, Search bar on right */}
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               
-              {/* Category Filter Pills (Matching Reference Image 2) */}
+              {/* Category Filter Pills */}
               <div className="flex items-center gap-2.5 overflow-x-auto w-full md:w-auto pb-1 scrollbar-none">
                 {[
                   { id: 'all', label: 'All Templates', icon: LayoutGrid },
@@ -282,126 +407,23 @@ export default function TemplateShowcase({
 
             </div>
 
-            {/* Template Cards Grid (2 Rows of 3 Cards = 6 Cards exactly like reference image 2) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-              {DISPLAY_TEMPLATES.map((item, idx) => {
-                const isLiked = likedTemplates[item.id];
-                return (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.45, delay: idx * 0.06 }}
-                    className="group bg-white rounded-3xl border border-stone-200/80 p-4 sm:p-5 shadow-sm hover:shadow-xl transition-all duration-300 flex items-center gap-4 relative overflow-hidden"
-                  >
-                    
-                    {/* Heart Favorite Button */}
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleLike(item.id);
-                      }}
-                      className="absolute top-4 right-4 z-20 text-stone-300 hover:text-red-500 transition-colors"
-                      aria-label="Save template"
-                    >
-                      <Heart 
-                        className={`w-4 h-4 transition-all duration-200 ${
-                          isLiked ? 'fill-red-500 text-red-500 scale-110' : ''
-                        }`} 
-                      />
-                    </button>
+            {/* TWO ROWS OF CONTINUOUS HORIZONTAL MOVING BIG CARDS */}
+            <div className="space-y-5 overflow-hidden relative py-2">
+              
+              {/* Row 1 - Smooth Continuous Marquee */}
+              <div className="overflow-hidden w-full group/marquee">
+                <div className="animate-template-marquee-left flex gap-5">
+                  {row1Templates.map((item, idx) => renderCard(item, `r1-${idx}`))}
+                </div>
+              </div>
 
-                    {/* PHONE SCREEN MOCKUP WITH HOVER EXPANSION ANIMATION */}
-                    <div className="relative w-[92px] sm:w-[102px] h-[176px] sm:h-[196px] flex-shrink-0 flex items-center justify-center">
-                      <motion.div 
-                        whileHover={{ scale: 1.12, y: -5 }}
-                        transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="w-full h-full flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.14)] group-hover:drop-shadow-[0_14px_24px_rgba(0,0,0,0.22)] transition-all"
-                      >
-                        <img 
-                          src={item.phoneImage}
-                          alt={item.name}
-                          className="w-full h-full object-contain select-none pointer-events-none"
-                          loading="lazy"
-                        />
-                      </motion.div>
-                    </div>
+              {/* Row 2 - Smooth Continuous Marquee */}
+              <div className="overflow-hidden w-full group/marquee">
+                <div className="animate-template-marquee-right flex gap-5">
+                  {row2Templates.map((item, idx) => renderCard(item, `r2-${idx}`))}
+                </div>
+              </div>
 
-                    {/* RIGHT INFO COLUMN */}
-                    <div className="flex-1 flex flex-col justify-between h-full py-1 min-w-0">
-                      
-                      <div>
-                        <h4 className="font-bold text-sm sm:text-base text-stone-900 tracking-tight truncate">
-                          {item.name}
-                        </h4>
-                        <p className="text-[11px] sm:text-xs text-stone-500 mt-0.5 truncate">
-                          {item.style}
-                        </p>
-
-                        {/* Feature Badges */}
-                        <div className="flex flex-wrap gap-1.5 mt-2.5">
-                          {item.tags.map((tag, tIdx) => (
-                            <span
-                              key={tIdx}
-                              className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                                tag === 'RSVP' ? 'bg-sky-50 text-sky-600' :
-                                tag === 'Maps' ? 'bg-blue-50 text-blue-600' :
-                                'bg-pink-50 text-pink-600'
-                              }`}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Badge e.g. Best Value, Popular, etc. */}
-                        {item.badge && (
-                          <div className="mt-2.5">
-                            <span 
-                              className="text-[10px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 shadow-2xs"
-                              style={{ backgroundColor: item.badgeColor, color: item.badgeText }}
-                            >
-                              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: item.badgeText }} />
-                              {item.badge}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Price & Action Buttons */}
-                      <div className="mt-4">
-                        <div className="text-base sm:text-lg font-extrabold text-stone-900 mb-2.5">
-                          {item.price}
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => onPreviewTemplate && onPreviewTemplate(item)}
-                            className="flex-1 bg-[#8B5A2B] hover:bg-[#724820] text-white py-2 px-3 rounded-xl text-xs font-bold transition-all shadow-sm hover:shadow text-center truncate"
-                          >
-                            View Template →
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              if (navigator.share) {
-                                navigator.share({ title: item.name, url: window.location.href });
-                              }
-                            }}
-                            className="p-2 rounded-xl border border-stone-200 text-stone-600 hover:text-stone-900 hover:border-stone-300 transition-colors"
-                            title="Share template"
-                          >
-                            <Share2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-
-                    </div>
-
-                  </motion.div>
-                );
-              })}
             </div>
 
           </div>
@@ -411,7 +433,7 @@ export default function TemplateShowcase({
       </div>
 
       {/* ========================================================================= */}
-      {/* BOTTOM 4-STEP PROCESS BANNER: Expanded across the entire computer frame   */}
+      {/* BOTTOM 4-STEP PROCESS BANNER                                              */}
       {/* ========================================================================= */}
       <div className="w-full bg-[#4E1D1D] py-8 sm:py-10 lg:py-12 px-6 sm:px-12 lg:px-20 text-white shadow-2xl">
         <div className="max-w-[1720px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 items-center">

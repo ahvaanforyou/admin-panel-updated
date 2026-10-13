@@ -146,7 +146,7 @@ export default function Moments() {
     offset: ['start end', 'end start'],
   });
 
-  const sectionOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.35, 1, 1, 0.2]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.08, 0.94, 1], [0.75, 1, 1, 0.6]);
 
   const topRow = MOMENT_CARDS.filter((c) => c.row === 'top');
   const bottomRow = MOMENT_CARDS.filter((c) => c.row === 'bottom');

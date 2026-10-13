@@ -12,8 +12,15 @@ export default function Footer({ onCategoryClick, onCreateClick }) {
           {/* Brand Col */}
           <div className="lg:col-span-2 flex flex-col items-start">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-brand-primary border border-theme-wedding/30 flex items-center justify-center text-theme-wedding">
-                <Sparkles className="w-4 h-4 text-theme-wedding" />
+              <div className="w-10 h-10 rounded-xl overflow-hidden border border-[#582020] flex items-center justify-center bg-[#3E1616] shadow-sm">
+                <img 
+                  src="/images/logo/ahvaan-emblem.png" 
+                  alt="Ahvaan Brand Emblem" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
               </div>
               <div className="flex flex-col">
                 <span className="font-editorial text-xl font-bold tracking-[0.2em] text-white uppercase">
@@ -135,15 +142,7 @@ export default function Footer({ onCategoryClick, onCreateClick }) {
                 Order Custom Invitation
               </button>
 
-              <a
-                href="/admin"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-2 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold text-center flex items-center justify-center gap-1.5 transition-colors"
-              >
-                <span>Admin Dashboard</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
+              
 
               <p className="text-[11px] text-white/40 leading-relaxed">
                 Connects live with the Ahvaan studio management portal.

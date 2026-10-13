@@ -111,7 +111,7 @@ function CursiveStrokeText({ text, className = '' }) {
     <span
       className={`relative inline-flex items-baseline select-none ${className}`}
       style={{
-        fontFamily: "'Playwrite US Trad', 'Dancing Script', 'Caveat', cursive",
+        fontFamily: "'Playwrite US Trad', cursive",
         fontStyle: 'normal',
         letterSpacing: '-2.1px',
       }}
@@ -120,11 +120,11 @@ function CursiveStrokeText({ text, className = '' }) {
         {text.split('').map((char, index) => (
           <motion.span
             key={index}
-            initial={{ opacity: 0, filter: 'blur(4px)', y: 6 }}
+            initial={{ opacity: 0, filter: 'blur(3px)', y: 5 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{
               duration: 0.35,
-              delay: 0.25 + index * 0.045,
+              delay: 0.2 + index * 0.045,
               ease: [0.22, 1, 0.36, 1],
             }}
             className="inline-block transform-gpu"
@@ -133,24 +133,6 @@ function CursiveStrokeText({ text, className = '' }) {
           </motion.span>
         ))}
       </span>
-      {/* Decorative handwriting stroke underline */}
-      <motion.svg
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 0.85 }}
-        transition={{ duration: 1.1, delay: 0.25 + text.length * 0.045 + 0.1, ease: [0.16, 1, 0.3, 1] }}
-        viewBox="0 0 240 18"
-        className="absolute -bottom-2 left-0 w-full h-3 pointer-events-none text-[#9E4D38]"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <motion.path
-          d="M 4,12 Q 60,3 120,9 Q 180,15 236,7"
-          stroke="currentColor"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </motion.svg>
     </span>
   );
 }

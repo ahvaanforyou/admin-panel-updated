@@ -14,7 +14,8 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
   }, []);
 
   const isHowItWorks = currentPath === '/howitworks' || currentPath === '/how-it-works';
-  const isBlogs = currentPath === '/blogs' || currentPath === '/blog';
+  const isBlogs = currentPath === '/blogs' || currentPath === '/blog' || currentPath.startsWith('/blogs/') || currentPath.startsWith('/blog/');
+  const isHome = !isHowItWorks && !isBlogs && (!currentPath || currentPath === '/' || currentPath === '/#home');
   const isSubpage = isHowItWorks || isBlogs;
 
   const handleNavClick = (target) => {
@@ -118,7 +119,7 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
             <button
               onClick={() => handleNavClick('home')}
               className={`transition-all pb-0.5 ${
-                !isHowItWorks
+                isHome
                   ? 'font-bold text-stone-900 border-b-2 border-stone-900'
                   : 'font-medium text-stone-700 hover:text-brand-primary border-b-2 border-transparent hover:border-brand-primary'
               }`}
@@ -204,7 +205,7 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
           <div className="md:hidden mt-4 pt-4 border-t border-stone-200/80 flex flex-col gap-3 text-xs font-semibold text-stone-800 pb-2">
             <button
               onClick={() => handleNavClick('home')}
-              className={`text-left py-1 ${!isHowItWorks ? 'text-brand-primary font-bold' : ''}`}
+              className={`text-left py-1 ${isHome ? 'text-brand-primary font-bold' : ''}`}
             >
               Home
             </button>

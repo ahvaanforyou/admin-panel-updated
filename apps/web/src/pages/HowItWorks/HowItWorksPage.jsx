@@ -366,7 +366,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
     target: section1Ref,
     offset: ['start start', 'end start'],
   });
-  const s1Opacity = useTransform(s1Progress, [0, 0.75], [1, 0.05]);
+  const s1Opacity = useTransform(s1Progress, [0, 0.90], [1, 0.4]);
   const s1Y = useTransform(s1Progress, [0, 0.75], [0, -50]);
 
   // Section 2 scroll fade-out
@@ -374,63 +374,63 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
     target: section2Ref,
     offset: ['start end', 'end start'],
   });
-  const s2Opacity = useTransform(s2Progress, [0, 0.15, 0.82, 1], [0.3, 1, 1, 0.1]);
+  const s2Opacity = useTransform(s2Progress, [0, 0.08, 0.94, 1], [0.7, 1, 1, 0.5]);
 
   // Section 3 scroll fade-out
   const { scrollYProgress: s3Progress } = useScroll({
     target: section3Ref,
     offset: ['start end', 'end start'],
   });
-  const s3Opacity = useTransform(s3Progress, [0, 0.15, 0.82, 1], [0.3, 1, 1, 0.1]);
+  const s3Opacity = useTransform(s3Progress, [0, 0.08, 0.94, 1], [0.7, 1, 1, 0.5]);
 
   // Section 4 scroll fade-out
   const { scrollYProgress: s4Progress } = useScroll({
     target: section4Ref,
     offset: ['start end', 'end start'],
   });
-  const s4Opacity = useTransform(s4Progress, [0, 0.15, 0.85, 1], [0.3, 1, 1, 0.15]);
+  const s4Opacity = useTransform(s4Progress, [0, 0.08, 0.94, 1], [0.7, 1, 1, 0.5]);
 
   // Section 5 scroll fade-out
   const { scrollYProgress: s5Progress } = useScroll({
     target: section5Ref,
     offset: ['start end', 'end start'],
   });
-  const s5Opacity = useTransform(s5Progress, [0, 0.15, 0.85, 1], [0.3, 1, 1, 0.15]);
+  const s5Opacity = useTransform(s5Progress, [0, 0.08, 0.94, 1], [0.7, 1, 1, 0.5]);
 
   // Section 6 scroll fade-out
   const { scrollYProgress: s6Progress } = useScroll({
     target: section6Ref,
     offset: ['start end', 'end start'],
   });
-  const s6Opacity = useTransform(s6Progress, [0, 0.15, 0.85, 1], [0.3, 1, 1, 0.15]);
+  const s6Opacity = useTransform(s6Progress, [0, 0.08, 0.94, 1], [0.7, 1, 1, 0.5]);
 
   // Section 7 scroll fade-out
   const { scrollYProgress: s7Progress } = useScroll({
     target: section7Ref,
     offset: ['start end', 'end start'],
   });
-  const s7Opacity = useTransform(s7Progress, [0, 0.15, 0.85, 1], [0.3, 1, 1, 0.15]);
+  const s7Opacity = useTransform(s7Progress, [0, 0.08, 0.94, 1], [0.7, 1, 1, 0.5]);
 
   // Section 8 scroll fade-out
   const { scrollYProgress: s8Progress } = useScroll({
     target: section8Ref,
     offset: ['start end', 'end start'],
   });
-  const s8Opacity = useTransform(s8Progress, [0, 0.15, 0.85, 1], [0.3, 1, 1, 0.15]);
+  const s8Opacity = useTransform(s8Progress, [0, 0.08, 0.94, 1], [0.7, 1, 1, 0.5]);
 
   // Section 9 scroll fade-out
   const { scrollYProgress: s9Progress } = useScroll({
     target: section9Ref,
     offset: ['start end', 'end start'],
   });
-  const s9Opacity = useTransform(s9Progress, [0, 0.15, 0.85, 1], [0.3, 1, 1, 0.15]);
+  const s9Opacity = useTransform(s9Progress, [0, 0.08, 0.94, 1], [0.7, 1, 1, 0.5]);
 
   // Section 10 scroll fade-out
   const { scrollYProgress: s10Progress } = useScroll({
     target: section10Ref,
     offset: ['start end', 'end start'],
   });
-  const s10Opacity = useTransform(s10Progress, [0, 0.15, 0.85, 1], [0.3, 1, 1, 0.15]);
+  const s10Opacity = useTransform(s10Progress, [0, 0.08, 0.94, 1], [0.7, 1, 1, 0.5]);
 
   return (
     <div className="min-h-screen bg-white text-stone-900 selection:bg-[#4E1D1D] selection:text-white">
