@@ -105,35 +105,27 @@ const BLOG_POSTS = [
   },
 ];
 
-// Stroke effect animation for cursive word matching "Inspiration" with letter-to-letter animation and -2.1px letter-spacing
+// Stroke effect animation for cursive word matching "Inspiration" with seamless ligatures and -2.1px letter-spacing
 function CursiveStrokeText({ text, className = '' }) {
   return (
-    <span
-      className={`relative inline-flex items-baseline select-none ${className}`}
+    <motion.span
+      initial={{ opacity: 0, filter: 'blur(6px)', y: 8 }}
+      animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+      transition={{
+        duration: 0.7,
+        delay: 0.2,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className={`relative inline-block select-none transform-gpu ${className}`}
       style={{
         fontFamily: "'Playwrite US Trad', cursive",
         fontStyle: 'normal',
         letterSpacing: '-2.1px',
+        wordSpacing: '-2.1px',
       }}
     >
-      <span className="relative z-10 inline-flex">
-        {text.split('').map((char, index) => (
-          <motion.span
-            key={index}
-            initial={{ opacity: 0, filter: 'blur(3px)', y: 5 }}
-            animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-            transition={{
-              duration: 0.35,
-              delay: 0.2 + index * 0.045,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="inline-block transform-gpu"
-          >
-            {char === ' ' ? '\u00A0' : char}
-          </motion.span>
-        ))}
-      </span>
-    </span>
+      {text}
+    </motion.span>
   );
 }
 
@@ -295,40 +287,40 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
       {/* Main Blog Catalog Section */}
       <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 select-none">
         
-        {/* Header matching media_1791897760299.png exactly */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+        {/* Header: Ideas, Tips & Inspiration on ONE line + Subtitle below with no overlap */}
+        <div className="text-center max-w-4xl mx-auto mb-14 sm:mb-20">
           {/* Pill Badge 'OUR BLOGS' */}
           <motion.div
             initial={{ opacity: 0, filter: 'blur(6px)', y: -8 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 0.55, ease: 'easeOut' }}
-            className="inline-block px-4 py-1.5 rounded-full bg-[#F2ECE6] text-[#8C6D58] text-[11px] sm:text-xs font-medium tracking-wider uppercase mb-5 shadow-xs border border-[#E9DFD6]"
+            className="inline-block px-4 py-1.5 rounded-full bg-[#F2ECE6] text-[#8C6D58] text-[11px] sm:text-xs font-medium tracking-wider uppercase mb-6 sm:mb-7 shadow-xs border border-[#E9DFD6]"
           >
             OUR BLOGS
           </motion.div>
 
-          {/* Main Title: Ideas, Tips & Inspiration (matching exact typography from screenshot) */}
-          <div className="mb-4">
+          {/* Main Title: Ideas, Tips & Inspiration (All on ONE single line without wrapping) */}
+          <div className="mb-6 sm:mb-8 overflow-visible flex justify-center">
             <motion.h1
               initial={{ opacity: 0, filter: 'blur(8px)', y: 14 }}
               animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#2B1B17] leading-tight inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-2"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.6rem] xl:text-[4.2rem] font-bold tracking-tight text-[#2B1B17] leading-none inline-flex items-center justify-center gap-2 sm:gap-3 flex-nowrap whitespace-nowrap overflow-visible"
             >
               <span>Ideas, Tips &amp;</span>
               <CursiveStrokeText
                 text="Inspiration"
-                className="text-[#381B18] text-[2.9rem] sm:text-[3.8rem] lg:text-[4.6rem] font-normal"
+                className="text-[#381B18] text-[2.8rem] sm:text-[3.6rem] md:text-[4.4rem] lg:text-[4.9rem] xl:text-[5.5rem] font-normal leading-none ml-1 sm:ml-2"
               />
             </motion.h1>
           </div>
 
-          {/* Subtitle with blur reveal matching media_1791897760299.png text */}
+          {/* Subtitle positioned safely below with generous clearance to prevent ANY line overlap */}
           <motion.p
             initial={{ opacity: 0, filter: 'blur(8px)', y: 12 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 0.65, delay: 0.28, ease: 'easeOut' }}
-            className="text-xs sm:text-sm lg:text-[15px] text-[#7A6B63] font-normal leading-relaxed max-w-lg mx-auto"
+            className="text-xs sm:text-sm md:text-base text-[#6E5D53] font-normal leading-relaxed max-w-xl mx-auto pt-3 sm:pt-4"
           >
             Helpful guides, creative ideas and everything you need to create beautiful digital invitations for your special moments.
           </motion.p>
