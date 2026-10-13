@@ -101,7 +101,7 @@ export default function App() {
   };
 
   const isHowItWorks = currentPath === '/howitworks' || currentPath === '/how-it-works';
-  const isBlogs = currentPath === '/blogs' || currentPath === '/blog';
+  const isBlogs = currentPath === '/blogs' || currentPath === '/blog' || currentPath.startsWith('/blogs/') || currentPath.startsWith('/blog/');
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-surface-text selection:bg-[#4E1D1D] selection:text-white">
