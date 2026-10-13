@@ -26,30 +26,29 @@ import Footer from '../../components/Footer/Footer';
 function CursiveStrokeText({ text, className = '' }) {
   return (
     <span
-      className={`font-['Playwrite_US_Trad',cursive] font-normal inline-flex leading-tight tracking-normal select-none ${className}`}
+      className={`font-['Playwrite_US_Trad',cursive] font-normal inline-flex leading-tight  select-none ${className}`}
+      style={{ letterSpacing: '-2.1px' }}
     >
       {text.split('').map((char, index) => (
         <motion.span
           key={index}
           initial={{
             opacity: 0,
-            scale: 0.82,
-            y: 8,
+                        y: 8,
             filter: 'blur(3px)',
           }}
           whileInView={{
             opacity: 1,
-            scale: 1,
-            y: 0,
+                        y: 0,
             filter: 'blur(0px)',
           }}
           viewport={{ once: false }}
           transition={{
-            duration: 0.28,
+            duration: 0.34,
             delay: 0.12 + index * 0.045,
-            ease: [0.34, 1.56, 0.64, 1],
+            ease: [0.22, 1, 0.36, 1],
           }}
-          className="inline-block transform-gpu origin-bottom-left"
+          className="inline-block transform-gpu "
         >
           {char === ' ' ? '\u00A0' : char}
         </motion.span>
@@ -545,8 +544,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                     animate={{
                       opacity: 1,
                       x: 0,
-                      scale: 1,
-                      y: [0, -7, 0],
+                                            y: [0, -7, 0],
                     }}
                     transition={{
                       opacity: { duration: 0.6, delay: 0.2 + idx * 0.1 },

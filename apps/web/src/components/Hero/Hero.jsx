@@ -105,28 +105,29 @@ export default function Hero({ onCreateClick }) {
                   </svg>
 
                   {/* Letter-by-letter animated cursive text with stroke handwriting effect */}
-                  <span className="relative z-10 font-['Playwrite_US_Trad',cursive] text-[3.2rem] sm:text-[4.2rem] lg:text-[4.5rem] xl:text-[5.4rem] 2xl:text-[6rem] font-normal text-[#4E1D1D] leading-none tracking-normal inline-flex select-none">
+                  <span
+                    className="relative z-10 font-['Playwrite_US_Trad',cursive] text-[3.2rem] sm:text-[4.2rem] lg:text-[4.5rem] xl:text-[5.4rem] 2xl:text-[6rem] font-normal text-[#4E1D1D] leading-none inline-flex select-none"
+                    style={{ letterSpacing: '-2.1px' }}
+                  >
                     {'unforgettable'.split('').map((char, index) => (
                       <motion.span
                         key={index}
                         initial={{ 
                           opacity: 0, 
-                          scale: 0.85,
-                          y: 8,
+                          y: 6,
                           filter: 'blur(3px)'
                         }}
                         animate={{ 
                           opacity: 1, 
-                          scale: 1,
                           y: 0,
                           filter: 'blur(0px)'
                         }}
                         transition={{
-                          duration: 0.28,
-                          delay: 0.35 + index * 0.08,
-                          ease: [0.34, 1.56, 0.64, 1]
+                          duration: 0.35,
+                          delay: 0.35 + index * 0.05,
+                          ease: [0.22, 1, 0.36, 1]
                         }}
-                        className="inline-block transform-gpu origin-bottom-left"
+                        className="inline-block transform-gpu"
                       >
                         {char}
                       </motion.span>

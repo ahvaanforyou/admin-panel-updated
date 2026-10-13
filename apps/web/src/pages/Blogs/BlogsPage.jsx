@@ -105,31 +105,41 @@ const BLOG_POSTS = [
   },
 ];
 
-// Stroke effect animation for cursive word matching "Inspiration"
+// Stroke effect animation for cursive word matching "Inspiration" with letter-to-letter animation and -2.1px letter-spacing
 function CursiveStrokeText({ text, className = '' }) {
   return (
     <span
-      className={`relative inline-block select-none ${className}`}
+      className={`relative inline-flex items-baseline select-none ${className}`}
       style={{
         fontFamily: "'Playwrite US Trad', 'Dancing Script', 'Caveat', cursive",
         fontStyle: 'normal',
+        letterSpacing: '-2.1px',
       }}
     >
-      <motion.span
-        initial={{ opacity: 0, filter: 'blur(5px)', y: 4 }}
-        animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-        transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
-        className="relative z-10 block"
-      >
-        {text}
-      </motion.span>
+      <span className="relative z-10 inline-flex">
+        {text.split('').map((char, index) => (
+          <motion.span
+            key={index}
+            initial={{ opacity: 0, filter: 'blur(4px)', y: 6 }}
+            animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+            transition={{
+              duration: 0.35,
+              delay: 0.25 + index * 0.045,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="inline-block transform-gpu"
+          >
+            {char === ' ' ? '\u00A0' : char}
+          </motion.span>
+        ))}
+      </span>
       {/* Decorative handwriting stroke underline */}
       <motion.svg
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 0.85 }}
-        transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.1, delay: 0.25 + text.length * 0.045 + 0.1, ease: [0.16, 1, 0.3, 1] }}
         viewBox="0 0 240 18"
-        className="absolute -bottom-2.5 left-0 w-full h-3 pointer-events-none text-[#9E4D38]"
+        className="absolute -bottom-2 left-0 w-full h-3 pointer-events-none text-[#9E4D38]"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
