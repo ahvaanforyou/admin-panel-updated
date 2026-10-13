@@ -137,13 +137,13 @@ export default function OccasionCarousel({ onSelectTemplate }) {
         {/* 3D EXPANDING COVER-FLOW CAROUSEL: Bigger Cards + Realistic Popping Devices */}
         {/* ========================================================================= */}
         <div 
-          className="relative w-full flex items-center justify-center flex-1 my-4 sm:my-6 overflow-visible min-h-[540px] sm:min-h-[620px] lg:min-h-[700px] xl:min-h-[740px]"
+          className="relative w-full flex items-center justify-center flex-1 my-4 sm:my-6 overflow-visible min-h-[500px] sm:min-h-[560px] lg:min-h-[620px] xl:min-h-[660px]"
           onMouseEnter={() => setIsAutoPlayPaused(true)}
           onMouseLeave={() => setIsAutoPlayPaused(false)}
         >
           
           {/* Card Deck Stage */}
-          <div className="w-full relative h-[540px] sm:h-[620px] lg:h-[700px] xl:h-[740px] flex items-center justify-center overflow-visible">
+          <div className="w-full relative h-[500px] sm:h-[560px] lg:h-[620px] xl:h-[660px] flex items-center justify-center overflow-visible">
             {OCCASION_CARDS.map((card, idx) => {
               // Calculate circular distance relative to activeIndex
               let diff = (idx - activeIndex) % total;
@@ -211,14 +211,14 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                     transformOrigin: 'center center',
                   }}
                 >
-                  <div className="relative w-full h-[520px] sm:h-[590px] lg:h-[660px] xl:h-[700px] flex items-center">
+                  <div className="relative w-full h-[480px] sm:h-[540px] lg:h-[600px] xl:h-[640px] flex items-center">
                     
                     {/* 
                       Colored Background Sash / Box:
                       - Inset vertically so the 3D devices naturally break out and pop over the top & bottom edges!
                     */}
                     <div 
-                      className="absolute inset-y-[9%] sm:inset-y-[10%] lg:inset-y-[11%] inset-x-0 w-full rounded-3xl sm:rounded-[42px] shadow-2xl pointer-events-none transition-colors duration-500"
+                      className="absolute inset-y-[8%] sm:inset-y-[10%] lg:inset-y-[10%] inset-x-0 w-full rounded-3xl sm:rounded-[42px] shadow-2xl pointer-events-none transition-colors duration-500"
                       style={{ backgroundColor: card.bgColor }}
                     />
 
@@ -226,7 +226,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                     <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 items-center gap-6 sm:gap-8 px-6 sm:px-12 lg:px-16 xl:px-20 h-full">
                       
                       {/* Left Column: Typography & Button */}
-                      <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center py-4 z-20">
+                      <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center py-4 z-20 max-w-xl">
                         <h3 
                           className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.04] whitespace-pre-line drop-shadow-xs"
                           style={{ color: card.titleColor }}
@@ -258,17 +258,16 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                       </div>
 
                       {/* 
-                        Right Column: REALISTIC POP-OUT 3D DEVICES
-                        - Overflow-visible allows phone and tablet to burst out of the top, right, and bottom!
-                        - Sized substantially larger (h-[500px] - h-[720px])
-                        - Multi-layered realistic drop shadows create depth
+                        Right Column: Controlled Pop-Out 3D Devices
+                        - Strictly contained within its column with max-w-full (ZERO overlap with text!)
+                        - Breaks out vertically by ~30px past the colored sash for a 3D pop effect
                       */}
                       <div className="lg:col-span-7 xl:col-span-7 flex justify-center lg:justify-end items-center relative overflow-visible h-full">
-                        <div className="relative w-full h-[460px] sm:h-[560px] lg:h-[680px] xl:h-[720px] flex justify-end items-center overflow-visible -my-8 sm:-my-12 lg:-my-16 -mr-2 sm:-mr-4 lg:-mr-6">
+                        <div className="relative w-full h-[380px] sm:h-[460px] lg:h-[540px] xl:h-[580px] flex justify-end items-center overflow-visible -my-6 sm:-my-8 lg:-my-10">
                           <img
                             src={card.deviceImage}
                             alt={card.title}
-                            className="w-auto h-full max-h-[460px] sm:max-h-[560px] lg:max-h-[680px] xl:max-h-[720px] max-w-none object-contain object-right drop-shadow-[0_28px_40px_rgba(0,0,0,0.38)] drop-shadow-[0_12px_18px_rgba(0,0,0,0.22)] pointer-events-none transform lg:scale-105"
+                            className="w-auto h-full max-h-[380px] sm:max-h-[460px] lg:max-h-[540px] xl:max-h-[580px] max-w-full object-contain object-right drop-shadow-[0_24px_35px_rgba(0,0,0,0.32)] drop-shadow-[0_10px_15px_rgba(0,0,0,0.18)] pointer-events-none"
                             loading="eager"
                           />
                         </div>
