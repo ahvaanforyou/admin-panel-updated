@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Phone, Mail, Instagram, Youtube, ArrowUpRight, Heart } from 'lucide-react';
+import { Phone, Mail, Instagram, Youtube, ArrowUpRight, Heart } from 'lucide-react';
 
 export default function Footer({ onCategoryClick, onCreateClick }) {
   return (
@@ -11,26 +11,13 @@ export default function Footer({ onCategoryClick, onCreateClick }) {
           
           {/* Brand Col */}
           <div className="lg:col-span-2 flex flex-col items-start">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl overflow-hidden border border-[#582020] flex items-center justify-center bg-[#3E1616] shadow-sm">
-                <img 
-                  src="/images/logo/ahvaan-emblem.png" 
-                  alt="Ahvaan Brand Emblem" 
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                  }}
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-editorial text-xl font-bold tracking-[0.2em] text-white uppercase">
-                  AHVAAN
-                </span>
-                <span className="text-[9px] font-semibold tracking-[0.35em] text-white/50 uppercase">
-                  FOR YOU
-                </span>
-              </div>
-            </div>
+            <a href="/" className="inline-block mb-5 group">
+              <img 
+                src="/images/logo/ahvaan-footer-logo.png" 
+                alt="Ahvaan for You" 
+                className="h-10 sm:h-12 w-auto object-contain rounded-xl hover:opacity-90 transition-opacity"
+              />
+            </a>
 
             <p className="text-xs text-white/70 max-w-sm leading-relaxed mb-6">
               Ahvaan for You is India's premium digital invitation studio. We craft interactive, emotion-filled celebration invites with live maps, RSVP tracking, music, and effortless sharing.

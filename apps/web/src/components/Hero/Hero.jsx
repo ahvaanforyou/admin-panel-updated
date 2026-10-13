@@ -85,39 +85,21 @@ export default function Hero({ onCreateClick }) {
                   made
                 </motion.span>
 
-                {/* 'unforgettable' cursive written letter-by-letter with SVG stroke animation */}
+                {/* 'unforgettable' cursive text matching reference image with seamless OpenType cursive strokes */}
                 <div className="relative inline-flex items-center overflow-visible">
-                  
-
-                  {/* Letter-by-letter animated cursive text with stroke handwriting effect */}
-                  <span
-                    className="relative z-10 font-['Playwrite_US_Trad',cursive] text-[3.2rem] sm:text-[4.2rem] lg:text-[4.5rem] xl:text-[5.4rem] 2xl:text-[6rem] font-normal text-[#4E1D1D] leading-none inline-flex select-none"
-                    style={{ letterSpacing: '-2.1px' }}
+                  <motion.span
+                    initial={{ opacity: 0, filter: 'blur(8px)', y: 12 }}
+                    animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+                    transition={{
+                      duration: 0.8,
+                      delay: 0.25,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className="relative z-10 font-['Playwrite_US_Trad',cursive] text-[3.2rem] sm:text-[4.2rem] lg:text-[4.5rem] xl:text-[5.4rem] 2xl:text-[6rem] font-normal text-[#4E1D1D] leading-none inline-block select-none"
+                    style={{ letterSpacing: '-2.1px', wordSpacing: '-2.1px' }}
                   >
-                    {'unforgettable'.split('').map((char, index) => (
-                      <motion.span
-                        key={index}
-                        initial={{ 
-                          opacity: 0, 
-                          y: 6,
-                          filter: 'blur(3px)'
-                        }}
-                        animate={{ 
-                          opacity: 1, 
-                          y: 0,
-                          filter: 'blur(0px)'
-                        }}
-                        transition={{
-                          duration: 0.35,
-                          delay: 0.35 + index * 0.05,
-                          ease: [0.22, 1, 0.36, 1]
-                        }}
-                        className="inline-block transform-gpu"
-                      >
-                        {char}
-                      </motion.span>
-                    ))}
-                  </span>
+                    unforgettable
+                  </motion.span>
                 </div>
               </div>
             </div>

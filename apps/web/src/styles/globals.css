@@ -86,7 +86,7 @@
 .animate-template-marquee-left {
   display: flex;
   width: max-content;
-  animation: template-marquee-left 42s linear infinite;
+  animation: template-marquee-left 95s linear infinite;
   will-change: transform;
 }
 
@@ -97,7 +97,7 @@
 .animate-template-marquee-right {
   display: flex;
   width: max-content;
-  animation: template-marquee-right 46s linear infinite;
+  animation: template-marquee-right 100s linear infinite;
   will-change: transform;
 }
 

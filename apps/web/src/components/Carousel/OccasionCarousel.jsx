@@ -84,7 +84,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
     const timer = setInterval(() => {
       setDirection(1);
       setActiveIndex((prev) => (prev + 1) % total);
-    }, 6500);
+    }, 4500);
 
     return () => clearInterval(timer);
   }, [isAutoPlayPaused, total]);
@@ -101,35 +101,30 @@ export default function OccasionCarousel({ onSelectTemplate }) {
 
   const current = OCCASION_CARDS[activeIndex];
 
-  // Cart-wheel 3D rotation variants matching the reference video/keyframe rotation
-  const wheelVariants = {
+  // Regular smooth horizontal sliding variants (No 3D wheel rotation)
+  const slideVariants = {
     enter: (dir) => ({
-      rotateZ: dir > 0 ? 12 : -12,
-      rotateY: dir > 0 ? 15 : -15,
-      scale: 0.95,
-      x: dir > 0 ? 180 : -180,
+      x: dir > 0 ? 350 : -350,
       opacity: 0,
+      scale: 0.98,
     }),
     center: {
-      rotateZ: 0,
-      rotateY: 0,
-      scale: 1,
       x: 0,
       opacity: 1,
+      scale: 1,
       transition: {
-        duration: 0.7,
-        ease: [0.16, 1, 0.3, 1],
+        x: { type: 'spring', stiffness: 260, damping: 28 },
+        opacity: { duration: 0.45 },
+        scale: { duration: 0.45 },
       },
     },
     exit: (dir) => ({
-      rotateZ: dir > 0 ? -12 : 12,
-      rotateY: dir > 0 ? -15 : 15,
-      scale: 0.95,
-      x: dir > 0 ? -180 : 180,
+      x: dir > 0 ? -350 : 350,
       opacity: 0,
+      scale: 0.98,
       transition: {
-        duration: 0.55,
-        ease: [0.16, 1, 0.3, 1],
+        x: { type: 'spring', stiffness: 260, damping: 28 },
+        opacity: { duration: 0.35 },
       },
     }),
   };
@@ -164,8 +159,9 @@ export default function OccasionCarousel({ onSelectTemplate }) {
           >
             Create beautiful invitations
             <br />
-            for life’s{' '}
-            <span className="font-['Playwrite_US_Trad',cursive] font-normal text-[#E5B54F] text-3xl sm:text-5xl lg:text-6xl ml-1">
+            for life’s
+            <span className="inline-block w-2.5 sm:w-3.5" />
+            <span className="font-['Playwrite_US_Trad',cursive] font-normal text-[#E5B54F] text-3xl sm:text-5xl lg:text-6xl">
               special moments
             </span>
           </motion.h2>
@@ -185,7 +181,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
               <motion.div
                 key={current.id}
                 custom={direction}
-                variants={wheelVariants}
+                variants={slideVariants}
                 initial="enter"
                 animate="center"
                 exit="exit"
