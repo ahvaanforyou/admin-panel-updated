@@ -76,7 +76,7 @@ export default function Hero({ onCreateClick }) {
               </motion.h1>
 
               {/* Line with 'made' and 'unforgettable' directly beside it */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 xl:gap-5">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 xl:gap-5 mt-2.5 sm:mt-4 pt-1 sm:pt-2">
                 <motion.span
                   initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                   animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
