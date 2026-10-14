@@ -32,9 +32,9 @@ export default function Hero({ onCreateClick }) {
       className="relative w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-20 sm:pt-24 lg:pt-26 pb-8"
     >
       {/* 
-        Full viewport width container with balanced padding so cards fit cleanly within the page bounds
+        Full viewport width container with balanced left padding and edge-to-edge right alignment
       */}
-      <div className="w-full px-6 sm:px-10 lg:px-12 xl:px-16 max-w-[1920px] mx-auto">
+      <div className="w-full pl-6 sm:pl-10 lg:pl-12 xl:pl-16 pr-4 sm:pr-6 lg:pr-6 xl:pr-8 2xl:pr-10 max-w-[1920px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center w-full">
           
           {/* ========================================================================= */}
@@ -54,7 +54,7 @@ export default function Hero({ onCreateClick }) {
               </motion.h1>
 
               {/* Line with 'made' and 'unforgettable' directly beside it on the EXACT SAME line */}
-              <div className="flex flex-nowrap items-baseline gap-2 sm:gap-3.5 mt-2 sm:mt-3 pt-1 w-full overflow-visible whitespace-nowrap">
+              <div className="flex flex-nowrap items-baseline gap-2.5 sm:gap-4 mt-2 sm:mt-3 pt-1 w-full overflow-visible whitespace-nowrap">
                 <motion.span
                   initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                   animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
@@ -64,7 +64,7 @@ export default function Hero({ onCreateClick }) {
                   made
                 </motion.span>
 
-                {/* 'unforgettable' premium smooth handwriting animation matching reference image */}
+                {/* 'unforgettable' premium smooth calligraphy matching reference image */}
                 <UnforgettableHandwriting />
               </div>
             </div>
@@ -94,11 +94,11 @@ export default function Hero({ onCreateClick }) {
           {/* ========================================================================= */}
           {/* RIGHT COLUMN: Exact 3×3 Grid Fitting Viewport with Neumorphic Depth       */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-6 xl:col-span-6 flex justify-center lg:justify-end items-center w-full select-none">
+          <div className="lg:col-span-6 xl:col-span-6 flex justify-center lg:justify-end items-center w-full select-none pr-0">
             {/* 
-              Responsive 3x3 Matrix perfectly fitting the page bounds without clipping
+              Responsive 3x3 Matrix perfectly fitting the page bounds without clipping or white gaps
             */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-4 xl:gap-4.5 w-full max-w-[460px] sm:max-w-[500px] lg:max-w-[540px] xl:max-w-[590px] 2xl:max-w-[640px] aspect-square ml-auto select-none p-0 relative">
+            <div className="grid grid-cols-3 gap-3.5 sm:gap-4.5 xl:gap-5 w-full max-w-[500px] sm:max-w-[560px] lg:max-w-[620px] xl:max-w-[700px] 2xl:max-w-[760px] aspect-square ml-auto select-none p-0 relative max-h-[min(82vh,780px)]">
               
               {/* Star Accent positioned at exact geometry intersection (69.4% X, 32.1% Y) */}
               <div className="absolute top-[31%] right-[32%] z-20 pointer-events-none">

@@ -205,14 +205,14 @@ export default function TemplatePreviewModal({
               </div>
 
               {/* Extended Scrollable Screen Content */}
-              <div className="relative w-full aspect-[9/19] rounded-[38px] overflow-hidden bg-white shadow-inner flex flex-col overflow-y-auto scrollbar-none">
+              <div className="relative w-full aspect-[9/19] rounded-[38px] overflow-hidden bg-stone-950 shadow-inner flex flex-col overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 
                 {/* Visual Invitation Graphic / Banner */}
-                <div className="relative w-full">
+                <div className="relative w-full min-w-full flex-shrink-0 bg-stone-950">
                   <img
                     src={template.phoneImage || template.bannerImage || template.image}
                     alt={template.name}
-                    className="w-full h-auto object-cover"
+                    className="w-full min-w-full h-auto block object-cover"
                   />
 
                   {/* Audio Floating Pill */}

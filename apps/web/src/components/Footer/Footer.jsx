@@ -13,9 +13,9 @@ export default function Footer({ onCategoryClick, onCreateClick }) {
           <div className="lg:col-span-2 flex flex-col items-start">
             <a href="/" className="inline-block mb-5 group">
               <img 
-                src="/images/logo/ahvaan-footer-logo.png" 
+                src="/images/logo/ahvaan-nav-logo.png" 
                 alt="Ahvaan for You" 
-                className="h-10 sm:h-12 w-auto object-contain rounded-xl hover:opacity-90 transition-opacity"
+                className="h-10 sm:h-12 w-auto object-contain hover:opacity-90 transition-opacity"
               />
             </a>
 

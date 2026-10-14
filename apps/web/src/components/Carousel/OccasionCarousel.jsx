@@ -130,13 +130,14 @@ export default function OccasionCarousel({ onSelectTemplate }) {
             whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.7 }}
-            className="text-3xl sm:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.12]"
+            className="text-3xl sm:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.2] overflow-visible"
           >
             Create beautiful invitations
             <br />
-            for life’s
-            <span className="inline-block w-2.5 sm:w-3.5" />
-            <SpecialMomentsHandwriting />
+            for life’s{' '}
+            <span className="font-['Playwrite_US_Trad',cursive] font-normal text-[#F5CD51] not-italic text-3xl sm:text-5xl lg:text-6xl inline-block px-2 overflow-visible">
+              special moments
+            </span>
           </motion.h2>
         </div>
 

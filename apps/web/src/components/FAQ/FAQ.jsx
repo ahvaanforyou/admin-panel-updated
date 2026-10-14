@@ -92,10 +92,14 @@ export default function FAQ() {
           {/* LEFT COLUMN: TITLE & SUBTITLE (Matching Reference Image 3) */}
           <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center text-center lg:text-left">
             
-            {/* Top Flourish Ornament */}
-            <div className="flex items-center justify-center lg:justify-start gap-2 mb-3">
+            {/* Top Flourish Ornament with Small Mandala */}
+            <div className="flex items-center justify-center lg:justify-start gap-2.5 mb-3">
               <span className="w-8 h-px bg-stone-300" />
-              <span className="text-[#8C6D46] text-sm">🌰</span>
+              <img 
+                src="/images/creative_mandala.png" 
+                alt="Mandala" 
+                className="w-5 h-5 sm:w-6 sm:h-6 object-contain opacity-80"
+              />
               <span className="w-8 h-px bg-stone-300" />
             </div>
 

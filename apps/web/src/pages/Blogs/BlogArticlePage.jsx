@@ -177,7 +177,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight leading-[1.15] mb-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-sfpro font-bold text-white tracking-tight leading-[1.15] mb-4">
               Digital Wedding Invitation Website: Complete Guide for Indian Weddings
             </h1>
 
@@ -214,7 +214,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
             
             {/* Introduction */}
             <section className="space-y-4">
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#1F1916]">
+              <h2 className="text-2xl sm:text-3xl font-sfpro font-bold text-[#1F1916]">
                 Introduction
               </h2>
               <p className="text-base sm:text-lg text-[#4A3E37] leading-relaxed">
@@ -228,8 +228,8 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
             {/* Feature Showcase Banner */}
             <div className="bg-[#F5EDE6] border border-[#E8DBD0] rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden">
               <div className="max-w-sm space-y-3">
-                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#2E1815] leading-tight">
-                  One Beautiful Link for Your Entire <span className="italic font-serif text-[#783226]">Wedding Celebration</span>
+                <h3 className="text-2xl sm:text-3xl font-sfpro font-bold text-[#2E1815] leading-tight">
+                  One Beautiful Link for Your Entire <span className="italic font-sfpro text-[#783226]">Wedding Celebration</span>
                 </h3>
                 <p className="text-xs sm:text-sm text-[#6C584E]">
                   All your wedding events, Google Maps, RSVP tracking, photo galleries and story in one elegant digital invitation link.
@@ -273,7 +273,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                 <span className="w-8 h-8 rounded-full bg-[#FCEEE8] text-[#9E4D38] font-bold text-xs flex items-center justify-center flex-shrink-0">
                   01
                 </span>
-                <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1F1916]">
+                <h2 className="text-xl sm:text-2xl font-sfpro font-bold text-[#1F1916]">
                   What Is a Digital Wedding Invitation Website?
                 </h2>
               </div>
@@ -300,7 +300,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                 <span className="w-8 h-8 rounded-full bg-[#FCEEE8] text-[#9E4D38] font-bold text-xs flex items-center justify-center flex-shrink-0">
                   02
                 </span>
-                <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1F1916]">
+                <h2 className="text-xl sm:text-2xl font-sfpro font-bold text-[#1F1916]">
                   Why Are Couples Choosing Digital Wedding Invitations?
                 </h2>
               </div>
@@ -370,7 +370,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                 <span className="w-8 h-8 rounded-full bg-[#FCEEE8] text-[#9E4D38] font-bold text-xs flex items-center justify-center flex-shrink-0">
                   03
                 </span>
-                <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1F1916]">
+                <h2 className="text-xl sm:text-2xl font-sfpro font-bold text-[#1F1916]">
                   What Should a Wedding Invitation Website Include?
                 </h2>
               </div>
@@ -378,7 +378,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                 A digital wedding invitation website can hold much more information than a traditional printed card, but it should still remain easy to navigate.
               </p>
 
-              <h3 className="text-lg font-serif font-bold text-[#1F1916] pt-2">
+              <h3 className="text-lg font-sfpro font-bold text-[#1F1916] pt-2">
                 Essential sections of a wedding website:
               </h3>
 
@@ -453,7 +453,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                 <span className="w-8 h-8 rounded-full bg-[#FCEEE8] text-[#9E4D38] font-bold text-xs flex items-center justify-center flex-shrink-0">
                   04
                 </span>
-                <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1F1916]">
+                <h2 className="text-xl sm:text-2xl font-sfpro font-bold text-[#1F1916]">
                   How Does a Digital Wedding Invitation Work?
                 </h2>
               </div>
@@ -486,7 +486,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                 <span className="w-8 h-8 rounded-full bg-[#FCEEE8] text-[#9E4D38] font-bold text-xs flex items-center justify-center flex-shrink-0">
                   05
                 </span>
-                <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1F1916]">
+                <h2 className="text-xl sm:text-2xl font-sfpro font-bold text-[#1F1916]">
                   Digital Wedding Invitation vs Printed Wedding Card
                 </h2>
               </div>
@@ -525,7 +525,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                 <span className="w-8 h-8 rounded-full bg-[#FCEEE8] text-[#9E4D38] font-bold text-xs flex items-center justify-center flex-shrink-0">
                   06
                 </span>
-                <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1F1916]">
+                <h2 className="text-xl sm:text-2xl font-sfpro font-bold text-[#1F1916]">
                   Digital Invitation vs Wedding Video
                 </h2>
               </div>
@@ -554,7 +554,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                 <span className="w-8 h-8 rounded-full bg-[#FCEEE8] text-[#9E4D38] font-bold text-xs flex items-center justify-center flex-shrink-0">
                   07
                 </span>
-                <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1F1916]">
+                <h2 className="text-xl sm:text-2xl font-sfpro font-bold text-[#1F1916]">
                   How to Create a Wedding Invitation Website
                 </h2>
               </div>
@@ -576,7 +576,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                 <span className="w-8 h-8 rounded-full bg-[#FCEEE8] text-[#9E4D38] font-bold text-xs flex items-center justify-center flex-shrink-0">
                   08
                 </span>
-                <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1F1916]">
+                <h2 className="text-xl sm:text-2xl font-sfpro font-bold text-[#1F1916]">
                   How to Share a Digital Wedding Invitation on WhatsApp
                 </h2>
               </div>
@@ -601,7 +601,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                 <span className="w-8 h-8 rounded-full bg-[#FCEEE8] text-[#9E4D38] font-bold text-xs flex items-center justify-center flex-shrink-0">
                   09
                 </span>
-                <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1F1916]">
+                <h2 className="text-xl sm:text-2xl font-sfpro font-bold text-[#1F1916]">
                   How to Collect Wedding RSVPs Online
                 </h2>
               </div>
@@ -622,7 +622,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                 <span className="w-8 h-8 rounded-full bg-[#FCEEE8] text-[#9E4D38] font-bold text-xs flex items-center justify-center flex-shrink-0">
                   10
                 </span>
-                <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#1F1916]">
+                <h2 className="text-xl sm:text-2xl font-sfpro font-bold text-[#1F1916]">
                   How Much Does a Digital Wedding Invitation Cost?
                 </h2>
               </div>
@@ -648,7 +648,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
             <div className="bg-[#4E1D1D] text-white rounded-3xl p-8 sm:p-10 text-center relative overflow-hidden shadow-xl mt-12">
               <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-white/5 rounded-full blur-2xl pointer-events-none" />
               <div className="relative z-10 max-w-xl mx-auto space-y-4">
-                <h3 className="text-2xl sm:text-3xl font-serif font-bold">
+                <h3 className="text-2xl sm:text-3xl font-sfpro font-bold">
                   Ready to Create Your Wedding Invitation Website?
                 </h3>
                 <p className="text-white/80 text-sm leading-relaxed">
@@ -676,7 +676,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
               <div className="bg-white rounded-3xl p-6 border border-stone-200/80 shadow-md">
                 <div className="flex items-center gap-2 mb-4 pb-3 border-b border-stone-100">
                   <span className="w-2 h-2 rounded-full bg-[#9E4D38]" />
-                  <h3 className="text-base font-serif font-bold text-[#1F1916]">
+                  <h3 className="text-base font-sfpro font-bold text-[#1F1916]">
                     Table of Contents
                   </h3>
                 </div>
@@ -707,7 +707,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
               {/* Related Blogs Card matching PDF */}
               <div className="bg-white rounded-3xl p-6 border border-stone-200/80 shadow-md">
                 <div className="flex items-center justify-between mb-5 pb-3 border-b border-stone-100">
-                  <h3 className="text-base font-serif font-bold text-[#1F1916]">
+                  <h3 className="text-base font-sfpro font-bold text-[#1F1916]">
                     Related Blogs
                   </h3>
                   <button
