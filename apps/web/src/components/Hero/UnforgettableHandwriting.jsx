@@ -4,9 +4,9 @@ import { motion, useInView } from 'framer-motion';
 // Single continuous stroke path matching Apple hello animation:
 // Flows left-to-right through unforgettable without backward line jumps
 const STROKE_PATH =
-  'M 1 61 L 11 86 L 21 58 L 25 86 L 33 66 L 35 84 L 39 58 L 47 58 L 53 86 L 63 64 L 71 62 L 89 36 L 103 22 L 121 22 L 129 28 L 123 46 L 103 66 L 93 91 L 85 112 L 87 120 L 95 118 L 103 101 L 111 68 L 119 60 L 113 72 L 119 88 L 129 86 L 133 66 L 125 60 L 139 64 L 147 58 L 155 60 L 159 86 L 171 64 L 183 60 L 175 72 L 181 88 L 191 86 L 195 64 L 197 91 L 189 114 L 183 120 L 191 118 L 203 101 L 211 74 L 219 64 L 227 60 L 221 74 L 229 88 L 239 66 L 247 64 L 253 28 L 255 88 L 265 66 L 273 64 L 281 28 L 283 88 L 293 66 L 305 60 L 299 74 L 305 88 L 315 86 L 319 62 L 321 88 L 333 66 L 343 64 L 359 22 L 365 18 L 363 36 L 357 88 L 369 86 L 375 68 L 381 64 L 389 64 L 403 22 L 415 20 L 421 28 L 415 46 L 399 88 L 411 68 L 419 64 L 427 60 L 421 74 L 429 88 L 443 76 L 455 71';
+  'M 1.6 89.3 L 18.1 125.9 L 34.6 84.9 L 41.2 125.9 L 54.4 96.6 L 57.7 123.0 L 64.3 84.9 L 77.5 84.9 L 87.4 125.9 L 103.9 93.7 L 117.1 90.8 L 146.8 52.7 L 169.9 32.2 L 199.6 32.2 L 212.8 41.0 L 202.9 67.3 L 169.9 96.6 L 153.4 133.2 L 140.2 163.9 L 143.5 175.7 L 156.7 172.7 L 169.9 147.8 L 183.1 99.5 L 196.3 87.8 L 186.4 105.4 L 196.3 128.8 L 212.8 125.9 L 219.4 96.6 L 206.2 87.8 L 229.3 93.7 L 242.5 84.9 L 255.7 87.8 L 262.3 125.9 L 282.1 93.7 L 301.9 87.8 L 288.7 105.4 L 298.6 128.8 L 315.0 125.9 L 321.6 93.7 L 324.9 133.2 L 311.7 166.9 L 301.9 175.7 L 315.0 172.7 L 334.8 147.8 L 348.0 108.3 L 361.2 93.7 L 374.4 87.8 L 364.5 108.3 L 377.7 128.8 L 394.2 96.6 L 407.4 93.7 L 417.3 41.0 L 420.6 128.8 L 437.1 96.6 L 450.3 93.7 L 463.5 41.0 L 466.8 128.8 L 483.3 96.6 L 503.1 87.8 L 493.2 108.3 L 503.1 128.8 L 519.6 125.9 L 526.2 90.8 L 529.5 128.8 L 549.3 96.6 L 565.8 93.7 L 592.2 32.2 L 602.1 26.3 L 598.8 52.7 L 588.9 128.8 L 608.7 125.9 L 618.5 99.5 L 628.4 93.7 L 641.6 93.7 L 664.7 32.2 L 684.5 29.3 L 694.4 41.0 L 684.5 67.3 L 658.1 128.8 L 677.9 99.5 L 691.1 93.7 L 704.3 87.8 L 694.4 108.3 L 707.6 128.8 L 730.7 111.2 L 750.5 103.9';
 
-const PATH_TOTAL_LENGTH = 1750;
+const PATH_TOTAL_LENGTH = 2800;
 
 export default function UnforgettableHandwriting({ className = '' }) {
   const containerRef = useRef(null);
@@ -32,7 +32,7 @@ export default function UnforgettableHandwriting({ className = '' }) {
         Single continuous flowing stroke from left to right revealing the exact reference calligraphy
       */}
       <svg
-        viewBox="0 0 465 138"
+        viewBox="0 0 767 202"
         className="w-[280px] min-[380px]:w-[320px] min-[480px]:w-[380px] sm:w-[440px] md:w-[490px] lg:w-[500px] xl:w-[570px] 2xl:w-[630px] h-auto overflow-visible"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -42,7 +42,7 @@ export default function UnforgettableHandwriting({ className = '' }) {
               d={STROKE_PATH}
               fill="none"
               stroke="#FFFFFF"
-              strokeWidth="48"
+              strokeWidth="70"
               strokeLinecap="round"
               strokeLinejoin="round"
               initial={{
@@ -75,8 +75,8 @@ export default function UnforgettableHandwriting({ className = '' }) {
         <g mask={isDone ? undefined : 'url(#unf-apple-write-mask)'}>
           <image
             href="/images/unforgettable-exact-2x.png"
-            width="465"
-            height="138"
+            width="767"
+            height="202"
             preserveAspectRatio="xMidYMid meet"
           />
         </g>

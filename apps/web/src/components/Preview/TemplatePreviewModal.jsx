@@ -41,9 +41,9 @@ export default function TemplatePreviewModal({
     setRsvpStep('submitted');
   };
 
-  const isNikhilDivya = template.id === 'tpl-nikhil-divya' || template.name?.includes('Nikhil');
-  const isKalyanInchara = template.id === 'tpl-kalyan-inchara' || template.name?.includes('Kalyan');
-  const isHanishaRonish = template.id === 'tpl-hanisha-ronish' || template.name?.includes('Hanisha');
+  const isNikhilDivya = template.id === 'tpl-nikhil-divya' || template.name?.includes('Nikhil') || template.clientTitle?.includes('Nikhil');
+  const isKalyanInchara = template.id === 'tpl-kalyan-inchara' || template.name?.includes('Kalyan') || template.clientTitle?.includes('Kalyan');
+  const isHanishaRonish = template.id === 'tpl-hanisha-ronish' || template.name?.includes('Hanisha') || template.clientTitle?.includes('Hanisha');
 
   return (
     <AnimatePresence>
@@ -92,7 +92,7 @@ export default function TemplatePreviewModal({
 
               {/* Title & Subtitle */}
               <h3 className="text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight leading-tight">
-                {template.name}
+                {template.clientTitle || template.name}
               </h3>
               <p className="text-sm font-semibold text-stone-500 mt-1">
                 {template.subtitle}
@@ -210,7 +210,7 @@ export default function TemplatePreviewModal({
                 {/* Visual Invitation Graphic / Banner */}
                 <div className="relative w-full">
                   <img
-                    src={template.bannerImage || template.image}
+                    src={template.phoneImage || template.bannerImage || template.image}
                     alt={template.name}
                     className="w-full h-auto object-cover"
                   />

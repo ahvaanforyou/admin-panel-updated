@@ -88,35 +88,86 @@ export default function TemplateShowcase({
         </div>
 
         {/* ========================================================================= */}
-        {/* MAIN BODY: STATIC LEFT SIDEBAR + 6-TEMPLATE CLEAN GRID                   */}
+        {/* TOP CONTROLS TOOLBAR: CATEGORY PILLS + SEARCH BAR                         */}
         {/* ========================================================================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16 sm:mb-20">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
           
-          {/* LEFT SIDEBAR: PRICE RANGE (Completely static) */}
-          <div className="lg:col-span-3 xl:col-span-3">
-            <div className="bg-white rounded-3xl border border-stone-200/80 p-6 shadow-sm sticky top-28">
+          {/* Category Filter Pills matching reference */}
+          <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto w-full md:w-auto pb-1 scrollbar-none">
+            {[
+              { id: 'all', label: 'All Templates', icon: LayoutGrid },
+              { id: 'wedding', label: 'Wedding', emoji: '💍' },
+              { id: 'birthday', label: 'Birthday', emoji: '🎂' },
+              { id: 'house-warming', label: 'House Warming', emoji: '🏠' },
+              { id: 'baby-shower', label: 'Baby Shower', emoji: '🛒' }
+            ].map((tab) => {
+              const isActive = activeTab === tab.id;
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    onSelectCategory && onSelectCategory(tab.id);
+                  }}
+                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all duration-200 border whitespace-nowrap shadow-sm cursor-pointer ${
+                    isActive
+                      ? 'bg-[#351410] text-white border-[#351410]'
+                      : 'bg-white text-stone-700 hover:text-stone-900 border-stone-200/90 hover:bg-stone-50'
+                  }`}
+                >
+                  {Icon ? <Icon className="w-3.5 h-3.5" /> : <span>{tab.emoji}</span>}
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Search Bar matching reference */}
+          <div className="relative w-full md:w-72">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+            <input
+              type="text"
+              placeholder="Search templates..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 bg-white border border-stone-200/90 rounded-xl text-xs sm:text-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#351410]/20 focus:border-[#351410] transition-all shadow-sm"
+            />
+          </div>
+
+        </div>
+
+        {/* ========================================================================= */}
+        {/* MAIN BODY: PRICE RANGE SIDEBAR + 3-COLUMN TEMPLATES GRID                  */}
+        {/* ========================================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-16 sm:mb-20">
+          
+          {/* LEFT SIDEBAR: PRICE RANGE */}
+          <div className="lg:col-span-3 xl:col-span-2">
+            <div className="bg-white rounded-2xl border border-stone-200/90 p-5 shadow-sm sticky top-28">
               
               {/* Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-stone-100 mb-4">
+              <div className="flex items-center justify-between pb-3.5 border-b border-stone-100 mb-4">
                 <div className="flex items-center gap-2 text-stone-700">
-                  <span className="text-stone-400">🏷️</span>
-                  <span className="text-xs font-bold tracking-wider uppercase text-stone-600">PRICE RANGE</span>
+                  <span className="text-stone-400 text-xs">🏷️</span>
+                  <span className="text-xs font-bold tracking-wider uppercase text-stone-800">PRICE RANGE</span>
                 </div>
                 <ChevronDown className="w-4 h-4 text-stone-400" />
               </div>
 
               {/* Price Checkboxes */}
-              <div className="space-y-3.5">
+              <div className="space-y-3">
                 {[
                   { id: 'all', label: 'All Prices' },
                   { id: 'under-2000', label: 'Under ₹2,000', count: 2 },
-                  { id: '2000-3000', label: '₹2,000 – ₹3,000', count: 2 },
+                  { id: '2000-3000', label: '₹2,000 – ₹3,000', count: 3 },
                   { id: '3000-4000', label: '₹3,000 – ₹4,000', count: 2 },
+                  { id: 'above-4000', label: 'Above ₹4,000', count: 1 },
                 ].map((item) => (
                   <label 
                     key={item.id}
                     onClick={() => setSelectedPriceRange(item.id)}
-                    className="flex items-center gap-3 text-xs sm:text-sm text-stone-700 cursor-pointer group hover:text-stone-900 select-none"
+                    className="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer group hover:text-stone-900 select-none"
                   >
                     <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
                       selectedPriceRange === item.id 
@@ -135,167 +186,108 @@ export default function TemplateShowcase({
                 ))}
               </div>
 
-              {/* Features summary info */}
-              <div className="mt-8 pt-6 border-t border-stone-100 space-y-2.5">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400 block mb-2">
-                  Every Template Includes:
-                </span>
-                {['Instant RSVP Form', 'Live Venue Google Maps', 'Background Music Player', '48-Hour Delivery Guarantee'].map((f, i) => (
-                  <div key={i} className="flex items-center gap-2 text-xs text-stone-600">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                    <span>{f}</span>
-                  </div>
-                ))}
-              </div>
-
             </div>
           </div>
 
-          {/* RIGHT COLUMN: CATEGORY TABS + SEARCH + 6 TEMPLATES GRID */}
-          <div className="lg:col-span-9 xl:col-span-9 flex flex-col gap-6 min-w-0">
-            
-            {/* Top Toolbar: Tabs on left, Search bar on right */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              
-              {/* Category Filter Pills */}
-              <div className="flex items-center gap-2.5 overflow-x-auto w-full md:w-auto pb-1 scrollbar-none">
-                {[
-                  { id: 'all', label: 'All Templates', icon: LayoutGrid },
-                  { id: 'wedding', label: 'Wedding', icon: () => <span className="text-amber-500">💍</span> },
-                  { id: 'birthday', label: 'Birthday', icon: () => <span className="text-pink-500">🎂</span> },
-                  { id: 'baby-shower', label: 'Baby Shower', icon: () => <span className="text-sky-500">🍼</span> }
-                ].map((tab) => {
-                  const isActive = activeTab === tab.id;
-                  const Icon = tab.icon;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => {
-                        setActiveTab(tab.id);
-                        onSelectCategory && onSelectCategory(tab.id);
-                      }}
-                      className={`px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all duration-300 border ${
-                        isActive
-                          ? 'bg-[#351410] text-white border-[#351410] shadow-md'
-                          : 'bg-white text-stone-600 hover:text-stone-900 border-stone-200/90 hover:border-stone-300'
-                      }`}
-                    >
-                      <Icon className="w-3.5 h-3.5" />
-                      <span>{tab.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Search Bar */}
-              <div className="relative w-full md:w-72">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
-                <input
-                  type="text"
-                  placeholder="Search templates..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-stone-200/90 rounded-full text-xs sm:text-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#351410]/20 focus:border-[#351410] transition-all shadow-sm"
-                />
-              </div>
-
-            </div>
-
-            {/* SIX TEMPLATES CLEAN GRID (No horizontal scrolling marquee) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-7">
+          {/* RIGHT COLUMN: 3-COLUMN TEMPLATES GRID WITH PHONE MOCKUPS */}
+          <div className="lg:col-span-9 xl:col-span-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
               {filteredTemplates.map((item) => {
                 const isLiked = likedTemplates[item.id];
 
                 return (
                   <motion.div
                     key={item.id}
-                    whileHover={{ y: -6 }}
-                    transition={{ duration: 0.25 }}
-                    className="group bg-white rounded-3xl border border-stone-200/90 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative select-none"
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.2 }}
+                    className="bg-white rounded-2xl border border-stone-200/90 p-4 shadow-sm hover:shadow-md transition-all flex flex-row items-center gap-4 relative group select-none min-h-[220px]"
                   >
-                    {/* Top Image & Mockup Preview with Badge */}
-                    <div className="relative w-full aspect-[16/11] bg-stone-100 overflow-hidden">
-                      <img
-                        src={item.image || item.bannerImage}
-                        alt={item.name}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                      />
+                    {/* Left: Realistic Smartphone Frame with Client Hero Screen */}
+                    <div className="w-[102px] sm:w-[110px] aspect-[9/19.5] flex-shrink-0 bg-[#1E1E1E] rounded-[20px] p-[3px] shadow-md border-[2px] border-stone-800 relative overflow-hidden flex flex-col justify-start">
+                      {/* Top Island / Speaker Notch */}
+                      <div className="w-6 h-1 bg-stone-700/80 rounded-full mx-auto my-0.5 z-10 flex-shrink-0" />
                       
-                      {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-
-                      {/* Top Badges & Favorite Heart */}
-                      <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
-                        <span 
-                          className="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide shadow-sm"
-                          style={{ backgroundColor: item.badgeColor || '#FFFBEB', color: item.badgeText || '#B45309' }}
-                        >
-                          {item.badge}
-                        </span>
-
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleLike(item.id);
-                          }}
-                          className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-stone-700 hover:text-red-500 shadow-sm transition-colors"
-                        >
-                          <Heart className={`w-4 h-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
-                        </button>
-                      </div>
-
-                      {/* Bottom Image Overlay Tag */}
-                      <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between z-10 text-white">
-                        <span className="text-xs font-semibold drop-shadow-md text-white/90">
-                          {item.venue || item.subtitle}
-                        </span>
-                        <div className="flex items-baseline gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
-                          <span className="text-xs font-bold text-amber-300">{item.price}</span>
-                          <span className="text-[10px] text-white/60 line-through">{item.originalPrice}</span>
-                        </div>
+                      {/* Inner Phone Screen with Client Website Hero */}
+                      <div className="w-full h-full rounded-[16px] overflow-hidden bg-stone-900 relative">
+                        <img
+                          src={item.phoneImage || item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                        />
                       </div>
                     </div>
 
-                    {/* Card Content & Details */}
-                    <div className="p-5 flex-1 flex flex-col justify-between">
-                      <div>
-                        <h3 className="font-bold text-base sm:text-lg text-stone-900 group-hover:text-[#351410] transition-colors leading-snug">
+                    {/* Right: Template Details */}
+                    <div className="flex-1 flex flex-col justify-between h-full py-0.5 min-w-0 relative">
+                      {/* Top-Right Heart Icon */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleLike(item.id);
+                        }}
+                        className="absolute top-0 right-0 p-1 text-stone-400 hover:text-rose-500 transition-colors cursor-pointer"
+                        title="Add to favorites"
+                      >
+                        <Heart className={`w-4 h-4 ${isLiked ? 'fill-rose-500 text-rose-500' : 'text-stone-400'}`} />
+                      </button>
+
+                      {/* Header Info */}
+                      <div className="pr-6">
+                        <h3 className="font-bold text-stone-900 text-base leading-snug truncate" title={item.clientTitle || item.name}>
                           {item.name}
                         </h3>
-                        <p className="text-xs text-stone-500 font-medium mt-1">
+                        <p className="text-xs text-stone-500 font-medium mt-0.5 truncate">
                           {item.subtitle}
                         </p>
-
-                        {/* Feature Tags */}
-                        <div className="flex flex-wrap gap-1.5 mt-3 pt-1">
-                          {item.features?.slice(0, 3).map((feat, idx) => (
-                            <span 
-                              key={idx}
-                              className="text-[10px] font-semibold bg-stone-100 text-stone-600 px-2 py-0.5 rounded-md"
-                            >
-                              ✓ {feat}
-                            </span>
-                          ))}
-                        </div>
                       </div>
 
-                      {/* Action Buttons: Preview & Select */}
-                      <div className="mt-5 pt-4 border-t border-stone-100 flex items-center gap-2.5">
-                        <button
-                          onClick={() => onPreviewTemplate && onPreviewTemplate(item)}
-                          className="flex-1 py-2.5 px-3 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
-                        >
-                          <Eye className="w-3.5 h-3.5" />
-                          <span>Preview</span>
-                        </button>
+                      {/* Feature Pills (RSVP, Maps, Bulk Emails) matching reference */}
+                      <div className="flex flex-wrap items-center gap-1.5 my-2">
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-sky-50 text-sky-600 border border-sky-100">
+                          RSVP
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-teal-50 text-teal-600 border border-teal-100">
+                          Maps
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-pink-50 text-pink-600 border border-pink-100">
+                          Bulk Emails
+                        </span>
+                      </div>
 
-                        <button
-                          onClick={() => onCreateTemplate && onCreateTemplate(item)}
-                          className="flex-1 py-2.5 px-3 rounded-full bg-[#351410] hover:bg-[#230C0A] text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-md transition-all transform hover:-translate-y-0.5"
-                        >
-                          <span>Select</span>
-                          <ChevronRight className="w-3.5 h-3.5" />
-                        </button>
+                      {/* Price & Action Buttons */}
+                      <div className="mt-auto pt-1">
+                        <div className="text-xl sm:text-2xl font-bold text-stone-900 tracking-tight mb-2">
+                          {item.price}
+                        </div>
+
+                        <div className="flex items-center gap-2 w-full">
+                          <button
+                            onClick={() => onPreviewTemplate(item)}
+                            className="flex-1 bg-[#351410] hover:bg-[#230C0A] text-white py-2 px-3 rounded-xl text-xs font-semibold shadow-sm transition flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap"
+                          >
+                            <span>View Template</span>
+                            <span className="text-xs">→</span>
+                          </button>
+
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (navigator.share) {
+                                navigator.share({
+                                  title: item.name,
+                                  text: `Check out ${item.name} invitation template on Ahvaan!`,
+                                  url: window.location.href,
+                                }).catch(() => {});
+                              } else {
+                                navigator.clipboard.writeText(window.location.href);
+                                alert('Template link copied to clipboard!');
+                              }
+                            }}
+                            className="bg-white hover:bg-stone-50 text-stone-700 border border-stone-300 py-2 px-3 rounded-xl text-xs font-medium transition cursor-pointer"
+                          >
+                            Share
+                          </button>
+                        </div>
                       </div>
 
                     </div>
@@ -303,9 +295,7 @@ export default function TemplateShowcase({
                 );
               })}
             </div>
-
           </div>
-
         </div>
 
       </div>

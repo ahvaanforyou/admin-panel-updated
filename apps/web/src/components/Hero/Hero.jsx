@@ -32,12 +32,10 @@ export default function Hero({ onCreateClick }) {
       className="relative w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-20 sm:pt-24 lg:pt-26 pb-8"
     >
       {/* 
-        Full viewport width container:
-        - pl-6 sm:pl-10 lg:pl-12 xl:pl-16 guarantees left headline & button NEVER clip
-        - pr-0 allows the right shape grid to touch the right border of the screen without white gap
+        Full viewport width container with balanced padding so cards fit cleanly within the page bounds
       */}
-      <div className="w-full pl-6 sm:pl-10 lg:pl-12 xl:pl-16 pr-0 max-w-[1920px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 items-center w-full">
+      <div className="w-full px-6 sm:px-10 lg:px-12 xl:px-16 max-w-[1920px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center w-full">
           
           {/* ========================================================================= */}
           {/* LEFT COLUMN: Editorial Typography & Animated Stroke Text                  */}
@@ -50,7 +48,7 @@ export default function Hero({ onCreateClick }) {
                 initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                 animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-6xl sm:text-7xl lg:text-7xl xl:text-[5.6rem] 2xl:text-[6.4rem] font-bold tracking-tight text-[#1F1F1F] leading-[1.04]"
+                className="text-5xl sm:text-6xl lg:text-6xl xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-[1.05]"
               >
                 Digital invitations,
               </motion.h1>
@@ -61,7 +59,7 @@ export default function Hero({ onCreateClick }) {
                   initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                   animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
-                  className="text-6xl sm:text-7xl lg:text-7xl xl:text-[5.6rem] 2xl:text-[6.4rem] font-bold tracking-tight text-[#1F1F1F] leading-none"
+                  className="text-5xl sm:text-6xl lg:text-6xl xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none"
                 >
                   made
                 </motion.span>
@@ -96,11 +94,11 @@ export default function Hero({ onCreateClick }) {
           {/* ========================================================================= */}
           {/* RIGHT COLUMN: Exact 3×3 Grid Fitting Viewport with Neumorphic Depth       */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-6 xl:col-span-6 flex justify-end items-center w-full pr-0 overflow-visible">
+          <div className="lg:col-span-6 xl:col-span-6 flex justify-center lg:justify-end items-center w-full select-none">
             {/* 
-              Responsive 3x3 Matrix touching right screen boundary with 0 white gap
+              Responsive 3x3 Matrix perfectly fitting the page bounds without clipping
             */}
-            <div className="grid grid-cols-3 gap-3.5 sm:gap-4.5 xl:gap-5 w-full max-w-[640px] sm:max-w-[700px] lg:max-w-[780px] xl:max-w-[850px] 2xl:max-w-[920px] aspect-square ml-auto select-none p-0 relative">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 xl:gap-4.5 w-full max-w-[460px] sm:max-w-[500px] lg:max-w-[540px] xl:max-w-[590px] 2xl:max-w-[640px] aspect-square ml-auto select-none p-0 relative">
               
               {/* Star Accent positioned at exact geometry intersection (69.4% X, 32.1% Y) */}
               <div className="absolute top-[31%] right-[32%] z-20 pointer-events-none">
