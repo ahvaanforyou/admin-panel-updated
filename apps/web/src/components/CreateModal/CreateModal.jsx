@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, User, Calendar, ChevronDown, Clock, ArrowRight, CheckCircle2 } from 'lucide-react';
 
+const AHVAAN_GOOGLE_SHEET_WEBHOOK = 'https://script.google.com/macros/s/AKfycbxJFiwsDCNdVs2uL1itVib-PgVn4EsGmaGfcyWnTvJij6fYaVdO6f6TeOW3UnHQgft7Kw/exec';
+
 export default function CreateModal({ 
   isOpen, 
   onClose, 
@@ -37,16 +39,14 @@ export default function CreateModal({
     };
 
     try {
-      // 1. Send to Google Sheets Webhook endpoint (if available)
-      const googleSheetEndpoint = window.__AHVAAN_GOOGLE_SHEET_WEBHOOK__ || '';
-      if (googleSheetEndpoint) {
-        await fetch(googleSheetEndpoint, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(leadData),
-        });
-      }
+      // 1. Send to user's live Google Sheets Webhook endpoint
+      const googleSheetEndpoint = window.__AHVAAN_GOOGLE_SHEET_WEBHOOK__ || AHVAAN_GOOGLE_SHEET_WEBHOOK;
+      await fetch(googleSheetEndpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadData),
+      });
 
       // 2. Also record in local storage for offline resiliency
       const savedLeads = JSON.parse(localStorage.getItem('ahvaan_leads') || '[]');
