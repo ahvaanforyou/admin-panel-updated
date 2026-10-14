@@ -13,7 +13,6 @@ import HowItWorksPage from './pages/HowItWorks/HowItWorksPage';
 import BlogsPage from './pages/Blogs/BlogsPage';
 import InvitationsPage from './pages/Invitations/InvitationsPage';
 import AboutPage from './pages/About/AboutPage';
-import AboutSection from './components/About/AboutSection';
 import { useLenis } from './hooks/useLenis';
 import { TEMPLATES } from './data/content';
 
@@ -163,13 +162,10 @@ export default function App() {
           {/* 5. Frequently Asked Questions (Accordion) */}
           <FAQ />
 
-          {/* 6. About Section ("A Bunch of Creative Monkeys") */}
-          <AboutSection />
-
-          {/* 7. Client Moments & Reviews Glass Cards */}
+          {/* 6. Client Moments & Reviews Glass Cards */}
           <Moments />
 
-          {/* 8. Site Footer with brand, categories, social & admin link */}
+          {/* 7. Site Footer with brand, categories, social & admin link */}
           <Footer
             onCategoryClick={handleSelectCategoryFromBanner}
             onCreateClick={handleOpenGeneralCreate}
