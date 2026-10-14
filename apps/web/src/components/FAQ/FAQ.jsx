@@ -65,7 +65,9 @@ export default function FAQ() {
     offset: ['start end', 'end start'],
   });
 
-  const sectionOpacity = useTransform(scrollYProgress, [0, 0.08, 0.94, 1], [0.75, 1, 1, 0.6]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.08, 0.85, 0.98], [0.6, 1, 1, 0]);
+  const sectionVisibility = useTransform(scrollYProgress, (v) => (v >= 0.98 ? 'hidden' : 'visible'));
+  const sectionPointerEvents = useTransform(scrollYProgress, (v) => (v >= 0.96 ? 'none' : 'auto'));
 
   const toggle = (idx) => {
     setOpenIndex(openIndex === idx ? null : idx);
@@ -75,7 +77,11 @@ export default function FAQ() {
     <motion.section 
       ref={containerRef}
       id="faq" 
-      style={{ opacity: sectionOpacity }}
+      style={{ 
+        opacity: sectionOpacity,
+        visibility: sectionVisibility,
+        pointerEvents: sectionPointerEvents,
+      }}
       className="py-20 sm:py-28 bg-[#FAF8F6] relative overflow-hidden select-none w-full"
     >
       <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">

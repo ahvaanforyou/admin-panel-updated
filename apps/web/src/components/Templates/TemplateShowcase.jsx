@@ -114,7 +114,9 @@ export default function TemplateShowcase({
     offset: ['start end', 'end start'],
   });
 
-  const sectionOpacity = useTransform(scrollYProgress, [0, 0.1, 0.92, 1], [0.7, 1, 1, 0.55]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.08, 0.85, 0.98], [0.6, 1, 1, 0]);
+  const sectionVisibility = useTransform(scrollYProgress, (v) => (v >= 0.98 ? 'hidden' : 'visible'));
+  const sectionPointerEvents = useTransform(scrollYProgress, (v) => (v >= 0.96 ? 'none' : 'auto'));
 
   const toggleLike = (id) => {
     setLikedTemplates(prev => ({ ...prev, [id]: !prev[id] }));
@@ -253,7 +255,11 @@ export default function TemplateShowcase({
     <motion.section 
       ref={containerRef}
       id="templates" 
-      style={{ opacity: sectionOpacity }}
+      style={{ 
+        opacity: sectionOpacity,
+        visibility: sectionVisibility,
+        pointerEvents: sectionPointerEvents,
+      }}
       className="pt-16 sm:pt-24 pb-0 bg-white relative overflow-hidden select-none w-full"
     >
       <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 mb-16 sm:mb-24">

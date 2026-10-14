@@ -146,7 +146,9 @@ export default function Moments() {
     offset: ['start end', 'end start'],
   });
 
-  const sectionOpacity = useTransform(scrollYProgress, [0, 0.08, 0.94, 1], [0.75, 1, 1, 0.6]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.08, 0.85, 0.98], [0.6, 1, 1, 0]);
+  const sectionVisibility = useTransform(scrollYProgress, (v) => (v >= 0.98 ? 'hidden' : 'visible'));
+  const sectionPointerEvents = useTransform(scrollYProgress, (v) => (v >= 0.96 ? 'none' : 'auto'));
 
   const topRow = MOMENT_CARDS.filter((c) => c.row === 'top');
   const bottomRow = MOMENT_CARDS.filter((c) => c.row === 'bottom');
@@ -155,7 +157,11 @@ export default function Moments() {
     <motion.section
       ref={sectionRef}
       id="moments"
-      style={{ opacity: sectionOpacity }}
+      style={{ 
+        opacity: sectionOpacity,
+        visibility: sectionVisibility,
+        pointerEvents: sectionPointerEvents,
+      }}
       className="relative w-full py-16 sm:py-24 lg:py-28 bg-white overflow-hidden flex flex-col justify-center items-center select-none"
     >
       {/* Background 'MOMENTS' Watermark Typography - reduced in size */}

@@ -73,9 +73,11 @@ export default function OccasionCarousel({ onSelectTemplate }) {
     offset: ['start end', 'end start'],
   });
 
-  const sectionOpacity = useTransform(scrollYProgress, [0, 0.08, 0.92, 1], [0.7, 1, 1, 0.6]);
-  const sectionScale = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [0.96, 1, 1, 0.97]);
-  const sectionY = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [40, 0, 0, -30]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.08, 0.82, 0.98], [0.6, 1, 1, 0]);
+  const sectionScale = useTransform(scrollYProgress, [0, 0.18, 0.82, 0.98], [0.96, 1, 1, 0.95]);
+  const sectionY = useTransform(scrollYProgress, [0, 0.18, 0.82, 0.98], [40, 0, 0, -40]);
+  const sectionVisibility = useTransform(scrollYProgress, (v) => (v >= 0.98 ? 'hidden' : 'visible'));
+  const sectionPointerEvents = useTransform(scrollYProgress, (v) => (v >= 0.95 ? 'none' : 'auto'));
 
   // Auto transition every 4.8 seconds
   useEffect(() => {
@@ -99,7 +101,13 @@ export default function OccasionCarousel({ onSelectTemplate }) {
     <motion.section 
       ref={containerRef}
       id="carousel" 
-      style={{ opacity: sectionOpacity, scale: sectionScale, y: sectionY }}
+      style={{ 
+        opacity: sectionOpacity, 
+        scale: sectionScale, 
+        y: sectionY,
+        visibility: sectionVisibility,
+        pointerEvents: sectionPointerEvents,
+      }}
       className="min-h-screen py-12 sm:py-16 lg:py-20 bg-white overflow-hidden relative select-none w-full flex flex-col justify-center"
     >
       <div className="w-full max-w-[1920px] mx-auto px-2 sm:px-4 lg:px-8 xl:px-12 flex-1 flex flex-col justify-between">

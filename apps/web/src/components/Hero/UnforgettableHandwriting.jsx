@@ -1,10 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 
+// Single continuous stroke path matching Apple hello animation:
+// Flows left-to-right through unforgettable without backward line jumps
 const STROKE_PATH =
-  'M 4 45 L 14 70 L 24 42 L 28 70 L 36 50 L 38 68 L 42 42 L 50 42 L 56 70 L 66 48 L 74 46 L 92 20 L 106 6 L 124 6 L 132 12 L 126 30 L 106 50 L 96 75 L 88 96 L 90 104 L 98 102 L 106 85 L 114 52 L 122 44 L 116 56 L 122 72 L 132 70 L 136 50 L 128 44 L 142 48 L 150 42 L 158 44 L 162 70 L 174 48 L 186 44 L 178 56 L 184 72 L 194 70 L 198 48 L 200 75 L 192 98 L 186 104 L 194 102 L 206 85 L 214 58 L 222 48 L 230 44 L 224 58 L 232 72 L 242 50 L 250 48 L 256 20 L 258 72 L 268 50 L 276 48 L 284 20 L 286 72 L 296 50 L 308 44 L 302 58 L 308 72 L 318 70 L 322 46 L 324 72 L 336 50 L 346 48 L 362 6 L 368 2 L 366 20 L 360 72 L 372 70 L 378 52 L 384 48 L 392 48 L 406 6 L 418 4 L 424 12 L 418 30 L 402 72 L 414 52 L 422 48 L 430 44 L 424 58 L 432 72 L 446 60 L 456 55 L 244 34 L 270 34 L 274 34 L 300 34';
+  'M 28 69 L 38 94 L 48 66 L 52 94 L 60 74 L 62 92 L 66 66 L 74 66 L 80 94 L 90 72 L 98 70 L 116 44 L 130 30 L 148 30 L 156 36 L 150 54 L 130 74 L 120 99 L 112 120 L 114 128 L 122 126 L 130 109 L 138 76 L 146 68 L 140 80 L 146 96 L 156 94 L 160 74 L 152 68 L 166 72 L 174 66 L 182 68 L 186 94 L 198 72 L 210 68 L 202 80 L 208 96 L 218 94 L 222 72 L 224 99 L 216 122 L 210 128 L 218 126 L 230 109 L 238 82 L 246 72 L 254 68 L 248 82 L 256 96 L 266 74 L 274 72 L 280 36 L 282 96 L 292 74 L 300 72 L 308 36 L 310 96 L 320 74 L 332 68 L 326 82 L 332 96 L 342 94 L 346 70 L 348 96 L 360 74 L 370 72 L 386 30 L 392 26 L 390 44 L 384 96 L 396 94 L 402 76 L 408 72 L 416 72 L 430 30 L 442 28 L 448 36 L 442 54 L 426 96 L 438 76 L 446 72 L 454 68 L 448 82 L 456 96 L 470 84 L 482 79';
 
-const PATH_TOTAL_LENGTH = 2200;
+const PATH_TOTAL_LENGTH = 1800;
 
 export default function UnforgettableHandwriting({ className = '' }) {
   const containerRef = useRef(null);
@@ -23,16 +25,15 @@ export default function UnforgettableHandwriting({ className = '' }) {
   return (
     <div
       ref={containerRef}
-      className={`relative inline-flex items-center overflow-visible select-none py-1 ${className}`}
+      className={`relative inline-flex items-center overflow-visible select-none py-0.5 ${className}`}
     >
       {/* 
         Apple 'hello' style SVG continuous stroke writing animation:
-        Uses an SVG stroke-dasharray and stroke-dashoffset animation that draws through the path
-        from start to finish without letter-to-letter breaks, revealing the exact lettering from reference image
+        Single continuous flowing stroke from left to right revealing the exact reference calligraphy
       */}
       <svg
-        viewBox="0 0 468 106"
-        className="w-[240px] min-[380px]:w-[270px] min-[480px]:w-[320px] sm:w-[380px] md:w-[430px] lg:w-[440px] xl:w-[500px] 2xl:w-[550px] h-auto overflow-visible"
+        viewBox="0 0 516 154"
+        className="w-[250px] min-[380px]:w-[285px] min-[480px]:w-[340px] sm:w-[400px] md:w-[450px] lg:w-[460px] xl:w-[520px] 2xl:w-[570px] h-auto overflow-visible"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
@@ -41,7 +42,7 @@ export default function UnforgettableHandwriting({ className = '' }) {
               d={STROKE_PATH}
               fill="none"
               stroke="#FFFFFF"
-              strokeWidth="36"
+              strokeWidth="48"
               strokeLinecap="round"
               strokeLinejoin="round"
               initial={{
@@ -68,13 +69,13 @@ export default function UnforgettableHandwriting({ className = '' }) {
 
         {/* 
           Renders the exact typography and fine outline from the attached image,
-          smoothly drawn out by the Apple hello SVG stroke mask
+          with 100% transparent background and ample padding so ascenders/descenders are never clipped
         */}
         <g mask={isDone ? undefined : 'url(#unf-apple-write-mask)'}>
           <image
             href="/images/unforgettable-exact-2x.png"
-            width="468"
-            height="106"
+            width="516"
+            height="154"
             preserveAspectRatio="xMidYMid meet"
           />
         </g>
