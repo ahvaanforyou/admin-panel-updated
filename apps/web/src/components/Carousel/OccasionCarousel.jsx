@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import SpecialMomentsHandwriting from './SpecialMomentsHandwriting';
 
 export const OCCASION_CARDS = [
   {
@@ -79,12 +80,12 @@ export default function OccasionCarousel({ onSelectTemplate }) {
   const sectionVisibility = useTransform(scrollYProgress, (v) => (v >= 0.98 ? 'hidden' : 'visible'));
   const sectionPointerEvents = useTransform(scrollYProgress, (v) => (v >= 0.95 ? 'none' : 'auto'));
 
-  // Auto transition every 4.8 seconds
+  // Auto transition every 2.8 seconds for snappier category cycling
   useEffect(() => {
     if (isAutoPlayPaused) return;
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % total);
-    }, 4800);
+    }, 2800);
 
     return () => clearInterval(timer);
   }, [isAutoPlayPaused, total]);
@@ -135,9 +136,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
             <br />
             for life’s
             <span className="inline-block w-2.5 sm:w-3.5" />
-            <span className="font-['Playwrite_US_Trad',cursive] font-normal text-[#E5B54F] text-3xl sm:text-5xl lg:text-6xl">
-              special moments
-            </span>
+            <SpecialMomentsHandwriting />
           </motion.h2>
         </div>
 

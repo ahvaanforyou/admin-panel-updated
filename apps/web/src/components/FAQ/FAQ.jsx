@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Clock, Music, MonitorSmartphone, Image as ImageIcon, ChevronDown, ChevronUp } from 'lucide-react';
+import CelebrationHandwriting from './CelebrationHandwriting';
 
 const EXACT_FAQS = [
   {
@@ -107,9 +108,7 @@ export default function FAQ() {
             >
               Before the
               <br />
-              <span className="font-['Playwrite_US_Trad',cursive] text-4xl sm:text-5xl lg:text-6xl text-[#4E1D1D] font-normal leading-none ml-1">
-                Celebration
-              </span>{' '}
+              <CelebrationHandwriting />
               <span className="font-bold text-[#1F1F1F]">Begins</span>
             </motion.h2>
 
