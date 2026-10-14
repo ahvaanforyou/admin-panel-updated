@@ -11,6 +11,7 @@ import {
 import Footer from '../../components/Footer/Footer';
 import BlogArticlePage from './BlogArticlePage';
 import CreativeHandsBusy from '../../components/Common/CreativeHandsBusy';
+import InspirationHandwriting from '../../components/Blogs/InspirationHandwriting';
 
 // Accurate blog data matching media_1791897760299.png exactly
 const BLOG_POSTS = [
@@ -105,30 +106,6 @@ const BLOG_POSTS = [
     delay: 0.36,
   },
 ];
-
-// Stroke effect animation for cursive word matching "Inspiration" with seamless ligatures and -2.1px letter-spacing
-function CursiveStrokeText({ text, className = '' }) {
-  return (
-    <motion.span
-      initial={{ opacity: 0, filter: 'blur(6px)', y: 8 }}
-      animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-      transition={{
-        duration: 0.7,
-        delay: 0.2,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className={`relative inline-block select-none transform-gpu ${className}`}
-      style={{
-        fontFamily: "'Playwrite US Trad', cursive",
-        fontStyle: 'normal',
-        letterSpacing: '-2.1px',
-        wordSpacing: '-2.1px',
-      }}
-    >
-      {text}
-    </motion.span>
-  );
-}
 
 // Compact, elegant Blog Card matching media_1791897760299.png exactly
 function CompactBlogCard({ post, onSelectArticle }) {
@@ -332,13 +309,10 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
               initial={{ opacity: 0, filter: 'blur(8px)', y: 14 }}
               animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.6rem] xl:text-[4.2rem] font-bold tracking-tight text-[#2B1B17] leading-none inline-flex items-center justify-center gap-2 sm:gap-3 flex-nowrap whitespace-nowrap overflow-visible"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.6rem] xl:text-[4.2rem] font-bold tracking-tight text-[#2B1B17] leading-none inline-flex items-baseline justify-center gap-2 sm:gap-3.5 flex-nowrap whitespace-nowrap overflow-visible"
             >
               <span>Ideas, Tips &amp;</span>
-              <CursiveStrokeText
-                text="Inspiration"
-                className="text-[#381B18] text-[2.8rem] sm:text-[3.6rem] md:text-[4.4rem] lg:text-[4.9rem] xl:text-[5.5rem] font-normal leading-none ml-1 sm:ml-2"
-              />
+              <InspirationHandwriting className="ml-1 sm:ml-2" />
             </motion.h1>
           </div>
 
