@@ -53,18 +53,18 @@ export default function Hero({ onCreateClick }) {
                 Digital invitations,
               </motion.h1>
 
-              {/* Line with 'made' and 'unforgettable' directly beside it with zero awkward gap */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 mt-2 sm:mt-3 pt-1">
+              {/* Line with 'made' and 'unforgettable' directly beside it on the EXACT SAME line */}
+              <div className="flex flex-nowrap items-baseline gap-2 sm:gap-3.5 mt-2 sm:mt-3 pt-1 w-full overflow-visible whitespace-nowrap">
                 <motion.span
                   initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                   animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
-                  className="text-5xl sm:text-6xl lg:text-6xl xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none"
+                  className="text-5xl sm:text-6xl lg:text-6xl xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0"
                 >
                   made
                 </motion.span>
 
-                {/* 'unforgettable' premium smooth handwriting SVG animation matching reference image */}
+                {/* 'unforgettable' premium smooth handwriting animation matching reference image */}
                 <UnforgettableHandwriting />
               </div>
             </div>

@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Search, Heart, Share2, LayoutGrid, HeartHandshake, FileText, Send, ChevronDown, ChevronRight, Eye, Sparkles, Check } from 'lucide-react';
 import { TEMPLATES } from '../../data/content';
 import CreateItForYouHandwriting from './CreateItForYouHandwriting';
+import CreativeHandsBusy from '../Common/CreativeHandsBusy';
 
 export default function TemplateShowcase({
   selectedCategory = 'all',
@@ -138,60 +139,26 @@ export default function TemplateShowcase({
         </div>
 
         {/* ========================================================================= */}
-        {/* MAIN BODY: PRICE RANGE SIDEBAR + 3-COLUMN TEMPLATES GRID                  */}
+        {/* MAIN BODY: FULL-WIDTH 3-COLUMN TEMPLATES GRID OR CREATIVE HANDS BANNER     */}
         {/* ========================================================================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-16 sm:mb-20">
+        <div className="w-full mb-16 sm:mb-20">
           
-          {/* LEFT SIDEBAR: PRICE RANGE */}
-          <div className="lg:col-span-3 xl:col-span-2">
-            <div className="bg-white rounded-2xl border border-stone-200/90 p-5 shadow-sm sticky top-28">
-              
-              {/* Header */}
-              <div className="flex items-center justify-between pb-3.5 border-b border-stone-100 mb-4">
-                <div className="flex items-center gap-2 text-stone-700">
-                  <span className="text-stone-400 text-xs">🏷️</span>
-                  <span className="text-xs font-bold tracking-wider uppercase text-stone-800">PRICE RANGE</span>
-                </div>
-                <ChevronDown className="w-4 h-4 text-stone-400" />
-              </div>
-
-              {/* Price Checkboxes */}
-              <div className="space-y-3">
-                {[
-                  { id: 'all', label: 'All Prices' },
-                  { id: 'under-2000', label: 'Under ₹2,000', count: 2 },
-                  { id: '2000-3000', label: '₹2,000 – ₹3,000', count: 3 },
-                  { id: '3000-4000', label: '₹3,000 – ₹4,000', count: 2 },
-                  { id: 'above-4000', label: 'Above ₹4,000', count: 1 },
-                ].map((item) => (
-                  <label 
-                    key={item.id}
-                    onClick={() => setSelectedPriceRange(item.id)}
-                    className="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer group hover:text-stone-900 select-none"
-                  >
-                    <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
-                      selectedPriceRange === item.id 
-                        ? 'bg-[#351410] border-[#351410] text-white' 
-                        : 'border-stone-300 group-hover:border-stone-400 bg-white'
-                    }`}>
-                      {selectedPriceRange === item.id && (
-                        <span className="text-[10px] leading-none font-bold">✓</span>
-                      )}
-                    </div>
-                    <span>{item.label}</span>
-                    {item.count && (
-                      <span className="text-stone-400 text-xs ml-auto">({item.count})</span>
-                    )}
-                  </label>
-                ))}
-              </div>
-
+          {/* If non-wedding category selected (Birthday, House Warming, Baby Shower), display Creative Hands banner */}
+          {activeTab !== 'all' && activeTab !== 'wedding' ? (
+            <div className="w-full flex justify-center py-4">
+              <CreativeHandsBusy 
+                categoryName={
+                  activeTab === 'birthday' 
+                    ? 'Birthday Celebrations' 
+                    : activeTab === 'house-warming' 
+                    ? 'House Warming Ceremonies' 
+                    : 'Baby Showers'
+                }
+              />
             </div>
-          </div>
-
-          {/* RIGHT COLUMN: 3-COLUMN TEMPLATES GRID WITH PHONE MOCKUPS */}
-          <div className="lg:col-span-9 xl:col-span-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+          ) : (
+            /* FULL-WIDTH 3-COLUMN TEMPLATES GRID (Filter sidebar removed completely) */
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
               {filteredTemplates.map((item) => {
                 const isLiked = likedTemplates[item.id];
 
@@ -200,15 +167,15 @@ export default function TemplateShowcase({
                     key={item.id}
                     whileHover={{ y: -4 }}
                     transition={{ duration: 0.2 }}
-                    className="bg-white rounded-2xl border border-stone-200/90 p-4 shadow-sm hover:shadow-md transition-all flex flex-row items-center gap-4 relative group select-none min-h-[220px]"
+                    className="bg-white rounded-2xl border border-stone-200/90 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all flex flex-row items-center gap-4 sm:gap-5 relative group select-none min-h-[225px]"
                   >
-                    {/* Left: Realistic Smartphone Frame with Client Hero Screen */}
-                    <div className="w-[102px] sm:w-[110px] aspect-[9/19.5] flex-shrink-0 bg-[#1E1E1E] rounded-[20px] p-[3px] shadow-md border-[2px] border-stone-800 relative overflow-hidden flex flex-col justify-start">
+                    {/* Left: Realistic Smartphone Frame with Full Clear-Resolution Hero */}
+                    <div className="w-[108px] sm:w-[118px] aspect-[9/19.5] flex-shrink-0 bg-[#1E1E1E] rounded-[22px] p-[3px] shadow-md border-[2.5px] border-stone-800 relative overflow-hidden flex flex-col justify-start">
                       {/* Top Island / Speaker Notch */}
                       <div className="w-6 h-1 bg-stone-700/80 rounded-full mx-auto my-0.5 z-10 flex-shrink-0" />
                       
-                      {/* Inner Phone Screen with Client Website Hero */}
-                      <div className="w-full h-full rounded-[16px] overflow-hidden bg-stone-900 relative">
+                      {/* Inner Phone Screen with Client Website Hero fitting properly */}
+                      <div className="w-full h-full rounded-[17px] overflow-hidden bg-stone-900 relative">
                         <img
                           src={item.phoneImage || item.image}
                           alt={item.name}
@@ -233,7 +200,7 @@ export default function TemplateShowcase({
 
                       {/* Header Info */}
                       <div className="pr-6">
-                        <h3 className="font-bold text-stone-900 text-base leading-snug truncate" title={item.clientTitle || item.name}>
+                        <h3 className="font-bold text-stone-900 text-base sm:text-lg leading-snug truncate" title={item.clientTitle || item.name}>
                           {item.name}
                         </h3>
                         <p className="text-xs text-stone-500 font-medium mt-0.5 truncate">
@@ -263,9 +230,9 @@ export default function TemplateShowcase({
                         <div className="flex items-center gap-2 w-full">
                           <button
                             onClick={() => onPreviewTemplate(item)}
-                            className="flex-1 bg-[#351410] hover:bg-[#230C0A] text-white py-2 px-3 rounded-xl text-xs font-semibold shadow-sm transition flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap"
+                            className="flex-1 bg-[#351410] hover:bg-[#230C0A] text-white py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold shadow-sm transition flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap"
                           >
-                            <span>View Template</span>
+                            <span>Preview</span>
                             <span className="text-xs">→</span>
                           </button>
 
@@ -283,7 +250,7 @@ export default function TemplateShowcase({
                                 alert('Template link copied to clipboard!');
                               }
                             }}
-                            className="bg-white hover:bg-stone-50 text-stone-700 border border-stone-300 py-2 px-3 rounded-xl text-xs font-medium transition cursor-pointer"
+                            className="bg-white hover:bg-stone-50 text-stone-700 border border-stone-300 py-2 px-3 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer"
                           >
                             Share
                           </button>
@@ -295,7 +262,7 @@ export default function TemplateShowcase({
                 );
               })}
             </div>
-          </div>
+          )}
         </div>
 
       </div>

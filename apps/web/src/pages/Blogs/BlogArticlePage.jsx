@@ -15,9 +15,11 @@ import {
   Heart,
   Users,
   Smartphone,
-  CheckCircle2
+  CheckCircle2,
+  X
 } from 'lucide-react';
 import Footer from '../../components/Footer/Footer';
+import CreativeHandsBusy from '../../components/Common/CreativeHandsBusy';
 
 const TABLE_OF_CONTENTS = [
   { id: 'sec-01', num: '01', title: 'What Is a Digital Wedding Invitation Website?' },
@@ -90,6 +92,7 @@ const SCHEDULE_ITEMS = [
 export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal }) {
   const [activeSection, setActiveSection] = useState('sec-01');
   const [copied, setCopied] = useState(false);
+  const [busyArticle, setBusyArticle] = useState(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -131,7 +134,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
   };
 
   return (
-    <div className="min-h-screen bg-[#FCFAF8] pt-24 sm:pt-28 flex flex-col justify-between text-[#2D231E]">
+    <div className="min-h-screen bg-[#FCFAF8] pt-24 sm:pt-28 flex flex-col justify-between text-[#2D231E] font-sfpro">
       {/* Article Container */}
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 select-text">
         
@@ -737,9 +740,7 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
                   ].map((rel) => (
                     <div
                       key={rel.id}
-                      onClick={() => {
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
+                      onClick={() => setBusyArticle(rel)}
                       className="group flex gap-3.5 items-center p-2 rounded-2xl hover:bg-stone-50 cursor-pointer transition-colors"
                     >
                       <div className="w-16 h-16 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0 border border-stone-200/60">
@@ -772,6 +773,25 @@ export default function BlogArticlePage({ onBack, onNavigate, onOpenCreateModal 
 
         </div>
       </main>
+
+      {/* Modal for other / related blogs showing Creative Hands Busy */}
+      {busyArticle && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="relative max-w-4xl w-full">
+            <button 
+              onClick={() => setBusyArticle(null)}
+              className="absolute top-6 right-6 z-30 w-10 h-10 rounded-full bg-white/90 text-stone-800 flex items-center justify-center shadow-md hover:bg-white cursor-pointer border border-stone-200"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <CreativeHandsBusy 
+              title="Our Creative Hands Are Busy!" 
+              subtitle={`We're currently writing: "${busyArticle.title}"`}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <Footer

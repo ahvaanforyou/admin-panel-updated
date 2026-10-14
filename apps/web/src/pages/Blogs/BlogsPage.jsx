@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import Footer from '../../components/Footer/Footer';
 import BlogArticlePage from './BlogArticlePage';
+import CreativeHandsBusy from '../../components/Common/CreativeHandsBusy';
 
 // Accurate blog data matching media_1791897760299.png exactly
 const BLOG_POSTS = [
@@ -257,7 +258,7 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
       window.history.pushState(null, '', '/blogs/digital-wedding-invitation-guide');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      // For other cards, open the same article view as requested
+      // For other blog cards, show the Creative Hands Busy expanded view as requested
       setSelectedArticle(post);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -269,8 +270,8 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // If article is selected, render full PDF expanded article view
-  if (selectedArticle) {
+  // If article 1 is selected, render full PDF expanded article view with SF Pro font
+  if (selectedArticle && selectedArticle.id === 1) {
     return (
       <BlogArticlePage
         article={selectedArticle}
@@ -281,9 +282,35 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
     );
   }
 
-  // Otherwise, render full Blog Catalog matching media_1791897760299.png exactly
+  // If an 'other blog' is selected, render the Creative Hands expanded section as requested
+  if (selectedArticle && selectedArticle.id !== 1) {
+    return (
+      <div className="min-h-screen bg-[#FCFAF8] pt-28 sm:pt-36 flex flex-col justify-between font-sfpro">
+        <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Back Button */}
+          <button
+            onClick={handleBackToBlogs}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-stone-200 text-stone-700 hover:text-stone-900 text-xs sm:text-sm font-semibold shadow-xs hover:shadow-sm transition-all mb-8 cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to All Blogs</span>
+          </button>
+
+          {/* Creative Hands Busy Graphic matching reference */}
+          <CreativeHandsBusy 
+            title="Our Creative Hands Are Busy!" 
+            subtitle={`We're currently writing: "${selectedArticle.title}"`}
+          />
+        </section>
+
+        <Footer onNavigate={onNavigate} onOpenCreateModal={onOpenCreateModal} />
+      </div>
+    );
+  }
+
+  // Otherwise, render full Blog Catalog matching media_1791897760299.png with SF Pro font
   return (
-    <div className="min-h-screen bg-[#FCFAF8] pt-28 sm:pt-36 flex flex-col justify-between">
+    <div className="min-h-screen bg-[#FCFAF8] pt-28 sm:pt-36 flex flex-col justify-between font-sfpro">
       {/* Main Blog Catalog Section */}
       <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 select-none">
         
