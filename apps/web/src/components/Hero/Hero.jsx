@@ -114,67 +114,67 @@ export default function Hero({ onCreateClick }) {
           </motion.div>
 
           {/* ========================================================================= */}
-          {/* RIGHT COLUMN: Exact 3×3 Grid Fitting Viewport with Depth Shadows & Crops  */}
+          {/* RIGHT COLUMN: Exact 3×3 Grid Fitting Viewport with Neumorphic Depth & Flush Border */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-6 xl:col-span-6 flex justify-end items-center w-full pr-0">
+          <div className="lg:col-span-6 xl:col-span-6 flex justify-end items-center w-full pr-0 overflow-visible">
             {/* 
-              Responsive 3x3 Matrix filling the right hero area generously up to the right edge:
+              Responsive 3x3 Matrix matching third reference image with neumorphic depth and flush right border:
             */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-4 xl:gap-4.5 w-full max-w-[680px] lg:max-w-[740px] xl:max-w-[820px] 2xl:max-w-[900px] max-h-[calc(100vh-6.5rem)] aspect-[1/1] select-none p-0 relative">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 xl:gap-4.5 w-full max-w-[680px] lg:max-w-none lg:w-[calc(100%+1.5rem)] xl:w-[calc(100%+2.5rem)] 2xl:w-[calc(100%+4rem)] lg:-mr-6 xl:-mr-10 2xl:-mr-16 max-h-[calc(100vh-5.5rem)] aspect-[1/1] select-none p-0 relative">
               
-              {/* Star Accent moved upwards to match exact reference geometry */}
-              <div className="absolute top-[26%] sm:top-[27%] right-[31%] z-20 pointer-events-none">
+              {/* Star Accent positioned at exact geometry intersection (69.4% X, 32.1% Y) */}
+              <div className="absolute top-[31%] right-[32%] z-20 pointer-events-none">
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-                  className="text-[#1F1F1F] text-xl sm:text-2xl font-black drop-shadow-sm"
+                  className="text-[#1F1F1F] text-xl sm:text-2xl font-black drop-shadow-sm select-none"
                 >
                   ✦
                 </motion.div>
               </div>
 
-              {/* Row 1, Col 1: Yellow Quarter-Circle (Top-Right Curved) with Inset Depth */}
+              {/* Row 1, Col 1: Yellow Quarter-Circle (Top-Right Curved) with Neumorphic Inset & Depth */}
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-[#E5B54F] rounded-tr-[100%] rounded-tl-none rounded-br-none rounded-bl-none"
+                className="w-full h-full bg-[#F5CD51] rounded-tr-[100%] rounded-tl-none rounded-br-none rounded-bl-none"
                 style={{
-                  boxShadow: 'inset -8px -8px 24px rgba(0, 0, 0, 0.08), 0 8px 20px -6px rgba(229, 181, 79, 0.25)'
+                  boxShadow: 'inset 4px 4px 14px rgba(255, 255, 255, 0.5), inset -6px -6px 18px rgba(0, 0, 0, 0.1), 8px 16px 30px -4px rgba(245, 205, 81, 0.38), 0 4px 12px rgba(0, 0, 0, 0.06)'
                 }}
               />
 
-              {/* Row 1, Col 2: Peach Quarter-Circle (Bottom-Right Curved) with Inset Depth */}
+              {/* Row 1, Col 2: Peach Quarter-Circle (Bottom-Right Curved) with Neumorphic Depth */}
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-[#F3C4B3] rounded-br-[100%] rounded-tl-none rounded-tr-none rounded-bl-none"
+                className="w-full h-full bg-[#F4C4B7] rounded-br-[100%] rounded-tl-none rounded-tr-none rounded-bl-none"
                 style={{
-                  boxShadow: 'inset 8px -8px 24px rgba(0, 0, 0, 0.06), 0 8px 20px -6px rgba(243, 196, 179, 0.25)'
+                  boxShadow: 'inset 4px 4px 14px rgba(255, 255, 255, 0.55), inset -6px -6px 18px rgba(0, 0, 0, 0.1), 8px 16px 28px -4px rgba(244, 196, 183, 0.38), 0 4px 12px rgba(0, 0, 0, 0.06)'
                 }}
               />
 
-              {/* Row 1, Col 3: Deep Maroon Quarter-Circle with 'For Every Special Moment' */}
+              {/* Row 1, Col 3: Deep Maroon Quarter-Circle with 'For Every Special Moment' (Flush to Right Border) */}
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-[#4E1D1D] rounded-tl-[100%] rounded-tr-none rounded-bl-none rounded-br-none p-4 sm:p-6 xl:p-8 flex flex-col justify-end items-end text-right text-white relative overflow-hidden"
+                className="w-full h-full bg-[#381410] rounded-tl-[100%] rounded-tr-none rounded-bl-none rounded-br-none p-4 sm:p-6 xl:p-8 flex flex-col justify-end items-end text-right text-white relative overflow-hidden"
                 style={{
-                  boxShadow: 'inset -6px 6px 20px rgba(0, 0, 0, 0.2), 0 10px 25px -6px rgba(78, 29, 29, 0.3)'
+                  boxShadow: 'inset 4px -4px 18px rgba(0, 0, 0, 0.4), inset -2px 2px 10px rgba(255, 255, 255, 0.15), 8px 16px 30px -4px rgba(56, 20, 16, 0.45)'
                 }}
               >
-                <div className="w-8 sm:w-11 h-0.5 bg-white/70 mb-2 self-start" />
+                <div className="w-8 sm:w-11 h-0.5 bg-white/75 mb-2.5 self-start" />
                 <span className="font-editorial text-xs sm:text-base xl:text-lg tracking-wide text-white/95 leading-tight">
                   For Every<br />Special<br />Moment
                 </span>
               </motion.div>
 
-              {/* Row 2, Col 1: High-Res Couple in Mandap with Rose Petals (No black edges!) */}
+              {/* Row 2, Col 1: High-Res Couple in Mandap with Rose Petals (Rounded Arch Top) */}
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full rounded-t-[140px] sm:rounded-t-[180px] overflow-hidden relative group bg-[#FAF8F6]"
+                className="w-full h-full rounded-t-[140px] sm:rounded-t-[180px] rounded-b-none overflow-hidden relative group bg-[#FAF8F6]"
                 style={{
-                  boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.15), 0 8px 24px -4px rgba(0, 0, 0, 0.12)'
+                  boxShadow: 'inset 0 0 16px rgba(0, 0, 0, 0.15), 8px 18px 30px -4px rgba(0, 0, 0, 0.16)'
                 }}
               >
                 <img
@@ -184,68 +184,68 @@ export default function Hero({ onCreateClick }) {
                 />
               </motion.div>
 
-              {/* Row 2, Col 2: Peach Full Circle with Subtle Spherical Depth Shadow */}
+              {/* Row 2, Col 2: Peach Full Circle with 3D Spherical Neumorphic Depth Shadow */}
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full rounded-full bg-[#F3C4B3]"
+                className="w-full h-full rounded-full bg-[#F4C4B7]"
                 style={{
-                  boxShadow: 'inset 0 -10px 25px rgba(0, 0, 0, 0.08), inset 0 10px 25px rgba(255, 255, 255, 0.4), 0 10px 25px -8px rgba(243, 196, 179, 0.35)'
+                  boxShadow: 'inset 0 6px 14px rgba(255, 255, 255, 0.6), inset 0 -12px 24px rgba(0, 0, 0, 0.14), 8px 18px 32px -4px rgba(244, 196, 183, 0.42), 0 6px 16px rgba(0, 0, 0, 0.08)'
                 }}
               />
 
-              {/* Row 2, Col 3: Split into Yellow Quarter-Circle + Newly Uploaded Reception Night Lights Photo */}
+              {/* Row 2, Col 3: Split into Yellow Quarter-Circle + Traditional Hands Ceremony Photo (Flush to Right Border) */}
               <div className="w-full h-full flex flex-col gap-2.5 sm:gap-3.5 xl:gap-4">
                 <motion.div 
                   whileHover={{ scale: 1.015 }}
                   transition={{ duration: 0.3 }}
-                  className="flex-[1.05] bg-[#E5B54F] rounded-tl-[100%]"
+                  className="flex-[1.05] bg-[#F5CD51] rounded-tl-[100%] rounded-tr-none rounded-b-none"
                   style={{
-                    boxShadow: 'inset -6px 6px 20px rgba(0, 0, 0, 0.07)'
+                    boxShadow: 'inset 3px 3px 12px rgba(255, 255, 255, 0.45), inset -4px 4px 14px rgba(0, 0, 0, 0.1), 6px 14px 26px -4px rgba(245, 205, 81, 0.32)'
                   }}
                 />
                 <motion.div 
                   whileHover={{ scale: 1.015 }}
                   transition={{ duration: 0.3 }}
-                  className="flex-[0.95] rounded-2xl overflow-hidden bg-stone-900 group"
+                  className="flex-[0.95] rounded-2xl rounded-r-none overflow-hidden bg-stone-900 group"
                   style={{
-                    boxShadow: 'inset 0 0 16px rgba(0, 0, 0, 0.1), 0 6px 16px -4px rgba(0, 0, 0, 0.1)'
+                    boxShadow: 'inset 0 0 16px rgba(0, 0, 0, 0.15), 6px 14px 24px -4px rgba(0, 0, 0, 0.14)'
                   }}
                 >
                   <img
-                    src="/images/hero-night-lights.jpg"
-                    alt="Starry Chandelier Reception Night"
+                    src="/images/hero-hands-perfect.jpg"
+                    alt="Traditional Wedding Hands Ceremony"
                     className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
                 </motion.div>
               </div>
 
-              {/* Row 3, Col 1: Split into Maroon 'BEAUTIFUL DESIGNS' + Diya Ritual Photo (Clean crop, zero black bars) */}
+              {/* Row 3, Col 1: Split into Maroon 'BEAUTIFUL DESIGNS' + Brass Diya Oil Lamps Photo */}
               <div className="w-full h-full flex flex-col gap-2.5 sm:gap-3.5 xl:gap-4">
                 <motion.div 
                   whileHover={{ scale: 1.015 }}
                   transition={{ duration: 0.3 }}
-                  className="flex-[1.05] bg-[#4E1D1D] rounded-2xl p-3 sm:p-4.5 text-white flex flex-col justify-center"
+                  className="flex-[1.05] bg-[#381410] rounded-tl-[100%] rounded-tr-none rounded-b-none p-3 sm:p-4.5 text-white flex flex-col justify-center"
                   style={{
-                    boxShadow: 'inset -4px 4px 16px rgba(0, 0, 0, 0.25), 0 6px 16px -4px rgba(78, 29, 29, 0.25)'
+                    boxShadow: 'inset 4px -4px 16px rgba(0, 0, 0, 0.35), 6px 14px 24px -4px rgba(56, 20, 16, 0.38)'
                   }}
                 >
                   <span className="text-[10px] sm:text-xs xl:text-sm font-bold tracking-widest uppercase leading-snug">
                     BEAUTIFUL<br />DESIGNS
                   </span>
-                  <div className="w-6 sm:w-8 h-0.5 bg-white/70 mt-1.5" />
+                  <div className="w-6 sm:w-8 h-0.5 bg-white/75 mt-1.5" />
                 </motion.div>
                 <motion.div 
                   whileHover={{ scale: 1.015 }}
                   transition={{ duration: 0.3 }}
                   className="flex-[0.95] rounded-2xl overflow-hidden bg-stone-900 group"
                   style={{
-                    boxShadow: 'inset 0 0 16px rgba(0, 0, 0, 0.2), 0 6px 16px -4px rgba(0, 0, 0, 0.12)'
+                    boxShadow: 'inset 0 0 16px rgba(0, 0, 0, 0.18), 6px 14px 24px -4px rgba(0, 0, 0, 0.14)'
                   }}
                 >
                   <img
-                    src="/images/hero-diya-clean.jpg"
-                    alt="Traditional Brass Diya Ritual"
+                    src="/images/hero-diya-lamps.jpg"
+                    alt="Traditional Brass Diya Lamps with Jasmine Flowers"
                     className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
                 </motion.div>
@@ -255,9 +255,9 @@ export default function Hero({ onCreateClick }) {
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-[#E5B54F] rounded-2xl p-4 sm:p-5 xl:p-6 flex flex-col justify-center text-[#1F1F1F]"
+                className="w-full h-full bg-[#F5CD51] rounded-2xl p-4 sm:p-5 xl:p-6 flex flex-col justify-center text-[#1F1F1F]"
                 style={{
-                  boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.06), 0 8px 20px -6px rgba(229, 181, 79, 0.25)'
+                  boxShadow: 'inset 3px 3px 12px rgba(255, 255, 255, 0.45), inset -6px -6px 18px rgba(0, 0, 0, 0.1), 8px 16px 28px -4px rgba(245, 205, 81, 0.35)'
                 }}
               >
                 <span className="font-bold text-[11px] sm:text-xs xl:text-sm tracking-wider uppercase leading-snug">
@@ -266,16 +266,16 @@ export default function Hero({ onCreateClick }) {
                 <div className="w-6 sm:w-8 h-0.5 bg-[#1F1F1F]/70 mt-2" />
               </motion.div>
 
-              {/* Row 3, Col 3: Peach Quarter-Circle (Top-Left Curved) with Diagonal Arrow */}
+              {/* Row 3, Col 3: Peach Quarter-Circle (Top-Left Curved) with Diagonal Arrow (Flush to Right Border) */}
               <motion.div 
                 whileHover={{ scale: 1.015 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-[#F3C4B3] rounded-tl-[100%] p-4 sm:p-6 xl:p-8 flex items-end justify-end group"
+                className="w-full h-full bg-[#F4C4B7] rounded-tl-[100%] rounded-tr-none rounded-br-none rounded-bl-none p-4 sm:p-6 xl:p-8 flex items-end justify-end group"
                 style={{
-                  boxShadow: 'inset 8px 8px 24px rgba(0, 0, 0, 0.07), 0 8px 24px -6px rgba(243, 196, 179, 0.25)'
+                  boxShadow: 'inset 4px 4px 14px rgba(255, 255, 255, 0.5), inset -6px -6px 20px rgba(0, 0, 0, 0.1), 8px 16px 28px -4px rgba(244, 196, 183, 0.35)'
                 }}
               >
-                <ArrowUpRight className="w-7 h-7 sm:w-10 sm:h-10 xl:w-12 xl:h-12 text-[#1F1F1F] transition-transform duration-300 group-hover:translate-x-1.5 group-hover:-translate-y-1.5" />
+                <ArrowUpRight className="w-7 h-7 sm:w-10 sm:h-10 xl:w-12 xl:h-12 text-[#1F1F1F] stroke-[2.2] transition-transform duration-300 group-hover:translate-x-1.5 group-hover:-translate-y-1.5" />
               </motion.div>
 
             </div>

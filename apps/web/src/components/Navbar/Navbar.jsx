@@ -95,7 +95,7 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
       >
         <div className="flex items-center justify-between">
           
-          {/* Brand Logo - EXACT Ahvaan Serif */}
+          {/* Brand Logo - High Resolution Official Ahvaan for You Logo */}
           <a
             href="/"
             onClick={(e) => {
@@ -104,17 +104,14 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
             }}
             className="flex items-center gap-2 group flex-shrink-0"
           >
-            <div className="flex flex-col items-center">
-              <span className="font-editorial text-xl sm:text-2xl font-bold tracking-[0.22em] text-[#8C6D46] uppercase leading-none">
-                AHVAAN
-              </span>
-              <span className="text-[8px] sm:text-[9px] font-semibold tracking-[0.4em] text-[#8C6D46]/70 uppercase mt-0.5">
-                FOR YOU
-              </span>
-            </div>
+            <img
+              src="/images/logo/ahvaan-nav-logo.png"
+              alt="Ahvaan for You"
+              className="h-8 sm:h-9.5 md:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
           </a>
 
-          {/* Center Navigation Links - Exactly matching Reference Attachment 1 */}
+          {/* Center Navigation Links - Exactly matching Reference */}
           <nav className="hidden md:flex items-center gap-7 text-xs sm:text-sm font-medium text-stone-700">
             <button
               onClick={() => handleNavClick('home')}
@@ -161,13 +158,6 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
               className="font-medium text-stone-700 hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
             >
               About
-            </button>
-
-            <button
-              onClick={() => handleNavClick('faq')}
-              className="font-medium text-stone-700 hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
-            >
-              FAQ
             </button>
           </nav>
 
@@ -226,9 +216,6 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
             </button>
             <button onClick={() => handleNavClick('moments')} className="text-left py-1">
               About
-            </button>
-            <button onClick={() => handleNavClick('faq')} className="text-left py-1">
-              FAQ
             </button>
             <a
               href="/admin"
