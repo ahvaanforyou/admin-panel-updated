@@ -11,6 +11,9 @@ import CreateModal from './components/CreateModal/CreateModal';
 import Footer from './components/Footer/Footer';
 import HowItWorksPage from './pages/HowItWorks/HowItWorksPage';
 import BlogsPage from './pages/Blogs/BlogsPage';
+import InvitationsPage from './pages/Invitations/InvitationsPage';
+import AboutPage from './pages/About/AboutPage';
+import AboutSection from './components/About/AboutSection';
 import { useLenis } from './hooks/useLenis';
 import { TEMPLATES } from './data/content';
 
@@ -102,6 +105,8 @@ export default function App() {
 
   const isHowItWorks = currentPath === '/howitworks' || currentPath === '/how-it-works';
   const isBlogs = currentPath === '/blogs' || currentPath === '/blog' || currentPath.startsWith('/blogs/') || currentPath.startsWith('/blog/');
+  const isInvitations = currentPath === '/invitations' || currentPath === '/templates';
+  const isAbout = currentPath === '/about';
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-surface-text selection:bg-[#4E1D1D] selection:text-white">
@@ -125,6 +130,19 @@ export default function App() {
           onNavigate={navigate}
           onOpenCreateModal={handleOpenGeneralCreate}
         />
+      ) : isInvitations ? (
+        /* ================= DEDICATED INVITATIONS PAGE ================= */
+        <InvitationsPage
+          onNavigate={navigate}
+          onPreviewTemplate={handleOpenPreview}
+          onCreateTemplate={(tpl) => handleStartCreation(tpl, false)}
+        />
+      ) : isAbout ? (
+        /* ================= ABOUT US PAGE ================= */
+        <AboutPage
+          onNavigate={navigate}
+          onOpenCreateModal={handleOpenGeneralCreate}
+        />
       ) : (
         /* ================= HOME LANDING PAGE ================= */
         <>
@@ -145,10 +163,13 @@ export default function App() {
           {/* 5. Frequently Asked Questions (Accordion) */}
           <FAQ />
 
-          {/* 6. Client Moments & Reviews Glass Cards */}
+          {/* 6. About Section ("A Bunch of Creative Monkeys") */}
+          <AboutSection />
+
+          {/* 7. Client Moments & Reviews Glass Cards */}
           <Moments />
 
-          {/* 7. Site Footer with brand, categories, social & admin link */}
+          {/* 8. Site Footer with brand, categories, social & admin link */}
           <Footer
             onCategoryClick={handleSelectCategoryFromBanner}
             onCreateClick={handleOpenGeneralCreate}

@@ -15,11 +15,33 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
 
   const isHowItWorks = currentPath === '/howitworks' || currentPath === '/how-it-works';
   const isBlogs = currentPath === '/blogs' || currentPath === '/blog' || currentPath.startsWith('/blogs/') || currentPath.startsWith('/blog/');
-  const isHome = !isHowItWorks && !isBlogs && (!currentPath || currentPath === '/' || currentPath === '/#home');
-  const isSubpage = isHowItWorks || isBlogs;
+  const isInvitations = currentPath === '/invitations' || currentPath === '/templates';
+  const isAbout = currentPath === '/about';
+  const isHome = !isHowItWorks && !isBlogs && !isInvitations && !isAbout && (!currentPath || currentPath === '/' || currentPath === '/#home');
+  const isSubpage = isHowItWorks || isBlogs || isInvitations || isAbout;
 
   const handleNavClick = (target) => {
     setMobileMenuOpen(false);
+
+    if (target === 'invitations') {
+      if (onNavigate) {
+        onNavigate('/invitations');
+      } else {
+        window.history.pushState(null, '', '/invitations');
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }
+      return;
+    }
+
+    if (target === 'about') {
+      if (onNavigate) {
+        onNavigate('/about');
+      } else {
+        window.history.pushState(null, '', '/about');
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }
+      return;
+    }
 
     if (target === 'howitworks') {
       if (onNavigate) {
@@ -125,8 +147,12 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
             </button>
 
             <button
-              onClick={() => handleNavClick('templates')}
-              className="font-medium text-stone-700 hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
+              onClick={() => handleNavClick('invitations')}
+              className={`transition-all pb-0.5 ${
+                isInvitations
+                  ? 'font-bold text-stone-900 border-b-2 border-stone-900'
+                  : 'font-medium text-stone-700 hover:text-brand-primary border-b-2 border-transparent hover:border-brand-primary'
+              }`}
             >
               Invitations
             </button>
@@ -154,8 +180,12 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
             </button>
 
             <button
-              onClick={() => handleNavClick('moments')}
-              className="font-medium text-stone-700 hover:text-brand-primary transition-colors pb-0.5 border-b-2 border-transparent hover:border-brand-primary"
+              onClick={() => handleNavClick('about')}
+              className={`transition-all pb-0.5 ${
+                isAbout
+                  ? 'font-bold text-stone-900 border-b-2 border-stone-900'
+                  : 'font-medium text-stone-700 hover:text-brand-primary border-b-2 border-transparent hover:border-brand-primary'
+              }`}
             >
               About
             </button>
@@ -199,7 +229,10 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
             >
               Home
             </button>
-            <button onClick={() => handleNavClick('templates')} className="text-left py-1">
+            <button 
+              onClick={() => handleNavClick('invitations')} 
+              className={`text-left py-1 ${isInvitations ? 'text-brand-primary font-bold' : ''}`}
+            >
               Invitations
             </button>
             <button
@@ -214,7 +247,10 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
             >
               Blog
             </button>
-            <button onClick={() => handleNavClick('moments')} className="text-left py-1">
+            <button 
+              onClick={() => handleNavClick('about')} 
+              className={`text-left py-1 ${isAbout ? 'text-brand-primary font-bold' : ''}`}
+            >
               About
             </button>
             <a
