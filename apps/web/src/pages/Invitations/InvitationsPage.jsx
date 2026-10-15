@@ -1,30 +1,20 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight, Eye, Check, MapPin, Music, Sparkles, Calendar, Share2, Heart } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Eye, Check, MapPin, Calendar, Share2, Heart } from 'lucide-react';
 import { TEMPLATES } from '../../data/content';
 import Footer from '../../components/Footer/Footer';
+import CreativeHandsBusy from '../../components/Common/CreativeHandsBusy';
+
+const INVITATION_CATEGORIES = [
+  { id: 'wedding', label: 'Wedding' },
+  { id: 'birthdays', label: 'Birthdays' },
+  { id: 'baby-shower', label: 'Baby Shower' },
+  { id: 'house-warming', label: 'House Warming' },
+];
 
 export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreateTemplate }) {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeCategory, setActiveCategory] = useState('wedding');
 
   const weddingTemplates = TEMPLATES.filter((t) => t.category === 'wedding');
-
-  const filteredTemplates = activeFilter === 'all'
-    ? weddingTemplates
-    : weddingTemplates.filter((t) => {
-        if (activeFilter === 'traditional') {
-          return t.tags?.some((tag) => ['Traditional', 'Temple', 'Gopuram', 'South Indian'].includes(tag));
-        }
-        if (activeFilter === 'sangeet') {
-          return t.tags?.some((tag) => ['Sangeet', 'Cocktail', 'Glitter'].includes(tag));
-        }
-        if (activeFilter === 'royal') {
-          return t.tags?.some((tag) => ['Heritage', 'Royal Palace', 'Gold Foil'].includes(tag));
-        }
-        if (activeFilter === 'destination') {
-          return t.tags?.some((tag) => ['Destination', 'Beach Mandap', 'Chibi'].includes(tag));
-        }
-        return true;
-      });
 
   return (
     <div className="min-h-screen bg-[#FCFAF8] pt-24 sm:pt-28 flex flex-col justify-between text-[#1F1F1F]">
@@ -41,53 +31,47 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
           </button>
 
           <span className="text-stone-400">
-            Showing <strong className="text-stone-800">{filteredTemplates.length}</strong> Wedding Invitation Websites
+            {activeCategory === 'wedding' ? (
+              <>Showing <strong className="text-stone-800">{weddingTemplates.length}</strong> Wedding Invitation Websites</>
+            ) : (
+              <span>Coming Soon</span>
+            )}
           </span>
         </div>
 
-        {/* Hero Header */}
+        {/* Hero Header without pill tag */}
         <div className="mb-10 sm:mb-12 text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FCECE8] text-[#351410] text-[11px] font-bold tracking-wider uppercase mb-1">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>Real Client Websites &amp; Templates</span>
-          </div>
-
           <h1 className="text-3xl sm:text-5xl font-bold text-[#1F1F1F] tracking-tight leading-[1.12]">
-            Modern Indian Wedding Invitations
+            Modern Indian Invitations
           </h1>
 
           <p className="text-sm sm:text-base text-stone-600 leading-relaxed max-w-2xl mx-auto">
-            Explore our real digital wedding websites designed for couples across India and worldwide. 
+            Explore our digital invitations designed for celebrations across India and worldwide. 
             Each invite combines interactive storytelling, live Google Maps, RSVP tracking, background music, and effortless sharing.
           </p>
         </div>
 
-        {/* Filter Pills */}
+        {/* Category Filter Pills: Wedding, Birthdays, Baby Shower, House Warming */}
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 mb-10">
-          {[
-            { id: 'all', label: 'All Invitations' },
-            { id: 'traditional', label: 'Traditional & Temple' },
-            { id: 'sangeet', label: 'Sangeet & Cocktails' },
-            { id: 'royal', label: 'Royal Palace & Heritage' },
-            { id: 'destination', label: 'Destination & Beach' },
-          ].map((filter) => (
+          {INVITATION_CATEGORIES.map((cat) => (
             <button
-              key={filter.id}
-              onClick={() => setActiveFilter(filter.id)}
-              className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-                activeFilter === filter.id
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                activeCategory === cat.id
                   ? 'bg-[#351410] text-white shadow-md'
                   : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200/80'
               }`}
             >
-              {filter.label}
+              {cat.label}
             </button>
           ))}
         </div>
 
-        {/* Expanded Grid of Client Wedding Websites */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {filteredTemplates.map((template) => (
+        {/* Content Area: Wedding Grid or Creative Hands Busy for other categories */}
+        {activeCategory === 'wedding' ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {weddingTemplates.map((template) => (
             <div
               key={template.id}
               className="bg-white rounded-3xl border border-stone-200/90 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
@@ -202,21 +186,34 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
             </div>
           ))}
         </div>
+      ) : (
+        <CreativeHandsBusy
+          categoryName={
+            activeCategory === 'birthdays'
+              ? 'Birthday Celebrations'
+              : activeCategory === 'baby-shower'
+              ? 'Baby Shower & Godh Bharai'
+              : 'House Warming & Griha Pravesh'
+          }
+          title="Our Creative Hands Are Busy!"
+          subtitle="Our Team is still working on it !"
+        />
+      )}
 
         {/* Bottom Bespoke Creation Banner */}
         <div className="mt-14 p-8 sm:p-10 rounded-3xl bg-[#351410] text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="space-y-2 text-center md:text-left max-w-xl">
             <h3 className="text-2xl sm:text-3xl font-bold tracking-tight">
-              Looking for a 100% custom wedding website?
+              Looking for a 100% custom invitation website?
             </h3>
             <p className="text-stone-300 text-xs sm:text-sm leading-relaxed">
-              Have your own illustrations, couple monogram, custom background song, or unique multi-day ceremony schedule? Our studio crafts fully tailored wedding websites in 2 working days.
+              Have your own illustrations, couple monogram, custom background song, or unique multi-day ceremony schedule? Our studio crafts fully tailored celebration websites in 2 working days.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <a
-              href="https://wa.me/918985966940?text=Hi%20Ahvaan%20Team!%20I%20would%20like%20to%20discuss%20a%20custom%20wedding%20invitation%20website."
+              href="https://wa.me/918985966940?text=Hi%20Ahvaan%20Team!%20I%20would%20like%20to%20discuss%20a%20custom%20invitation%20website."
               target="_blank"
               rel="noopener noreferrer"
               className="px-5 py-3 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-colors shadow-md"

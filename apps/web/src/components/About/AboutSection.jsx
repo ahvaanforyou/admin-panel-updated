@@ -50,7 +50,7 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.25 }}
-              className="mt-8 flex flex-wrap items-center gap-3.5 sm:gap-4 w-full"
+              className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 w-full"
             >
               {/* WhatsApp Button */}
               <a
