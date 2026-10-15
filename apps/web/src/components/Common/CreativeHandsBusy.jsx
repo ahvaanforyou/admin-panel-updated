@@ -10,8 +10,8 @@ export default function CreativeHandsBusy({
 }) {
   const handleWhatsAppInquiry = () => {
     const text = categoryName 
-      ? `Hi Ahvaan team! I'm interested in digital invitations for ${categoryName}. Can you share custom design options?`
-      : `Hi Ahvaan team! I'd love to learn more about your upcoming invitation designs and custom services.`;
+      ? `Hii ahvaanforyou , I liked this design https://ahvaanforyou.com/invitations and would like custom options for ${categoryName}.`
+      : `Hii ahvaanforyou , I liked your designs https://ahvaanforyou.com/invitations and would like to learn more.`;
     window.open(`https://wa.me/918985966940?text=${encodeURIComponent(text)}`, '_blank');
   };
 

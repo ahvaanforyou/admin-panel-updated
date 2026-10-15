@@ -170,7 +170,7 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
                   <button
                     onClick={() => {
                       const templateSlug = template.slug || template.id;
-                      const link = `https://www.ahvaanforyou.com/invitation/${templateSlug}`;
+                      const link = `https://ahvaanforyou.com/invitation/${templateSlug}`;
                       const msg = `Hii ahvaanforyou , I liked this design ${link}`;
                       window.open(`https://wa.me/918985966940?text=${encodeURIComponent(msg)}`, '_blank');
                     }}
@@ -213,10 +213,10 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
 
           <div className="flex flex-wrap items-center gap-3">
             <a
-              href="https://wa.me/918985966940?text=Hi%20Ahvaan%20Team!%20I%20would%20like%20to%20discuss%20a%20custom%20invitation%20website."
+              href={`https://wa.me/918985966940?text=${encodeURIComponent('Hii ahvaanforyou , I liked this design https://ahvaanforyou.com/invitations')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-3 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-colors shadow-md"
+              className="px-5 py-3 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-colors shadow-md cursor-pointer"
             >
               <span>Chat on WhatsApp</span>
               <Share2 className="w-3.5 h-3.5" />

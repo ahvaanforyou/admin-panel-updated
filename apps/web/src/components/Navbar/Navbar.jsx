@@ -15,7 +15,7 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
 
   const isHowItWorks = currentPath === '/howitworks' || currentPath === '/how-it-works';
   const isBlogs = currentPath === '/blogs' || currentPath === '/blog' || currentPath.startsWith('/blogs/') || currentPath.startsWith('/blog/');
-  const isInvitations = currentPath === '/invitations' || currentPath === '/templates';
+  const isInvitations = currentPath === '/invitations' || currentPath === '/templates' || currentPath.startsWith('/invitation');
   const isAbout = currentPath === '/about';
   const isHome = !isHowItWorks && !isBlogs && !isInvitations && !isAbout && (!currentPath || currentPath === '/' || currentPath === '/#home');
   const isSubpage = isHowItWorks || isBlogs || isInvitations || isAbout;
