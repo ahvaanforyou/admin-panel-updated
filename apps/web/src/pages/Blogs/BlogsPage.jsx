@@ -291,37 +291,37 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
       {/* Main Blog Catalog Section */}
       <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 select-none">
         
-        {/* Header: Ideas, Tips & Inspiration on ONE line + Subtitle below with no overlap */}
-        <div className="text-center max-w-4xl mx-auto mb-14 sm:mb-20">
+        {/* Header: Ideas, Tips & Inspiration on ONE line + Subtitle below with 16-24px balanced spacing */}
+        <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-14">
           {/* Pill Badge 'OUR BLOGS' */}
           <motion.div
             initial={{ opacity: 0, filter: 'blur(6px)', y: -8 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 0.55, ease: 'easeOut' }}
-            className="inline-block px-4 py-1.5 rounded-full bg-[#F2ECE6] text-[#8C6D58] text-[11px] sm:text-xs font-medium tracking-wider uppercase mb-6 sm:mb-7 shadow-xs border border-[#E9DFD6]"
+            className="inline-block px-4 py-1.5 rounded-full bg-[#F2ECE6] text-[#8C6D58] text-[11px] sm:text-xs font-medium tracking-wider uppercase mb-4 sm:mb-5 shadow-xs border border-[#E9DFD6]"
           >
             OUR BLOGS
           </motion.div>
 
           {/* Main Title: Ideas, Tips & Inspiration (All on ONE single line without wrapping) */}
-          <div className="mb-6 sm:mb-8 overflow-visible flex justify-center">
+          <div className="mb-4 sm:mb-5 overflow-visible flex justify-center">
             <motion.h1
               initial={{ opacity: 0, filter: 'blur(8px)', y: 14 }}
               animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.6rem] xl:text-[4.2rem] font-bold tracking-tight text-[#2B1B17] leading-none inline-flex items-baseline justify-center gap-2 sm:gap-3.5 flex-nowrap whitespace-nowrap overflow-visible"
+              className="text-2xl min-[420px]:text-3xl sm:text-4xl md:text-5xl lg:text-[3.6rem] xl:text-[4.2rem] font-bold tracking-tight text-[#2B1B17] leading-none inline-flex items-baseline justify-center gap-2 sm:gap-3.5 flex-nowrap whitespace-nowrap overflow-visible"
             >
               <span>Ideas, Tips &amp;</span>
               <InspirationHandwriting className="ml-1 sm:ml-2" />
             </motion.h1>
           </div>
 
-          {/* Subtitle positioned safely below with generous clearance to prevent ANY line overlap */}
+          {/* Subtitle positioned cleanly 16-24px below title */}
           <motion.p
             initial={{ opacity: 0, filter: 'blur(8px)', y: 12 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 0.65, delay: 0.28, ease: 'easeOut' }}
-            className="text-xs sm:text-sm md:text-base text-[#6E5D53] font-normal leading-relaxed max-w-xl mx-auto pt-3 sm:pt-4"
+            className="text-xs sm:text-sm md:text-base text-[#6E5D53] font-normal leading-relaxed max-w-xl mx-auto"
           >
             Helpful guides, creative ideas and everything you need to create beautiful digital invitations for your special moments.
           </motion.p>
@@ -338,7 +338,7 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
           ))}
         </div>
 
-        {/* Bottom Callout Banner */}
+        {/* Bottom Callout Banner Styled with SF Pro Font */}
         <motion.div
           initial={{ opacity: 0, filter: 'blur(8px)', y: 20 }}
           whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
@@ -348,15 +348,15 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
         >
           <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-serif font-bold mb-3">
+            <h2 className="text-2xl sm:text-3xl font-primary font-bold tracking-tight mb-3">
               Ready to Design Your Own Digital Invitation?
             </h2>
-            <p className="text-white/80 text-xs sm:text-sm mb-7 font-normal">
+            <p className="text-white/80 font-primary text-xs sm:text-sm mb-7 font-normal">
               Select your design, personalize every celebration event, and share instantly with your loved ones on WhatsApp.
             </p>
             <button
               onClick={onOpenCreateModal}
-              className="inline-flex items-center gap-2.5 bg-white text-[#4E1D1D] hover:bg-stone-100 font-bold px-7 py-3.5 rounded-full text-xs sm:text-sm tracking-wide shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
+              className="inline-flex items-center gap-2.5 bg-white text-[#4E1D1D] hover:bg-stone-100 font-primary font-bold px-7 py-3.5 rounded-full text-xs sm:text-sm tracking-wide shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
             >
               <span>Get Started Today</span>
               <ArrowRight className="w-4 h-4" />

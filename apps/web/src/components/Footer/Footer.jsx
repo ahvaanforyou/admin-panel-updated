@@ -34,11 +34,11 @@ export default function Footer({ onCategoryClick, onCreateClick }) {
               </a>
 
               <a 
-                href="mailto:contact@ahvaanforyou.com" 
+                href="mailto:team@ahvaanforyou.com" 
                 className="flex items-center gap-2.5 text-white/80 hover:text-theme-wedding transition-colors"
               >
                 <Mail className="w-3.5 h-3.5 text-theme-wedding" />
-                <span>contact@ahvaanforyou.com</span>
+                <span>team@ahvaanforyou.com</span>
               </a>
             </div>
 

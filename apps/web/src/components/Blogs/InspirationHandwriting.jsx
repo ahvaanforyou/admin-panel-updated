@@ -28,7 +28,7 @@ export default function InspirationHandwriting({ className = '' }) {
         <img
           src="/images/blogs/inspiration-exact.png"
           alt="Inspiration"
-          className="h-[46px] min-[400px]:h-[56px] sm:h-[68px] md:h-[80px] lg:h-[92px] xl:h-[105px] w-auto max-w-none object-contain select-none pointer-events-none drop-shadow-xs"
+          className="h-[36px] min-[400px]:h-[46px] min-[480px]:h-[56px] sm:h-[68px] md:h-[80px] lg:h-[92px] xl:h-[105px] w-auto max-w-none object-contain select-none pointer-events-none drop-shadow-xs"
         />
       </motion.span>
     </span>

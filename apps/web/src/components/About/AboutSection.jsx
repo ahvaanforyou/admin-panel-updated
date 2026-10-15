@@ -73,7 +73,7 @@ export default function AboutSection() {
 
               {/* Email Button */}
               <a
-                href="mailto:contact@ahvaanforyou.com?subject=Enquiry%20from%20Ahvaan%20Website"
+                href="mailto:team@ahvaanforyou.com?subject=Enquiry%20from%20Ahvaan%20Website"
                 className="group flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-2xl bg-[#F6EFEA] hover:bg-[#EFE5DD] border border-[#ECDDCF] transition-all duration-300 shadow-xs hover:shadow-md transform hover:-translate-y-0.5 cursor-pointer"
               >
                 {/* Circular Mail Icon */}
@@ -82,7 +82,7 @@ export default function AboutSection() {
                 </div>
                 <div className="text-left">
                   <span className="block text-[11px] text-stone-500 font-medium">Mail us at</span>
-                  <span className="block text-xs sm:text-sm font-bold text-[#351410] tracking-wide">contact@ahvaanforyou.com</span>
+                  <span className="block text-xs sm:text-sm font-bold text-[#351410] tracking-wide">team@ahvaanforyou.com</span>
                 </div>
               </a>
 

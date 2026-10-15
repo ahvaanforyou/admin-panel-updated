@@ -184,7 +184,12 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
                   </button>
 
                   <button
-                    onClick={() => onCreateTemplate(template)}
+                    onClick={() => {
+                      const templateSlug = template.slug || template.id;
+                      const link = `https://www.ahvaanforyou.com/invitation/${templateSlug}`;
+                      const msg = `Hii ahvaanforyou , I liked this design ${link}`;
+                      window.open(`https://wa.me/918985966940?text=${encodeURIComponent(msg)}`, '_blank');
+                    }}
                     className="flex-1 py-2.5 px-3 rounded-xl bg-[#351410] hover:bg-[#230C0A] text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all transform hover:-translate-y-0.5 cursor-pointer"
                   >
                     <span>Order Design</span>

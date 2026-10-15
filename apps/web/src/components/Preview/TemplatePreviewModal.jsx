@@ -147,10 +147,10 @@ export default function TemplatePreviewModal({
               </button>
 
               <a
-                href={`https://wa.me/918985966940?text=Hi%20Ahvaan%20Team!%20I%20loved%20the%20${encodeURIComponent(template.name)}%20template.%20I%20would%20like%20to%20customize%20it%20for%20my%20event.`}
+                href={`https://wa.me/918985966940?text=${encodeURIComponent(`Hii ahvaanforyou , I liked this design https://www.ahvaanforyou.com/invitation/${template.slug || template.id}`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 px-6 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors"
+                className="w-full py-3 px-6 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <Share2 className="w-4 h-4" />
                 <span>Chat on WhatsApp Directly (+91 89859 66940)</span>

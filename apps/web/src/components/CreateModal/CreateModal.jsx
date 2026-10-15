@@ -4,6 +4,24 @@ import { X, User, Calendar, ChevronDown, Clock, ArrowRight, CheckCircle2 } from 
 
 const AHVAAN_GOOGLE_SHEET_WEBHOOK = 'https://script.google.com/macros/s/AKfycbxJFiwsDCNdVs2uL1itVib-PgVn4EsGmaGfcyWnTvJij6fYaVdO6f6TeOW3UnHQgft7Kw/exec';
 
+// Major countries where Indian diaspora resides
+const MAJOR_INDIAN_DIASPORA_COUNTRIES = [
+  { code: '+91', flag: '🇮🇳', name: 'India' },
+  { code: '+1', flag: '🇺🇸', name: 'USA' },
+  { code: '+44', flag: '🇬🇧', name: 'UK' },
+  { code: '+971', flag: '🇦🇪', name: 'UAE' },
+  { code: '+1', flag: '🇨🇦', name: 'Canada' },
+  { code: '+61', flag: '🇦🇺', name: 'Australia' },
+  { code: '+65', flag: '🇸🇬', name: 'Singapore' },
+  { code: '+60', flag: '🇲🇾', name: 'Malaysia' },
+  { code: '+64', flag: '🇳🇿', name: 'New Zealand' },
+  { code: '+974', flag: '🇶🇦', name: 'Qatar' },
+  { code: '+966', flag: '🇸🇦', name: 'Saudi Arabia' },
+  { code: '+965', flag: '🇰🇼', name: 'Kuwait' },
+  { code: '+968', flag: '🇴🇲', name: 'Oman' },
+  { code: '+49', flag: '🇩🇪', name: 'Germany' },
+];
+
 export default function CreateModal({ 
   isOpen, 
   onClose, 
@@ -11,29 +29,43 @@ export default function CreateModal({
 }) {
   if (!isOpen) return null;
 
+  const [countryCode, setCountryCode] = useState('+91');
   const [name, setName] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [occasion, setOccasion] = useState(
     preSelectedTemplate?.category 
       ? preSelectedTemplate.category === 'wedding' 
-        ? 'Wedding Celebration' 
-        : preSelectedTemplate.name 
+        ? 'Wedding/Sangeet/Engagement' 
+        : preSelectedTemplate.category === 'baby-shower'
+        ? 'Baby shower'
+        : preSelectedTemplate.category === 'birthday'
+        ? 'Birthday celebration'
+        : ''
       : ''
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Form is active only once name, whatsapp (minimum 6 digits), and occasion are selected
+  const isFormValid = Boolean(
+    name.trim().length > 0 &&
+    whatsapp.trim().replace(/\D/g, '').length >= 6 &&
+    occasion.trim().length > 0
+  );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name.trim() || !whatsapp.trim()) return;
+    if (!isFormValid) return;
 
     setIsSubmitting(true);
+
+    const fullPhoneNumber = `${countryCode} ${whatsapp.trim()}`;
 
     const leadData = {
       timestamp: new Date().toISOString(),
       name: name.trim(),
-      phone: whatsapp.trim().startsWith('+91') ? whatsapp.trim() : `+91 ${whatsapp.trim()}`,
-      occasion: occasion || 'Wedding Celebration',
+      phone: fullPhoneNumber,
+      occasion: occasion,
       template: preSelectedTemplate?.name || 'Custom Invitation Request',
       status: 'NEW',
     };
@@ -80,7 +112,7 @@ export default function CreateModal({
 
   const handleWhatsAppDirect = () => {
     const text = encodeURIComponent(
-      `Hi Ahvaan Team! I would like to create an invitation.\n\nName: ${name || 'Interested Client'}\nPhone: ${whatsapp || ''}\nOccasion: ${occasion || 'Wedding Celebration'}`
+      `Hi Ahvaan Team! I would like to create an invitation.\n\nName: ${name || 'Interested Client'}\nPhone: ${countryCode} ${whatsapp || ''}\nOccasion: ${occasion || 'Wedding/Sangeet/Engagement'}`
     );
     window.open(`https://wa.me/918985966940?text=${text}`, '_blank');
   };
@@ -186,17 +218,27 @@ export default function CreateModal({
                   </div>
                 </div>
 
-                {/* Field 2: WhatsApp Number */}
+                {/* Field 2: WhatsApp Number with Country Code Dropdown */}
                 <div className="space-y-1.5 text-left">
                   <label className="text-xs sm:text-sm font-semibold text-stone-900 block">
                     WhatsApp Number
                   </label>
                   <div className="relative flex items-center rounded-2xl border border-stone-200/90 bg-white overflow-hidden focus-within:border-[#351410] focus-within:ring-1 focus-within:ring-[#351410] transition-all">
-                    {/* Country Code Prefix */}
-                    <div className="flex items-center gap-1.5 pl-3.5 pr-2.5 py-3 sm:py-3.5 bg-stone-50/70 border-r border-stone-200 text-stone-700 text-xs sm:text-sm font-medium flex-shrink-0 select-none">
-                      <span className="text-base leading-none">🇮🇳</span>
-                      <span className="font-semibold">+91</span>
-                      <ChevronDown className="w-3.5 h-3.5 text-stone-400" />
+                    {/* Country Code Dropdown */}
+                    <div className="relative flex items-center pl-2.5 pr-2 py-2 sm:py-2.5 bg-stone-50 border-r border-stone-200 text-stone-800 text-xs sm:text-sm font-semibold flex-shrink-0">
+                      <select
+                        value={countryCode}
+                        onChange={(e) => setCountryCode(e.target.value)}
+                        aria-label="Country Code"
+                        className="appearance-none bg-transparent pl-1 pr-5 py-1 text-stone-800 font-semibold text-xs sm:text-sm focus:outline-none cursor-pointer"
+                      >
+                        {MAJOR_INDIAN_DIASPORA_COUNTRIES.map((c, i) => (
+                          <option key={`${c.code}-${c.name}-${i}`} value={c.code} className="text-stone-900 bg-white">
+                            {c.flag} {c.code} ({c.name})
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="w-3.5 h-3.5 text-stone-400 absolute right-1 pointer-events-none" />
                     </div>
 
                     <input
@@ -210,7 +252,7 @@ export default function CreateModal({
                   </div>
                 </div>
 
-                {/* Field 3: Invitation For */}
+                {/* Field 3: Invitation For (Only Wedding/Sangeet/Engagement, Birthday celebration, Baby shower) */}
                 <div className="space-y-1.5 text-left">
                   <label className="text-xs sm:text-sm font-semibold text-stone-900 block">
                     Invitation For
@@ -223,24 +265,23 @@ export default function CreateModal({
                       className="w-full pl-10 pr-9 py-3 sm:py-3.5 rounded-2xl border border-stone-200/90 text-stone-900 text-xs sm:text-sm focus:outline-none focus:border-[#351410] focus:ring-1 focus:ring-[#351410] transition-all bg-white appearance-none cursor-pointer"
                     >
                       <option value="" disabled>Select occasion</option>
-                      <option value="Wedding Celebration">Wedding Celebration</option>
-                      <option value="Sangeet & Cocktails">Sangeet &amp; Cocktails</option>
-                      <option value="Grand Vivah & Reception">Grand Vivah &amp; Reception</option>
-                      <option value="Engagement Ceremony">Engagement Ceremony</option>
-                      <option value="Birthday Party">Birthday Party</option>
-                      <option value="House Warming (Griha Pravesh)">House Warming (Griha Pravesh)</option>
-                      <option value="Baby Shower (Godh Bharai)">Baby Shower (Godh Bharai)</option>
-                      <option value="Other Celebration">Other Celebration</option>
+                      <option value="Wedding/Sangeet/Engagement">Wedding/Sangeet/Engagement</option>
+                      <option value="Birthday celebration">Birthday celebration</option>
+                      <option value="Baby shower">Baby shower</option>
                     </select>
                     <ChevronDown className="w-4 h-4 text-stone-400 absolute right-3.5 pointer-events-none" />
                   </div>
                 </div>
 
-                {/* Submit Button */}
+                {/* Submit Button - Disabled until name, phone, and occasion are entered */}
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full mt-5 py-3.5 sm:py-4 px-6 rounded-2xl sm:rounded-full bg-[#351410] hover:bg-[#230C0A] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer disabled:opacity-75"
+                  disabled={!isFormValid || isSubmitting}
+                  className={`w-full mt-5 py-3.5 sm:py-4 px-6 rounded-2xl sm:rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-300 ${
+                    isFormValid && !isSubmitting
+                      ? 'bg-[#351410] hover:bg-[#230C0A] text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer'
+                      : 'bg-stone-200 text-stone-400 cursor-not-allowed shadow-none'
+                  }`}
                 >
                   <span>{isSubmitting ? 'Sending Details...' : 'Submit Request'}</span>
                   <ArrowRight className="w-4 h-4" />
@@ -249,10 +290,10 @@ export default function CreateModal({
               </form>
 
               {/* Bottom Notification Card matching reference */}
-              <div className="mt-5 p-3 sm:p-3.5 rounded-2xl bg-[#FAF8F5] border border-stone-200/80 flex items-center justify-between gap-3 text-left">
+              <div className="mt-5 p-3 sm:p-3.5 rounded-2xl bg-[#FAF8F5] border border-stone-200/80 flex flex-col min-[420px]:flex-row items-start min-[420px]:items-center justify-between gap-3 text-left">
                 
                 {/* Left side: SLA Note */}
-                <div className="flex items-center gap-2.5 flex-1 pr-2">
+                <div className="flex items-center gap-2.5 flex-1 pr-1">
                   <div className="w-7 h-7 rounded-full bg-[#FCECE8] text-[#351410] flex items-center justify-center flex-shrink-0">
                     <Clock className="w-3.5 h-3.5" />
                   </div>
@@ -261,8 +302,9 @@ export default function CreateModal({
                   </p>
                 </div>
 
-                {/* Vertical Divider */}
-                <div className="w-px h-8 bg-stone-200 flex-shrink-0" />
+                {/* Divider */}
+                <div className="hidden min-[420px]:block w-px h-8 bg-stone-200 flex-shrink-0" />
+                <div className="block min-[420px]:hidden w-full h-px bg-stone-200" />
 
                 {/* Right side: WhatsApp link */}
                 <a
