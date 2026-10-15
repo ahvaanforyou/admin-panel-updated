@@ -1,7 +1,8 @@
 import React from 'react';
 import { Phone, Mail, Instagram, Youtube, ArrowUpRight, Heart } from 'lucide-react';
 
-export default function Footer({ onCategoryClick, onCreateClick }) {
+export default function Footer({ onCategoryClick, onCreateClick, onOpenCreateModal, onNavigate }) {
+  const handleCreate = onCreateClick || onOpenCreateModal;
   return (
     <footer className="bg-[#241717] text-white pt-16 pb-12 border-t border-[#3A2424]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -123,8 +124,8 @@ export default function Footer({ onCategoryClick, onCreateClick }) {
             </h4>
             <div className="space-y-3">
               <button
-                onClick={onCreateClick}
-                className="w-full py-2 px-3 rounded-xl bg-theme-wedding text-brand-primary text-xs font-bold text-center block hover:bg-amber-300 transition-colors"
+                onClick={handleCreate}
+                className="w-full py-2 px-3 rounded-xl bg-theme-wedding text-brand-primary text-xs font-bold text-center block hover:bg-amber-300 transition-colors cursor-pointer"
               >
                 Order Custom Invitation
               </button>

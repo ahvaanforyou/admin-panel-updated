@@ -276,6 +276,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                             src={card.deviceImage}
                             alt={card.title}
                             className="w-auto h-full max-h-[380px] sm:max-h-[460px] lg:max-h-[540px] xl:max-h-[580px] max-w-full object-contain object-right drop-shadow-[0_24px_35px_rgba(0,0,0,0.32)] drop-shadow-[0_10px_15px_rgba(0,0,0,0.18)] pointer-events-none"
+                            style={{ imageRendering: '-webkit-optimize-contrast' }}
                             loading="eager"
                           />
                         </div>

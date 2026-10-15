@@ -215,6 +215,19 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
   // Support state-based article expansion as well as deep-link paths
   const [selectedArticle, setSelectedArticle] = useState(null);
 
+  const scrollToTopInstant = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    if (window.__lenis) {
+      window.__lenis.scrollTo(0, { immediate: true });
+    }
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+      if (window.__lenis) {
+        window.__lenis.scrollTo(0, { immediate: true });
+      }
+    });
+  };
+
   useEffect(() => {
     // Check if initial path has article slug
     if (typeof window !== 'undefined') {
@@ -228,23 +241,27 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
     }
   }, []);
 
+  // Always scroll to start of the page whenever article selection changes
+  useEffect(() => {
+    scrollToTopInstant();
+  }, [selectedArticle]);
+
   const handleSelectArticle = (post) => {
     // If user clicks Card 1, open expanded PDF article view
     if (post.id === 1) {
       setSelectedArticle(post);
       window.history.pushState(null, '', '/blogs/digital-wedding-invitation-guide');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       // For other blog cards, show the Creative Hands Busy expanded view as requested
       setSelectedArticle(post);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    scrollToTopInstant();
   };
 
   const handleBackToBlogs = () => {
     setSelectedArticle(null);
     window.history.pushState(null, '', '/blogs');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTopInstant();
   };
 
   // If article 1 is selected, render full PDF expanded article view with SF Pro font
@@ -280,7 +297,12 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
           />
         </section>
 
-        <Footer onNavigate={onNavigate} onOpenCreateModal={onOpenCreateModal} />
+        <Footer 
+          onNavigate={onNavigate} 
+          onCategoryClick={() => onNavigate('/#templates')}
+          onOpenCreateModal={onOpenCreateModal} 
+          onCreateClick={onOpenCreateModal} 
+        />
       </div>
     );
   }

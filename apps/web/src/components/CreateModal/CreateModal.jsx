@@ -29,7 +29,9 @@ export default function CreateModal({
 }) {
   if (!isOpen) return null;
 
-  const [countryCode, setCountryCode] = useState('+91');
+  const [selectedCountryName, setSelectedCountryName] = useState('India');
+  const selectedCountry = MAJOR_INDIAN_DIASPORA_COUNTRIES.find((c) => c.name === selectedCountryName) || MAJOR_INDIAN_DIASPORA_COUNTRIES[0];
+  const countryCode = selectedCountry.code;
   const [name, setName] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [occasion, setOccasion] = useState(
@@ -227,13 +229,13 @@ export default function CreateModal({
                     {/* Country Code Dropdown */}
                     <div className="relative flex items-center pl-2.5 pr-2 py-2 sm:py-2.5 bg-stone-50 border-r border-stone-200 text-stone-800 text-xs sm:text-sm font-semibold flex-shrink-0">
                       <select
-                        value={countryCode}
-                        onChange={(e) => setCountryCode(e.target.value)}
+                        value={selectedCountryName}
+                        onChange={(e) => setSelectedCountryName(e.target.value)}
                         aria-label="Country Code"
                         className="appearance-none bg-transparent pl-1 pr-5 py-1 text-stone-800 font-semibold text-xs sm:text-sm focus:outline-none cursor-pointer"
                       >
-                        {MAJOR_INDIAN_DIASPORA_COUNTRIES.map((c, i) => (
-                          <option key={`${c.code}-${c.name}-${i}`} value={c.code} className="text-stone-900 bg-white">
+                        {MAJOR_INDIAN_DIASPORA_COUNTRIES.map((c) => (
+                          <option key={c.name} value={c.name} className="text-stone-900 bg-white">
                             {c.flag} {c.code} ({c.name})
                           </option>
                         ))}

@@ -34,8 +34,8 @@ export default function Hero({ onCreateClick }) {
       {/* 
         Full viewport width container with balanced left padding and edge-to-edge right alignment
       */}
-      <div className="w-full pl-6 sm:pl-10 lg:pl-12 xl:pl-16 pr-4 sm:pr-6 lg:pr-6 xl:pr-8 2xl:pr-10 max-w-[1920px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center w-full">
+      <div className="w-full pl-6 sm:pl-10 lg:pl-12 xl:pl-14 pr-2 sm:pr-4 lg:pr-5 xl:pr-6 max-w-[1920px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 xl:gap-8 items-center w-full">
           
           {/* ========================================================================= */}
           {/* LEFT COLUMN: Editorial Typography & Animated Stroke Text                  */}
@@ -43,23 +43,23 @@ export default function Hero({ onCreateClick }) {
           <div className="lg:col-span-6 xl:col-span-6 flex flex-col items-start justify-center z-10 select-none py-2 my-auto">
             
             {/* Headline Section */}
-            <div className="space-y-1 sm:space-y-2 w-full">
+            <div className="w-full">
               <motion.h1 
                 initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                 animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-5xl sm:text-6xl lg:text-6xl xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-[1.05]"
+                className="text-5xl sm:text-6xl lg:text-[4.2rem] xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-[0.98] lg:leading-[0.94]"
               >
                 Digital invitations,
               </motion.h1>
 
               {/* Line with 'made' and 'unforgettable' directly beside it on the EXACT SAME line */}
-              <div className="flex flex-nowrap items-baseline gap-2.5 sm:gap-4 mt-2 sm:mt-3 pt-1 w-full overflow-visible whitespace-nowrap">
+              <div className="flex flex-nowrap items-baseline gap-2 sm:gap-3 mt-1 sm:mt-1.5 lg:mt-2 w-full overflow-visible whitespace-nowrap">
                 <motion.span
                   initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                   animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
-                  className="text-5xl sm:text-6xl lg:text-6xl xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0"
+                  className="text-5xl sm:text-6xl lg:text-[4.2rem] xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0"
                 >
                   made
                 </motion.span>
@@ -74,11 +74,11 @@ export default function Hero({ onCreateClick }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.4 }}
-              className="mt-8 sm:mt-10 xl:mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-6 xl:gap-8 w-full"
+              className="mt-7 sm:mt-9 xl:mt-11 flex flex-col sm:flex-row items-start sm:items-center gap-5 xl:gap-7 w-full"
             >
               <button
                 onClick={onCreateClick}
-                className="bg-[#351410] hover:bg-[#230C0A] text-white px-8 sm:px-9 py-4 sm:py-4.5 rounded-full text-sm sm:text-base font-semibold tracking-wide shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-3 group flex-shrink-0"
+                className="bg-[#351410] hover:bg-[#230C0A] text-white px-8 sm:px-9 py-4 sm:py-4.5 rounded-full text-sm sm:text-base font-semibold tracking-wide shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-3 group flex-shrink-0 cursor-pointer"
               >
                 <span>Create Your Invitation</span>
                 <ArrowRight className="w-4.5 h-4.5 transition-transform duration-300 group-hover:translate-x-1.5" />
@@ -98,7 +98,7 @@ export default function Hero({ onCreateClick }) {
             {/* 
               Responsive 3x3 Matrix perfectly fitting the page bounds without clipping or white gaps
             */}
-            <div className="grid grid-cols-3 gap-3.5 sm:gap-4.5 xl:gap-5 w-full max-w-[500px] sm:max-w-[560px] lg:max-w-[620px] xl:max-w-[700px] 2xl:max-w-[760px] aspect-square ml-auto select-none p-0 relative max-h-[min(82vh,780px)]">
+            <div className="grid grid-cols-3 gap-2 sm:gap-2.5 lg:gap-3 xl:gap-3.5 w-full max-w-[520px] sm:max-w-[580px] lg:max-w-[650px] xl:max-w-[730px] 2xl:max-w-[790px] aspect-square ml-auto select-none p-0 relative max-h-[min(82vh,780px)]">
               
               {/* Star Accent positioned at exact geometry intersection (69.4% X, 32.1% Y) */}
               <div className="absolute top-[31%] right-[32%] z-20 pointer-events-none">
@@ -173,7 +173,7 @@ export default function Hero({ onCreateClick }) {
               />
 
               {/* Row 2, Col 3: Split into Yellow Quarter-Circle + Crisp HD Traditional Hands Ceremony Photo */}
-              <div className="w-full h-full flex flex-col gap-2.5 sm:gap-3.5 xl:gap-4">
+              <div className="w-full h-full flex flex-col gap-2 sm:gap-2.5 lg:gap-3">
                 <motion.div 
                   whileHover={{ scale: 1.015 }}
                   transition={{ duration: 0.3 }}
@@ -199,7 +199,7 @@ export default function Hero({ onCreateClick }) {
               </div>
 
               {/* Row 3, Col 1: Split into Maroon 'BEAUTIFUL DESIGNS' + Brass Diya Oil Lamps Photo */}
-              <div className="w-full h-full flex flex-col gap-2.5 sm:gap-3.5 xl:gap-4">
+              <div className="w-full h-full flex flex-col gap-2 sm:gap-2.5 lg:gap-3">
                 <motion.div 
                   whileHover={{ scale: 1.015 }}
                   transition={{ duration: 0.3 }}

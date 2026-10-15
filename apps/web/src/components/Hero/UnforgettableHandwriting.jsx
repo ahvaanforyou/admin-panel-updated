@@ -8,7 +8,7 @@ export default function UnforgettableHandwriting({ className = '' }) {
   return (
     <div
       ref={containerRef}
-      className={`relative inline-flex items-baseline overflow-visible select-none -ml-1 sm:-ml-1.5 translate-y-[24%] sm:translate-y-[26%] xl:translate-y-[28%] ${className}`}
+      className={`relative inline-flex items-baseline overflow-visible select-none -ml-1 sm:-ml-1.5 translate-y-[14%] sm:translate-y-[15%] xl:translate-y-[16%] ${className}`}
     >
       {/* 
         Smooth continuous calligraphy reveal:
