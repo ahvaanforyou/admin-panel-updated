@@ -59,7 +59,7 @@ export default function Hero({ onCreateClick }) {
                   initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                   animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
-                  className="text-5xl sm:text-6xl lg:text-[4.2rem] xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0"
+                  className="text-5xl sm:text-6xl lg:text-[4.2rem] xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0 -translate-y-2.5 sm:-translate-y-3.5 lg:-translate-y-4 xl:-translate-y-4"
                 >
                   made
                 </motion.span>

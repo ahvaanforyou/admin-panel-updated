@@ -1,20 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, 
   ChevronLeft, 
   ChevronRight, 
   Sparkles, 
-  Heart, 
   MapPin, 
-  Music, 
-  Send, 
-  CheckCircle2, 
-  Share2, 
   ArrowRight,
-  Calendar,
-  Clock,
-  ExternalLink
+  ExternalLink,
+  Smartphone
 } from 'lucide-react';
 import { TEMPLATES } from '../../data/content';
 
@@ -25,30 +19,31 @@ export default function TemplatePreviewModal({
 }) {
   if (!template) return null;
 
-  const [isPlayingMusic, setIsPlayingMusic] = useState(false);
-  const [rsvpStep, setRsvpStep] = useState('idle'); // idle | form | submitted
-  const [guestName, setGuestName] = useState('');
-  const [guestCount, setGuestCount] = useState('2');
+  const [isLoadingIframe, setIsLoadingIframe] = useState(true);
+
+  // Re-trigger loading skeleton whenever template changes
+  useEffect(() => {
+    setIsLoadingIframe(true);
+  }, [template.id, template.previewUrl]);
 
   // Find index for next/prev navigation
   const currentIndex = TEMPLATES.findIndex(t => t.id === template.id);
   const prevTemplate = currentIndex > 0 ? TEMPLATES[currentIndex - 1] : null;
   const nextTemplate = currentIndex < TEMPLATES.length - 1 ? TEMPLATES[currentIndex + 1] : null;
 
-  const handleRsvpSubmit = (e) => {
-    e.preventDefault();
-    if (!guestName.trim()) return;
-    setRsvpStep('submitted');
-  };
+  // Single Primary CTA: Order This Invitation via WhatsApp
+  const templateName = template.clientTitle || template.name || 'Invitation';
+  const orderMessage = `Hi andi, I liked the ${templateName} template. Please customise it according to our info.`;
+  const whatsappOrderUrl = `https://wa.me/918985966940?text=${encodeURIComponent(orderMessage)}`;
 
-  const isNikhilDivya = template.id === 'tpl-nikhil-divya' || template.name?.includes('Nikhil') || template.clientTitle?.includes('Nikhil');
-  const isKalyanInchara = template.id === 'tpl-kalyan-inchara' || template.name?.includes('Kalyan') || template.clientTitle?.includes('Kalyan');
-  const isHanishaRonish = template.id === 'tpl-hanisha-ronish' || template.name?.includes('Hanisha') || template.clientTitle?.includes('Hanisha');
+  const liveUrl = template.previewUrl || 'https://divyawedsnikhil.ahvaanforyou.com';
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
-        
+      <div 
+        className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-5 lg:p-6 select-none animate-in fade-in duration-200"
+        style={{ overscrollBehavior: 'contain' }}
+      >
         {/* Backdrop click to dismiss */}
         <div className="fixed inset-0" onClick={onClose} />
 
@@ -57,21 +52,21 @@ export default function TemplatePreviewModal({
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.3 }}
-          className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden z-10 border border-stone-200/80 flex flex-col lg:flex-row max-h-[92vh]"
+          transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full max-w-5xl bg-white rounded-[32px] sm:rounded-[36px] shadow-2xl overflow-hidden z-10 border border-stone-200/90 flex flex-col lg:flex-row max-h-[92vh] sm:max-h-[90vh]"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Top Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-30 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md hover:bg-white text-stone-800 flex items-center justify-center shadow-md border border-stone-200 transition-all"
+            className="absolute top-4 right-4 z-40 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/90 backdrop-blur-md hover:bg-white text-stone-700 hover:text-stone-900 flex items-center justify-center shadow-md border border-stone-200 transition-all cursor-pointer"
             aria-label="Close preview"
           >
             <X className="w-5 h-5" />
           </button>
 
           {/* ========================================================================= */}
-          {/* LEFT SECTION: About Template, Pricing, Features & Conversion CTAs         */}
+          {/* LEFT SECTION: About Template, Pricing, Features & Single Primary CTA       */}
           {/* ========================================================================= */}
           <div className="lg:w-5/12 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto bg-white border-b lg:border-b-0 lg:border-r border-stone-200/90 order-2 lg:order-1">
             <div>
@@ -81,7 +76,7 @@ export default function TemplatePreviewModal({
                   className="px-3 py-1 rounded-full text-xs font-bold tracking-wide"
                   style={{ backgroundColor: template.themeLight, color: template.textColor }}
                 >
-                  {template.categoryName}
+                  {template.categoryName || 'Wedding Website'}
                 </span>
 
                 <div className="flex items-baseline gap-2">
@@ -117,7 +112,7 @@ export default function TemplatePreviewModal({
                 <div className="space-y-2">
                   {template.features.map((feat, i) => (
                     <div key={i} className="flex items-center gap-2.5 text-xs font-medium text-stone-800">
-                      <div className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0 font-bold">
+                      <div className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0 font-bold text-[11px]">
                         ✓
                       </div>
                       <span>{feat}</span>
@@ -136,33 +131,31 @@ export default function TemplatePreviewModal({
               </div>
             </div>
 
-            {/* Bottom Conversion CTAs */}
-            <div className="mt-8 pt-6 border-t border-stone-100 flex flex-col gap-3">
-              <button
-                onClick={() => onSelectForCreation(template, false)}
-                className="w-full py-3.5 px-6 rounded-full bg-[#351410] hover:bg-[#230C0A] text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2 transform hover:-translate-y-0.5 transition-all"
-              >
-                <span>Customize & Order This Invitation</span>
-                <ArrowRight className="w-4 h-4 text-amber-300" />
-              </button>
-
+            {/* ========================================================================= */}
+            {/* ONE PROMINENT PRIMARY CTA: Order This Invitation via WhatsApp             */}
+            {/* ========================================================================= */}
+            <div className="mt-8 pt-6 border-t border-stone-100 flex flex-col gap-2.5">
               <a
-                href={`https://wa.me/918985966940?text=${encodeURIComponent(`Hii ahvaanforyou , I liked this design https://www.ahvaanforyou.com/invitation/${template.slug || template.id}`)}`}
+                href={whatsappOrderUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 px-6 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                className="w-full py-4 px-6 rounded-full bg-[#351410] hover:bg-[#230C0A] active:scale-98 text-white font-bold text-sm sm:text-base shadow-xl hover:shadow-2xl flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
               >
-                <Share2 className="w-4 h-4" />
-                <span>Chat on WhatsApp Directly (+91 89859 66940)</span>
+                <span>Order This Invitation</span>
+                <ArrowRight className="w-4.5 h-4.5 text-amber-300" />
               </a>
+
+              <p className="text-[11px] text-stone-400 text-center">
+                Instant WhatsApp enquiry with pre-filled details for {templateName}
+              </p>
             </div>
 
           </div>
 
           {/* ========================================================================= */}
-          {/* RIGHT SECTION: Extended Mobile Screen of Made Template                    */}
+          {/* RIGHT SECTION: Realistic Smartphone Mockup with Real Interactive Website  */}
           {/* ========================================================================= */}
-          <div className="lg:w-7/12 bg-gradient-to-b from-stone-900 via-stone-950 to-black p-6 sm:p-10 flex flex-col items-center justify-center relative overflow-hidden select-none order-1 lg:order-2 min-h-[520px]">
+          <div className="lg:w-7/12 bg-gradient-to-b from-stone-900 via-stone-950 to-black p-4 sm:p-8 lg:p-10 flex flex-col items-center justify-center relative overflow-hidden select-none order-1 lg:order-2 min-h-[500px] sm:min-h-[580px] lg:min-h-[640px]">
             
             {/* Ambient Background Glow matching category theme */}
             <div 
@@ -171,221 +164,108 @@ export default function TemplatePreviewModal({
             />
 
             {/* Navigation Arrows for Previous / Next Template */}
-            <div className="absolute inset-y-0 left-2 sm:left-4 flex items-center z-20">
+            <div className="absolute inset-y-0 left-2 sm:left-4 flex items-center z-30 pointer-events-auto">
               {prevTemplate && (
                 <button
                   onClick={() => onSelectForCreation(prevTemplate, true)}
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/25 text-white backdrop-blur-md flex items-center justify-center transition-all"
-                  title={`Previous: ${prevTemplate.name}`}
+                  className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/25 active:scale-95 text-white backdrop-blur-md flex items-center justify-center transition-all shadow-md cursor-pointer border border-white/10"
+                  title={`Previous: ${prevTemplate.clientTitle || prevTemplate.name}`}
                 >
-                  <ChevronLeft className="w-6 h-6" />
+                  <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
               )}
             </div>
 
-            <div className="absolute inset-y-0 right-2 sm:right-4 flex items-center z-20">
+            <div className="absolute inset-y-0 right-2 sm:right-4 flex items-center z-30 pointer-events-auto">
               {nextTemplate && (
                 <button
                   onClick={() => onSelectForCreation(nextTemplate, true)}
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/25 text-white backdrop-blur-md flex items-center justify-center transition-all"
-                  title={`Next: ${nextTemplate.name}`}
+                  className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/25 active:scale-95 text-white backdrop-blur-md flex items-center justify-center transition-all shadow-md cursor-pointer border border-white/10"
+                  title={`Next: ${nextTemplate.clientTitle || nextTemplate.name}`}
                 >
-                  <ChevronRight className="w-6 h-6" />
+                  <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
               )}
             </div>
 
-            {/* Simulated Extended iPhone Device Frame */}
-            <div className="relative w-[285px] sm:w-[320px] rounded-[48px] p-3 bg-gradient-to-b from-stone-800 to-stone-950 shadow-2xl border-4 border-stone-700/80">
+            {/* ========================================================================= */}
+            {/* REALISTIC STATIONARY SMARTPHONE CHASSIS                                   */}
+            {/* ========================================================================= */}
+            <div className="relative w-[280px] min-[400px]:w-[310px] sm:w-[335px] lg:w-[350px] aspect-[9/18.8] max-h-[74vh] sm:max-h-[76vh] rounded-[48px] p-2.5 sm:p-3 bg-gradient-to-b from-stone-700 via-stone-800 to-stone-900 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] border-[3.5px] border-stone-600/90 ring-1 ring-white/15 flex flex-col items-center">
               
-              {/* Dynamic Island */}
-              <div className="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-4 bg-black rounded-full z-30 flex items-center justify-center">
-                <div className="w-2.5 h-2.5 rounded-full bg-stone-900 mr-2" />
-                <div className="w-2 h-2 rounded-full bg-blue-900/40" />
+              {/* Outer Button Accents (Volume Buttons Left, Power Button Right) */}
+              <div className="absolute -left-[6px] top-24 w-[3px] h-9 bg-stone-600 rounded-l-sm" />
+              <div className="absolute -left-[6px] top-36 w-[3px] h-9 bg-stone-600 rounded-l-sm" />
+              <div className="absolute -right-[6px] top-28 w-[3px] h-12 bg-stone-600 rounded-r-sm" />
+
+              {/* Dynamic Island / Speaker Pill at Top (Stationary, overlaying screen) */}
+              <div className="absolute top-4 sm:top-4.5 left-1/2 -translate-x-1/2 w-24 sm:w-26 h-4 sm:h-4.5 bg-black rounded-full z-30 flex items-center justify-between px-2.5 pointer-events-none shadow-xs border border-white/5">
+                <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center">
+                  <div className="w-1 h-1 rounded-full bg-blue-950/80" />
+                </div>
+                <div className="w-1.5 h-1.5 rounded-full bg-stone-900" />
               </div>
 
-              {/* Extended Scrollable Screen Content */}
-              <div className="relative w-full aspect-[9/19] rounded-[38px] overflow-hidden bg-stone-950 shadow-inner flex flex-col overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              {/* Inner Screen Display (Fixed viewport, scrollable invitation inside) */}
+              <div 
+                className="relative w-full h-full rounded-[38px] overflow-hidden bg-black shadow-inner flex flex-col"
+                style={{ overscrollBehavior: 'contain' }}
+              >
                 
-                {/* Visual Invitation Graphic / Banner */}
-                <div className="relative w-full min-w-full flex-shrink-0 bg-stone-950">
-                  <img
-                    src={template.phoneImage || template.bannerImage || template.image}
-                    alt={template.name}
-                    className="w-full min-w-full h-auto block object-cover"
-                  />
-
-                  {/* Audio Floating Pill */}
-                  <div className="absolute top-8 right-3 z-20">
-                    <button
-                      onClick={() => setIsPlayingMusic(!isPlayingMusic)}
-                      className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[10px] font-bold flex items-center gap-1.5 border border-white/20 shadow-md"
-                    >
-                      <Music className={`w-3 h-3 ${isPlayingMusic ? 'text-amber-300 animate-spin' : 'text-white'}`} />
-                      <span>{isPlayingMusic ? 'Mute' : 'Play Music'}</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Specific Extended Section for Nikhil & Divya */}
-                {isNikhilDivya && (
-                  <div className="p-4 bg-[#FAF7F2] text-stone-900 space-y-3 border-t border-amber-200">
-                    <div className="text-center py-2">
-                      <span className="text-[10px] font-bold tracking-widest text-[#8B2500] uppercase block">
-                        KALYANOTSAVAM
-                      </span>
-                      <h4 className="font-serif text-xl font-bold text-[#8B2500] mt-0.5">
-                        Nikhil & Divya
-                      </h4>
-                      <p className="text-[11px] text-stone-600 mt-1 font-medium">
-                        Together with their families, invite you to celebrate their union.
-                      </p>
-                    </div>
-
-                    {/* Venue & Time Pill */}
-                    <div className="bg-white p-3 rounded-2xl border border-amber-200/80 shadow-sm text-center">
-                      <div className="flex items-center justify-center gap-1 text-[11px] font-bold text-[#8B2500]">
-                        <Calendar className="w-3.5 h-3.5" />
-                        <span>Reception: Visakhapatnam</span>
-                      </div>
-                      <p className="text-[11px] font-semibold text-stone-700 mt-1">
-                        Dama Convention, Kurmannapalem
-                      </p>
-                      <p className="text-[10px] text-stone-500">
-                        Gajuwaka, Andhra Pradesh - 530049
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {/* Specific Extended Section for Kalyan & Inchara */}
-                {isKalyanInchara && (
-                  <div className="p-4 bg-[#FDFBF7] text-stone-900 space-y-3 border-t border-amber-200">
-                    <div className="text-center py-2">
-                      <span className="text-[10px] font-bold tracking-widest text-amber-700 uppercase block">
-                        DESTINATION WEDDING
-                      </span>
-                      <h4 className="font-serif text-xl font-bold text-stone-900 mt-0.5">
-                        Inchara & Kalyan
-                      </h4>
-                      <p className="text-[11px] text-stone-600 mt-1">
-                        Beach Mandapam Ceremony & Sunset Sangeet
-                      </p>
-                    </div>
-
-                    {/* Scratch Countdown mockup */}
-                    <div className="bg-amber-50 p-3 rounded-2xl border border-amber-200 shadow-sm text-center">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800">
-                        ✨ Scratch to Reveal Muhurtham
-                      </span>
-                      <div className="mt-1 py-1.5 px-3 bg-amber-200/80 rounded-xl text-amber-900 font-bold text-xs">
-                        Sunday, 24th November • 10:15 AM
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Specific Extended Section for Hanisha & Ronish */}
-                {isHanishaRonish && (
-                  <div className="p-4 bg-[#FFF5F2] text-stone-900 space-y-3 border-t border-red-100">
-                    <div className="text-center py-2">
-                      <span className="text-[10px] font-bold tracking-widest text-rose-800 uppercase block">
-                        TWILIGHT SOIRÉE
-                      </span>
-                      <h4 className="font-serif text-xl font-bold text-rose-950 mt-0.5">
-                        Hanisha & Ronish
-                      </h4>
-                      <p className="text-[11px] text-stone-600 mt-1">
-                        Cocktails, Sangeet & Celestial Celebrations
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {/* Simulated Interactive Mobile Actions Bar */}
-                <div className="p-4 bg-white space-y-3 border-t border-stone-100">
-                  <div className="text-center">
-                    <span 
-                      className="text-[9px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"
-                      style={{ backgroundColor: template.themeLight, color: template.textColor }}
-                    >
-                      Interactive Invitation
+                {/* Sleek Loading State while iframe initializes */}
+                {isLoadingIframe && (
+                  <div className="absolute inset-0 z-20 bg-stone-950 flex flex-col items-center justify-center p-6 text-center text-white">
+                    <div className="w-8 h-8 rounded-full border-2 border-amber-400/30 border-t-amber-400 animate-spin mb-3.5" />
+                    <span className="text-xs font-bold text-stone-200 tracking-wide block">
+                      Loading Live Website...
+                    </span>
+                    <span className="text-[11px] text-stone-400 mt-1 max-w-[200px] truncate">
+                      {template.clientTitle || template.name}
                     </span>
                   </div>
+                )}
 
-                  {/* 1-Tap Google Maps Link */}
-                  <a
-                    href="https://maps.google.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-2.5 px-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-bold flex items-center justify-center gap-2 hover:bg-emerald-100 transition-colors shadow-sm"
-                  >
-                    <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Venue Location (Google Maps)</span>
-                  </a>
-
-                  {/* Simulated RSVP Flow */}
-                  <div className="bg-stone-50 rounded-xl p-3 border border-stone-200/80">
-                    {rsvpStep === 'submitted' ? (
-                      <div className="text-center py-2 text-emerald-700">
-                        <CheckCircle2 className="w-5 h-5 mx-auto mb-1 text-emerald-600" />
-                        <span className="text-[11px] font-bold block">RSVP Received!</span>
-                        <span className="text-[10px] text-stone-500">Host received your notification.</span>
-                        <button 
-                          onClick={() => setRsvpStep('idle')}
-                          className="mt-2 text-[10px] text-[#351410] underline block mx-auto"
-                        >
-                          Submit another RSVP
-                        </button>
-                      </div>
-                    ) : rsvpStep === 'form' ? (
-                      <form onSubmit={handleRsvpSubmit} className="space-y-2">
-                        <div className="text-[10px] font-bold text-[#351410] uppercase">Will You Attend?</div>
-                        <input
-                          type="text"
-                          placeholder="Your Full Name"
-                          value={guestName}
-                          onChange={(e) => setGuestName(e.target.value)}
-                          className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-stone-300 bg-white"
-                          required
-                        />
-                        <div className="flex gap-2">
-                          <select
-                            value={guestCount}
-                            onChange={(e) => setGuestCount(e.target.value)}
-                            className="px-2 py-1.5 text-xs rounded-lg border border-stone-300 bg-white text-stone-800"
-                          >
-                            <option value="1">1 Guest</option>
-                            <option value="2">2 Guests</option>
-                            <option value="4">Family (4)</option>
-                          </select>
-                          <button
-                            type="submit"
-                            className="flex-1 py-1.5 bg-[#351410] text-white text-xs font-bold rounded-lg"
-                          >
-                            Confirm RSVP
-                          </button>
-                        </div>
-                      </form>
-                    ) : (
-                      <button
-                        onClick={() => setRsvpStep('form')}
-                        className="w-full py-2.5 bg-[#351410] text-white text-[11px] font-bold rounded-xl flex items-center justify-center gap-2 shadow-sm"
-                      >
-                        <Heart className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
-                        <span>Tap to RSVP Online</span>
-                      </button>
-                    )}
-                  </div>
-
-                </div>
+                {/* Actual Real Interactive Website running inside isolated iframe */}
+                <iframe
+                  key={template.id}
+                  src={liveUrl}
+                  title={`${template.clientTitle || template.name} Live Interactive Invitation`}
+                  onLoad={() => setIsLoadingIframe(false)}
+                  className="w-full h-full border-0 select-auto block bg-white"
+                  style={{
+                    borderRadius: '38px',
+                    width: '100%',
+                    height: '100%',
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
+                    WebkitOverflowScrolling: 'touch',
+                  }}
+                  allow="autoplay; fullscreen"
+                />
 
               </div>
+
+              {/* Subtle Home Indicator Bar at Screen Bottom */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/40 rounded-full z-30 pointer-events-none" />
+
             </div>
 
-            <p className="text-[11px] text-stone-400 mt-4 text-center">
-              * Scroll up & down to explore the extended mobile screen
-            </p>
+            {/* User Interaction Guidance Tag */}
+            <div className="mt-3 sm:mt-4 flex items-center gap-1.5 text-[11px] text-stone-400">
+              <Smartphone className="w-3.5 h-3.5 text-amber-400/90" />
+              <span>Scroll &amp; interact inside phone screen</span>
+              <span className="text-stone-600">•</span>
+              <a 
+                href={liveUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-stone-300 hover:text-white underline decoration-stone-600 transition-colors"
+              >
+                <span>Full screen</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
+
           </div>
 
         </motion.div>
