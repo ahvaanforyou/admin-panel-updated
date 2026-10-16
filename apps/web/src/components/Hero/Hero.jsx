@@ -29,7 +29,7 @@ export default function Hero({ onCreateClick }) {
         visibility: heroVisibility,
         pointerEvents: heroPointerEvents,
       }}
-      className="relative z-0 w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-24 sm:pt-28 lg:pt-26 pb-8"
+      className="relative z-0 w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-20 sm:pt-24 lg:pt-20 pb-4 sm:pb-6 lg:pb-0"
     >
       {/* 
         Hero Layout: Left column has large prominent typography, right column has flush 3x3 shapes
@@ -40,7 +40,7 @@ export default function Hero({ onCreateClick }) {
           {/* ========================================================================= */}
           {/* LEFT COLUMN: Editorial Typography & Animated Stroke Text                  */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-7 xl:col-span-7 flex flex-col items-start justify-center z-10 select-none py-2 my-auto pr-2">
+          <div className="lg:col-span-6 xl:col-span-6 flex flex-col items-start justify-center z-10 select-none py-2 my-auto pr-2">
             
             {/* Headline Section */}
             <div className="w-full">
@@ -48,7 +48,7 @@ export default function Hero({ onCreateClick }) {
                 initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                 animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-3xl min-[380px]:text-4xl sm:text-5xl lg:text-[4rem] xl:text-[5.2rem] 2xl:text-[6rem] font-bold tracking-tight text-[#1F1F1F] leading-[0.98] lg:leading-[0.92]"
+                className="text-3xl min-[380px]:text-4xl sm:text-5xl lg:text-[3.8rem] xl:text-[4.8rem] 2xl:text-[5.6rem] font-bold tracking-tight text-[#1F1F1F] leading-[0.98] lg:leading-[0.92]"
               >
                 Digital invitations,
               </motion.h1>
@@ -59,7 +59,7 @@ export default function Hero({ onCreateClick }) {
                   initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                   animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
-                  className="relative -top-2 min-[380px]:-top-2.5 sm:-top-3.5 lg:-top-4 xl:-top-5 text-3xl min-[380px]:text-4xl sm:text-5xl lg:text-[4rem] xl:text-[5.2rem] 2xl:text-[6rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0"
+                  className="relative -top-2 min-[380px]:-top-2.5 sm:-top-3.5 lg:-top-3.5 xl:-top-4.5 text-3xl min-[380px]:text-4xl sm:text-5xl lg:text-[3.8rem] xl:text-[4.8rem] 2xl:text-[5.6rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0"
                 >
                   made
                 </motion.span>
@@ -94,11 +94,11 @@ export default function Hero({ onCreateClick }) {
           {/* ========================================================================= */}
           {/* RIGHT COLUMN: Full-Bleed 3×3 Grid Flushing Against the Right Screen Edge  */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-5 xl:col-span-5 flex justify-end items-center w-full select-none pr-0 overflow-visible">
+          <div className="lg:col-span-6 xl:col-span-6 flex justify-end items-center w-full select-none pr-0 overflow-visible">
             {/* 
               Generously sized 3x3 Matrix fitting cleanly up to the screen border with zero right gap
             */}
-            <div className="grid grid-cols-3 gap-2.5 sm:gap-3.5 lg:gap-3.5 xl:gap-4.5 w-full max-w-[480px] sm:max-w-[540px] lg:max-w-[620px] xl:max-w-[720px] 2xl:max-w-[820px] aspect-square ml-auto select-none p-0 pr-0 relative">
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-3.5 lg:gap-3.5 xl:gap-4.5 w-full max-w-[480px] sm:max-w-[540px] lg:max-w-[700px] xl:max-w-[820px] 2xl:max-w-[920px] aspect-square ml-auto select-none p-0 pr-0 relative">
               
               {/* Star Accent positioned at exact geometry intersection (69.4% X, 32.1% Y) */}
               <div className="absolute top-[31%] right-[32%] z-20 pointer-events-none">
