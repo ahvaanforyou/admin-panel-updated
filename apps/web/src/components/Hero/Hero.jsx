@@ -32,15 +32,15 @@ export default function Hero({ onCreateClick }) {
       className="relative z-0 w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-24 sm:pt-28 lg:pt-26 pb-8"
     >
       {/* 
-        Balanced viewport container with tight negative space on laptop & desktop screens
+        Hero Layout: Left column has comfortable reading margin, right column expands to screen edge
       */}
-      <div className="w-full px-5 sm:px-8 lg:px-12 xl:px-16 max-w-7xl 2xl:max-w-[1560px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center w-full">
+      <div className="w-full pl-5 sm:pl-8 lg:pl-12 xl:pl-16 pr-0 mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 xl:gap-8 items-center w-full">
           
           {/* ========================================================================= */}
           {/* LEFT COLUMN: Editorial Typography & Animated Stroke Text                  */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-7 xl:col-span-6 flex flex-col items-start justify-center z-10 select-none py-2 my-auto">
+          <div className="lg:col-span-6 xl:col-span-5 flex flex-col items-start justify-center z-10 select-none py-2 my-auto pr-4 lg:pr-2">
             
             {/* Headline Section */}
             <div className="w-full">
@@ -92,13 +92,13 @@ export default function Hero({ onCreateClick }) {
           </div>
 
           {/* ========================================================================= */}
-          {/* RIGHT COLUMN: Exact 3×3 Grid Fitting Viewport with Neumorphic Depth       */}
+          {/* RIGHT COLUMN: Full-Bleed 3×3 Grid Flushing Against the Right Screen Edge  */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-5 xl:col-span-6 flex justify-center lg:justify-end items-center w-full select-none">
+          <div className="lg:col-span-6 xl:col-span-7 flex justify-end items-center w-full select-none pr-0 overflow-visible">
             {/* 
-              Responsive 3x3 Matrix perfectly fitting laptop & desktop bounds without clipping
+              Generously sized 3x3 Matrix fitting cleanly up to the screen border with zero right gap
             */}
-            <div className="grid grid-cols-3 gap-2.5 sm:gap-3 lg:gap-3 xl:gap-3.5 w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[500px] xl:max-w-[580px] 2xl:max-w-[640px] aspect-square mx-auto lg:mr-0 select-none p-0 relative max-h-[min(72vh,580px)]">
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-3.5 lg:gap-3.5 xl:gap-4.5 w-full max-w-[480px] sm:max-w-[540px] lg:max-w-[620px] xl:max-w-[720px] 2xl:max-w-[820px] aspect-square ml-auto select-none p-0 pr-0 relative">
               
               {/* Star Accent positioned at exact geometry intersection (69.4% X, 32.1% Y) */}
               <div className="absolute top-[31%] right-[32%] z-20 pointer-events-none">
