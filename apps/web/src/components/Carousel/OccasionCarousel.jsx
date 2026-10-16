@@ -80,12 +80,12 @@ export default function OccasionCarousel({ onSelectTemplate }) {
   const sectionVisibility = useTransform(scrollYProgress, (v) => (v >= 0.98 ? 'hidden' : 'visible'));
   const sectionPointerEvents = useTransform(scrollYProgress, (v) => (v >= 0.95 ? 'none' : 'auto'));
 
-  // Auto transition every 2.8 seconds for snappier category cycling
+  // Auto transition every 2.3 seconds with smooth gliding physics
   useEffect(() => {
     if (isAutoPlayPaused) return;
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % total);
-    }, 2800);
+    }, 2300);
 
     return () => clearInterval(timer);
   }, [isAutoPlayPaused, total]);
@@ -204,8 +204,8 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                   }}
                   transition={{
                     type: 'spring',
-                    stiffness: 230,
-                    damping: 28,
+                    stiffness: 175,
+                    damping: 25,
                   }}
                   onClick={() => {
                     if (isPrev) handlePrev();

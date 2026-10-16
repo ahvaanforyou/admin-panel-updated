@@ -32,15 +32,15 @@ export default function Hero({ onCreateClick }) {
       className="relative z-0 w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-24 sm:pt-28 lg:pt-26 pb-8"
     >
       {/* 
-        Hero Layout: Left column has comfortable reading margin, right column expands to screen edge
+        Hero Layout: Left column has large prominent typography, right column has flush 3x3 shapes
       */}
-      <div className="w-full pl-5 sm:pl-8 lg:pl-12 xl:pl-16 pr-0 mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 xl:gap-8 items-center w-full">
+      <div className="w-full pl-5 sm:pl-8 lg:pl-10 xl:pl-14 pr-0 mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-6 xl:gap-8 items-center w-full">
           
           {/* ========================================================================= */}
           {/* LEFT COLUMN: Editorial Typography & Animated Stroke Text                  */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-6 xl:col-span-5 flex flex-col items-start justify-center z-10 select-none py-2 my-auto pr-4 lg:pr-2">
+          <div className="lg:col-span-7 xl:col-span-7 flex flex-col items-start justify-center z-10 select-none py-2 my-auto pr-2">
             
             {/* Headline Section */}
             <div className="w-full">
@@ -48,7 +48,7 @@ export default function Hero({ onCreateClick }) {
                 initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                 animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-3xl min-[380px]:text-4xl sm:text-5xl lg:text-[3.2rem] xl:text-[4.2rem] 2xl:text-[4.8rem] font-bold tracking-tight text-[#1F1F1F] leading-[0.98] lg:leading-[0.95]"
+                className="text-3xl min-[380px]:text-4xl sm:text-5xl lg:text-[4rem] xl:text-[5.2rem] 2xl:text-[6rem] font-bold tracking-tight text-[#1F1F1F] leading-[0.98] lg:leading-[0.92]"
               >
                 Digital invitations,
               </motion.h1>
@@ -59,7 +59,7 @@ export default function Hero({ onCreateClick }) {
                   initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                   animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
-                  className="relative -top-2 min-[380px]:-top-2.5 sm:-top-3.5 lg:-top-3 xl:-top-4 text-3xl min-[380px]:text-4xl sm:text-5xl lg:text-[3.2rem] xl:text-[4.2rem] 2xl:text-[4.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0"
+                  className="relative -top-2 min-[380px]:-top-2.5 sm:-top-3.5 lg:-top-4 xl:-top-5 text-3xl min-[380px]:text-4xl sm:text-5xl lg:text-[4rem] xl:text-[5.2rem] 2xl:text-[6rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0"
                 >
                   made
                 </motion.span>
@@ -94,7 +94,7 @@ export default function Hero({ onCreateClick }) {
           {/* ========================================================================= */}
           {/* RIGHT COLUMN: Full-Bleed 3×3 Grid Flushing Against the Right Screen Edge  */}
           {/* ========================================================================= */}
-          <div className="lg:col-span-6 xl:col-span-7 flex justify-end items-center w-full select-none pr-0 overflow-visible">
+          <div className="lg:col-span-5 xl:col-span-5 flex justify-end items-center w-full select-none pr-0 overflow-visible">
             {/* 
               Generously sized 3x3 Matrix fitting cleanly up to the screen border with zero right gap
             */}

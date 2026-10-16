@@ -18,13 +18,11 @@ export default function CelebrationHandwriting({ className = '' }) {
           ease: [0.25, 1, 0.5, 1],
           delay: 0.1,
         }}
-        className="relative inline-flex items-center"
+        className="relative inline-flex items-center overflow-visible"
       >
-        <img
-          src="/images/celebration-2x.png"
-          alt="Celebration"
-          className="h-[32px] sm:h-[38px] md:h-[44px] lg:h-[48px] w-auto object-contain select-none pointer-events-none drop-shadow-xs"
-        />
+        <span className="font-['Playwrite_US_Trad',cursive] font-normal text-[#F5CD51] not-italic text-3xl sm:text-5xl lg:text-6xl inline-block px-1 tracking-tight leading-none overflow-visible">
+          celebration
+        </span>
       </motion.span>
     </span>
   );
