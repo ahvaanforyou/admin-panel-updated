@@ -20,9 +20,11 @@ export default function CelebrationHandwriting({ className = '' }) {
         }}
         className="relative inline-flex items-center overflow-visible"
       >
-        <span className="font-['Playwrite_US_Trad',cursive] font-normal text-[#F5CD51] not-italic text-3xl sm:text-5xl lg:text-6xl inline-block px-1 tracking-tight leading-none overflow-visible">
-          celebration
-        </span>
+        <img
+          src="/images/celebration-2x.png"
+          alt="Celebration"
+          className="h-[46px] min-[400px]:h-[54px] sm:h-[66px] md:h-[76px] lg:h-[84px] xl:h-[92px] w-auto object-contain select-none pointer-events-none drop-shadow-xs"
+        />
       </motion.span>
     </span>
   );

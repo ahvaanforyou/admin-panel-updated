@@ -20,9 +20,11 @@ export default function CreateItForYouHandwriting({ className = '' }) {
         }}
         className="relative inline-flex items-center overflow-visible"
       >
-        <span className="font-['Playwrite_US_Trad',cursive] font-normal text-[#F5CD51] not-italic text-3xl sm:text-5xl lg:text-6xl inline-block px-1 tracking-tight leading-none overflow-visible">
-          create it for you
-        </span>
+        <img
+          src="/images/create-it-for-you-2x.png"
+          alt="create it for you"
+          className="h-[56px] min-[400px]:h-[68px] sm:h-[84px] md:h-[96px] lg:h-[110px] xl:h-[122px] w-auto object-contain select-none pointer-events-none drop-shadow-xs"
+        />
       </motion.span>
     </span>
   );
