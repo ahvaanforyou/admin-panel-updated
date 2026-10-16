@@ -135,19 +135,18 @@ export default function TemplatePreviewModal({
                   </div>
                 )}
 
-                {/* Full-bleed Screen Display with Scrollbar Hidden */}
-                <div className="relative z-10 w-full h-full overflow-hidden">
+                {/* Full-bleed Screen Display with Perfect Alignment */}
+                <div className="relative z-10 w-full h-full overflow-hidden flex items-center justify-center">
                   <iframe
                     key={template.id}
                     src={liveUrl}
                     title={`${template.clientTitle || template.name} Live Interactive Invitation`}
                     onLoad={() => setIsLoadingIframe(false)}
-                    className={`h-full border-0 select-auto block transition-opacity duration-500 no-scrollbar ${
+                    className={`w-full h-full border-0 select-auto block transition-opacity duration-300 no-scrollbar ${
                       isLoadingIframe ? 'opacity-0' : 'opacity-100'
                     }`}
                     style={{
-                      width: 'calc(100% + 18px)',
-                      marginRight: '-18px',
+                      width: '100%',
                       height: '100%',
                       overflowY: 'auto',
                       overflowX: 'hidden',
