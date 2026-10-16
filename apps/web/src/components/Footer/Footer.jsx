@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, Instagram, Youtube, ArrowUpRight, Heart } from 'lucide-react';
+import { Phone, Mail, Instagram, Youtube, ArrowUpRight, Heart, MessageCircle } from 'lucide-react';
 
 export default function Footer({ onCategoryClick, onCreateClick, onOpenCreateModal, onNavigate }) {
   const handleCreate = onCreateClick || onOpenCreateModal;
@@ -138,6 +138,84 @@ export default function Footer({ onCategoryClick, onCreateClick, onOpenCreateMod
             </div>
           </div>
 
+        </div>
+
+        {/* Universal Social Media Handles Bar */}
+        <div className="py-8 border-b border-white/10">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-widest text-[#F5CD51] block mb-1">
+                Universal Handles & Direct Connect
+              </span>
+              <p className="text-xs text-white/60">
+                Explore real wedding stories, creative showcases, and instant WhatsApp support.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 w-full lg:w-auto">
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com/ahvaan_for_you/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200 group"
+              >
+                <div className="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                  <Instagram className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">Instagram</div>
+                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors">@ahvaan_for_you</div>
+                </div>
+              </a>
+
+              {/* YouTube */}
+              <a
+                href="https://www.youtube.com/@AhvaanForYou"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200 group"
+              >
+                <div className="w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                  <Youtube className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">YouTube</div>
+                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors">@AhvaanForYou</div>
+                </div>
+              </a>
+
+              {/* WhatsApp */}
+              <a
+                href="https://wa.me/918985966940"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200 group"
+              >
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                  <MessageCircle className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">WhatsApp</div>
+                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors">+91 89859 66940</div>
+                </div>
+              </a>
+
+              {/* Email */}
+              <a
+                href="mailto:team@ahvaanforyou.com"
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200 group"
+              >
+                <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">Email</div>
+                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors">team@ahvaanforyou.com</div>
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Bottom Legal Bar */}

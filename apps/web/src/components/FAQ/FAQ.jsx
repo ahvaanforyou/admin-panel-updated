@@ -108,7 +108,7 @@ export default function FAQ() {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.7 }}
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1F1F1F] tracking-tight leading-tight"
+              className="text-3xl sm:text-5xl lg:text-6xl font-bold text-[#1F1F1F] tracking-tight leading-tight"
             >
               Before the
               <br />
@@ -121,7 +121,7 @@ export default function FAQ() {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="mt-4 text-sm sm:text-base text-stone-500 font-normal leading-relaxed max-w-md mx-auto lg:mx-0"
+              className="mt-4 text-base sm:text-lg text-stone-500 font-normal leading-relaxed max-w-md mx-auto lg:mx-0"
             >
               A few quick answers to help you get started.
             </motion.p>
@@ -129,7 +129,7 @@ export default function FAQ() {
           </div>
 
           {/* RIGHT COLUMN: ACCORDION LIST (Matching Reference Image 3) */}
-          <div className="lg:col-span-7 xl:col-span-7 space-y-4">
+          <div className="lg:col-span-7 xl:col-span-7 space-y-4 sm:space-y-5">
             {EXACT_FAQS.map((faq, idx) => {
               const isOpen = openIndex === idx;
               const Icon = faq.icon;
@@ -139,8 +139,8 @@ export default function FAQ() {
                   key={faq.id}
                   className={`bg-white rounded-2xl sm:rounded-3xl border transition-all duration-300 overflow-hidden shadow-xs hover:shadow-md ${
                     isOpen 
-                      ? 'border-stone-200 shadow-sm' 
-                      : 'border-stone-200/80 hover:border-stone-300'
+                      ? 'border-stone-300 shadow-md ring-1 ring-[#FAF2EE]' 
+                      : 'border-stone-200/90 hover:border-stone-300'
                   }`}
                 >
                   
@@ -148,30 +148,30 @@ export default function FAQ() {
                   <button
                     type="button"
                     onClick={() => toggle(idx)}
-                    className="w-full px-5 sm:px-7 py-4.5 sm:py-5 text-left flex items-center justify-between gap-4 cursor-pointer select-none"
+                    className="w-full px-6 sm:px-8 py-5 sm:py-6 text-left flex items-center justify-between gap-4 sm:gap-5 cursor-pointer select-none"
                     aria-expanded={isOpen}
                   >
-                    <div className="flex items-center gap-3.5 sm:gap-4 flex-1">
+                    <div className="flex items-center gap-4 sm:gap-5 flex-1">
                       {/* Left Icon Pill */}
                       <div 
-                        className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                        className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-xs"
                         style={{ backgroundColor: faq.iconBg, color: faq.iconColor }}
                       >
-                        <Icon className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                        <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                       </div>
 
                       {/* Question Text */}
-                      <span className="font-semibold text-sm sm:text-base text-stone-900 tracking-tight">
+                      <span className="font-bold text-base sm:text-lg lg:text-xl text-stone-900 tracking-tight leading-snug">
                         {faq.question}
                       </span>
                     </div>
 
                     {/* Chevron Arrow */}
-                    <div className="w-7 h-7 flex items-center justify-center text-stone-500 flex-shrink-0 transition-transform duration-300">
+                    <div className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 flex-shrink-0 transition-transform duration-300">
                       {isOpen ? (
-                        <ChevronUp className="w-4 h-4 text-stone-700" />
+                        <ChevronUp className="w-5 h-5 text-stone-800" />
                       ) : (
-                        <ChevronDown className="w-4 h-4 text-stone-500" />
+                        <ChevronDown className="w-5 h-5 text-stone-600" />
                       )}
                     </div>
                   </button>
@@ -186,7 +186,7 @@ export default function FAQ() {
                         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                         className="overflow-hidden"
                       >
-                        <div className="bg-[#FAF2EE]/60 px-5 sm:px-7 py-4.5 sm:py-5 border-t border-stone-100 text-xs sm:text-sm text-stone-700 leading-relaxed font-normal">
+                        <div className="bg-[#FAF2EE]/60 px-6 sm:px-8 py-5 sm:py-6 border-t border-stone-100 text-sm sm:text-base text-stone-700 leading-relaxed font-normal">
                           {faq.answer}
                         </div>
                       </motion.div>

@@ -77,7 +77,7 @@ export default function TemplateShowcase({
             whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.7 }}
-            className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold text-[#1F1F1F] tracking-tight leading-[1.2]"
+            className="text-3xl sm:text-5xl lg:text-6xl font-bold text-[#1F1F1F] tracking-tight leading-[1.2]"
           >
             Select a template, share with us, and we
           </motion.h2>

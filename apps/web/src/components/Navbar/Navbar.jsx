@@ -104,10 +104,12 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
   return (
     <div className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 sm:px-6 pt-4 sm:pt-6 pointer-events-none transition-all duration-500">
       <header
-        className={`pointer-events-auto w-full max-w-4xl rounded-full transition-all duration-500 border ${
+        className={`pointer-events-auto w-full max-w-4xl transition-all duration-300 border ${
+          mobileMenuOpen ? 'rounded-3xl' : 'rounded-full'
+        } ${
           isScrolled
-            ? 'bg-white/70 backdrop-blur-xl shadow-lg border-white/60 py-2.5 px-5 sm:px-7 scale-[0.98]'
-            : 'bg-white/85 backdrop-blur-md shadow-md border-stone-200/60 py-3 px-6 sm:px-8'
+            ? 'bg-white/90 backdrop-blur-xl shadow-lg border-white/60 py-2.5 px-5 sm:px-7 scale-[0.98]'
+            : 'bg-white/95 backdrop-blur-md shadow-md border-stone-200/60 py-3 px-6 sm:px-8'
         }`}
         style={{
           boxShadow: isScrolled
@@ -195,7 +197,7 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
           <div className="hidden sm:flex items-center gap-3">
             <button
               onClick={onOpenCreateModal}
-              className="bg-[#4E1D1D] hover:bg-[#3A1414] text-white px-5 sm:px-6 py-2.5 rounded-full text-xs font-semibold tracking-wide shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2 group"
+              className="bg-[#4E1D1D] hover:bg-[#3A1414] text-white px-5 sm:px-6 py-2.5 rounded-full text-xs font-semibold tracking-wide shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2 group cursor-pointer"
             >
               <span>Create Your Invitation</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -206,13 +208,14 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
           <div className="flex md:hidden items-center gap-2">
             <button
               onClick={onOpenCreateModal}
-              className="bg-[#4E1D1D] text-white px-3 py-1.5 rounded-full text-[11px] font-semibold"
+              className="bg-[#4E1D1D] text-white px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-xs"
             >
               Create
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 rounded-full text-stone-700 hover:bg-stone-100"
+              className="p-2 rounded-full text-stone-700 hover:bg-stone-100 transition-colors"
+              aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -222,45 +225,47 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
 
         {/* Mobile Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pt-4 border-t border-stone-200/80 flex flex-col gap-3 text-xs font-semibold text-stone-800 pb-2">
+          <div className="md:hidden mt-3 pt-3 border-t border-stone-200/80 flex flex-col gap-1 text-sm font-semibold text-stone-800 pb-2">
             <button
               onClick={() => handleNavClick('home')}
-              className={`text-left py-1 ${isHome ? 'text-brand-primary font-bold' : ''}`}
+              className={`text-left py-2.5 px-3 rounded-xl transition-colors ${
+                isHome ? 'bg-stone-100 text-[#4E1D1D] font-bold' : 'hover:bg-stone-50 text-stone-700'
+              }`}
             >
               Home
             </button>
             <button 
               onClick={() => handleNavClick('invitations')} 
-              className={`text-left py-1 ${isInvitations ? 'text-brand-primary font-bold' : ''}`}
+              className={`text-left py-2.5 px-3 rounded-xl transition-colors ${
+                isInvitations ? 'bg-stone-100 text-[#4E1D1D] font-bold' : 'hover:bg-stone-50 text-stone-700'
+              }`}
             >
               Invitations
             </button>
             <button
               onClick={() => handleNavClick('howitworks')}
-              className={`text-left py-1 ${isHowItWorks ? 'text-brand-primary font-bold' : ''}`}
+              className={`text-left py-2.5 px-3 rounded-xl transition-colors ${
+                isHowItWorks ? 'bg-stone-100 text-[#4E1D1D] font-bold' : 'hover:bg-stone-50 text-stone-700'
+              }`}
             >
               How It Works
             </button>
             <button
               onClick={() => handleNavClick('blogs')}
-              className={`text-left py-1 ${isBlogs ? 'text-brand-primary font-bold' : ''}`}
+              className={`text-left py-2.5 px-3 rounded-xl transition-colors ${
+                isBlogs ? 'bg-stone-100 text-[#4E1D1D] font-bold' : 'hover:bg-stone-50 text-stone-700'
+              }`}
             >
               Blog
             </button>
             <button 
               onClick={() => handleNavClick('about')} 
-              className={`text-left py-1 ${isAbout ? 'text-brand-primary font-bold' : ''}`}
+              className={`text-left py-2.5 px-3 rounded-xl transition-colors ${
+                isAbout ? 'bg-stone-100 text-[#4E1D1D] font-bold' : 'hover:bg-stone-50 text-stone-700'
+              }`}
             >
               About
             </button>
-            <a
-              href="/admin"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-left py-1 text-stone-500"
-            >
-              Admin Portal →
-            </a>
           </div>
         )}
       </header>

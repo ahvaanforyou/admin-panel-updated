@@ -68,7 +68,7 @@ export const TEMPLATES = [
     cardImage: '/images/templates/leaves_intro.jpg',
     bannerImage: '/images/templates/leaves_intro.jpg',
     objectPosition: 'object-center',
-    previewUrl: 'https://ronish-weds-hanisha.vercel.app',
+    previewUrl: '/previews/traditional-video/index.html',
     hasLivePreview: true,
     themeColor: '#4E1D1D',
     themeLight: '#FFF0EC',

@@ -48,7 +48,7 @@ export default function Hero({ onCreateClick }) {
                 initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                 animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-3xl min-[380px]:text-4xl sm:text-6xl lg:text-[4.2rem] xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-[0.98] lg:leading-[0.94]"
+                className="text-3xl min-[380px]:text-4xl sm:text-5xl lg:text-[3.6rem] xl:text-[4.8rem] 2xl:text-[5.6rem] font-bold tracking-tight text-[#1F1F1F] leading-[0.98] lg:leading-[0.94]"
               >
                 Digital invitations,
               </motion.h1>
@@ -59,7 +59,7 @@ export default function Hero({ onCreateClick }) {
                   initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                   animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
-                  className="relative -top-2 min-[380px]:-top-2.5 sm:-top-3.5 lg:-top-4.5 xl:-top-5 text-3xl min-[380px]:text-4xl sm:text-6xl lg:text-[4.2rem] xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0"
+                  className="relative -top-2 min-[380px]:-top-2.5 sm:-top-3.5 lg:-top-4 xl:-top-5 text-3xl min-[380px]:text-4xl sm:text-5xl lg:text-[3.6rem] xl:text-[4.8rem] 2xl:text-[5.6rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0"
                 >
                   made
                 </motion.span>
@@ -96,9 +96,9 @@ export default function Hero({ onCreateClick }) {
           {/* ========================================================================= */}
           <div className="lg:col-span-6 xl:col-span-6 flex justify-center lg:justify-end items-center w-full select-none pr-0">
             {/* 
-              Responsive 3x3 Matrix perfectly fitting the page bounds without clipping or white gaps
+              Responsive 3x3 Matrix perfectly fitting laptop & desktop bounds without clipping
             */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-2.5 lg:gap-3 xl:gap-3.5 w-full max-w-[520px] sm:max-w-[580px] lg:max-w-[650px] xl:max-w-[730px] 2xl:max-w-[790px] aspect-square ml-auto select-none p-0 relative max-h-[min(82vh,780px)]">
+            <div className="grid grid-cols-3 gap-2 sm:gap-2.5 lg:gap-3 xl:gap-3.5 w-full max-w-[480px] sm:max-w-[540px] lg:max-w-[520px] xl:max-w-[660px] 2xl:max-w-[760px] aspect-square ml-auto select-none p-0 relative max-h-[min(72vh,660px)]">
               
               {/* Star Accent positioned at exact geometry intersection (69.4% X, 32.1% Y) */}
               <div className="absolute top-[31%] right-[32%] z-20 pointer-events-none">

@@ -105,11 +105,12 @@ const FLOATING_BADGES = [
 const PROBLEM_CARDS = [
   {
     id: 1,
+    num: '01',
     icon: (
-      <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center relative shadow-sm">
-        <span className="text-2xl select-none">🖼️</span>
-        <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#25D366] border-2 border-white flex items-center justify-center shadow-xs">
-          <MessageCircle className="w-2.5 h-2.5 text-white fill-white" />
+      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white flex items-center justify-center relative shadow-sm">
+        <span className="text-3xl sm:text-4xl select-none">🖼️</span>
+        <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#25D366] border-2 border-white flex items-center justify-center shadow-xs">
+          <MessageCircle className="w-3.5 h-3.5 text-white fill-white" />
         </div>
       </div>
     ),
@@ -119,9 +120,10 @@ const PROBLEM_CARDS = [
   },
   {
     id: 2,
+    num: '02',
     icon: (
-      <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center relative shadow-sm">
-        <span className="text-2xl select-none">📍</span>
+      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white flex items-center justify-center relative shadow-sm">
+        <span className="text-3xl sm:text-4xl select-none">📍</span>
       </div>
     ),
     title: 'Where exactly is the venue?',
@@ -130,9 +132,10 @@ const PROBLEM_CARDS = [
   },
   {
     id: 3,
+    num: '03',
     icon: (
-      <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center relative shadow-sm">
-        <span className="text-2xl select-none">👥</span>
+      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white flex items-center justify-center relative shadow-sm">
+        <span className="text-3xl sm:text-4xl select-none">👥</span>
       </div>
     ),
     title: "Who's actually coming?",
@@ -141,9 +144,10 @@ const PROBLEM_CARDS = [
   },
   {
     id: 4,
+    num: '04',
     icon: (
-      <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center relative shadow-sm">
-        <span className="text-2xl select-none">🌍</span>
+      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white flex items-center justify-center relative shadow-sm">
+        <span className="text-3xl sm:text-4xl select-none">🌍</span>
       </div>
     ),
     title: 'Not everyone is nearby',
@@ -536,7 +540,7 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
               </motion.div>
 
               {/* 5 Stacked Floating Pills with Scroll-Linked Parallax */}
-              <div className="absolute right-0 sm:-right-4 inset-y-0 w-[170px] sm:w-[210px] md:w-[230px] flex flex-col justify-around py-4 z-20 pointer-events-auto">
+              <div className="absolute -right-2 min-[400px]:right-0 sm:-right-4 inset-y-0 w-[125px] min-[400px]:w-[155px] sm:w-[210px] md:w-[230px] flex flex-col justify-around py-4 z-20 pointer-events-auto">
                 {FLOATING_BADGES.map((badge, idx) => (
                   <motion.div
                     key={badge.id}
@@ -643,7 +647,12 @@ export default function HowItWorksPage({ onNavigate, onOpenCreateModal }) {
                 className="bg-[#462121] text-white rounded-[26px] p-7 sm:p-8 flex flex-col justify-between min-h-[340px] sm:min-h-[360px] shadow-[0_20px_45px_-12px_rgba(70,33,33,0.35)] border border-white/5 cursor-default"
               >
                 <div>
-                  <div className="mb-6">{card.icon}</div>
+                  <div className="flex items-center justify-between mb-6">
+                    <div>{card.icon}</div>
+                    <span className="text-2xl sm:text-3xl font-bold font-editorial text-white/30 tracking-wider">
+                      {card.num}
+                    </span>
+                  </div>
                   <h3 className="text-base sm:text-lg font-bold text-white tracking-tight leading-snug mb-3">
                     {card.title}
                   </h3>
