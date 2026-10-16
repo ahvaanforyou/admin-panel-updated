@@ -102,13 +102,11 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
   };
 
   return (
-    <div className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 sm:px-6 pt-4 sm:pt-6 pointer-events-none transition-all duration-500">
+    <div className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 sm:px-6 pt-4 sm:pt-6 pointer-events-none">
       <header
-        className={`pointer-events-auto w-full max-w-4xl transition-all duration-300 border ${
-          mobileMenuOpen ? 'rounded-3xl' : 'rounded-full'
-        } ${
+        className={`pointer-events-auto relative w-full max-w-4xl border rounded-full ${
           isScrolled
-            ? 'bg-white/90 backdrop-blur-xl shadow-lg border-white/60 py-2.5 px-5 sm:px-7 scale-[0.98]'
+            ? 'bg-white/90 backdrop-blur-xl shadow-lg border-white/60 py-2.5 px-5 sm:px-7'
             : 'bg-white/95 backdrop-blur-md shadow-md border-stone-200/60 py-3 px-6 sm:px-8'
         }`}
         style={{
@@ -214,54 +212,54 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-full text-stone-700 hover:bg-stone-100 transition-colors"
+              className="p-2 rounded-full text-stone-700 hover:bg-stone-100 active:scale-95 transition-all duration-150"
               aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 text-stone-900" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
 
         </div>
 
-        {/* Mobile Dropdown */}
+        {/* Mobile Dropdown Panel: Clean, direct card anchored smoothly right under the navbar */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-3 pt-3 border-t border-stone-200/80 flex flex-col gap-1 text-sm font-semibold text-stone-800 pb-2">
+          <div className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 bg-white/98 backdrop-blur-2xl rounded-2xl border border-stone-200/90 shadow-2xl p-3 flex flex-col gap-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
             <button
               onClick={() => handleNavClick('home')}
-              className={`text-left py-2.5 px-3 rounded-xl transition-colors ${
-                isHome ? 'bg-stone-100 text-[#4E1D1D] font-bold' : 'hover:bg-stone-50 text-stone-700'
+              className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
+                isHome ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
               }`}
             >
               Home
             </button>
             <button 
               onClick={() => handleNavClick('invitations')} 
-              className={`text-left py-2.5 px-3 rounded-xl transition-colors ${
-                isInvitations ? 'bg-stone-100 text-[#4E1D1D] font-bold' : 'hover:bg-stone-50 text-stone-700'
+              className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
+                isInvitations ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
               }`}
             >
               Invitations
             </button>
             <button
               onClick={() => handleNavClick('howitworks')}
-              className={`text-left py-2.5 px-3 rounded-xl transition-colors ${
-                isHowItWorks ? 'bg-stone-100 text-[#4E1D1D] font-bold' : 'hover:bg-stone-50 text-stone-700'
+              className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
+                isHowItWorks ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
               }`}
             >
               How It Works
             </button>
             <button
               onClick={() => handleNavClick('blogs')}
-              className={`text-left py-2.5 px-3 rounded-xl transition-colors ${
-                isBlogs ? 'bg-stone-100 text-[#4E1D1D] font-bold' : 'hover:bg-stone-50 text-stone-700'
+              className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
+                isBlogs ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
               }`}
             >
               Blog
             </button>
             <button 
               onClick={() => handleNavClick('about')} 
-              className={`text-left py-2.5 px-3 rounded-xl transition-colors ${
-                isAbout ? 'bg-stone-100 text-[#4E1D1D] font-bold' : 'hover:bg-stone-50 text-stone-700'
+              className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
+                isAbout ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
               }`}
             >
               About
