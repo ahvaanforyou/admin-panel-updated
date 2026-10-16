@@ -113,7 +113,7 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
               </div>
 
               {/* Card Body */}
-              <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between text-left">
+              <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between text-left">
                 <div>
                   {/* Category & Price Row */}
                   <div className="flex items-center justify-between text-xs mb-2">
@@ -126,29 +126,29 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
                   </div>
 
                   {/* Client Title */}
-                  <h3 className="text-xl font-bold text-stone-900 tracking-tight leading-snug mb-2 group-hover:text-[#351410] transition-colors">
+                  <h3 className="text-lg sm:text-xl font-bold text-stone-900 tracking-tight leading-snug mb-1.5 group-hover:text-[#351410] transition-colors">
                     {template.clientTitle || template.name}
                   </h3>
 
                   {/* Venue / Location Tag */}
                   {template.venue && (
-                    <div className="flex items-center gap-1.5 text-xs text-stone-500 mb-3">
+                    <div className="flex items-center gap-1.5 text-xs text-stone-500 mb-2.5">
                       <MapPin className="w-3.5 h-3.5 text-[#C05646] flex-shrink-0" />
                       <span className="truncate">{template.venue}</span>
                     </div>
                   )}
 
                   {/* Description */}
-                  <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed mb-4">
+                  <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed mb-3">
                     {template.description}
                   </p>
 
                   {/* Feature Badges */}
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {['Live Google Maps', 'RSVP Tracking', 'Music Player'].map((feat, i) => (
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {(template.features || ['Live Google Maps', 'RSVP Tracking', 'Music Player']).map((feat, i) => (
                       <span 
                         key={i} 
-                        className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-stone-50 border border-stone-200/80 text-[10px] font-medium text-stone-600"
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-stone-50 border border-stone-200/80 text-[10px] font-medium text-stone-600"
                       >
                         <Check className="w-2.5 h-2.5 text-emerald-600" />
                         <span>{feat}</span>
@@ -158,7 +158,7 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
                 </div>
 
                 {/* Actions: Preview & Order */}
-                <div className="pt-4 border-t border-stone-100 flex items-center gap-2.5">
+                <div className="pt-3.5 border-t border-stone-100 flex items-center gap-2 sm:gap-2.5">
                   <button
                     onClick={() => onPreviewTemplate(template)}
                     className="flex-1 py-2.5 px-3 rounded-xl border border-stone-300 hover:border-stone-400 bg-white hover:bg-stone-50 text-stone-800 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"

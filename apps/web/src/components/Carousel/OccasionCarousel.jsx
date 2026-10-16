@@ -151,7 +151,7 @@ export default function OccasionCarousel({ onSelectTemplate }) {
         >
           
           {/* Card Deck Stage */}
-          <div className="w-full relative h-[500px] sm:h-[560px] lg:h-[620px] xl:h-[660px] flex items-center justify-center overflow-visible">
+          <div className="w-full relative h-[520px] min-[400px]:h-[550px] sm:h-[580px] lg:h-[620px] xl:h-[660px] flex items-center justify-center overflow-visible">
             {OCCASION_CARDS.map((card, idx) => {
               // Calculate circular distance relative to activeIndex
               let diff = (idx - activeIndex) % total;
@@ -219,37 +219,38 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                     transformOrigin: 'center center',
                   }}
                 >
-                  <div className="relative w-full h-[480px] sm:h-[540px] lg:h-[600px] xl:h-[640px] flex items-center">
+                  <div className="relative w-full h-[500px] min-[400px]:h-[530px] sm:h-[560px] lg:h-[600px] xl:h-[640px] flex items-center">
                     
                     {/* 
                       Colored Background Sash / Box:
-                      - Inset vertically so the 3D devices naturally break out and pop over the top & bottom edges!
+                      - On mobile: securely encapsulates text and device
+                      - On desktop: insets vertically so 3D devices pop over top & bottom edges
                     */}
                     <div 
-                      className="absolute inset-y-[8%] sm:inset-y-[10%] lg:inset-y-[10%] inset-x-0 w-full rounded-3xl sm:rounded-[42px] shadow-2xl pointer-events-none transition-colors duration-500"
+                      className="absolute inset-y-1 sm:inset-y-[6%] lg:inset-y-[10%] inset-x-0 w-full rounded-2xl sm:rounded-[36px] lg:rounded-[42px] shadow-2xl pointer-events-none transition-colors duration-500"
                       style={{ backgroundColor: card.bgColor }}
                     />
 
                     {/* Content Grid */}
-                    <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 items-center gap-6 sm:gap-8 px-6 sm:px-12 lg:px-16 xl:px-20 h-full">
+                    <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 items-center gap-3 sm:gap-6 lg:gap-8 px-4 min-[400px]:px-6 sm:px-12 lg:px-16 xl:px-20 h-full py-5 lg:py-0">
                       
                       {/* Left Column: Typography & Button */}
-                      <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center py-4 z-20 max-w-xl">
+                      <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center z-20 max-w-xl">
                         <h3 
-                          className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.04] whitespace-pre-line drop-shadow-xs"
+                          className="text-2xl min-[360px]:text-3xl min-[480px]:text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.08] sm:leading-[1.04] whitespace-normal sm:whitespace-pre-line drop-shadow-xs"
                           style={{ color: card.titleColor }}
                         >
                           {card.title}
                         </h3>
 
                         <p 
-                          className="mt-4 sm:mt-5 text-sm sm:text-base lg:text-lg font-medium leading-relaxed max-w-md opacity-95"
+                          className="mt-2 sm:mt-4 lg:mt-5 text-xs min-[400px]:text-sm sm:text-base lg:text-lg font-medium leading-relaxed max-w-md opacity-95 line-clamp-2 sm:line-clamp-none"
                           style={{ color: card.subtextColor }}
                         >
                           {card.description}
                         </p>
 
-                        <div className="mt-6 sm:mt-8 flex items-center gap-4">
+                        <div className="mt-3.5 sm:mt-6 lg:mt-8 flex items-center gap-4">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
@@ -257,25 +258,24 @@ export default function OccasionCarousel({ onSelectTemplate }) {
                                 onSelectTemplate(card.category);
                               }
                             }}
-                            className="bg-[#4E1D1D] hover:bg-[#381313] active:scale-95 text-white px-7 sm:px-9 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm lg:text-base font-bold tracking-wide shadow-xl hover:shadow-2xl transition-all flex items-center gap-2.5"
+                            className="bg-[#4E1D1D] hover:bg-[#381313] active:scale-95 text-white px-5 min-[400px]:px-6 sm:px-9 py-2.5 min-[400px]:py-3 sm:py-4 rounded-full text-xs sm:text-sm lg:text-base font-bold tracking-wide shadow-xl hover:shadow-2xl transition-all flex items-center gap-2"
                           >
                             <span>Explore {card.title.split('/')[0].split('\n')[0]} Templates</span>
-                            <ArrowRight className="w-4 h-4" />
+                            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                           </button>
                         </div>
                       </div>
 
                       {/* 
                         Right Column: Controlled Pop-Out 3D Devices
-                        - Strictly contained within its column with max-w-full (ZERO overlap with text!)
-                        - Breaks out vertically by ~30px past the colored sash for a 3D pop effect
+                        - Proportional height on mobile, 3D breakout on desktop
                       */}
                       <div className="lg:col-span-7 xl:col-span-7 flex justify-center lg:justify-end items-center relative overflow-visible h-full">
-                        <div className="relative w-full h-[380px] sm:h-[460px] lg:h-[540px] xl:h-[580px] flex justify-end items-center overflow-visible -my-6 sm:-my-8 lg:-my-10">
+                        <div className="relative w-full h-[180px] min-[400px]:h-[210px] sm:h-[300px] lg:h-[540px] xl:h-[580px] flex justify-center lg:justify-end items-center overflow-visible my-0 lg:-my-10">
                           <img
                             src={card.deviceImage}
                             alt={card.title}
-                            className="w-auto h-full max-h-[380px] sm:max-h-[460px] lg:max-h-[540px] xl:max-h-[580px] max-w-full object-contain object-right drop-shadow-[0_24px_35px_rgba(0,0,0,0.32)] drop-shadow-[0_10px_15px_rgba(0,0,0,0.18)] pointer-events-none"
+                            className="w-auto h-full max-h-[180px] min-[400px]:max-h-[210px] sm:max-h-[300px] lg:max-h-[540px] xl:max-h-[580px] max-w-full object-contain object-center lg:object-right drop-shadow-[0_16px_25px_rgba(0,0,0,0.28)] lg:drop-shadow-[0_24px_35px_rgba(0,0,0,0.32)] pointer-events-none"
                             style={{ imageRendering: '-webkit-optimize-contrast' }}
                             loading="eager"
                           />

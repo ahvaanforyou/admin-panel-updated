@@ -27,7 +27,7 @@ export default function UnforgettableHandwriting({ className = '' }) {
         <img
           src="/images/unforgettable-exact-2x.png"
           alt="unforgettable"
-          className="h-[62px] min-[400px]:h-[74px] sm:h-[92px] lg:h-[105px] xl:h-[122px] 2xl:h-[138px] w-auto max-w-none object-contain select-none pointer-events-none drop-shadow-xs"
+          className="h-[44px] min-[380px]:h-[54px] min-[480px]:h-[68px] sm:h-[92px] lg:h-[105px] xl:h-[122px] 2xl:h-[138px] w-auto max-w-none object-contain select-none pointer-events-none drop-shadow-xs"
         />
       </motion.div>
     </div>

@@ -83,7 +83,7 @@ function ParallaxCard({ card, scrollYProgress }) {
           opacity: 1,
           y: 0,
           scale: 1,
-          rotate: card.rotation,
+          rotate: typeof window !== 'undefined' && window.innerWidth < 768 ? 0 : card.rotation,
         }}
         viewport={{ once: false, amount: 0.15 }}
         transition={{
@@ -97,7 +97,7 @@ function ParallaxCard({ card, scrollYProgress }) {
           y: -8,
           transition: { duration: 0.3 },
         }}
-        className="bg-white/85 backdrop-blur-xl border border-stone-200/70 rounded-[28px] p-6 sm:p-7 shadow-[0_20px_45px_-10px_rgba(0,0,0,0.07)] hover:shadow-[0_25px_50px_-10px_rgba(78,29,29,0.12)] transition-shadow duration-300 flex flex-col justify-between cursor-default"
+        className="bg-white/85 backdrop-blur-xl border border-stone-200/70 rounded-2xl sm:rounded-[28px] p-5 sm:p-7 shadow-[0_20px_45px_-10px_rgba(0,0,0,0.07)] hover:shadow-[0_25px_50px_-10px_rgba(78,29,29,0.12)] transition-shadow duration-300 flex flex-col justify-between cursor-default"
         style={{
           boxShadow:
             '0 20px 45px -10px rgba(0, 0, 0, 0.06), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset',

@@ -167,15 +167,15 @@ export default function TemplateShowcase({
                     key={item.id}
                     whileHover={{ y: -4 }}
                     transition={{ duration: 0.2 }}
-                    className="bg-white rounded-2xl border border-stone-200/90 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all flex flex-row items-center gap-4 sm:gap-5 relative group select-none min-h-[225px]"
+                    className="bg-white rounded-2xl border border-stone-200/90 p-3 min-[380px]:p-4 sm:p-5 shadow-sm hover:shadow-md transition-all flex flex-row items-center gap-2.5 min-[380px]:gap-4 sm:gap-5 relative group select-none min-h-[210px] sm:min-h-[225px]"
                   >
                     {/* Left: Realistic Smartphone Frame with Full Clear-Resolution Hero */}
-                    <div className="w-[108px] sm:w-[118px] aspect-[9/19.5] flex-shrink-0 bg-[#1E1E1E] rounded-[22px] p-[3px] shadow-md border-[2.5px] border-stone-800 relative overflow-hidden flex flex-col justify-start">
+                    <div className="w-[88px] min-[380px]:w-[102px] sm:w-[118px] aspect-[9/19.5] flex-shrink-0 bg-[#1E1E1E] rounded-[18px] min-[380px]:rounded-[22px] p-[2.5px] sm:p-[3px] shadow-md border-[2px] sm:border-[2.5px] border-stone-800 relative overflow-hidden flex flex-col justify-start">
                       {/* Top Island / Speaker Notch */}
-                      <div className="w-6 h-1 bg-stone-700/80 rounded-full mx-auto my-0.5 z-10 flex-shrink-0" />
+                      <div className="w-5 sm:w-6 h-0.5 sm:h-1 bg-stone-700/80 rounded-full mx-auto my-0.5 z-10 flex-shrink-0" />
                       
                       {/* Inner Phone Screen with Client Website Hero fitting properly */}
-                      <div className="w-full h-full rounded-[17px] overflow-hidden bg-stone-900 relative">
+                      <div className="w-full h-full rounded-[14px] min-[380px]:rounded-[17px] overflow-hidden bg-stone-900 relative">
                         <img
                           src={item.phoneImage || item.image}
                           alt={item.name}
@@ -195,42 +195,59 @@ export default function TemplateShowcase({
                         className="absolute top-0 right-0 p-1 text-stone-400 hover:text-rose-500 transition-colors cursor-pointer"
                         title="Add to favorites"
                       >
-                        <Heart className={`w-4 h-4 ${isLiked ? 'fill-rose-500 text-rose-500' : 'text-stone-400'}`} />
+                        <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isLiked ? 'fill-rose-500 text-rose-500' : 'text-stone-400'}`} />
                       </button>
 
                       {/* Header Info */}
-                      <div className="pr-6">
-                        <h3 className="font-bold text-stone-900 text-base sm:text-lg leading-snug truncate" title={item.clientTitle || item.name}>
+                      <div className="pr-5 sm:pr-6">
+                        {item.badge && (
+                          <span 
+                            className="inline-block text-[9px] min-[380px]:text-[10px] font-bold px-2 py-0.5 rounded-full mb-1"
+                            style={{ 
+                              backgroundColor: item.badgeColor || '#FFF0EC', 
+                              color: item.badgeText || '#351410' 
+                            }}
+                          >
+                            {item.badge}
+                          </span>
+                        )}
+                        <h3 className="font-bold text-stone-900 text-sm min-[380px]:text-base sm:text-lg leading-snug truncate" title={item.clientTitle || item.name}>
                           {item.name}
                         </h3>
-                        <p className="text-xs text-stone-500 font-medium mt-0.5 truncate">
+                        <p className="text-[11px] sm:text-xs text-stone-500 font-medium mt-0.5 truncate">
                           {item.subtitle}
                         </p>
                       </div>
 
-                      {/* Feature Pills (RSVP, Maps, Bulk Emails) matching reference */}
-                      <div className="flex flex-wrap items-center gap-1.5 my-2">
-                        <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-sky-50 text-sky-600 border border-sky-100">
-                          RSVP
-                        </span>
-                        <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-teal-50 text-teal-600 border border-teal-100">
-                          Maps
-                        </span>
-                        <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-pink-50 text-pink-600 border border-pink-100">
-                          Bulk Emails
-                        </span>
+                      {/* Dynamic Feature Pills */}
+                      <div className="flex flex-wrap items-center gap-1 min-[380px]:gap-1.5 my-1.5 sm:my-2">
+                        {(item.features || ['RSVP', 'Maps', 'Bulk Emails']).slice(0, 3).map((feat, fIdx) => (
+                          <span 
+                            key={fIdx}
+                            className="px-1.5 min-[380px]:px-2 py-0.5 rounded-md text-[9px] min-[380px]:text-[10px] font-semibold bg-stone-100 text-stone-700 border border-stone-200/80 whitespace-nowrap"
+                          >
+                            {feat}
+                          </span>
+                        ))}
                       </div>
 
                       {/* Price & Action Buttons */}
                       <div className="mt-auto pt-1">
-                        <div className="text-xl sm:text-2xl font-bold text-stone-900 tracking-tight mb-2">
-                          {item.price}
+                        <div className="flex items-baseline gap-1.5 mb-1.5">
+                          <span className="text-base min-[380px]:text-lg sm:text-2xl font-bold text-stone-900 tracking-tight">
+                            {item.price}
+                          </span>
+                          {item.originalPrice && (
+                            <span className="text-[10px] min-[380px]:text-xs text-stone-400 line-through font-normal">
+                              {item.originalPrice}
+                            </span>
+                          )}
                         </div>
 
-                        <div className="flex items-center gap-2 w-full">
+                        <div className="flex items-center gap-1.5 min-[380px]:gap-2 w-full">
                           <button
                             onClick={() => onPreviewTemplate(item)}
-                            className="flex-1 bg-[#351410] hover:bg-[#230C0A] text-white py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold shadow-sm transition flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap"
+                            className="flex-1 bg-[#351410] hover:bg-[#230C0A] text-white py-1.5 min-[380px]:py-2 px-2 min-[380px]:px-3 rounded-xl text-[11px] min-[380px]:text-xs sm:text-sm font-semibold shadow-sm transition flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap"
                           >
                             <span>Preview</span>
                             <span className="text-xs">→</span>
@@ -250,7 +267,7 @@ export default function TemplateShowcase({
                                 alert('Template link copied to clipboard!');
                               }
                             }}
-                            className="bg-white hover:bg-stone-50 text-stone-700 border border-stone-300 py-2 px-3 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer"
+                            className="bg-white hover:bg-stone-50 text-stone-700 border border-stone-300 py-1.5 min-[380px]:py-2 px-2 min-[380px]:px-3 rounded-xl text-[11px] min-[380px]:text-xs sm:text-sm font-medium transition cursor-pointer"
                           >
                             Share
                           </button>

@@ -32,9 +32,9 @@ export default function Hero({ onCreateClick }) {
       className="relative w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-20 sm:pt-24 lg:pt-26 pb-8"
     >
       {/* 
-        Full viewport width container with balanced left padding and edge-to-edge right alignment
+        Full viewport width container with balanced mobile padding and edge-to-edge right alignment
       */}
-      <div className="w-full pl-6 sm:pl-10 lg:pl-12 xl:pl-14 pr-2 sm:pr-4 lg:pr-5 xl:pr-6 max-w-[1920px] mx-auto">
+      <div className="w-full px-4 sm:pl-10 sm:pr-4 lg:pl-12 lg:pr-5 xl:pl-14 xl:pr-6 max-w-[1920px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 xl:gap-8 items-center w-full">
           
           {/* ========================================================================= */}
@@ -48,7 +48,7 @@ export default function Hero({ onCreateClick }) {
                 initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                 animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-5xl sm:text-6xl lg:text-[4.2rem] xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-[0.98] lg:leading-[0.94]"
+                className="text-3xl min-[380px]:text-4xl sm:text-6xl lg:text-[4.2rem] xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-[0.98] lg:leading-[0.94]"
               >
                 Digital invitations,
               </motion.h1>
@@ -59,7 +59,7 @@ export default function Hero({ onCreateClick }) {
                   initial={{ opacity: 0, filter: 'blur(8px)', y: 15 }}
                   animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
-                  className="text-5xl sm:text-6xl lg:text-[4.2rem] xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0 -translate-y-2.5 sm:-translate-y-3.5 lg:-translate-y-4 xl:-translate-y-4"
+                  className="relative -top-2 min-[380px]:-top-2.5 sm:-top-3.5 lg:-top-4.5 xl:-top-5 text-3xl min-[380px]:text-4xl sm:text-6xl lg:text-[4.2rem] xl:text-[5.2rem] 2xl:text-[5.8rem] font-bold tracking-tight text-[#1F1F1F] leading-none flex-shrink-0"
                 >
                   made
                 </motion.span>

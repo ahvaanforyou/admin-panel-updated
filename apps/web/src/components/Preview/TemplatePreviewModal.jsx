@@ -191,7 +191,7 @@ export default function TemplatePreviewModal({
             {/* ========================================================================= */}
             {/* REALISTIC STATIONARY SMARTPHONE CHASSIS                                   */}
             {/* ========================================================================= */}
-            <div className="relative w-[280px] min-[400px]:w-[310px] sm:w-[335px] lg:w-[350px] aspect-[9/18.8] max-h-[74vh] sm:max-h-[76vh] rounded-[48px] p-2.5 sm:p-3 bg-gradient-to-b from-stone-700 via-stone-800 to-stone-900 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] border-[3.5px] border-stone-600/90 ring-1 ring-white/15 flex flex-col items-center">
+            <div className="relative w-[250px] min-[360px]:w-[280px] min-[400px]:w-[310px] sm:w-[335px] lg:w-[350px] aspect-[9/18.8] max-h-[74vh] sm:max-h-[76vh] rounded-[48px] p-2.5 sm:p-3 bg-gradient-to-b from-stone-700 via-stone-800 to-stone-900 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] border-[3.5px] border-stone-600/90 ring-1 ring-white/15 flex flex-col items-center">
               
               {/* Outer Button Accents (Volume Buttons Left, Power Button Right) */}
               <div className="absolute -left-[6px] top-24 w-[3px] h-9 bg-stone-600 rounded-l-sm" />
@@ -199,7 +199,7 @@ export default function TemplatePreviewModal({
               <div className="absolute -right-[6px] top-28 w-[3px] h-12 bg-stone-600 rounded-r-sm" />
 
               {/* Dynamic Island / Speaker Pill at Top (Stationary, overlaying screen) */}
-              <div className="absolute top-4 sm:top-4.5 left-1/2 -translate-x-1/2 w-24 sm:w-26 h-4 sm:h-4.5 bg-black rounded-full z-30 flex items-center justify-between px-2.5 pointer-events-none shadow-xs border border-white/5">
+              <div className="absolute top-4 sm:top-4.5 left-1/2 -translate-x-1/2 w-20 min-[380px]:w-24 sm:w-26 h-3.5 min-[380px]:h-4 sm:h-4.5 bg-black rounded-full z-30 flex items-center justify-between px-2.5 pointer-events-none shadow-xs border border-white/5">
                 <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center">
                   <div className="w-1 h-1 rounded-full bg-blue-950/80" />
                 </div>
@@ -211,37 +211,68 @@ export default function TemplatePreviewModal({
                 className="relative w-full h-full rounded-[38px] overflow-hidden bg-black shadow-inner flex flex-col"
                 style={{ overscrollBehavior: 'contain' }}
               >
-                
-                {/* Sleek Loading State while iframe initializes */}
-                {isLoadingIframe && (
-                  <div className="absolute inset-0 z-20 bg-stone-950 flex flex-col items-center justify-center p-6 text-center text-white">
-                    <div className="w-8 h-8 rounded-full border-2 border-amber-400/30 border-t-amber-400 animate-spin mb-3.5" />
-                    <span className="text-xs font-bold text-stone-200 tracking-wide block">
-                      Loading Live Website...
-                    </span>
-                    <span className="text-[11px] text-stone-400 mt-1 max-w-[200px] truncate">
-                      {template.clientTitle || template.name}
-                    </span>
-                  </div>
-                )}
+                {/* Instant High-Res Visual Artwork Underlay (Renders in 0ms so user never waits on blank void) */}
+                <div className="absolute inset-0 z-0 bg-stone-950 overflow-hidden flex flex-col">
+                  <img
+                    src={template.phoneImage || template.image}
+                    alt={template.clientTitle || template.name}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
 
-                {/* Actual Real Interactive Website running inside isolated iframe */}
-                <iframe
-                  key={template.id}
-                  src={liveUrl}
-                  title={`${template.clientTitle || template.name} Live Interactive Invitation`}
-                  onLoad={() => setIsLoadingIframe(false)}
-                  className="w-full h-full border-0 select-auto block bg-white"
-                  style={{
-                    borderRadius: '38px',
-                    width: '100%',
-                    height: '100%',
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
-                    WebkitOverflowScrolling: 'touch',
-                  }}
-                  allow="autoplay; fullscreen"
-                />
+                {/* Case 1: Template has no active live demo yet (Cards 5 & 6) */}
+                {!template.hasLivePreview || !template.previewUrl ? (
+                  <div className="absolute inset-0 z-20 flex flex-col justify-between p-5 bg-gradient-to-t from-black/80 via-transparent to-black/60 pointer-events-none">
+                    <div className="self-center">
+                      <span className="px-3.5 py-1.5 rounded-full bg-amber-400 text-stone-950 font-bold text-xs tracking-wide shadow-lg">
+                        Demo Link Coming Soon
+                      </span>
+                    </div>
+
+                    <div className="text-center text-white pb-6 px-2">
+                      <p className="text-xs font-semibold text-stone-200 drop-shadow-md">
+                        {template.clientTitle || template.name}
+                      </p>
+                      <p className="text-[11px] text-stone-300 mt-1 drop-shadow-sm">
+                        Tap "Order This Invitation" to customize with our design team.
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  /* Case 2: Live interactive website with instant preloaded feel */
+                  <>
+                    {/* Sleek top loading indicator bar while live iframe connects */}
+                    {isLoadingIframe && (
+                      <div className="absolute top-0 inset-x-0 z-20 bg-black/60 backdrop-blur-xs py-2 px-3 flex items-center justify-center gap-2 text-white">
+                        <div className="w-3.5 h-3.5 rounded-full border-2 border-amber-400 border-t-transparent animate-spin flex-shrink-0" />
+                        <span className="text-[11px] font-medium text-stone-200">
+                          Connecting interactive invitation...
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Actual Real Interactive Website running inside isolated iframe */}
+                    <iframe
+                      key={template.id}
+                      src={liveUrl}
+                      title={`${template.clientTitle || template.name} Live Interactive Invitation`}
+                      onLoad={() => setIsLoadingIframe(false)}
+                      className={`relative z-10 w-full h-full border-0 select-auto block bg-white transition-opacity duration-300 ${
+                        isLoadingIframe ? 'opacity-0' : 'opacity-100'
+                      }`}
+                      style={{
+                        borderRadius: '38px',
+                        width: '100%',
+                        height: '100%',
+                        overflowY: 'auto',
+                        overflowX: 'hidden',
+                        WebkitOverflowScrolling: 'touch',
+                      }}
+                      loading="eager"
+                      allow="autoplay; fullscreen"
+                    />
+                  </>
+                )}
 
               </div>
 
@@ -253,17 +284,25 @@ export default function TemplatePreviewModal({
             {/* User Interaction Guidance Tag */}
             <div className="mt-3 sm:mt-4 flex items-center gap-1.5 text-[11px] text-stone-400">
               <Smartphone className="w-3.5 h-3.5 text-amber-400/90" />
-              <span>Scroll &amp; interact inside phone screen</span>
-              <span className="text-stone-600">•</span>
-              <a 
-                href={liveUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-stone-300 hover:text-white underline decoration-stone-600 transition-colors"
-              >
-                <span>Full screen</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
+              <span>
+                {template.hasLivePreview !== false && template.previewUrl 
+                  ? 'Scroll & interact inside phone screen' 
+                  : 'Design preview mockup'}
+              </span>
+              {template.hasLivePreview !== false && template.previewUrl && (
+                <>
+                  <span className="text-stone-600">•</span>
+                  <a 
+                    href={liveUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-stone-300 hover:text-white underline decoration-stone-600 transition-colors"
+                  >
+                    <span>Full screen</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </>
+              )}
             </div>
 
           </div>
