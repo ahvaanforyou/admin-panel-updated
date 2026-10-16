@@ -158,7 +158,7 @@ export const TEMPLATES = [
     cardImage: '/images/templates/client_mgs_5.jpg',
     bannerImage: '/images/templates/client_mgs_5.jpg',
     objectPosition: 'object-top',
-    previewUrl: 'https://royal-wedding-invitation.vercel.app',
+    previewUrl: 'https://royal-wedding-invitation-sandy.vercel.app/',
     hasLivePreview: true,
     themeColor: '#351410',
     themeLight: '#FFF0EC',

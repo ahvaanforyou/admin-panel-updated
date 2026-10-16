@@ -319,8 +319,8 @@ export default function TemplateShowcase({
           {/* Step 1 */}
           <div className="flex items-center justify-between group">
             <div className="flex items-center gap-4">
-              <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#FAF8F6] text-[#351410] flex items-center justify-center flex-shrink-0 shadow-lg font-bold">
-                <LayoutGrid className="w-6 h-6 text-[#351410]" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#FAF8F6] text-[#351410] flex items-center justify-center flex-shrink-0 shadow-lg font-bold">
+                <LayoutGrid className="w-8 h-8 sm:w-9 sm:h-9 text-[#351410] stroke-[1.8]" />
               </div>
               <div>
                 <span className="text-xs sm:text-sm font-bold tracking-wider uppercase text-white block mb-1">
@@ -337,8 +337,8 @@ export default function TemplateShowcase({
           {/* Step 2 */}
           <div className="flex items-center justify-between group">
             <div className="flex items-center gap-4">
-              <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#FAF8F6] text-[#351410] flex items-center justify-center flex-shrink-0 shadow-lg font-bold">
-                <FileText className="w-6 h-6 text-[#351410]" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#FAF8F6] text-[#351410] flex items-center justify-center flex-shrink-0 shadow-lg font-bold">
+                <FileText className="w-8 h-8 sm:w-9 sm:h-9 text-[#351410] stroke-[1.8]" />
               </div>
               <div>
                 <span className="text-xs sm:text-sm font-bold tracking-wider uppercase text-white block mb-1">
@@ -355,8 +355,8 @@ export default function TemplateShowcase({
           {/* Step 3 */}
           <div className="flex items-center justify-between group">
             <div className="flex items-center gap-4">
-              <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#FAF8F6] text-[#351410] flex items-center justify-center flex-shrink-0 shadow-lg font-bold">
-                <HeartHandshake className="w-6 h-6 text-[#351410]" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#FAF8F6] text-[#351410] flex items-center justify-center flex-shrink-0 shadow-lg font-bold">
+                <HeartHandshake className="w-8 h-8 sm:w-9 sm:h-9 text-[#351410] stroke-[1.8]" />
               </div>
               <div>
                 <span className="text-xs sm:text-sm font-bold tracking-wider uppercase text-white block mb-1">
@@ -373,8 +373,8 @@ export default function TemplateShowcase({
           {/* Step 4 */}
           <div className="flex items-center justify-between group">
             <div className="flex items-center gap-4">
-              <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#FAF8F6] text-[#351410] flex items-center justify-center flex-shrink-0 shadow-lg font-bold">
-                <Send className="w-6 h-6 text-[#351410]" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#FAF8F6] text-[#351410] flex items-center justify-center flex-shrink-0 shadow-lg font-bold">
+                <Send className="w-8 h-8 sm:w-9 sm:h-9 text-[#351410] stroke-[1.8]" />
               </div>
               <div>
                 <span className="text-xs sm:text-sm font-bold tracking-wider uppercase text-white block mb-1">

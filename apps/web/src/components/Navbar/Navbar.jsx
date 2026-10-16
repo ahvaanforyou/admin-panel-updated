@@ -223,48 +223,56 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
 
         {/* Mobile Dropdown Panel: Clean, direct card anchored smoothly right under the navbar */}
         {mobileMenuOpen && (
-          <div className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 bg-white/98 backdrop-blur-2xl rounded-2xl border border-stone-200/90 shadow-2xl p-3 flex flex-col gap-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-            <button
-              onClick={() => handleNavClick('home')}
-              className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
-                isHome ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
-              }`}
-            >
-              Home
-            </button>
-            <button 
-              onClick={() => handleNavClick('invitations')} 
-              className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
-                isInvitations ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
-              }`}
-            >
-              Invitations
-            </button>
-            <button
-              onClick={() => handleNavClick('howitworks')}
-              className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
-                isHowItWorks ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
-              }`}
-            >
-              How It Works
-            </button>
-            <button
-              onClick={() => handleNavClick('blogs')}
-              className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
-                isBlogs ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
-              }`}
-            >
-              Blog
-            </button>
-            <button 
-              onClick={() => handleNavClick('about')} 
-              className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
-                isAbout ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
-              }`}
-            >
-              About
-            </button>
-          </div>
+          <>
+            {/* Full-screen backdrop to dismiss and dim underlying content */}
+            <div 
+              className="md:hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-40 pointer-events-auto"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            <div className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 bg-white rounded-2xl border border-stone-200/90 shadow-2xl p-3 flex flex-col gap-1.5 z-[110] animate-in fade-in slide-in-from-top-2 duration-150 pointer-events-auto">
+              <button
+                onClick={() => handleNavClick('home')}
+                className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
+                  isHome ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
+                }`}
+              >
+                Home
+              </button>
+              <button 
+                onClick={() => handleNavClick('invitations')} 
+                className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
+                  isInvitations ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
+                }`}
+              >
+                Invitations
+              </button>
+              <button
+                onClick={() => handleNavClick('howitworks')}
+                className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
+                  isHowItWorks ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
+                }`}
+              >
+                How It Works
+              </button>
+              <button
+                onClick={() => handleNavClick('blogs')}
+                className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
+                  isBlogs ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
+                }`}
+              >
+                Blog
+              </button>
+              <button 
+                onClick={() => handleNavClick('about')} 
+                className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
+                  isAbout ? 'bg-[#4E1D1D]/10 text-[#4E1D1D] font-bold' : 'hover:bg-stone-100 text-stone-700'
+                }`}
+              >
+                About
+              </button>
+            </div>
+          </>
         )}
       </header>
     </div>
