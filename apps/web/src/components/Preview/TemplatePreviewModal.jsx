@@ -191,7 +191,7 @@ export default function TemplatePreviewModal({
             {/* ========================================================================= */}
             {/* REALISTIC STATIONARY SMARTPHONE CHASSIS                                   */}
             {/* ========================================================================= */}
-            <div className="relative w-[250px] min-[360px]:w-[280px] min-[400px]:w-[310px] sm:w-[335px] lg:w-[350px] aspect-[9/18.8] max-h-[74vh] sm:max-h-[76vh] rounded-[48px] p-2.5 sm:p-3 bg-gradient-to-b from-stone-700 via-stone-800 to-stone-900 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] border-[3.5px] border-stone-600/90 ring-1 ring-white/15 flex flex-col items-center">
+            <div className="relative w-[250px] min-[360px]:w-[280px] min-[400px]:w-[310px] sm:w-[335px] lg:w-[350px] aspect-[9/18.8] max-h-[74vh] sm:max-h-[76vh] rounded-[48px] p-2.5 sm:p-3 bg-gradient-to-b from-stone-700 via-stone-800 to-stone-900 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] border-[3.5px] border-stone-600/90 ring-1 ring-white/15 flex flex-col items-center cursor-scrollable">
               
               {/* Outer Button Accents (Volume Buttons Left, Power Button Right) */}
               <div className="absolute -left-[6px] top-24 w-[3px] h-9 bg-stone-600 rounded-l-sm" />
@@ -208,7 +208,7 @@ export default function TemplatePreviewModal({
 
               {/* Inner Screen Display (Fixed viewport, scrollable invitation inside) */}
               <div 
-                className="relative w-full h-full rounded-[38px] overflow-hidden bg-black shadow-inner flex flex-col"
+                className="relative w-full h-full rounded-[38px] overflow-hidden bg-black shadow-inner flex flex-col cursor-scrollable"
                 style={{ overscrollBehavior: 'contain' }}
               >
                 {/* Instant High-Res Visual Artwork Underlay (Renders in 0ms so user never waits on blank void) */}
@@ -255,7 +255,7 @@ export default function TemplatePreviewModal({
                     </div>
                   </div>
                 ) : (
-                  /* Case 2: Live interactive website with instant preloaded feel */
+                  /* Case 2: Live interactive website with instant preloaded feel and NO scrollbar */
                   <>
                     {/* Sleek top loading indicator bar while live iframe connects */}
                     {isLoadingIframe && (
@@ -267,26 +267,45 @@ export default function TemplatePreviewModal({
                       </div>
                     )}
 
-                    {/* Actual Real Interactive Website running inside isolated iframe */}
-                    <iframe
-                      key={template.id}
-                      src={liveUrl}
-                      title={`${template.clientTitle || template.name} Live Interactive Invitation`}
-                      onLoad={() => setIsLoadingIframe(false)}
-                      className={`relative z-10 w-full h-full border-0 select-auto block bg-white transition-opacity duration-300 ${
-                        isLoadingIframe ? 'opacity-0' : 'opacity-100'
-                      }`}
-                      style={{
-                        borderRadius: '38px',
-                        width: '100%',
-                        height: '100%',
-                        overflowY: 'auto',
-                        overflowX: 'hidden',
-                        WebkitOverflowScrolling: 'touch',
-                      }}
-                      loading="eager"
-                      allow="autoplay; fullscreen"
-                    />
+                    {/* Scrollbar-Clipping Container: Pushes native desktop scrollbars 24px off-screen */}
+                    <div className="relative z-10 w-full h-full overflow-hidden cursor-scrollable">
+                      <div 
+                        className="h-full overflow-hidden cursor-scrollable"
+                        style={{
+                          width: 'calc(100% + 24px)',
+                          marginRight: '-24px',
+                        }}
+                      >
+                        <iframe
+                          key={template.id}
+                          src={liveUrl}
+                          title={`${template.clientTitle || template.name} Live Interactive Invitation`}
+                          onLoad={() => setIsLoadingIframe(false)}
+                          className={`w-full h-full border-0 select-auto block bg-white transition-opacity duration-300 cursor-scrollable ${
+                            isLoadingIframe ? 'opacity-0' : 'opacity-100'
+                          }`}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            overflowY: 'auto',
+                            overflowX: 'hidden',
+                            WebkitOverflowScrolling: 'touch',
+                            scrollbarWidth: 'none',
+                            msOverflowStyle: 'none',
+                          }}
+                          loading="eager"
+                          allow="autoplay; fullscreen"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Floating Scroll Indicator Badge inside screen */}
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none transition-opacity duration-500">
+                      <div className="px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white text-[11px] font-semibold flex items-center gap-1.5 shadow-lg select-none">
+                        <span className="text-amber-300 text-xs animate-bounce font-bold leading-none">↕</span>
+                        <span className="tracking-wide">Scrollable</span>
+                      </div>
+                    </div>
                   </>
                 )}
 
@@ -298,21 +317,19 @@ export default function TemplatePreviewModal({
             </div>
 
             {/* User Interaction Guidance Tag */}
-            <div className="mt-3 sm:mt-4 flex items-center gap-1.5 text-[11px] text-stone-400">
-              <Smartphone className="w-3.5 h-3.5 text-amber-400/90" />
-              <span>
-                {template.hasLivePreview !== false && template.previewUrl 
-                  ? 'Scroll & interact inside phone screen' 
-                  : 'Design preview mockup'}
+            <div className="mt-3 sm:mt-4 flex items-center gap-2 text-xs text-stone-300 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/15 shadow-sm">
+              <span className="text-amber-300 text-sm font-bold animate-pulse">↕</span>
+              <span className="font-medium">
+                Scroll inside screen to view details
               </span>
               {template.hasLivePreview !== false && template.previewUrl && (
                 <>
-                  <span className="text-stone-600">•</span>
+                  <span className="text-stone-500">•</span>
                   <a 
                     href={liveUrl} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-stone-300 hover:text-white underline decoration-stone-600 transition-colors"
+                    className="inline-flex items-center gap-1 text-amber-300 hover:text-amber-200 font-semibold underline decoration-amber-400/50 transition-colors"
                   >
                     <span>Full screen</span>
                     <ExternalLink className="w-3 h-3" />
