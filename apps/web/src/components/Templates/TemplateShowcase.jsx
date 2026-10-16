@@ -174,13 +174,28 @@ export default function TemplateShowcase({
                       {/* Top Island / Speaker Notch */}
                       <div className="w-5 sm:w-6 h-0.5 sm:h-1 bg-stone-700/80 rounded-full mx-auto my-0.5 z-10 flex-shrink-0" />
                       
-                      {/* Inner Phone Screen with Client Website Hero fitting properly */}
+                      {/* Inner Phone Screen with Client Website Hero or Closed Mystery Box */}
                       <div className="w-full h-full rounded-[14px] min-[380px]:rounded-[17px] overflow-hidden bg-stone-900 relative">
-                        <img
-                          src={item.phoneImage || item.image}
-                          alt={item.name}
-                          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                        />
+                        {item.isUnrevealed ? (
+                          <div className="w-full h-full bg-gradient-to-b from-stone-900 via-stone-950 to-[#2A1412] flex flex-col items-center justify-center p-2 text-center relative overflow-hidden border border-amber-500/20">
+                            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-400/15 border border-amber-400/30 flex items-center justify-center text-amber-300 mb-1 shadow-sm">
+                              <span className="text-xs sm:text-sm">🔒</span>
+                            </div>
+                            <span className="text-[9px] min-[380px]:text-[10px] font-bold text-amber-300 tracking-wider uppercase block">
+                              Sneak Peek
+                            </span>
+                            <span className="text-[8px] min-[380px]:text-[9px] text-stone-400 font-medium">
+                              Closed Box
+                            </span>
+                            <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-amber-500/10 rounded-full blur-md pointer-events-none" />
+                          </div>
+                        ) : (
+                          <img
+                            src={item.phoneImage || item.image}
+                            alt={item.name}
+                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                          />
+                        )}
                       </div>
                     </div>
 
@@ -245,13 +260,24 @@ export default function TemplateShowcase({
                         </div>
 
                         <div className="flex items-center gap-1.5 min-[380px]:gap-2 w-full">
-                          <button
-                            onClick={() => onPreviewTemplate(item)}
-                            className="flex-1 bg-[#351410] hover:bg-[#230C0A] text-white py-1.5 min-[380px]:py-2 px-2 min-[380px]:px-3 rounded-xl text-[11px] min-[380px]:text-xs sm:text-sm font-semibold shadow-sm transition flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap"
-                          >
-                            <span>Preview</span>
-                            <span className="text-xs">→</span>
-                          </button>
+                          {item.isUnrevealed ? (
+                            <a
+                              href="https://wa.me/918985966940?text=Hi%20ahvaanforyou%2C%20I%20am%20curious%20about%20your%20upcoming%20unrevealed%20template%21"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 bg-stone-100 hover:bg-stone-200 text-stone-800 py-1.5 min-[380px]:py-2 px-2 min-[380px]:px-3 rounded-xl text-[11px] min-[380px]:text-xs sm:text-sm font-semibold shadow-xs transition flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap border border-stone-200"
+                            >
+                              <span>🔒 On Hold</span>
+                            </a>
+                          ) : (
+                            <button
+                              onClick={() => onPreviewTemplate(item)}
+                              className="flex-1 bg-[#351410] hover:bg-[#230C0A] text-white py-1.5 min-[380px]:py-2 px-2 min-[380px]:px-3 rounded-xl text-[11px] min-[380px]:text-xs sm:text-sm font-semibold shadow-sm transition flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap"
+                            >
+                              <span>Preview</span>
+                              <span className="text-xs">→</span>
+                            </button>
+                          )}
 
                           <button
                             onClick={(e) => {

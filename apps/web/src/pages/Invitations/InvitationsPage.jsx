@@ -79,14 +79,43 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
               {/* Card Image Stage */}
               <div 
                 className="relative w-full aspect-[9/12] bg-[#FAF8F5] overflow-hidden cursor-pointer"
-                onClick={() => onPreviewTemplate(template)}
+                onClick={() => {
+                  if (!template.isUnrevealed) {
+                    onPreviewTemplate(template);
+                  }
+                }}
               >
-                <img
-                  src={template.phoneImage || template.image}
-                  alt={template.clientTitle || template.name}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-                  loading="lazy"
-                />
+                {template.isUnrevealed ? (
+                  <div className="w-full h-full bg-gradient-to-b from-stone-900 via-stone-950 to-[#2A1412] flex flex-col items-center justify-center p-6 text-center relative overflow-hidden border-b border-amber-500/20">
+                    <div className="w-14 h-14 rounded-full bg-amber-400/15 border border-amber-400/30 flex items-center justify-center text-amber-300 mb-3 shadow-lg">
+                      <span className="text-2xl">🔒</span>
+                    </div>
+                    <span className="text-sm font-bold text-amber-300 tracking-wider uppercase block">
+                      Sneak Peek
+                    </span>
+                    <span className="text-xs text-stone-400 font-medium mt-1">
+                      Closed Box · In Workshop
+                    </span>
+                    <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-amber-500/10 rounded-full blur-xl pointer-events-none" />
+                  </div>
+                ) : (
+                  <>
+                    <img
+                      src={template.phoneImage || template.image}
+                      alt={template.clientTitle || template.name}
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                      loading="lazy"
+                    />
+
+                    {/* Quick Preview Hover Overlay */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-xs">
+                      <div className="px-5 py-2.5 rounded-full bg-white text-stone-900 font-bold text-xs flex items-center gap-2 shadow-lg transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                        <Eye className="w-3.5 h-3.5 text-[#351410]" />
+                        <span>Expand Mobile Preview</span>
+                      </div>
+                    </div>
+                  </>
+                )}
 
                 {/* Badge Overlay */}
                 {template.badge && (
@@ -102,14 +131,6 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
                     </span>
                   </div>
                 )}
-
-                {/* Quick Preview Hover Overlay */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-xs">
-                  <div className="px-5 py-2.5 rounded-full bg-white text-stone-900 font-bold text-xs flex items-center gap-2 shadow-lg transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <Eye className="w-3.5 h-3.5 text-[#351410]" />
-                    <span>Expand Mobile Preview</span>
-                  </div>
-                </div>
               </div>
 
               {/* Card Body */}
@@ -159,26 +180,39 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
 
                 {/* Actions: Preview & Order */}
                 <div className="pt-3.5 border-t border-stone-100 flex items-center gap-2 sm:gap-2.5">
-                  <button
-                    onClick={() => onPreviewTemplate(template)}
-                    className="flex-1 py-2.5 px-3 rounded-xl border border-stone-300 hover:border-stone-400 bg-white hover:bg-stone-50 text-stone-800 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>Preview</span>
-                  </button>
+                  {template.isUnrevealed ? (
+                    <a
+                      href="https://wa.me/918985966940?text=Hi%20ahvaanforyou%2C%20I%20am%20curious%20about%20your%20upcoming%20unrevealed%20template%21"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-2.5 px-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors border border-stone-200"
+                    >
+                      <span>🔒 On Hold · Ask Us on WhatsApp</span>
+                    </a>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => onPreviewTemplate(template)}
+                        className="flex-1 py-2.5 px-3 rounded-xl border border-stone-300 hover:border-stone-400 bg-white hover:bg-stone-50 text-stone-800 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>Preview</span>
+                      </button>
 
-                  <button
-                    onClick={() => {
-                      const templateSlug = template.slug || template.id;
-                      const link = `https://ahvaanforyou.com/invitation/${templateSlug}`;
-                      const msg = `Hii ahvaanforyou , I liked this design ${link}`;
-                      window.open(`https://wa.me/918985966940?text=${encodeURIComponent(msg)}`, '_blank');
-                    }}
-                    className="flex-1 py-2.5 px-3 rounded-xl bg-[#351410] hover:bg-[#230C0A] text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all transform hover:-translate-y-0.5 cursor-pointer"
-                  >
-                    <span>Order Design</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-amber-300" />
-                  </button>
+                      <button
+                        onClick={() => {
+                          const templateSlug = template.slug || template.id;
+                          const link = `https://ahvaanforyou.com/invitation/${templateSlug}`;
+                          const msg = `Hii ahvaanforyou , I liked this design ${link}`;
+                          window.open(`https://wa.me/918985966940?text=${encodeURIComponent(msg)}`, '_blank');
+                        }}
+                        className="flex-1 py-2.5 px-3 rounded-xl bg-[#351410] hover:bg-[#230C0A] text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                      >
+                        <span>Order Design</span>
+                        <ArrowRight className="w-3.5 h-3.5 text-amber-300" />
+                      </button>
+                    </>
+                  )}
                 </div>
 
               </div>

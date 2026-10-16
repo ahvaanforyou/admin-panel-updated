@@ -212,12 +212,26 @@ export default function TemplatePreviewModal({
                 style={{ overscrollBehavior: 'contain' }}
               >
                 {/* Instant High-Res Visual Artwork Underlay (Renders in 0ms so user never waits on blank void) */}
-                <div className="absolute inset-0 z-0 bg-stone-950 overflow-hidden flex flex-col">
-                  <img
-                    src={template.phoneImage || template.image}
-                    alt={template.clientTitle || template.name}
-                    className="w-full h-full object-cover object-top"
-                  />
+                <div className="absolute inset-0 z-0 bg-stone-950 overflow-hidden flex flex-col items-center justify-center">
+                  {template.isUnrevealed || (!template.phoneImage && !template.image) ? (
+                    <div className="w-full h-full bg-gradient-to-b from-stone-900 via-stone-950 to-[#2A1412] flex flex-col items-center justify-center p-6 text-center">
+                      <div className="w-14 h-14 rounded-full bg-amber-400/15 border border-amber-400/30 flex items-center justify-center text-amber-300 mb-3 shadow-lg">
+                        <span className="text-2xl">🔒</span>
+                      </div>
+                      <span className="text-sm font-bold text-amber-300 tracking-wider uppercase block">
+                        Sneak Peek
+                      </span>
+                      <span className="text-xs text-stone-400 font-medium mt-1">
+                        Closed Box · On Hold
+                      </span>
+                    </div>
+                  ) : (
+                    <img
+                      src={template.phoneImage || template.image}
+                      alt={template.clientTitle || template.name}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  )}
                 </div>
 
                 {/* Case 1: Template has no active live demo yet (Cards 5 & 6) */}
@@ -225,7 +239,7 @@ export default function TemplatePreviewModal({
                   <div className="absolute inset-0 z-20 flex flex-col justify-between p-5 bg-gradient-to-t from-black/80 via-transparent to-black/60 pointer-events-none">
                     <div className="self-center">
                       <span className="px-3.5 py-1.5 rounded-full bg-amber-400 text-stone-950 font-bold text-xs tracking-wide shadow-lg">
-                        Demo Link Coming Soon
+                        {template.isUnrevealed ? '🔒 On Hold · Sneak Peek' : 'Demo Link Coming Soon'}
                       </span>
                     </div>
 
@@ -234,7 +248,9 @@ export default function TemplatePreviewModal({
                         {template.clientTitle || template.name}
                       </p>
                       <p className="text-[11px] text-stone-300 mt-1 drop-shadow-sm">
-                        Tap "Order This Invitation" to customize with our design team.
+                        {template.isUnrevealed
+                          ? 'This template is currently in our design workshop. Stay tuned for the grand reveal!'
+                          : 'Tap "Order This Invitation" to customize with our design team.'}
                       </p>
                     </div>
                   </div>
