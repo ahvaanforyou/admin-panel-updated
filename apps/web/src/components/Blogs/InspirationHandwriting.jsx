@@ -8,7 +8,7 @@ export default function InspirationHandwriting({ className = '' }) {
   return (
     <span
       ref={containerRef}
-      className={`relative inline-flex items-baseline overflow-visible select-none align-baseline translate-y-[18%] sm:translate-y-[20%] xl:translate-y-[22%] ${className}`}
+      className={`relative inline-flex items-center overflow-visible select-none align-middle ${className}`}
     >
       {/* 
         Smooth continuous Apple Hello style handwriting reveal:
@@ -23,12 +23,12 @@ export default function InspirationHandwriting({ className = '' }) {
           ease: [0.25, 1, 0.5, 1],
           delay: 0.2,
         }}
-        className="relative inline-flex items-baseline overflow-visible"
+        className="relative inline-flex items-center overflow-visible"
       >
         <img
           src="/images/blogs/inspiration-exact.png"
           alt="Inspiration"
-          className="h-[36px] min-[400px]:h-[46px] min-[480px]:h-[56px] sm:h-[68px] md:h-[80px] lg:h-[92px] xl:h-[105px] w-auto max-w-none object-contain select-none pointer-events-none drop-shadow-xs"
+          className="h-[32px] min-[400px]:h-[40px] min-[480px]:h-[48px] sm:h-[60px] md:h-[72px] lg:h-[84px] xl:h-[94px] w-auto max-w-none object-contain select-none pointer-events-none drop-shadow-xs"
         />
       </motion.span>
     </span>

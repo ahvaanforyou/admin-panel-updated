@@ -331,10 +331,10 @@ export default function BlogsPage({ onNavigate, onOpenCreateModal }) {
               initial={{ opacity: 0, filter: 'blur(8px)', y: 14 }}
               animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-2xl min-[420px]:text-3xl sm:text-4xl md:text-5xl lg:text-[3.6rem] xl:text-[4.2rem] font-bold tracking-tight text-[#2B1B17] leading-none inline-flex items-baseline justify-center gap-2 sm:gap-3.5 flex-nowrap whitespace-nowrap overflow-visible"
+              className="text-2xl min-[420px]:text-3xl sm:text-4xl md:text-5xl lg:text-[3.6rem] xl:text-[4.2rem] font-bold tracking-tight text-[#2B1B17] leading-none inline-flex items-center justify-center gap-2 sm:gap-3 flex-nowrap whitespace-nowrap overflow-visible"
             >
-              <span>Ideas, Tips &amp;</span>
-              <InspirationHandwriting className="ml-1 sm:ml-2" />
+              <span className="inline-block leading-none">Ideas, Tips &amp;</span>
+              <InspirationHandwriting />
             </motion.h1>
           </div>
 
