@@ -110,10 +110,11 @@ export default function FAQ() {
               transition={{ duration: 0.7 }}
               className="text-3xl sm:text-5xl lg:text-6xl font-bold text-[#1F1F1F] tracking-tight leading-tight"
             >
-              Before the
-              <br />
-              <CelebrationHandwriting />
-              <span className="font-bold text-[#1F1F1F]">Begins</span>
+              <span className="block">Before the</span>
+              <span className="inline-flex items-center justify-center lg:justify-start gap-1.5 sm:gap-2.5 whitespace-nowrap overflow-visible">
+                <CelebrationHandwriting />
+                <span className="font-bold text-[#1F1F1F]">Begins</span>
+              </span>
             </motion.h2>
 
             <motion.p 

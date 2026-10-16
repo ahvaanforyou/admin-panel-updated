@@ -8,7 +8,7 @@ export default function CelebrationHandwriting({ className = '' }) {
   return (
     <span
       ref={containerRef}
-      className={`relative inline-flex items-center overflow-visible select-none align-middle mx-1 ${className}`}
+      className={`relative inline-flex items-center overflow-visible select-none align-middle ${className}`}
     >
       <motion.span
         initial={{ clipPath: 'inset(0 100% 0 0)' }}
@@ -23,7 +23,7 @@ export default function CelebrationHandwriting({ className = '' }) {
         <img
           src="/images/celebration-2x.png"
           alt="Celebration"
-          className="h-[46px] min-[400px]:h-[54px] sm:h-[66px] md:h-[76px] lg:h-[84px] xl:h-[92px] w-auto object-contain select-none pointer-events-none drop-shadow-xs"
+          className="h-[30px] min-[400px]:h-[36px] sm:h-[46px] md:h-[52px] lg:h-[58px] xl:h-[64px] w-auto object-contain select-none pointer-events-none drop-shadow-xs"
         />
       </motion.span>
     </span>
