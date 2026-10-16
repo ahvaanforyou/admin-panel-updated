@@ -101,9 +101,9 @@ export default function InvitationsPage({ onNavigate, onPreviewTemplate, onCreat
                 ) : (
                   <>
                     <img
-                      src={template.phoneImage || template.image}
+                      src={template.cardImage || template.image || template.phoneImage}
                       alt={template.clientTitle || template.name}
-                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                      className={`w-full h-full object-cover ${template.objectPosition || 'object-center'} transition-transform duration-500 group-hover:scale-[1.03]`}
                       loading="lazy"
                     />
 

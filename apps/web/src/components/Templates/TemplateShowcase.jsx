@@ -193,7 +193,7 @@ export default function TemplateShowcase({
                           <img
                             src={item.phoneImage || item.image}
                             alt={item.name}
-                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                            className={`w-full h-full object-cover ${item.objectPosition || 'object-center'} group-hover:scale-105 transition-transform duration-500`}
                           />
                         )}
                       </div>
