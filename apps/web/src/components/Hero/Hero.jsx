@@ -78,7 +78,7 @@ export default function Hero({ onCreateClick }) {
             >
               <button
                 onClick={onCreateClick}
-                className="bg-[#351410] hover:bg-[#230C0A] text-white px-7 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold tracking-wide shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-3 group flex-shrink-0 cursor-pointer"
+                className="bg-[#351410] hover:bg-[#230C0A] text-white px-7 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-bold tracking-wide shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-3 group flex-shrink-0 cursor-pointer"
               >
                 <span>Create Your Invitation</span>
                 <ArrowRight className="w-4.5 h-4.5 transition-transform duration-300 group-hover:translate-x-1.5" />

@@ -206,7 +206,7 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
           <div className="flex md:hidden items-center gap-2">
             <button
               onClick={onOpenCreateModal}
-              className="bg-[#4E1D1D] text-white px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-xs"
+              className="bg-[#4E1D1D] hover:bg-[#3A1414] text-white px-4 py-2 rounded-full text-xs min-[380px]:text-sm font-bold shadow-xs active:scale-95 transition-all"
             >
               Create
             </button>
@@ -224,13 +224,13 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
         {/* Mobile Dropdown Panel: Clean, direct card anchored smoothly right under the navbar */}
         {mobileMenuOpen && (
           <>
-            {/* Full-screen backdrop to dismiss and dim underlying content */}
+            {/* Backdrop to dismiss menu - positioned below the floating pill navbar */}
             <div 
-              className="md:hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-40 pointer-events-auto"
+              className="md:hidden fixed inset-0 z-30 pointer-events-auto"
               onClick={() => setMobileMenuOpen(false)}
             />
 
-            <div className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 bg-white rounded-2xl border border-stone-200/90 shadow-2xl p-3 flex flex-col gap-1.5 z-[110] animate-in fade-in slide-in-from-top-2 duration-150 pointer-events-auto">
+            <div className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 bg-white rounded-2xl border border-stone-200/90 shadow-[0_20px_50px_rgba(0,0,0,0.15)] p-3 flex flex-col gap-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150 pointer-events-auto">
               <button
                 onClick={() => handleNavClick('home')}
                 className={`text-left py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors ${
