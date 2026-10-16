@@ -68,7 +68,7 @@ export const TEMPLATES = [
     cardImage: '/images/templates/leaves_intro.jpg',
     bannerImage: '/images/templates/leaves_intro.jpg',
     objectPosition: 'object-center',
-    previewUrl: '/previews/traditional-video/index.html',
+    previewUrl: 'https://hitesh-weds-neha.vercel.app',
     hasLivePreview: true,
     themeColor: '#4E1D1D',
     themeLight: '#FFF0EC',

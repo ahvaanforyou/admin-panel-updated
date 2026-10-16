@@ -142,30 +142,35 @@ export default function Footer({ onCategoryClick, onCreateClick, onOpenCreateMod
 
         {/* Universal Social Media Handles Bar */}
         <div className="py-8 border-b border-white/10">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#F5CD51] block mb-1">
-                Universal Handles & Direct Connect
+          <div className="flex flex-col gap-5 w-full">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-widest text-[#F5CD51] block mb-1">
+                  Universal Handles & Direct Connect
+                </span>
+                <p className="text-xs text-white/60">
+                  Explore real wedding stories, creative showcases, and instant WhatsApp support.
+                </p>
+              </div>
+              <span className="hidden md:inline-block text-[11px] text-white/40">
+                Available 7 days a week · Instant WhatsApp
               </span>
-              <p className="text-xs text-white/60">
-                Explore real wedding stories, creative showcases, and instant WhatsApp support.
-              </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 w-full lg:w-auto">
+            <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5 w-full">
               {/* Instagram */}
               <a
                 href="https://www.instagram.com/ahvaan_for_you/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200 group"
+                className="flex items-center gap-3 px-3.5 sm:px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 group min-w-0"
               >
                 <div className="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
                   <Instagram className="w-4 h-4" />
                 </div>
-                <div>
-                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">Instagram</div>
-                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors">@ahvaan_for_you</div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold truncate">Instagram</div>
+                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors truncate">@ahvaan_for_you</div>
                 </div>
               </a>
 
@@ -174,14 +179,14 @@ export default function Footer({ onCategoryClick, onCreateClick, onOpenCreateMod
                 href="https://www.youtube.com/@AhvaanForYou"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200 group"
+                className="flex items-center gap-3 px-3.5 sm:px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 group min-w-0"
               >
                 <div className="w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
                   <Youtube className="w-4 h-4" />
                 </div>
-                <div>
-                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">YouTube</div>
-                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors">@AhvaanForYou</div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold truncate">YouTube</div>
+                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors truncate">@AhvaanForYou</div>
                 </div>
               </a>
 
@@ -190,28 +195,28 @@ export default function Footer({ onCategoryClick, onCreateClick, onOpenCreateMod
                 href="https://wa.me/918985966940"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200 group"
+                className="flex items-center gap-3 px-3.5 sm:px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 group min-w-0"
               >
                 <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
                   <MessageCircle className="w-4 h-4" />
                 </div>
-                <div>
-                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">WhatsApp</div>
-                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors">+91 89859 66940</div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold truncate">WhatsApp</div>
+                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors truncate">+91 89859 66940</div>
                 </div>
               </a>
 
               {/* Email */}
               <a
                 href="mailto:team@ahvaanforyou.com"
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200 group"
+                className="flex items-center gap-3 px-3.5 sm:px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 group min-w-0"
               >
                 <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
                   <Mail className="w-4 h-4" />
                 </div>
-                <div>
-                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">Email</div>
-                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors">team@ahvaanforyou.com</div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-[10px] text-white/50 uppercase tracking-wider font-semibold truncate">Email</div>
+                  <div className="text-xs font-bold text-white group-hover:text-[#F5CD51] transition-colors truncate">team@ahvaanforyou.com</div>
                 </div>
               </a>
             </div>
