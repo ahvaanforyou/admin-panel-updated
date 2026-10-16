@@ -7,6 +7,10 @@ export function useLenis() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -18,6 +22,10 @@ export function useLenis() {
     });
 
     window.__lenis = lenis;
+
+    // Guarantee scroll is at top upon initialization
+    lenis.scrollTo(0, { immediate: true });
+    window.scrollTo(0, 0);
 
     function raf(time) {
       lenis.raf(time);

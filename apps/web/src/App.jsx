@@ -33,6 +33,38 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  // Always scroll back to top of home section on reload or initial visit
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    // If reloaded with a hash on root, clear the hash so it rests at the top
+    if (window.location.pathname === '/' && window.location.hash) {
+      window.history.replaceState(null, '', '/');
+    }
+    window.scrollTo(0, 0);
+    if (window.__lenis) {
+      window.__lenis.scrollTo(0, { immediate: true });
+    }
+
+    const handleBeforeUnload = () => {
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+      if (window.__lenis) {
+        window.__lenis.scrollTo(0, { immediate: true });
+      }
+    }, 80);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      clearTimeout(timer);
+    };
+  }, []);
+
   const navigate = (path) => {
     const [pathname, hash] = path.split('#');
     window.history.pushState(null, '', path);
