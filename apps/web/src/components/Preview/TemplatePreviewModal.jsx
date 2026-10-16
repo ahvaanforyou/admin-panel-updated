@@ -186,29 +186,29 @@ export default function TemplatePreviewModal({
             </div>
 
             {/* ========================================================================= */}
-            {/* REALISTIC STATIONARY SMARTPHONE CHASSIS: STANDARD 390 × 810 VIEWPORT       */}
+            {/* REALISTIC STATIONARY SMARTPHONE CHASSIS: AUTHENTIC 9:19.5 PHONE RATIO      */}
             {/* ========================================================================= */}
-            <div className="relative w-[310px] min-[380px]:w-[340px] sm:w-[370px] lg:w-[350px] xl:w-[380px] h-[640px] min-[380px]:h-[700px] sm:h-[760px] lg:h-[720px] xl:h-[790px] max-h-[76vh] lg:max-h-[78vh] rounded-[48px] sm:rounded-[52px] p-2.5 sm:p-3 bg-gradient-to-b from-stone-700 via-stone-800 to-stone-900 shadow-[0_30px_90px_-20px_rgba(0,0,0,0.95)] border-[3.5px] border-stone-600/90 ring-1 ring-white/15 flex flex-col items-center">
+            <div className="relative w-[280px] min-[360px]:w-[305px] min-[400px]:w-[325px] sm:w-[345px] lg:w-[350px] xl:w-[375px] aspect-[9/19] max-h-[72vh] min-[400px]:max-h-[74vh] sm:max-h-[76vh] lg:max-h-[78vh] rounded-[44px] min-[380px]:rounded-[48px] sm:rounded-[52px] p-2 sm:p-2.5 lg:p-3 bg-gradient-to-b from-stone-700 via-stone-800 to-stone-900 shadow-[0_25px_80px_-15px_rgba(0,0,0,0.95)] border-[3px] sm:border-[3.5px] border-stone-600/90 ring-1 ring-white/15 flex flex-col items-center flex-shrink-0">
               
               {/* Outer Hardware Buttons */}
-              <div className="absolute -left-[6px] top-24 w-[3px] h-9 bg-stone-600 rounded-l-sm" />
-              <div className="absolute -left-[6px] top-36 w-[3px] h-9 bg-stone-600 rounded-l-sm" />
-              <div className="absolute -right-[6px] top-28 w-[3px] h-12 bg-stone-600 rounded-r-sm" />
+              <div className="absolute -left-[5px] top-20 w-[2.5px] h-8 bg-stone-600 rounded-l-xs" />
+              <div className="absolute -left-[5px] top-32 w-[2.5px] h-8 bg-stone-600 rounded-l-xs" />
+              <div className="absolute -right-[5px] top-24 w-[2.5px] h-10 bg-stone-600 rounded-r-xs" />
 
               {/* Dynamic Island / Speaker Pill */}
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 w-22 sm:w-24 h-4 bg-black rounded-full z-30 flex items-center justify-between px-2.5 pointer-events-none shadow-xs border border-white/5">
-                <div className="w-2.5 h-2.5 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center">
-                  <div className="w-1 h-1 rounded-full bg-blue-950/80" />
+              <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-3.5 sm:h-4 bg-black rounded-full z-30 flex items-center justify-between px-2 sm:px-2.5 pointer-events-none shadow-xs border border-white/5">
+                <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center">
+                  <div className="w-0.5 sm:w-1 h-0.5 sm:h-1 rounded-full bg-blue-950/80" />
                 </div>
-                <div className="w-1.5 h-1.5 rounded-full bg-stone-900" />
+                <div className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-stone-900" />
               </div>
 
               {/* Inner Screen Display (Fixed viewport, scrollable inside) */}
               <div 
-                className="relative w-full h-full rounded-[38px] sm:rounded-[42px] overflow-hidden bg-black shadow-inner flex flex-col"
+                className="relative w-full h-full rounded-[36px] min-[380px]:rounded-[40px] sm:rounded-[42px] overflow-hidden bg-black shadow-inner flex flex-col"
                 style={{ overscrollBehavior: 'contain' }}
               >
-                {/* Visual Artwork Underlay (Zero blank delay) */}
+                {/* Visual Artwork Underlay (Zero blank delay & no white flash) */}
                 <div className="absolute inset-0 z-0 bg-stone-950 overflow-hidden flex flex-col items-center justify-center">
                   {template.isUnrevealed || (!template.phoneImage && !template.image) ? (
                     <div className="w-full h-full bg-gradient-to-b from-stone-900 via-stone-950 to-[#2A1412] flex flex-col items-center justify-center p-6 text-center">
@@ -254,12 +254,12 @@ export default function TemplatePreviewModal({
                 ) : (
                   /* Case 2: Live interactive website with NO scrollbars */
                   <>
-                    {/* Top loading indicator */}
+                    {/* Top subtle connecting bar (No blocking flash) */}
                     {isLoadingIframe && (
-                      <div className="absolute top-0 inset-x-0 z-20 bg-black/60 backdrop-blur-xs py-2 px-3 flex items-center justify-center gap-2 text-white">
-                        <div className="w-3.5 h-3.5 rounded-full border-2 border-amber-400 border-t-transparent animate-spin flex-shrink-0" />
-                        <span className="text-[11px] font-medium text-stone-200">
-                          Connecting interactive invitation...
+                      <div className="absolute top-2 inset-x-3 z-30 bg-black/75 backdrop-blur-md rounded-full py-1.5 px-3 flex items-center justify-center gap-2 text-white border border-white/10 shadow-lg pointer-events-none animate-pulse">
+                        <div className="w-2.5 h-2.5 rounded-full border-2 border-amber-400 border-t-transparent animate-spin flex-shrink-0" />
+                        <span className="text-[10px] font-medium text-stone-200">
+                          Loading live invitation...
                         </span>
                       </div>
                     )}
@@ -278,7 +278,7 @@ export default function TemplatePreviewModal({
                           src={liveUrl}
                           title={`${template.clientTitle || template.name} Live Interactive Invitation`}
                           onLoad={() => setIsLoadingIframe(false)}
-                          className={`w-full h-full border-0 select-auto block bg-white transition-opacity duration-300 ${
+                          className={`w-full h-full border-0 select-auto block transition-opacity duration-500 ${
                             isLoadingIframe ? 'opacity-0' : 'opacity-100'
                           }`}
                           style={{
@@ -289,6 +289,7 @@ export default function TemplatePreviewModal({
                             WebkitOverflowScrolling: 'touch',
                             scrollbarWidth: 'none',
                             msOverflowStyle: 'none',
+                            backgroundColor: 'transparent',
                           }}
                           loading="eager"
                           allow="autoplay; fullscreen"
@@ -309,24 +310,26 @@ export default function TemplatePreviewModal({
               </div>
 
               {/* Subtle Home Indicator Bar */}
-              <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/40 rounded-full z-30 pointer-events-none" />
+              <div className="absolute bottom-2.5 sm:bottom-3.5 left-1/2 -translate-x-1/2 w-24 sm:w-28 h-1 bg-white/40 rounded-full z-30 pointer-events-none" />
 
             </div>
 
             {/* Mobile-Only Primary WhatsApp CTA Button (Docked right below phone) */}
-            <div className="w-[310px] min-[380px]:w-[340px] sm:w-[370px] mt-3.5 flex flex-col items-center gap-2 lg:hidden">
+            <div className="w-[280px] min-[360px]:w-[305px] min-[400px]:w-[325px] sm:w-[345px] mt-3 flex flex-col items-center gap-1.5 lg:hidden flex-shrink-0">
               <a
                 href={whatsappOrderUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3.5 px-6 rounded-full bg-[#25D366] hover:bg-[#1EBE5D] active:scale-98 text-white font-bold text-sm shadow-xl flex items-center justify-center gap-2.5 transition-all cursor-pointer"
+                className="w-full py-3 px-5 rounded-full bg-[#25D366] hover:bg-[#1EBE5D] active:scale-98 text-white font-bold text-xs sm:text-sm shadow-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
-                <MessageCircle className="w-5 h-5 fill-white text-white" />
+                <svg className="w-4 h-4 fill-current flex-shrink-0" viewBox="0 0 24 24">
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                </svg>
                 <span>Order This Invitation — {template.price}</span>
-                <ArrowRight className="w-4 h-4 text-white" />
+                <ArrowRight className="w-3.5 h-3.5 text-white" />
               </a>
 
-              <div className="flex items-center justify-between w-full px-2 text-[11px] text-stone-400">
+              <div className="flex items-center justify-between w-full px-2 text-[10px] sm:text-[11px] text-stone-400">
                 <span>Scroll inside screen to view details</span>
                 {template.hasLivePreview !== false && template.previewUrl && (
                   <a 

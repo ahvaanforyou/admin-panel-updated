@@ -102,7 +102,7 @@ export default function Navbar({ onOpenCreateModal, currentPath = '/', onNavigat
   };
 
   return (
-    <div className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 sm:px-6 pt-4 sm:pt-6 pointer-events-none">
+    <div className="fixed top-0 inset-x-0 z-[100] flex justify-center px-4 sm:px-6 pt-4 sm:pt-6 pointer-events-none">
       <header
         className={`pointer-events-auto relative w-full max-w-4xl border rounded-full ${
           isScrolled

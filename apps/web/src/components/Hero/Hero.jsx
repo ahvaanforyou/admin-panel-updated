@@ -29,7 +29,7 @@ export default function Hero({ onCreateClick }) {
         visibility: heroVisibility,
         pointerEvents: heroPointerEvents,
       }}
-      className="relative w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-20 sm:pt-24 lg:pt-26 pb-8"
+      className="relative z-0 w-full min-h-screen bg-white overflow-hidden flex flex-col justify-center pt-24 sm:pt-28 lg:pt-26 pb-8"
     >
       {/* 
         Full viewport width container with balanced mobile padding and edge-to-edge right alignment

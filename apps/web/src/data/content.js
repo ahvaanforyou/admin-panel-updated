@@ -144,8 +144,8 @@ export const TEMPLATES = [
   {
     id: 'tpl-velvet-hues',
     slug: 'velvet-hues-template',
-    name: 'Velvet Hues',
-    clientTitle: 'Velvet Hues',
+    name: 'Velvet Hues (Royal Udaipur)',
+    clientTitle: 'Velvet Hues · Royal Udaipur',
     subtitle: 'Royal Heritage & Arched Card',
     venue: 'Jagmandir Island Palace, Udaipur',
     category: 'wedding',
@@ -154,10 +154,10 @@ export const TEMPLATES = [
     originalPrice: '₹4,999',
     priceVal: 3000,
     phoneImage: '/images/templates/client_mgs_5.jpg',
-    image: '/images/templates/udaipur_card_clean_3x4.jpg',
-    cardImage: '/images/templates/udaipur_card_clean_3x4.jpg',
+    image: '/images/templates/client_mgs_5.jpg',
+    cardImage: '/images/templates/client_mgs_5.jpg',
     bannerImage: '/images/templates/client_mgs_5.jpg',
-    objectPosition: 'object-center',
+    objectPosition: 'object-top',
     previewUrl: 'https://royal-wedding-invitation.vercel.app',
     hasLivePreview: true,
     themeColor: '#351410',
@@ -166,10 +166,10 @@ export const TEMPLATES = [
     description: 'Grand palace aesthetic with ornate Mughal jali archways, royal vintage typography, gold foil accents, and multi-ceremony royal timeline.',
     features: ['Card Animation', 'RSVP & Maps', 'Spotify Music'],
     featured: true,
-    badge: 'Velvet Hues',
+    badge: 'Royal Udaipur',
     badgeColor: '#FFF0EC',
     badgeText: '#A83232',
-    tags: ['Heritage', 'Royal Palace', 'Gold Foil', 'Traditional']
+    tags: ['Heritage', 'Royal Palace', 'Gold Foil', 'Traditional', 'Udaipur']
   },
   {
     id: 'tpl-unrevealed-1',
