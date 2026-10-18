@@ -152,6 +152,8 @@ export default function TemplatePreviewModal({
                       overflowX: 'hidden',
                       WebkitOverflowScrolling: 'touch',
                       backgroundColor: 'transparent',
+                      scrollbarWidth: 'none',
+                      msOverflowStyle: 'none',
                     }}
                     loading="eager"
                     allow="autoplay; fullscreen"
@@ -423,6 +425,8 @@ export default function TemplatePreviewModal({
                             overflowX: 'hidden',
                             WebkitOverflowScrolling: 'touch',
                             backgroundColor: 'transparent',
+                            scrollbarWidth: 'none',
+                            msOverflowStyle: 'none',
                           }}
                           loading="eager"
                           allow="autoplay; fullscreen"
