@@ -55,6 +55,45 @@
   scrollbar-width: none !important;
 }
 
+/* Responsive 3x3 Hero Matrix Grid ensuring zero clipping on laptop/desktop screens */
+.hero-matrix-grid {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: min(100%, 480px);
+  max-height: min(100%, 480px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .hero-matrix-grid {
+    max-width: min(100%, 520px);
+    max-height: min(100%, 520px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-matrix-grid {
+    margin-right: 0;
+    max-width: min(100%, calc(100vh - 12.5rem), calc(100svh - 12.5rem), 560px);
+    max-height: min(100%, calc(100vh - 12.5rem), calc(100svh - 12.5rem), 560px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-matrix-grid {
+    max-width: min(100%, calc(100vh - 12rem), calc(100svh - 12rem), 640px);
+    max-height: min(100%, calc(100vh - 12rem), calc(100svh - 12rem), 640px);
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero-matrix-grid {
+    max-width: min(100%, calc(100vh - 11rem), calc(100svh - 11rem), 760px);
+    max-height: min(100%, calc(100vh - 11rem), calc(100svh - 11rem), 760px);
+  }
+}
+
 /* Custom scrollable cursor */
 .cursor-scrollable {
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cdefs%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='1' stdDeviation='1.5' flood-color='rgba(0,0,0,0.5)'/%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='14' fill='%23351410' stroke='%23F5CD51' stroke-width='1.5' filter='url(%23s)'/%3E%3Cpath d='M16 6 L20 10.5 L12 10.5 Z' fill='%23FFFFFF'/%3E%3Cline x1='16' y1='11' x2='16' y2='21' stroke='%23FFFFFF' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M16 26 L20 21.5 L12 21.5 Z' fill='%23FFFFFF'/%3E%3C/svg%3E") 16 16, ns-resize, grab !important;
